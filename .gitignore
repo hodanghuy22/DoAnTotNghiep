@@ -11,23 +11,23 @@ Backend/DoAnMonHoc_Backend/obj/
 Backend/DoAnMonHoc_Backend/appsettings.json
 
 .vscode/
-Frontend/node_modules/.bin/
-Frontend/node_modules/.cache/
-Frontend/node_modules/.cache/.eslintcache
+frontend/node_modules/.bin/
+frontend/node_modules/.cache/
+frontend/node_modules/.cache/.eslintcache
 
 Admin/node_modules/.bin/
 Admin/node_modules/.cache/
 Admin/node_modules/.cache/.eslintcache
 # dependencies
-Frontend/.pnp
-Frontend/.pnp.js
+frontend/.pnp
+frontend/.pnp.js
 
 
 Admin/.pnp
 Admin/.pnp.js
 
 # testing
-Frontend/coverage
+frontend/coverage
 
 # production
 /build
