@@ -15,19 +15,20 @@ frontend/node_modules/.bin/
 frontend/node_modules/.cache/
 frontend/node_modules/.cache/.eslintcache
 
-Admin/node_modules/.bin/
-Admin/node_modules/.cache/
-Admin/node_modules/.cache/.eslintcache
+admin/node_modules/.bin/
+admin/node_modules/.cache/
+admin/node_modules/.cache/.eslintcache
 # dependencies
 frontend/.pnp
 frontend/.pnp.js
 
 
-Admin/.pnp
-Admin/.pnp.js
+admin/.pnp
+admin/.pnp.js
 
 # testing
 frontend/coverage
+admin/coverage
 
 # production
 /build
