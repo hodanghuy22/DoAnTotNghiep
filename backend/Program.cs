@@ -1,6 +1,8 @@
 using backend.Data;
+using backend.Helpers;
 using backend.Interfaces;
 using backend.Models;
+using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 builder.Services.AddDbContext<CSDLContext>(options =>
@@ -56,6 +59,9 @@ builder.Services.AddCors(option =>
               .AllowAnyHeader();
     });
 });
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

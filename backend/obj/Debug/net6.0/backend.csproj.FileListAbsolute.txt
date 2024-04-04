@@ -249,3 +249,13 @@ D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.d
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\obj\Debug\net6.0\ref\backend.dll
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.pdb
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.genruntimeconfig.cache
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\AutoMapper.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\MailKit.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\MimeKit.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\System.Formats.Asn1.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\System.Text.Encoding.CodePages.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Text.Encoding.CodePages.dll

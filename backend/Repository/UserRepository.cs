@@ -1,4 +1,6 @@
-﻿using backend.Data;
+﻿using AutoMapper;
+using backend.Data;
+using backend.Dto;
 using backend.Interfaces;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
@@ -17,24 +19,103 @@ namespace backend.Repository
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
         public UserRepository
         (
             CSDLContext context,
             UserManager<User> userManager, 
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IMapper mapper,
+            IEmailService emailService
         )
         {
             _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _mapper = mapper;
+            _emailService = emailService;
         }
 
-        public async Task<IEnumerable<User>> GetAllUser()
+        public async Task<IActionResult> ChangePassword(string id, ChangePasswordModel changePasswordModel)
         {
-            return await _context.Users.ToListAsync();
+            var user = await GetUserDefault(id);
+
+            if (user == null)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Invalid user"
+                });
+            }
+
+            var changePasswordResult = await _userManager
+                .ChangePasswordAsync(user,
+                changePasswordModel.CurrentPassword,
+                changePasswordModel.NewPassword);
+
+            if (!changePasswordResult.Succeeded)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = changePasswordResult.Errors
+                });
+            }
+
+            return new OkObjectResult(new
+            {
+                mess = "Password changed successfully!"
+            });
+        }
+
+        public async Task<IActionResult> ForgetPassword(ForgetPasswordModel forgetPasswordModel)
+        {
+            var user = await _userManager.FindByEmailAsync(forgetPasswordModel.Email);
+            if (user == null)
+            {
+                return new NotFoundObjectResult(new
+                {
+                    mess = "Not Found This Email!"
+                });
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+            string url = $"{_configuration["AppUrl"]}/{validToken}";
+
+            var body = new EmailModel
+            {
+                To = forgetPasswordModel.Email,
+                Subject = "Link Reset Password",
+                Body = $"<h1>Follow this url to reset your password <a href={url}>click here</a></h1>",
+            };
+            await _emailService.SendEmail(body);
+            return new OkObjectResult(new
+            {
+                mess = "Reset Password Link Has Been Sent!"
+            });
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUser()
+        {
+            var users = await _context.Users.ToListAsync();
+            var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+            return usersDto;
+        }
+
+        public async Task<UserDto> GetAUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
+        public async Task<User> GetUserDefault(string id)
+        {
+            return await _userManager.FindByIdAsync(id);
         }
 
         public async Task<IActionResult> Login(LoginModel account)
@@ -70,19 +151,21 @@ namespace backend.Repository
             user.Token = new JwtSecurityTokenHandler().WriteToken(token);
             user.Expiration = token.ValidTo;
             await _context.SaveChangesAsync();
-            return new OkObjectResult(new
-            {
-                user,
-                //token = new JwtSecurityTokenHandler().WriteToken(token),
-                //expiration = token.ValidTo
-            });
+            var userDto = _mapper.Map<UserDto>(user);
+            return new OkObjectResult(
+            
+                userDto
+            );
         }
 
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
             if (registerModel.Password != registerModel.Repassword)
             {
-                return new BadRequestObjectResult("Password must be matched with Repassword!");
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Password must be matched with Repassword!"
+                });
             }
             var userExist = await _userManager.FindByNameAsync(registerModel.Username);
             if (userExist != null)
@@ -156,6 +239,62 @@ namespace backend.Repository
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
             return new OkResult();
+        }
+
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return new NotFoundObjectResult(new
+                {
+                    mess = "Not Found This Email!!!"
+                });
+            }
+            if (model.NewPassword != model.ConfirmPassword)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Password doesn't match its confirmation!!!"
+                });
+            }
+            var decodedToken = WebEncoders.Base64UrlDecode(model.Token);
+            var token = Encoding.UTF8.GetString(decodedToken);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+            if (result.Succeeded)
+            {
+                return new OkObjectResult(new
+                {
+                    mess = "Password has been reset successfully!!!"
+                });
+            }
+            return new OkObjectResult(new
+            {
+                mess = result.Errors
+            });
+        }
+
+        public async Task<IActionResult> UpdateUser(string id, UserDto userDto)
+        {
+            var userDB = await _userManager.FindByIdAsync(id);
+            if (userDB == null)
+            {
+                return new NotFoundResult();
+            }
+            _mapper.Map(userDto, userDB);
+            var result = await _userManager.UpdateAsync(userDB);
+            _mapper.Map(userDB, userDto);
+            if (result.Succeeded)
+            {
+                return new OkObjectResult(
+                    userDto
+                );
+            }
+            return new BadRequestObjectResult(new
+            {
+                mess = result.Errors
+            });
         }
     }
 }
