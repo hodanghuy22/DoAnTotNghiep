@@ -1,0 +1,17 @@
+﻿using System.Text.Json.Serialization;
+
+namespace backend.Models
+{
+    public class Rating
+    {
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
+        public int ProductDetailId { get; set; }
+        [JsonIgnore]
+        public ProductDetail ProductDetail { get; set; }
+        public string Comment { get; set; }
+        public int Star { get; set; }
+        public DateTime NgayDang { get; set; }
+    }
+}
