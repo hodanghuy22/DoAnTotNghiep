@@ -8,5 +8,6 @@ namespace backend.Interfaces
         Task<IActionResult> RegisterAdmin(RegisterModel registerModel);
         Task<IActionResult> Register(RegisterModel registerModel);
         Task<IActionResult> Login(LoginModel account);
+        Task<IEnumerable<User>> GetAllUser();
     }
 }
