@@ -36,5 +36,7 @@ namespace backend.Data
         public IUserRepositoty UserRepositoty => 
             new UserRepository(_context, _userManager,
                     _roleManager, _configuration, _mapper, _emailService);
+        public IColorRepository ColorRepository =>
+            new ColorRepository(_context);
     }
 }
