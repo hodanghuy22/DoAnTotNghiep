@@ -44,5 +44,9 @@ namespace backend.Data
            new CapacityRepository(_context);
         public ISlideshowRepository SlideshowRepository =>
            new SlideshowRepository(_context);
+        public IProductTypeRepository ProductTypeRepository =>
+           new ProductTypeRepository(_context);
+        public IProductRepository ProductRepository =>
+           new ProductRepository(_context);
     }
 }

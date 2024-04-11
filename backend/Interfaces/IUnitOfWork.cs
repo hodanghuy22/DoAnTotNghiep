@@ -7,6 +7,8 @@
         IBrandRepository BrandRepository { get; }
         ICapacityRepository CapacityRepository { get; }
         ISlideshowRepository SlideshowRepository { get; }
+        IProductTypeRepository ProductTypeRepository { get; }
+        IProductRepository ProductRepository { get; }
 
     }
 }
