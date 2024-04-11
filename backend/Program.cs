@@ -22,9 +22,11 @@ builder.Services.AddDbContext<CSDLContext>(options =>
     ?? throw new InvalidOperationException("Connection string 'DoAnTotNgiep' not found.")));
 // Add services to the container.
 
-builder.Services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<CSDLContext>()
-                .AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<CSDLContext>()
+  .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -45,6 +47,11 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
                                 .GetBytes(builder.Configuration["JWT:Secret"]))
     };
+})
+.AddFacebook(facebookOptions =>
+{
+    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
+    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
 });
 
 

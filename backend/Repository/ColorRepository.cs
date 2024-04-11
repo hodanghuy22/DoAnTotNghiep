@@ -103,7 +103,10 @@ namespace backend.Repository
             {
                 if (!await ColorExist(color.Id))
                 {
-                    return new NotFoundResult();
+                    return new NotFoundObjectResult(new
+                    {
+                        mess = "Not Found!"
+                    });
                 }
                 else
                 {

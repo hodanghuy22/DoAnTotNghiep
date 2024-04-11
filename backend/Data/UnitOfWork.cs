@@ -38,5 +38,11 @@ namespace backend.Data
                     _roleManager, _configuration, _mapper, _emailService);
         public IColorRepository ColorRepository =>
             new ColorRepository(_context);
+        public IBrandRepository BrandRepository =>
+           new BrandRepository(_context);
+        public ICapacityRepository CapacityRepository =>
+           new CapacityRepository(_context);
+        public ISlideshowRepository SlideshowRepository =>
+           new SlideshowRepository(_context);
     }
 }

@@ -1,8 +1,10 @@
 ﻿using backend.Dto;
 using backend.Interfaces;
 using backend.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace backend.Controllers
 {
@@ -92,5 +94,6 @@ namespace backend.Controllers
                 mess = "Some properties are not valid"
             }); 
         }
+        
     }
 }

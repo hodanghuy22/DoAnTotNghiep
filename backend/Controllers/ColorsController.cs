@@ -16,6 +16,7 @@ namespace backend.Controllers
             _uow = uow;
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetColors()
         {
             var colors = await _uow.ColorRepository.GetColors();
@@ -30,6 +31,7 @@ namespace backend.Controllers
         }
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetColor(int id)
         {
             var color = await _uow.ColorRepository.GetColor(id);
@@ -61,7 +63,7 @@ namespace backend.Controllers
             return await _uow.ColorRepository.UpdateColor(color);
         }
         [HttpDelete]
-        [Route("DeleteColor/{id}")]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteColor(int id)
         {

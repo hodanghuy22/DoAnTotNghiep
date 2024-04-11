@@ -176,14 +176,14 @@ namespace backend.Repository
             var checkEmail = await _userManager.FindByEmailAsync(registerModel.Email);
             if (checkEmail != null)
             {
-                var errorResponse = new { Message = "Email already exists" };
+                var errorResponse = new { Message = "User already exists" };
                 return new BadRequestObjectResult(errorResponse);
             }
             User user = new User()
             {
-                UserName = registerModel.Username,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Email = registerModel.Email
+                Email = registerModel.Email,
+                UserName = registerModel.Email
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
@@ -216,11 +216,12 @@ namespace backend.Repository
                 var errorResponse = new { Message = "Email already exists" };
                 return new BadRequestObjectResult(errorResponse);
             }
+
             User user = new User()
             {
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.Username
+                UserName = registerModel.Email
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
