@@ -5,10 +5,10 @@
 *.pack
 *.pack.old
 
-Backend/.vs
-Backend/DoAnMonHoc_Backend/bin/
-Backend/DoAnMonHoc_Backend/obj/
-Backend/DoAnMonHoc_Backend/appsettings.json
+backend/.vs
+backend/bin/
+backend/obj/
+backend/appsettings.json
 
 .vscode/
 frontend/node_modules/.bin/
