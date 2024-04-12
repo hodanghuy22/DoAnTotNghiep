@@ -14,6 +14,18 @@ namespace backend.Repository
         {
             _context = context;
         }
+
+        public async Task<bool> CheckColorNameExist(string colorName)
+        {
+            var pt = await _context.Colors
+                .FirstOrDefaultAsync(p => p.ColorName == colorName); 
+            if (pt == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<bool> ColorExist(int id)
         {
             var color = await _context.Colors.FindAsync(id);
@@ -40,7 +52,7 @@ namespace backend.Repository
             {
                 return new OkObjectResult(new
                 {
-                    mess = "Created was successfully!"
+                    mess = "Successfully created!"
                 });
             }
             return new BadRequestObjectResult(new
@@ -49,7 +61,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> DeleteColor(int id)
+        public async Task<IActionResult> UpdateStatusColor(int id, bool status)
         {
             var color = await GetColor(id);
             if(color == null)
@@ -59,13 +71,13 @@ namespace backend.Repository
                     mess = "Can't find this color!"
                 });
             }
-            color.Status = false;
+            color.Status = status;
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 return new OkObjectResult(new
                 {
-                    mess = "Deleted was successfully!"
+                    mess = "Successfully updated!"
                 });
             }
             return new BadRequestObjectResult(new
@@ -98,30 +110,45 @@ namespace backend.Repository
             return await _context.Colors.Where(c => c.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateColor(Color color)
+        public async Task<IActionResult> UpdateColor(int id, Color color)
         {
-            _context.Entry(color).State = EntityState.Modified;
+            if (id != color.Id)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Something went wrong!!!"
+                });
+            }
+            var check = await CheckColorNameExist(color.ColorName);
+            if (check == true)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "It was existed!"
+                });
+            }
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if (!await ColorExist(color.Id))
+                var pt = await GetColor(id);
+                if (pt == null)
                 {
                     return new NotFoundObjectResult(new
                     {
                         mess = "Not Found!"
                     });
                 }
-                else
-                {
-                    throw;
-                }
+
+                _context.Entry(pt).CurrentValues.SetValues(color);
+                await _context.SaveChangesAsync();
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
             return new OkObjectResult(new
             {
-                mess = "Updated was successfully!"
+                mess = "Successfully updated!"
             });
         }
     }

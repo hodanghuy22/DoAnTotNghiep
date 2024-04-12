@@ -32,7 +32,7 @@ namespace backend.Repository
             {
                 return new OkObjectResult(new
                 {
-                    mess = "Created was successfully!"
+                    mess = "Successfully created!"
                 });
             }
             return new BadRequestObjectResult(new
@@ -41,7 +41,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> DeleteProductType(int id)
+        public async Task<IActionResult> UpdateStatusProductType(int id, bool status)
         {
             var pt = await GetProductType(id);
 
@@ -53,13 +53,13 @@ namespace backend.Repository
                 });
             }
 
-            pt.Status = false;
+            pt.Status = status;
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
                 return new OkObjectResult(new
                 {
-                    mess = "Deleted was successfully!"
+                    mess = "Successfully updated!"
                 });
             }
             return new BadRequestObjectResult(new
@@ -83,33 +83,61 @@ namespace backend.Repository
             return await _context.ProductTypes.Where(p => p.Status == true).ToListAsync();
         }
 
-        public async Task<bool> ProductExist(int id)
+        public async Task<bool> ProductTypeExist(int id)
         {
             return await _context.Products.AnyAsync(p => p.Id == id);
         }
 
-        public async Task<IActionResult> UpdateProductType(ProductType productType)
+        public async Task<IActionResult> UpdateProductType(int id, ProductType productType)
         {
-            _context.Entry(productType).State = EntityState.Modified;
+            if (id != productType.Id)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Something went wrong!!!"
+                });
+            }
+            var check = await CheckProductTypeTitleExist(productType.Title);
+            if (check == true)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "It was existed!"
+                });
+            }
             try
             {
+                var pt = await GetProductType(id);
+                if (pt == null)
+                {
+                    return new NotFoundObjectResult(new
+                    {
+                        mess = "Not Found!"
+                    });
+                }
+
+                _context.Entry(pt).CurrentValues.SetValues(productType);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                if (!await ProductExist(productType.Id))
-                {
-                    return new NotFoundResult();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
+
             return new OkObjectResult(new
             {
-                mess = "Updated was successfully!"
+                mess = "Successfully updated!"
             });
+        }
+
+        public async Task<bool> CheckProductTypeTitleExist(string title)
+        {
+            var pt = await _context.ProductTypes.FirstOrDefaultAsync(b => b.Title == title);
+            if (pt == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

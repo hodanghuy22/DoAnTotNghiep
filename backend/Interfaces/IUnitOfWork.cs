@@ -10,6 +10,7 @@
         IProductTypeRepository ProductTypeRepository { get; }
         IProductRepository ProductRepository { get; }
         IProductTypeDetailRepository ProductTypeDetailRepository { get; }
+        IProductDetailRepository ProductDetailRepository { get; }
 
     }
 }

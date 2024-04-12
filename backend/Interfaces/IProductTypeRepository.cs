@@ -9,8 +9,9 @@ namespace backend.Interfaces
         Task<IEnumerable<ProductType>> GetProductTypes();
         Task<IEnumerable<ProductType>> GetProductTypesAdmin();
         Task<ProductType> GetProductType(int id);
-        Task<bool> ProductExist(int id);
-        Task<IActionResult> UpdateProductType(ProductType productType);
-        Task<IActionResult> DeleteProductType(int id);
+        Task<bool> ProductTypeExist(int id);
+        Task<bool> CheckProductTypeTitleExist(string title);
+        Task<IActionResult> UpdateProductType(int id, ProductType productType);
+        Task<IActionResult> UpdateStatusProductType(int id, bool status);
     }
 }

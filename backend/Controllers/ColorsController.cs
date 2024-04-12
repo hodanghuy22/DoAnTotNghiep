@@ -56,18 +56,14 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateColor(int id, Color color)
         {
-            if (id != color.Id)
-            {
-                return BadRequest();
-            }
-            return await _uow.ColorRepository.UpdateColor(color);
+            return await _uow.ColorRepository.UpdateColor(id, color);
         }
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpPut]
+        [Route("UpdateStatusColor/{id}/{status}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteColor(int id)
+        public async Task<IActionResult> UpdateStatusColor(int id, bool status)
         {
-            return await _uow.ColorRepository.DeleteColor(id);
+            return await _uow.ColorRepository.UpdateStatusColor(id, status);
         }
     }
 }

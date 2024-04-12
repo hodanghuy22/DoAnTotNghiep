@@ -54,14 +54,14 @@ namespace backend.Controllers
             {
                 return BadRequest();
             }
-            return await _uow.ProductTypeRepository.UpdateProductType(productType);
+            return await _uow.ProductTypeRepository.UpdateProductType(id, productType);
         }
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpPut]
+        [Route("UpdateStatusProductType/{id}/{status}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteProductType(int id)
+        public async Task<IActionResult> UpdateStatusProductType(int id, bool status)
         {
-            return await _uow.ProductTypeRepository.DeleteProductType(id);
+            return await _uow.ProductTypeRepository.UpdateStatusProductType(id, status);
         }
     }
 }

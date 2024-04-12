@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace backend.Models
+﻿namespace backend.Models
 {
     public class Image
     {
@@ -8,7 +6,6 @@ namespace backend.Models
         public string ImagePublicId { get; set; }
         public string ImageUrl { get; set; }
         public int ProductDetailId { get; set; }
-        [JsonIgnore]
         public ProductDetail ProductDetail { get; set; }
     }
 }

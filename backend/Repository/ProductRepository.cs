@@ -31,7 +31,7 @@ namespace backend.Repository
             {
                 return new OkObjectResult(new
                 {
-                    mess = "Created was successfully!"
+                    mess = "Successfully created!"
                 });
             }
             return new BadRequestObjectResult(new
@@ -116,7 +116,7 @@ namespace backend.Repository
             }
             return new OkObjectResult(new
             {
-                mess = "Updated was successfully!"
+                mess = "Successfully updated!"
             });
         }
 
@@ -138,7 +138,7 @@ namespace backend.Repository
             {
                 return new OkObjectResult(new
                 {
-                    mess = "Updated was successfully!"
+                    mess = "Successfully updated!"
                 });
             }
             return new BadRequestObjectResult(new

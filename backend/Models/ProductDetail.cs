@@ -8,7 +8,6 @@
         public int SoldQuantity { get; set; }
         public int AverageRating { get; set; }
         public int ProductId { get; set; }
-        //[JsonIgnore]
         public Product Product { get; set; }
         public int CapacityId { get; set; }
         public Capacity Capacity { get; set; }
