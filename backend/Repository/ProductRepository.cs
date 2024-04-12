@@ -29,7 +29,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Created was successfully!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -83,8 +86,15 @@ namespace backend.Repository
             return await _context.Products.AnyAsync(b => b.Id == id);
         }
 
-        public async Task<IActionResult> UpdateProduct(Product product)
+        public async Task<IActionResult> UpdateProduct(int id, Product product)
         {
+            if(id != product.Id)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Something went wrong!!!"
+                });
+            }
             _context.Entry(product).State = EntityState.Modified;
             try
             {
@@ -104,7 +114,10 @@ namespace backend.Repository
                     throw;
                 }
             }
-            return new OkResult();
+            return new OkObjectResult(new
+            {
+                mess = "Updated was successfully!"
+            });
         }
 
         public async Task<IActionResult> UpdateStatusProduct(int id, bool status)
@@ -123,7 +136,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Updated was successfully!"
+                });
             }
             return new BadRequestObjectResult(new
             {

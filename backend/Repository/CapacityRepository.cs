@@ -33,7 +33,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully created!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -41,7 +44,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> DeleteCapacity(int id)
+        public async Task<IActionResult> UpdateStatusCapacity(int id, bool status)
         {
             var pt = await GetCapacity(id);
 
@@ -53,11 +56,14 @@ namespace backend.Repository
                 });
             }
 
-            pt.Status = false;
+            pt.Status = status;
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully updated!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -75,33 +81,62 @@ namespace backend.Repository
             return await _context.Capacitys.ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateCapacity(Capacity capacity)
+        public async Task<IActionResult> UpdateCapacity(int id, Capacity capacity)
         {
-            _context.Entry(capacity).State = EntityState.Modified;
+            if(id != capacity.Id)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Something went wrong!!!"
+                });
+            }
+            var check = await CheckCapacityTotalExist(capacity.TotalCapacity);
+            if (check == true)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "It was existed!"
+                });
+            }
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if (!await CapacityExist(capacity.Id))
+                var pt = await GetCapacity(id);
+                if (pt == null)
                 {
                     return new NotFoundObjectResult(new
                     {
                         mess = "Not Found!"
                     });
                 }
-                else
-                {
-                    throw;
-                }
+
+                _context.Entry(pt).CurrentValues.SetValues(capacity);
+                await _context.SaveChangesAsync();
             }
-            return new OkResult();
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return new OkObjectResult(new
+            {
+                mess = "Successfully updated!"
+            });
         }
 
         public async Task<IEnumerable<Capacity>> GetCapacitiesShow()
         {
             return await _context.Capacitys.Where(c => c.Status == true).ToListAsync();
+        }
+
+        public async Task<bool> CheckCapacityTotalExist(string total)
+        {
+            var pt = await _context.Capacitys
+                .FirstOrDefaultAsync(p => p.TotalCapacity == total);
+            if(pt == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         //public async Task<IEnumerable<Capacity>> GetCapacitiesByPhoneId(int id)

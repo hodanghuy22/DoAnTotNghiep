@@ -38,7 +38,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Created was successfully!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -60,7 +63,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Deleted was successfully!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -113,7 +119,10 @@ namespace backend.Repository
                     throw;
                 }
             }
-            return new OkResult();
+            return new OkObjectResult(new
+            {
+                mess = "Updated was successfully!"
+            });
         }
     }
 }

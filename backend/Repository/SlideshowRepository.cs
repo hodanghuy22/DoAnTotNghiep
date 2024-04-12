@@ -25,7 +25,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully created!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -48,7 +51,10 @@ namespace backend.Repository
             var result =  await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully deleted!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -98,7 +104,10 @@ namespace backend.Repository
                     throw;
                 }
             }
-            return new OkResult();
+            return new OkObjectResult(new
+            {
+                mess = "Successfully updated!"
+            });
         }
 
         public async Task<IActionResult> UpdateStatusSlideshow(int id, bool status)
@@ -117,7 +126,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully updated!"
+                });
             }
             return new BadRequestObjectResult(new
             {

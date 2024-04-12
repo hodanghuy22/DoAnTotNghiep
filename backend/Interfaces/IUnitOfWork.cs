@@ -9,6 +9,7 @@
         ISlideshowRepository SlideshowRepository { get; }
         IProductTypeRepository ProductTypeRepository { get; }
         IProductRepository ProductRepository { get; }
+        IProductTypeDetailRepository ProductTypeDetailRepository { get; }
 
     }
 }

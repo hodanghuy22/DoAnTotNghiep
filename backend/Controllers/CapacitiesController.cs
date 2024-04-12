@@ -58,14 +58,14 @@ namespace backend.Controllers
             {
                 return BadRequest();
             }
-            return await _uow.CapacityRepository.UpdateCapacity(capacity);
+            return await _uow.CapacityRepository.UpdateCapacity(id, capacity);
         }
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpPut]
+        [Route("UpdateStatusCapacity/{id}/{status}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCapacity(int id)
+        public async Task<IActionResult> UpdateStatusCapacity(int id, bool status)
         {
-            return await _uow.CapacityRepository.DeleteCapacity(id);
+            return await _uow.CapacityRepository.UpdateStatusCapacity(id, status);
         }
     }
 }

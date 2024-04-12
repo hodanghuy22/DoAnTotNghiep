@@ -56,10 +56,11 @@ namespace backend.Controllers
             return await _uow.ProductRepository.CreateProduct(product);
         }
         [HttpPut]
+        [Route("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateProduct(Product product)
+        public async Task<IActionResult> UpdateProduct(int id, Product product)
         {
-            return await _uow.ProductRepository.UpdateProduct(product);
+            return await _uow.ProductRepository.UpdateProduct(id, product);
         }
         [HttpPut]
         [Route("UpdateStatusProduct/{id}/{status}")]

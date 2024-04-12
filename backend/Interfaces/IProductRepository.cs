@@ -12,7 +12,7 @@ namespace backend.Interfaces
         Task<Product> GetProduct(int id);
         Task<Product> GetProductByName(string name);
         Task<bool> ProductExist(int id);
-        Task<IActionResult> UpdateProduct(Product product);
+        Task<IActionResult> UpdateProduct(int id, Product product);
         Task<IActionResult> UpdateStatusProduct(int id, bool status);
     }
 }

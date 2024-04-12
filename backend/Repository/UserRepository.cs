@@ -195,7 +195,10 @@ namespace backend.Repository
             {
                 await _userManager.AddToRoleAsync(user, "User");
             }
-            return new OkResult();
+            return new OkObjectResult(new
+            {
+                mess = "Successfully registered!"
+            });
         }
 
         public async Task<IActionResult> RegisterAdmin(RegisterModel registerModel)
@@ -239,7 +242,10 @@ namespace backend.Repository
             {
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
-            return new OkResult();
+            return new OkObjectResult(new
+            {
+                mess = "Successfully registered!"
+            });
         }
 
         public async Task<IActionResult> ResetPassword(ResetPasswordModel model)

@@ -46,18 +46,14 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBrand(int id, Brand brand)
         {
-            if (id != brand.Id)
-            {
-                return BadRequest();
-            }
-            return await _uow.BrandRepository.UpdateBrand(brand);
+            return await _uow.BrandRepository.UpdateBrand(id, brand);
         }
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpPut]
+        [Route("UpdateStatusBrand/{id}/{status}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> UpdateStatusBrand(int id, bool status)
         {
-            return await _uow.BrandRepository.DeleteBrand(id);
+            return await _uow.BrandRepository.UpdateStatusBrand(id, status);
         }
     }
 }

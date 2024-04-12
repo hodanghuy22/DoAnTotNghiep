@@ -48,11 +48,6 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
                                 .GetBytes(builder.Configuration["JWT:Secret"]))
     };
-})
-.AddFacebook(facebookOptions =>
-{
-    facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"];
-    facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"];
 });
 
 

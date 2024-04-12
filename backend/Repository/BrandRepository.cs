@@ -33,7 +33,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully created!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -41,7 +44,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> UpdateStatusBrand(int id, bool status)
         {
             var pt = await GetBrand(id);
 
@@ -53,11 +56,14 @@ namespace backend.Repository
                 });
             }
 
-            pt.Status = false;
+            pt.Status = status;
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkResult();
+                return new OkObjectResult(new
+                {
+                    mess = "Successfully updated!"
+                });
             }
             return new BadRequestObjectResult(new
             {
@@ -80,28 +86,56 @@ namespace backend.Repository
             return await _context.Brands.Where(b => b.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateBrand(Brand brand)
+        public async Task<IActionResult> UpdateBrand(int id, Brand brand)
         {
-            _context.Entry(brand).State = EntityState.Modified;
+            if(id != brand.Id)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "Something went wrong!!!"
+                });
+            }
+            var check = await CheckBrandTitleExist(brand.Title);
+            if (check == true)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "It was existed!"
+                });
+            }
             try
             {
+                var pt = await GetBrand(id);
+                if (pt == null)
+                {
+                    return new NotFoundObjectResult(new
+                    {
+                        mess = "Not Found!"
+                    });
+                }
+
+                _context.Entry(pt).CurrentValues.SetValues(brand);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                if (!await BrandExist(brand.Id))
-                {
-                    return new NotFoundObjectResult(new
-                    {
-                        mess = "Not Found"
-                    });
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
-            return new OkResult();
+
+            return new OkObjectResult(new
+            {
+                mess = "Successfully updated!"
+            });
+        }
+
+        public async Task<bool> CheckBrandTitleExist(string title)
+        {
+            var pt = await _context.Brands.FirstOrDefaultAsync(b => b.Title == title);
+            if(pt == null)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
