@@ -11,6 +11,7 @@
         IProductRepository ProductRepository { get; }
         IProductTypeDetailRepository ProductTypeDetailRepository { get; }
         IProductDetailRepository ProductDetailRepository { get; }
+        IWishlistRepository WishlistRepository { get; }
 
     }
 }

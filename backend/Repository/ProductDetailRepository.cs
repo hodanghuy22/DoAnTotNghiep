@@ -90,7 +90,7 @@ namespace backend.Repository
 
         public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail product)
         {
-            if (id != product.Id || id == null)
+            if (id != product.Id)
             {
                 return new BadRequestObjectResult(new
                 {

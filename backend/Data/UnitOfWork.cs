@@ -54,5 +54,8 @@ namespace backend.Data
 
         public IProductDetailRepository ProductDetailRepository => 
            new ProductDetailRepository(_context);
+
+        public IWishlistRepository WishlistRepository => 
+           new WishlistRepository(_context);
     }
 }
