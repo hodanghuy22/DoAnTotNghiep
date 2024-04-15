@@ -12,6 +12,7 @@
         IProductTypeDetailRepository ProductTypeDetailRepository { get; }
         IProductDetailRepository ProductDetailRepository { get; }
         IWishlistRepository WishlistRepository { get; }
+        ICartRepository CartRepository { get; }
 
     }
 }
