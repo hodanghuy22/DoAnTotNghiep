@@ -60,5 +60,14 @@ namespace backend.Data
 
         public ICartRepository CartRepository =>
            new CartRepository(_context);
+
+        public ICouponRepository CouponRepository =>
+           new CouponRepository(_context);
+
+        public IInvoiceRepository InvoiceRepository =>
+           new InvoiceRepository(_context);
+
+        public IOrderStatusRepository OrderStatusRepository =>
+           new OrderStatusRepository(_context);
     }
 }

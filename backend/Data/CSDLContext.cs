@@ -25,6 +25,7 @@ namespace backend.Data
         public DbSet<Rating> Ratings { get; set; } = default!;
         public DbSet<WishList> WishLists { get; set; } = default!;
         public DbSet<Slideshow> Slideshows { get; set; } = default!;
+        public DbSet<OrderStatus> OrderStatuses { get; set; } = default!;
 
     }
 }

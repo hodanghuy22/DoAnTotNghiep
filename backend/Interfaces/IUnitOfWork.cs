@@ -13,6 +13,9 @@
         IProductDetailRepository ProductDetailRepository { get; }
         IWishlistRepository WishlistRepository { get; }
         ICartRepository CartRepository { get; }
+        ICouponRepository CouponRepository { get; }
+        IInvoiceRepository InvoiceRepository { get; }
+        IOrderStatusRepository OrderStatusRepository { get; }
 
     }
 }
