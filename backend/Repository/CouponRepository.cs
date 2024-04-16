@@ -31,7 +31,7 @@ namespace backend.Repository
         public async Task<bool> CouponExist(Coupon coupon)
         {
             var check1 = await _context.Coupons
-                .FirstOrDefaultAsync(c => c.Code == coupon.Code || c.Title == coupon.Title);
+                .FirstOrDefaultAsync(c => c.Id != coupon.Id && (c.Code == coupon.Code || c.Title == coupon.Title));
             if(check1 != null)
             {
                 return true;
@@ -113,16 +113,12 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await _context.Coupons
-                .FirstOrDefaultAsync(c => 
-                    c.Id != coupon.Id && 
-                    ( c.Code == coupon.Code || 
-                    c.Title == coupon.Title));
-            if (check != null)
+            var check = await CouponExist(coupon);
+            if (check == true)
             {
                 return new BadRequestObjectResult(new
                 {
-                    mess = "It was existed!"
+                    mess = "This coupon was exsist!!!"
                 });
             }
 

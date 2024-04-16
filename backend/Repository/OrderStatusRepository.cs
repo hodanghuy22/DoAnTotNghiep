@@ -18,7 +18,7 @@ namespace backend.Repository
         public async Task<bool> CheckOrderStatus(OrderStatus orderStatus)
         {
             var check = await _context.OrderStatuses
-                .FirstOrDefaultAsync(o => o.Title == orderStatus.Title);
+                .FirstOrDefaultAsync(o => o.Id != orderStatus.Id && o.Title == orderStatus.Title);
             if(check == null)
             {
                 return false;
@@ -70,9 +70,8 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await _context.OrderStatuses
-                .FirstOrDefaultAsync(c => c.Id != orderStatus.Id && c.Title == orderStatus.Title);
-            if (check != null)
+            var check = await CheckOrderStatus(orderStatus);
+            if (check == true)
             {
                 return new BadRequestObjectResult(new
                 {

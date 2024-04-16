@@ -10,7 +10,7 @@ namespace backend.Interfaces
         Task<IEnumerable<Brand>> GetBrandsShow();
         Task<Brand> GetBrand(int id);
         Task<bool> BrandExist(int id);
-        Task<bool> CheckBrandTitleExist(string title);
+        Task<bool> CheckBrandTitleExist(Brand brand);
         Task<IActionResult> UpdateBrand(int id, Brand brand);
         Task<IActionResult> UpdateStatusBrand(int id, bool status);
     }

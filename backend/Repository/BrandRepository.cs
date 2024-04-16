@@ -95,7 +95,7 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await CheckBrandTitleExist(brand.Title);
+            var check = await CheckBrandTitleExist(brand);
             if (check == true)
             {
                 return new BadRequestObjectResult(new
@@ -128,9 +128,10 @@ namespace backend.Repository
             });
         }
 
-        public async Task<bool> CheckBrandTitleExist(string title)
+        public async Task<bool> CheckBrandTitleExist(Brand brand)
         {
-            var pt = await _context.Brands.FirstOrDefaultAsync(b => b.Title == title);
+            var pt = await _context.Brands
+                .FirstOrDefaultAsync(b => b.Id != brand.Id && b.Title == brand.Title);
             if(pt == null)
             {
                 return false;

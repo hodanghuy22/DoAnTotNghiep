@@ -15,10 +15,10 @@ namespace backend.Repository
             _context = context;
         }
 
-        public async Task<bool> CheckColorNameExist(string colorName)
+        public async Task<bool> CheckColorNameExist(Color color)
         {
             var pt = await _context.Colors
-                .FirstOrDefaultAsync(p => p.ColorName == colorName); 
+                .FirstOrDefaultAsync(p => p.Id != color.Id && p.ColorName == color.ColorName); 
             if (pt == null)
             {
                 return false;
@@ -119,7 +119,7 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await CheckColorNameExist(color.ColorName);
+            var check = await CheckColorNameExist(color);
             if (check == true)
             {
                 return new BadRequestObjectResult(new

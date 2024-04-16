@@ -90,7 +90,7 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await CheckCapacityTotalExist(capacity.TotalCapacity);
+            var check = await CheckCapacityTotalExist(capacity);
             if (check == true)
             {
                 return new BadRequestObjectResult(new
@@ -128,10 +128,10 @@ namespace backend.Repository
             return await _context.Capacitys.Where(c => c.Status == true).ToListAsync();
         }
 
-        public async Task<bool> CheckCapacityTotalExist(string total)
+        public async Task<bool> CheckCapacityTotalExist(Capacity capacity)
         {
             var pt = await _context.Capacitys
-                .FirstOrDefaultAsync(p => p.TotalCapacity == total);
+                .FirstOrDefaultAsync(p => p.Id != capacity.Id && p.TotalCapacity == capacity.TotalCapacity);
             if(pt == null)
             {
                 return false;

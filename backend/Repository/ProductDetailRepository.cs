@@ -14,12 +14,13 @@ namespace backend.Repository
         {
             _context = context;
         }
-        public async Task<bool> CheckProductDetailExist(int productId, int colorId, int capacityId)
+        public async Task<bool> CheckProductDetailExist(ProductDetail product)
         {
             var pt = await _context.ProductDetails
-                .FirstOrDefaultAsync(b => b.ProductId == productId 
-                                    && b.ColorId == colorId 
-                                    && b.CapacityId == capacityId);
+                .FirstOrDefaultAsync(b => b.Id != product.Id &&
+                                    b.ProductId == product.ProductId 
+                                    && b.ColorId == product.ColorId
+                                    && b.CapacityId == product.CapacityId);
             if (pt == null)
             {
                 return false;
@@ -29,7 +30,7 @@ namespace backend.Repository
 
         public async Task<IActionResult> CreateProductDetail(ProductDetail product)
         {
-            var check = await CheckProductDetailExist(product.ProductId, product.ColorId, product.CapacityId);
+            var check = await CheckProductDetailExist(product);
             if (check == true)
             {
                 return new BadRequestObjectResult(new
@@ -97,7 +98,7 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await CheckProductDetailExist(product.ProductId, product.ColorId, product.CapacityId);
+            var check = await CheckProductDetailExist(product);
             if (check == true)
             {
                 return new BadRequestObjectResult(new

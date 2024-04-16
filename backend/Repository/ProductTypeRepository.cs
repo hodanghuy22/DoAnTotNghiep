@@ -97,7 +97,7 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await CheckProductTypeTitleExist(productType.Title);
+            var check = await CheckProductTypeTitleExist(productType);
             if (check == true)
             {
                 return new BadRequestObjectResult(new
@@ -130,9 +130,10 @@ namespace backend.Repository
             });
         }
 
-        public async Task<bool> CheckProductTypeTitleExist(string title)
+        public async Task<bool> CheckProductTypeTitleExist(ProductType productType)
         {
-            var pt = await _context.ProductTypes.FirstOrDefaultAsync(b => b.Title == title);
+            var pt = await _context.ProductTypes
+                .FirstOrDefaultAsync(b => b.Id != productType.Id && b.Title == productType.Title);
             if (pt == null)
             {
                 return false;

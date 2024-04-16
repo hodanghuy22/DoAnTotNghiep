@@ -10,7 +10,7 @@ namespace backend.Interfaces
         Task<ProductDetail> GetProductDetail(int id);
         Task<ProductDetail> GetAProductDetailForUser(int productId, int colorId, int capacityId);
         Task<bool> ProductDetailExist(int id);
-        Task<bool> CheckProductDetailExist(int productId, int colorId, int capacityId);
+        Task<bool> CheckProductDetailExist(ProductDetail product);
         Task<IActionResult> UpdateProductDetail(int id, ProductDetail product);
         Task<IActionResult> UpdateStatusProductDetail(int id, bool status);
     }
