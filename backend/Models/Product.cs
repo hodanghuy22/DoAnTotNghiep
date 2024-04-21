@@ -18,6 +18,8 @@
         public bool Status { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
         public List<ProductDetail> ProductDetails { get; set; }
         public string ImagePublicId { get; set; }
         public string ImageUrl { get; set; }

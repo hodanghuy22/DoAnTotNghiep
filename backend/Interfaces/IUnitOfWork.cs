@@ -7,15 +7,15 @@
         IBrandRepository BrandRepository { get; }
         ICapacityRepository CapacityRepository { get; }
         ISlideshowRepository SlideshowRepository { get; }
-        IProductTypeRepository ProductTypeRepository { get; }
         IProductRepository ProductRepository { get; }
-        IProductTypeDetailRepository ProductTypeDetailRepository { get; }
         IProductDetailRepository ProductDetailRepository { get; }
         IWishlistRepository WishlistRepository { get; }
         ICartRepository CartRepository { get; }
         ICouponRepository CouponRepository { get; }
         IInvoiceRepository InvoiceRepository { get; }
         IOrderStatusRepository OrderStatusRepository { get; }
+        ICommentRepository CommentRepository { get; }
+        IRatingRepository RatingRepository { get; }
 
     }
 }

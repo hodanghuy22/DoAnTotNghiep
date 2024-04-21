@@ -44,14 +44,8 @@ namespace backend.Data
            new CapacityRepository(_context);
         public ISlideshowRepository SlideshowRepository =>
            new SlideshowRepository(_context);
-        public IProductTypeRepository ProductTypeRepository =>
-           new ProductTypeRepository(_context);
         public IProductRepository ProductRepository =>
            new ProductRepository(_context);
-
-        public IProductTypeDetailRepository ProductTypeDetailRepository => 
-           new ProductTypeDetailRepository(_context);
-
         public IProductDetailRepository ProductDetailRepository => 
            new ProductDetailRepository(_context);
 
@@ -69,5 +63,11 @@ namespace backend.Data
 
         public IOrderStatusRepository OrderStatusRepository =>
            new OrderStatusRepository(_context);
+
+        public ICommentRepository CommentRepository => 
+           new CommentRepository(_context);
+
+        public IRatingRepository RatingRepository => 
+           new RatingRepository(_context);
     }
 }

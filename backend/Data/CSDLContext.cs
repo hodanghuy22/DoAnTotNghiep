@@ -20,12 +20,11 @@ namespace backend.Data
         public DbSet<InvoiceDetail> InvoiceDetails { get; set; } = default!;
         public DbSet<Product> Products { get; set; } = default!;
         public DbSet<ProductDetail> ProductDetails { get; set; } = default!;
-        public DbSet<ProductType> ProductTypes { get; set; } = default!;
-        public DbSet<ProductTypeDetail> ProductTypeDetails { get; set; } = default!;
         public DbSet<Rating> Ratings { get; set; } = default!;
         public DbSet<WishList> WishLists { get; set; } = default!;
         public DbSet<Slideshow> Slideshows { get; set; } = default!;
         public DbSet<OrderStatus> OrderStatuses { get; set; } = default!;
+        public DbSet<Category> Categories { get; set; } = default!;
 
     }
 }
