@@ -4,9 +4,9 @@ import authService from "./authService";
 
 
 
-export const LoginFacebook = createAsyncThunk("auth/loginFacebook", async(thunkAPI) =>{
+export const Login = createAsyncThunk("auth/login", async(thunkAPI) =>{
     try{
-        return await authService.loginFacebook();
+        return await authService.login();
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }
@@ -28,10 +28,10 @@ export const authSlice = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder)=>{
-        builder.addCase(LoginFacebook.pending, (state)=>{
+        builder.addCase(Login.pending, (state)=>{
             state.isLoading = true;
         })
-        .addCase(LoginFacebook.fulfilled, (state, action)=>{
+        .addCase(Login.fulfilled, (state, action)=>{
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
@@ -40,7 +40,7 @@ export const authSlice = createSlice({
                 toast.info("Login is Successfully!!!");
             }
         })
-        .addCase(LoginFacebook.rejected, (state, action)=>{
+        .addCase(Login.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

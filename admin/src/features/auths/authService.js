@@ -1,24 +1,17 @@
 import axios from "axios"
 import { base_url,config } from "../../utils/axiosConfig";
 
-const loginFacebook = async()=>{
-    console.log("vao được");
-    const response = await axios.post(`${base_url}Users/signin-facebook`, {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*', 
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE', 
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-      }
-    );
+
+const login = async(userData)=>{
+    const response = await axios.post(`${base_url}Users/login`, userData);
     if(response.data){
-        console.log(response.data);
+        localStorage.setItem("customer", JSON.stringify(response.data));
         return response.data;
     }
 }
 
-
 const authService = {
-    loginFacebook,
+    login
 };
 
 export default authService;

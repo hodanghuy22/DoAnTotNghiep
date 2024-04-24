@@ -1,11 +1,8 @@
 import React from 'react'
-import { BiEdit } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { LoginFacebook } from '../features/auths/authSlice';
-import FacebookLoginButton from '../components/FacebookLoginButton ';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,8 +13,6 @@ const Login = () => {
   return (
     <div className='login-container'>
       <div className='login'>
-        <button onClick={dangky}><BiEdit /></button>
-        <FacebookLoginButton />
         <div className='title'>Hello Again!</div>
         <div className='des'>
           Wellcome back you've <br />
