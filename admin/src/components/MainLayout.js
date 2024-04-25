@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Layout, Menu, Button, theme } from 'antd';
+import { Logout } from '../features/auths/authSlice';
 
 const { Header, Sider, Content } = Layout;
 
@@ -31,6 +32,7 @@ const MainLayout = () => {
           defaultSelectedKeys={['']}
           onClick={({ key }) => {
             if (key === 'signout') {
+              dispatch(Logout());
               navigate('/');
             }
             else {
@@ -61,7 +63,7 @@ const MainLayout = () => {
               ]
             },
             {
-              key: 'capacity',
+              key: 'capacity-cata',
               icon: <GrCapacity className='fs-5' />,
               label: 'Capacities',
               children: [
@@ -78,7 +80,7 @@ const MainLayout = () => {
               ]
             },
             {
-              key: 'brand',
+              key: 'brand-cata',
               icon: <TbBrand4Chan className='fs-5' />,
               label: 'Brands',
               children: [

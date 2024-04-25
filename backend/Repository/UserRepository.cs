@@ -183,7 +183,7 @@ namespace backend.Repository
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
                 Email = registerModel.Email,
-                UserName = registerModel.Email
+                UserName = registerModel.Username
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
@@ -224,7 +224,7 @@ namespace backend.Repository
             {
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.Email
+                UserName = registerModel.Username
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)

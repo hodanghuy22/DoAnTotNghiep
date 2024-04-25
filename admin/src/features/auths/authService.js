@@ -10,8 +10,24 @@ const login = async(userData)=>{
     }
 }
 
+const registerAdmin = async(userData)=>{
+    const response = await axios.post(`${base_url}Users/register-admin`, userData);
+    if(response.data){
+        return response.data;
+    }
+}
+
+const getAllUsers = async()=>{
+    const response = await axios.get(`${base_url}Users/GetAllUser`, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const authService = {
-    login
+    login,
+    registerAdmin,
+    getAllUsers,
 };
 
 export default authService;
