@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
-import { MdDashboard } from "react-icons/md";
+import { MdColorLens, MdDashboard } from "react-icons/md";
 import { FaUserPlus, FaUser, FaUserGroup  } from "react-icons/fa6";
 import { GrCapacity } from "react-icons/gr";
 import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe  } from "react-icons/tb";
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Layout, Menu, Button, theme } from 'antd';
 import { Logout } from '../features/auths/authSlice';
+import { IoColorWandSharp } from 'react-icons/io5';
 
 const { Header, Sider, Content } = Layout;
 
@@ -93,6 +94,23 @@ const MainLayout = () => {
                   key: 'brand-list',
                   icon: <TbBrandAdobe  className='fs-5' />,
                   label: 'List Brand',
+                },
+              ]
+            },
+            {
+              key: 'color-cata',
+              icon: <MdColorLens  className='fs-5' />,
+              label: 'Colors',
+              children: [
+                {
+                  key: 'color',
+                  icon: <IoColorWandSharp  className='fs-5' />,
+                  label: 'Add Color',
+                },
+                {
+                  key: 'color-list',
+                  icon: <IoColorWandSharp   className='fs-5' />,
+                  label: 'List Color',
                 },
               ]
             },

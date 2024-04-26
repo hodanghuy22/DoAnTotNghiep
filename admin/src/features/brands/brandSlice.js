@@ -81,7 +81,7 @@ export const brandSlice = createSlice({
             state.isSuccess = true;
             state.newBrand = action.payload;
             if(state.isSuccess){
-                toast.success("Create Brand is successfully!!!");
+                toast.success("The creation of the brand was successful!");
             }
         })
         .addCase(CreateBrand.rejected, (state, action)=>{
@@ -90,7 +90,7 @@ export const brandSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message;
             if(state.isError){
-                toast.error(action.error.message);
+                toast.error("The creation of the brand was not successful!");
             }
         }).addCase(UpdateStatusBrand.pending, (state)=>{
             state.isLoading = true;
@@ -100,7 +100,7 @@ export const brandSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess){
-                toast.success("Delete Brand is successfully!!!");
+                toast.success("The update of the brand was successful!");
             }
         })
         .addCase(UpdateStatusBrand.rejected, (state, action)=>{
@@ -109,7 +109,7 @@ export const brandSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message;
             if(state.isError){
-                toast.error(action.error.message);
+                toast.error("The update of the brand was not successful!");
             }
         }).addCase(GetABrand.pending, (state)=>{
             state.isLoading = true;
@@ -137,7 +137,7 @@ export const brandSlice = createSlice({
             state.isSuccess = true;
             state.updateBrand = action.payload;
             if(state.isSuccess){
-                toast.success("Update Brand is successfully!!!");
+                toast.success("The update of the brand was successful!");
             }
         })
         .addCase(UpdateBrand.rejected, (state, action)=>{
@@ -146,7 +146,7 @@ export const brandSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message;
             if(state.isError){
-                toast.error(action.error.message);
+                toast.error("The update of the brand was not successful!");
             }
         }).addCase(resetState, () => initialState);
     }

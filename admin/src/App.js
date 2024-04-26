@@ -10,6 +10,8 @@ import UserList from "./pages/UserList";
 import AddBrand from "./pages/AddBrand";
 import AddCapacity from "./pages/AddCapacity";
 import AddAdmin from "./pages/AddAdmin";
+import ColorList from "./pages/ColorList";
+import AddColor from "./pages/AddColor";
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
           <Route path='capacity/:id' element={<AddCapacity />} />
           <Route path='user-list' element={<UserList />} />
           <Route path='add-admin' element={<AddAdmin />} />
-          
+          <Route path='color-list' element={<ColorList />} />
+          <Route path='color' element={<AddColor />} />
+          <Route path='color/:id' element={<AddColor />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

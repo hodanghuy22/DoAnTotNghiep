@@ -81,7 +81,7 @@ export const capacitySlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess){
-                toast.success("Delete Capacity is Successfully!!!");
+                toast.success("The update of the capacity was successful!");
             }
         })
         .addCase(UpdateStatusCapacity.rejected, (state, action)=>{
@@ -90,7 +90,7 @@ export const capacitySlice = createSlice({
             state.isSuccess = false;
             state.message = action.error;
             if(state.isError){
-                toast.error(action.error.message);
+                toast.error("The update of the capacity was not successful!");
             }
         }).addCase(CreateCapacity.pending, (state)=>{
             state.isLoading = true;
@@ -101,7 +101,7 @@ export const capacitySlice = createSlice({
             state.isSuccess = true;
             state.createdCapacity = action.payload;
             if(state.isSuccess){
-                toast.success("Add Capacity is Successfully!!!");
+                toast.success("The creation of the capacity was successful!");
             }
         })
         .addCase(CreateCapacity.rejected, (state, action)=>{
@@ -110,7 +110,7 @@ export const capacitySlice = createSlice({
             state.isSuccess = false;
             state.message = action.error;
             if(state.isError){
-                toast.error(action.error.message);
+                toast.error("The creation of the capacity was not successful!");
             }
         }).addCase(GetCapacity.pending, (state)=>{
             state.isLoading = true;
@@ -135,7 +135,7 @@ export const capacitySlice = createSlice({
             state.isSuccess = true;
             state.updatedCapacity = action.payload;
             if(state.isSuccess){
-                toast.success("Update Capacity is Successfully!!!");
+                toast.success("The update of the capacity was successful!");
             }
         })
         .addCase(UpdateCapacity.rejected, (state, action)=>{
@@ -144,7 +144,7 @@ export const capacitySlice = createSlice({
             state.isSuccess = false;
             state.message = action.error;
             if(state.isError){
-                toast.error(action.error.message);
+                toast.error("The update of the capacity was not successful!");
             }
         }).addCase(resetState, () => initialState);
     }

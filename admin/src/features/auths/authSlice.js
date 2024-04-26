@@ -59,7 +59,7 @@ export const authSlice = createSlice({
             state.isSuccess = true;
             state.user = action.payload;
             if(state.isSuccess){
-                toast.info("Login is Successfully!!!");
+                toast.info("Login is Successfully!");
             }
         })
         .addCase(LoginAdmin.rejected, (state, action)=>{
@@ -98,7 +98,7 @@ export const authSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.isSuccess = true;
-            toast.success("Logged out successfully");
+            toast.success("You have been successfully logged out!");
         })
         .addCase(Logout.rejected, (state, action)=>{
             state.isLoading = false;
