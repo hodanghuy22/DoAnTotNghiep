@@ -16,6 +16,7 @@
         IOrderStatusRepository OrderStatusRepository { get; }
         ICommentRepository CommentRepository { get; }
         IRatingRepository RatingRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
 
     }
 }

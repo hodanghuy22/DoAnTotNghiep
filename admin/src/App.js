@@ -12,6 +12,8 @@ import AddCapacity from "./pages/AddCapacity";
 import AddAdmin from "./pages/AddAdmin";
 import ColorList from "./pages/ColorList";
 import AddColor from "./pages/AddColor";
+import CategoryList from "./pages/CategoryList";
+import AddCategory from "./pages/AddCategory";
 
 function App() {
   return (
@@ -31,6 +33,9 @@ function App() {
           <Route path='color-list' element={<ColorList />} />
           <Route path='color' element={<AddColor />} />
           <Route path='color/:id' element={<AddColor />} />
+          <Route path='category-list' element={<CategoryList />} />
+          <Route path='category' element={<AddCategory />} />
+          <Route path='category/:id' element={<AddCategory />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

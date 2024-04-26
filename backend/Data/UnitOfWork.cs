@@ -69,5 +69,8 @@ namespace backend.Data
 
         public IRatingRepository RatingRepository => 
            new RatingRepository(_context);
+
+        public ICategoryRepository CategoryRepository => 
+           new CategoryRepository(_context);
     }
 }

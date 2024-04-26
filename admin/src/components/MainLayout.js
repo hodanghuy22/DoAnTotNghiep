@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
-import { MdColorLens, MdDashboard } from "react-icons/md";
+import { MdCategory, MdColorLens, MdDashboard } from "react-icons/md";
 import { FaUserPlus, FaUser, FaUserGroup  } from "react-icons/fa6";
 import { GrCapacity } from "react-icons/gr";
 import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe  } from "react-icons/tb";
@@ -111,6 +111,23 @@ const MainLayout = () => {
                   key: 'color-list',
                   icon: <IoColorWandSharp   className='fs-5' />,
                   label: 'List Color',
+                },
+              ]
+            },
+            {
+              key: 'category-cata',
+              icon: <MdCategory   className='fs-5' />,
+              label: 'Categories',
+              children: [
+                {
+                  key: 'category',
+                  icon: <MdCategory   className='fs-5' />,
+                  label: 'Add Category',
+                },
+                {
+                  key: 'category-list',
+                  icon: <MdCategory    className='fs-5' />,
+                  label: 'List Category',
                 },
               ]
             },
