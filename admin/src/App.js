@@ -20,8 +20,10 @@ function App() {
           <Route index element={<Dashboard />}></Route>
           <Route path='brand-list' element={<BrandList />} />
           <Route path='brand' element={<AddBrand />} />
+          <Route path='brand/:id' element={<AddBrand />} />
           <Route path='capacity-list' element={<CapacityList />} />
           <Route path='capacity' element={<AddCapacity />} />
+          <Route path='capacity/:id' element={<AddCapacity />} />
           <Route path='user-list' element={<UserList />} />
           <Route path='add-admin' element={<AddAdmin />} />
           

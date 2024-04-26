@@ -16,6 +16,7 @@ namespace backend.Controllers
             _uow = uow;
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetBrands()
         {
             var brands = await _uow.BrandRepository.GetBrands();

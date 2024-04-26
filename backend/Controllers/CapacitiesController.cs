@@ -15,6 +15,7 @@ namespace backend.Controllers
             _uow = uow;
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetCapacities()
         {
             var capacities = await _uow.CapacityRepository.GetCapacities();
