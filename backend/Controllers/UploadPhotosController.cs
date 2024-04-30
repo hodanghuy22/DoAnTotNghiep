@@ -29,5 +29,16 @@ namespace backend.Controllers
             };
             return Ok(photo);
         }
+        [HttpDelete]
+        [Route("{publicId}")]
+        public async Task<IActionResult> DeletePhoto(string publicId)
+        {
+            var result = await _photoService.DeletePhotoAsync(publicId);
+            if (result.Error != null)
+            {
+                return BadRequest(result.Error.Message);
+            }
+            return Ok();
+        }
     }
 }

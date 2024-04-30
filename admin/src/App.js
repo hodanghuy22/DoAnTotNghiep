@@ -14,6 +14,10 @@ import ColorList from "./pages/ColorList";
 import AddColor from "./pages/AddColor";
 import CategoryList from "./pages/CategoryList";
 import AddCategory from "./pages/AddCategory";
+import ProductList from "./pages/ProductList";
+import AddProduct from "./pages/AddProduct";
+import SlideshowList from "./pages/SlideshowList";
+import AddSlideshow from "./pages/AddSlideshow";
 
 function App() {
   return (
@@ -36,6 +40,12 @@ function App() {
           <Route path='category-list' element={<CategoryList />} />
           <Route path='category' element={<AddCategory />} />
           <Route path='category/:id' element={<AddCategory />} />
+          <Route path='product-list' element={<ProductList />} />
+          <Route path='product' element={<AddProduct />} />
+          <Route path='product/:id' element={<AddProduct />} />
+          <Route path='slideshow-list' element={<SlideshowList />} />
+          <Route path='slideshow' element={<AddSlideshow />} />
+          <Route path='slideshow/:id' element={<AddSlideshow />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

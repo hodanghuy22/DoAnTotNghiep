@@ -4,6 +4,8 @@ import brandReducer from '../features/brands/brandSlice';
 import capacityReducer from '../features/capacitites/capacitySlice';
 import colorReducer from '../features/colors/colorSlice';
 import categoryReducer from '../features/categories/categorySlice';
+import uploadReducer from '../features/uploadImage/uploadSlice';
+import slideshowReducer from '../features/slideshows/slideshowSlice';
 
 
 export const store = configureStore({
@@ -13,5 +15,7 @@ export const store = configureStore({
         capacity: capacityReducer,
         color: colorReducer,
         category: categoryReducer,
+        slideshow: slideshowReducer,
+        upload: uploadReducer,
     }
 })

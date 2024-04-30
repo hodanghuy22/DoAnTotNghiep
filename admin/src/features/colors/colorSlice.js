@@ -82,7 +82,7 @@ export const colorSlice = createSlice({
             state.isSuccess = true;
             state.newColor = action.payload;
             if(state.isSuccess) {
-                toast.success("The creation of color was successful!!!");
+                toast.success("The creation of color was successful!");
             }
         })
         .addCase(CreateColor.rejected, (state, action)=>{
@@ -91,7 +91,7 @@ export const colorSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message;
             if(state.isError) {
-                toast.error("The creation of the color was not successful!!!");
+                toast.error("The creation of the color was not successful!");
             }
         }).addCase(UpdateStatusColor.pending, (state)=>{
             state.isLoading = true;
@@ -101,7 +101,7 @@ export const colorSlice = createSlice({
             state.isError = false;
             state.isSuccess = true;
             if(state.isSuccess) {
-                toast.success("The color update was successful!!!");
+                toast.success("The color update was successful!");
             }
         })
         .addCase(UpdateStatusColor.rejected, (state, action)=>{
@@ -110,7 +110,7 @@ export const colorSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message; 
             if(state.isError){
-                toast.error("The color update was not successful!!!");
+                toast.error("The color update was not successful!");
             }
         }).addCase(GetAColor.pending, (state)=>{
             state.isLoading = true;
@@ -127,7 +127,7 @@ export const colorSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message; 
             if(state.isError){
-                toast.error("Something went wrong!!!");
+                toast.error("Something went wrong!");
             }
         }).addCase(UpdateColor.pending, (state)=>{
             state.isLoading = true;
@@ -138,7 +138,7 @@ export const colorSlice = createSlice({
             state.isSuccess = true;
             state.updatedColor = action.payload;
             if(state.isSuccess){
-                toast.success("The color update was successful!!!");
+                toast.success("The color update was successful!");
             }
         })
         .addCase(UpdateColor.rejected, (state, action)=>{
@@ -147,7 +147,7 @@ export const colorSlice = createSlice({
             state.isSuccess = false;
             state.message = action.error.message; 
             if(state.isError){
-                toast.error("The color update was not successful!!!");
+                toast.error("The color update was not successful!");
             }
         }).addCase(resetState, () => initialState);
     }

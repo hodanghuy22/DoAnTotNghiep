@@ -47,7 +47,7 @@ const AddCategory = () => {
   });
   return (
     <div>
-      <h3 className='mb-4'>{getCategoryId !== undefined ? "Edit" : "Add"} Category</h3>
+      <h1 className='mb-4 fw-bold'>{getCategoryId !== undefined ? "Edit" : "Add"} Category</h1>
       <div>
         <form onSubmit={formik.handleSubmit}>
           <div className='mb-3'>

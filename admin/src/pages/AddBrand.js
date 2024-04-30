@@ -49,7 +49,7 @@ const AddBrand = () => {
     });
     return (
         <div>
-            <h3 className='mb-4'>{getBrandId!==undefined?"Edit":"Add"} Brand</h3>
+            <h1 className='mb-4 fw-bold'>{getBrandId!==undefined?"Edit":"Add"} Brand</h1>
             <div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='mb-3'>

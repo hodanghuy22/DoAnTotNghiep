@@ -16,13 +16,13 @@ const AddCapacity = () => {
     const location = useLocation();
     const getCapacityId = location.pathname.split("/")[3];
     const capacityState = useSelector(state => state?.capacity?.ACapacity)
-    useEffect(()=>{
-        if(getCapacityId !== undefined){
-          dispatch(GetCapacity(getCapacityId))
-        }else{
-          dispatch(resetState())
+    useEffect(() => {
+        if (getCapacityId !== undefined) {
+            dispatch(GetCapacity(getCapacityId))
+        } else {
+            dispatch(resetState())
         }
-      },[getCapacityId])
+    }, [getCapacityId])
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -31,23 +31,23 @@ const AddCapacity = () => {
         },
         validationSchema: capacitySchema,
         onSubmit: values => {
-            if(getCapacityId !== undefined){
-                const data = { id:getCapacityId, capacityData: {...values, id:getCapacityId }}
+            if (getCapacityId !== undefined) {
+                const data = { id: getCapacityId, capacityData: { ...values, id: getCapacityId } }
                 dispatch(UpdateCapacity(data))
                 dispatch(resetState())
-            }else{
+            } else {
                 dispatch(CreateCapacity(values));
                 formik.resetForm();
                 setTimeout(() => {
                     dispatch(resetState())
                 }, 300)
             }
-            
+
         },
     });
     return (
         <div>
-            <h3 className='mb-4'>{getCapacityId!==undefined?"Edit":"Add"} Capacity</h3>
+            <h1 className='mb-4 fw-bold'>{getCapacityId !== undefined ? "Edit" : "Add"} Capacity</h1>
             <div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='mb-3'>
@@ -66,7 +66,7 @@ const AddCapacity = () => {
                             }
                         </div>
                     </div>
-                    <Checkbox 
+                    <Checkbox
                         name="status"
                         checked={formik.values.status}
                         onChange={formik.handleChange('status')}
@@ -74,7 +74,7 @@ const AddCapacity = () => {
                         Status
                     </Checkbox><br />
                     <br />
-                    <button className='btn btn-success' type='submit'>{getCapacityId!==undefined?"Edit":"Add"} Capacity</button>
+                    <button className='btn btn-success' type='submit'>{getCapacityId !== undefined ? "Edit" : "Add"} Capacity</button>
                 </form>
             </div>
         </div>

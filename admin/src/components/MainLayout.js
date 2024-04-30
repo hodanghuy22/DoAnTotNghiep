@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import { MdCategory, MdColorLens, MdDashboard } from "react-icons/md";
-import { FaUserPlus, FaUser, FaUserGroup  } from "react-icons/fa6";
+import { FaUserPlus, FaUser, FaUserGroup, FaProductHunt  } from "react-icons/fa6";
 import { GrCapacity } from "react-icons/gr";
-import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe  } from "react-icons/tb";
+import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe, TbSlideshow  } from "react-icons/tb";
 import { PiSignOut } from "react-icons/pi";
 import { useDispatch } from 'react-redux';
 import { useNavigate, Outlet } from 'react-router-dom';
@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Layout, Menu, Button, theme } from 'antd';
 import { Logout } from '../features/auths/authSlice';
 import { IoColorWandSharp } from 'react-icons/io5';
+import { ImPlus } from 'react-icons/im';
+import { RiSlideshowLine } from 'react-icons/ri';
 
 const { Header, Sider, Content } = Layout;
 
@@ -64,13 +66,30 @@ const MainLayout = () => {
               ]
             },
             {
+              key: 'product-cata',
+              icon: <FaProductHunt  className='fs-5' />,
+              label: 'Products',
+              children: [
+                {
+                  key: 'product',
+                  icon: <ImPlus className='fs-5' />,
+                  label: 'Add Product',
+                },
+                {
+                  key: 'product-list',
+                  icon: <FaProductHunt   className='fs-5' />,
+                  label: 'List Products',
+                },
+              ]
+            },
+            {
               key: 'capacity-cata',
               icon: <GrCapacity className='fs-5' />,
               label: 'Capacities',
               children: [
                 {
                   key: 'capacity',
-                  icon: <GrCapacity className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Capacity',
                 },
                 {
@@ -87,7 +106,7 @@ const MainLayout = () => {
               children: [
                 {
                   key: 'brand',
-                  icon: <TbBrandAbstract className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Brand',
                 },
                 {
@@ -104,7 +123,7 @@ const MainLayout = () => {
               children: [
                 {
                   key: 'color',
-                  icon: <IoColorWandSharp  className='fs-5' />,
+                  icon: <ImPlus  className='fs-5' />,
                   label: 'Add Color',
                 },
                 {
@@ -121,12 +140,29 @@ const MainLayout = () => {
               children: [
                 {
                   key: 'category',
-                  icon: <MdCategory   className='fs-5' />,
+                  icon: <ImPlus   className='fs-5' />,
                   label: 'Add Category',
                 },
                 {
                   key: 'category-list',
                   icon: <MdCategory    className='fs-5' />,
+                  label: 'List Category',
+                },
+              ]
+            },
+            {
+              key: 'slideshow-cata',
+              icon: <TbSlideshow className='fs-5' />,
+              label: 'Slideshows',
+              children: [
+                {
+                  key: 'slideshow',
+                  icon: <ImPlus   className='fs-5' />,
+                  label: 'Add Category',
+                },
+                {
+                  key: 'slideshow-list',
+                  icon: <RiSlideshowLine className='fs-5' />,
                   label: 'List Category',
                 },
               ]
