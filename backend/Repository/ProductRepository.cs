@@ -43,6 +43,7 @@ namespace backend.Repository
         public async Task<Product> GetProduct(int id)
         {
             return await _context.Products.Include(p => p.Brand)
+                .Include(p => p.Category)
                 .Include(p => p.ProductDetails)
                 .Include(p => p.ProductDetails)
                     .ThenInclude(p => p.Capacity)
@@ -55,6 +56,7 @@ namespace backend.Repository
         {
             return await _context.Products
                 .Include(p => p.Brand)
+                .Include(p => p.Category)
                 .Include(p => p.ProductDetails)
                 .FirstOrDefaultAsync(p => p.Name == name);
         }
@@ -62,6 +64,7 @@ namespace backend.Repository
         public async Task<IEnumerable<Product>> GetProducts()
         {
             return await _context.Products.Include(p => p.Brand)
+                .Include(p => p.Category)
                 .Include(p => p.ProductDetails)
                 .ToListAsync();
         }
@@ -70,6 +73,7 @@ namespace backend.Repository
         {
             return await _context.Products
                    .Include(p => p.Brand)
+                   .Include(p => p.Category)
                    .Include(p => p.ProductDetails)
                    .Where(p => p.BrandId == brandId)
                    .ToListAsync();

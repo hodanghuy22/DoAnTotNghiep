@@ -23,7 +23,7 @@ namespace backend.Controllers
             return Ok(colors);
         }
         [HttpGet]
-        [Route("GetColorsShow")]
+        [Route("Show")]
         public async Task<IActionResult> GetColorsShow()
         {
             var colors = await _uow.ColorRepository.GetColorsShow();

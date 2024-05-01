@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,10 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(CSDLContext))]
-    partial class CSDLContextModelSnapshot : ModelSnapshot
+    [Migration("20240501074324_deletePriceInProduct")]
+    partial class deletePriceInProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,7 +427,7 @@ namespace backend.Migrations
                     b.Property<int>("AverageRating")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CapacityId")
+                    b.Property<int>("CapacityId")
                         .HasColumnType("int");
 
                     b.Property<int>("ColorId")
@@ -866,7 +868,9 @@ namespace backend.Migrations
                 {
                     b.HasOne("backend.Models.Capacity", "Capacity")
                         .WithMany()
-                        .HasForeignKey("CapacityId");
+                        .HasForeignKey("CapacityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("backend.Models.Color", "Color")
                         .WithMany()

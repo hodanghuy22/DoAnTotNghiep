@@ -50,7 +50,7 @@ const BrandList = () => {
         </select>
       </>),
       action: (<>
-        <Link className='fs-3 text-danger' to={`/admin/add-color/${colorState[i].id}`}><BiEdit /></Link>
+        <Link className='fs-3 text-danger' to={`/admin/color/${colorState[i].id}`}><BiEdit /></Link>
       </>)
     });
   }

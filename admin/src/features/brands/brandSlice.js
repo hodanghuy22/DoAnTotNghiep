@@ -11,6 +11,14 @@ export const GetBrands = createAsyncThunk("brand/get-brands", async(thunkAPI) =>
     }
 })
 
+export const GetBrandsShow = createAsyncThunk("brand/get-brands-show", async(thunkAPI) =>{
+    try{
+        return await brandService.getBrandsShow();
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const GetABrand = createAsyncThunk("brand/get-brand", async(id,thunkAPI) =>{
     try{
         return await brandService.getABrand(id);
@@ -148,6 +156,20 @@ export const brandSlice = createSlice({
             if(state.isError){
                 toast.error("The update of the brand was not successful!");
             }
+        }).addCase(GetBrandsShow.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetBrandsShow.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.brands = action.payload;
+        })
+        .addCase(GetBrandsShow.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message;
         }).addCase(resetState, () => initialState);
     }
 })

@@ -11,6 +11,14 @@ export const GetColors = createAsyncThunk("color/get-colors", async(thunkAPI) =>
     }
 })
 
+export const GetColorsShow = createAsyncThunk("color/get-colors-show", async(thunkAPI) =>{
+    try{
+        return await colorService.getColorsShow();
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 
 export const GetAColor = createAsyncThunk("color/get-color", async(id,thunkAPI) =>{
     try{
@@ -149,6 +157,20 @@ export const colorSlice = createSlice({
             if(state.isError){
                 toast.error("The color update was not successful!");
             }
+        }).addCase(GetColorsShow.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetColorsShow.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.colors = action.payload;
+        })
+        .addCase(GetColorsShow.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error.message; 
         }).addCase(resetState, () => initialState);
     }
 })

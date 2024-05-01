@@ -64,6 +64,10 @@ namespace backend.Repository
         public async Task<ProductDetail> GetAProductDetailForUser(int productId, int colorId, int capacityId)
         {
             return await _context.ProductDetails
+                .Include(p => p.Product)
+                .Include(p => p.Color)
+                .Include(p => p.Capacity)
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.ProductId == productId
                                     && p.ColorId == colorId
                                     && p.CapacityId == capacityId);
@@ -76,7 +80,11 @@ namespace backend.Repository
 
         public async Task<IEnumerable<ProductDetail>> GetProductDetails()
         {
-            return await _context.ProductDetails.ToListAsync();
+            return await _context.ProductDetails
+                .Include(p => p.Images)
+                .Include(p => p.Product)
+                .Include(p => p.Color)
+                .Include(p => p.Capacity).ToListAsync();
         }
 
         public async Task<bool> ProductDetailExist(int id)

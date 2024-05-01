@@ -8,6 +8,13 @@ const getCapacities = async () => {
   }
 }
 
+const getCapacitiesShow = async () => {
+  const response = await axios.get(`${base_url}Capacities/Show`, config);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getCapacity = async (id) => {
   const response = await axios.get(`${base_url}Capacities/${id}`);
   if (response.data) {
@@ -43,6 +50,7 @@ const capacityService = {
   createCapacity,
   getCapacity,
   updateCapacity,
+  getCapacitiesShow,
 };
 
 export default capacityService;

@@ -49,6 +49,22 @@ const AddSlideshow = () => {
             <h1 className='mb-4 fw-bold'> Slideshow</h1>
             <div>
                 <form onSubmit={formik.handleSubmit}>
+                    <div className='mb-3'>
+                        <input
+                            type="text"
+                            name="contentUrl"
+                            class="form-control"
+                            placeholder="Content Url"
+                            value={formik.values.contentUrl}
+                            onChange={formik.handleChange('contentUrl')}
+                            onBlur={formik.handleBlur('contentUrl')}
+                        />
+                        <div className='error'>
+                            {
+                                formik.touched.contentUrl && formik.errors.contentUrl
+                            }
+                        </div>
+                    </div>
                     <Checkbox
                         name="status"
                         checked={formik.values.status}

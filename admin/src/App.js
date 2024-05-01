@@ -18,6 +18,8 @@ import ProductList from "./pages/ProductList";
 import AddProduct from "./pages/AddProduct";
 import SlideshowList from "./pages/SlideshowList";
 import AddSlideshow from "./pages/AddSlideshow";
+import AddProductDetails from "./pages/AddProductDetails";
+import ProductDetailList from "./pages/ProductDetailList";
 
 function App() {
   return (
@@ -43,6 +45,9 @@ function App() {
           <Route path='product-list' element={<ProductList />} />
           <Route path='product' element={<AddProduct />} />
           <Route path='product/:id' element={<AddProduct />} />
+          <Route path='productDetail-list' element={<ProductDetailList />} />
+          <Route path='productDetail' element={<AddProductDetails />} />
+          <Route path='productDetail/:id' element={<AddProductDetails />} />
           <Route path='slideshow-list' element={<SlideshowList />} />
           <Route path='slideshow' element={<AddSlideshow />} />
           <Route path='slideshow/:id' element={<AddSlideshow />} />

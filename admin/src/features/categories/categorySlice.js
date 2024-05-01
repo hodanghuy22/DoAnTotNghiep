@@ -11,6 +11,14 @@ export const GetCategories = createAsyncThunk("category/get-categories", async (
   }
 })
 
+export const GetCategoriesShow = createAsyncThunk("category/get-categories-show", async (thunkAPI) => {
+  try {
+    return await categoryService.getCategoriesShow();
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const GetCategory = createAsyncThunk("category/get-category", async (id, thunkAPI) => {
   try {
     return await categoryService.getCategory(id);
@@ -146,6 +154,20 @@ export const categorySlice = createSlice({
         if (state.isError) {
           toast.error("The update of the category was not successful!");
         }
+      }).addCase(GetCategoriesShow.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetCategoriesShow.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.categories = action.payload;
+      })
+      .addCase(GetCategoriesShow.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
       }).addCase(resetState, () => initialState);
   }
 })

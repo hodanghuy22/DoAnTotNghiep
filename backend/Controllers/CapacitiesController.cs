@@ -23,7 +23,7 @@ namespace backend.Controllers
             return Ok(capacities);
         }
         [HttpGet]
-        [Route("GetCapacitiesShow")]
+        [Route("Show")]
         public async Task<IActionResult> GetCapacitiesShow()
         {
             var capacities = await _uow.CapacityRepository.GetCapacitiesShow();

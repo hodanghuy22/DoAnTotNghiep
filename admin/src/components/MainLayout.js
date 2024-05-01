@@ -80,6 +80,16 @@ const MainLayout = () => {
                   icon: <FaProductHunt   className='fs-5' />,
                   label: 'List Products',
                 },
+                {
+                  key: 'productDetail',
+                  icon: <ImPlus className='fs-5' />,
+                  label: 'Add product Detail',
+                },
+                {
+                  key: 'productDetail-list',
+                  icon: <FaProductHunt   className='fs-5' />,
+                  label: 'List product Detail',
+                },
               ]
             },
             {

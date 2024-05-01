@@ -8,6 +8,13 @@ const getCategories = async () => {
   }
 }
 
+const getCategoriesShow = async () => {
+  const response = await axios.get(`${base_url}Categories/Show`, config);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getCategory = async (id) => {
   const response = await axios.get(`${base_url}Categories/${id}`);
   if (response.data) {
@@ -43,6 +50,7 @@ const categoryService = {
   createCategory,
   updateStatusCategory,
   updateCategory,
+  getCategoriesShow,
 };
 
 export default categoryService;

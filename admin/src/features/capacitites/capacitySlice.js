@@ -11,6 +11,14 @@ export const GetCapacities = createAsyncThunk("capacity/get-capacities", async(t
     }
 })
 
+export const GetCapacitiesShow = createAsyncThunk("capacity/get-capacities-show", async(thunkAPI) =>{
+    try{
+        return await capacityService.getCapacitiesShow();
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const GetCapacity = createAsyncThunk("capacity/get-capacity", async(id, thunkAPI) =>{
     try{
         return await capacityService.getCapacity(id);
@@ -146,6 +154,20 @@ export const capacitySlice = createSlice({
             if(state.isError){
                 toast.error("The update of the capacity was not successful!");
             }
+        }).addCase(GetCapacitiesShow.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetCapacitiesShow.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.capacities = action.payload;
+        })
+        .addCase(GetCapacitiesShow.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
         }).addCase(resetState, () => initialState);
     }
 })

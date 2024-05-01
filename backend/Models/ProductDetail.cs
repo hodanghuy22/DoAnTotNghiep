@@ -9,8 +9,8 @@
         public int AverageRating { get; set; }
         public int ProductId { get; set; }
         public Product Product { get; set; }
-        public int CapacityId { get; set; }
-        public Capacity Capacity { get; set; }
+        public int? CapacityId { get; set; }
+        public Capacity? Capacity { get; set; }
         public int ColorId { get; set; }
         public Color Color { get; set; }
         public bool Status { get; set; }

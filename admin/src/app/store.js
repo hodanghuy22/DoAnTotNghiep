@@ -6,6 +6,8 @@ import colorReducer from '../features/colors/colorSlice';
 import categoryReducer from '../features/categories/categorySlice';
 import uploadReducer from '../features/uploadImage/uploadSlice';
 import slideshowReducer from '../features/slideshows/slideshowSlice';
+import productReducer from '../features/products/productSlice';
+import productDetailReducer from '../features/productDetails/productDetailSlice';
 
 
 export const store = configureStore({
@@ -17,5 +19,7 @@ export const store = configureStore({
         category: categoryReducer,
         slideshow: slideshowReducer,
         upload: uploadReducer,
+        product: productReducer,
+        productDetail: productDetailReducer,
     }
 })

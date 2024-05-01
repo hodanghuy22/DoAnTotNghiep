@@ -22,7 +22,7 @@ namespace backend.Controllers
             return Ok(categories);
         }
         [HttpGet]
-        [Route("GetCategoriesShow")]
+        [Route("Show")]
         public async Task<IActionResult> GetCategoriesShow()
         {
             var categories = await _uow.CategoryRepository.GetCategoriesShow();
