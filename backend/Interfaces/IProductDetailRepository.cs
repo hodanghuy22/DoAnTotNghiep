@@ -5,13 +5,13 @@ namespace backend.Interfaces
 {
     public interface IProductDetailRepository
     {
-        Task<IActionResult> CreateProductDetail(ProductDetail product);
+        Task<IActionResult> CreateProductDetail(ProductDetail productDetail);
         Task<IEnumerable<ProductDetail>> GetProductDetails();
         Task<ProductDetail> GetProductDetail(int id);
         Task<ProductDetail> GetAProductDetailForUser(int productId, int colorId, int capacityId);
         Task<bool> ProductDetailExist(int id);
-        Task<bool> CheckProductDetailExist(ProductDetail product);
-        Task<IActionResult> UpdateProductDetail(int id, ProductDetail product);
+        Task<bool> CheckProductDetailExist(ProductDetail productDetail);
+        Task<IActionResult> UpdateProductDetail(int id, ProductDetail productDetail);
         Task<IActionResult> UpdateStatusProductDetail(int id, bool status);
     }
 }

@@ -14,13 +14,13 @@ namespace backend.Repository
         {
             _context = context;
         }
-        public async Task<bool> CheckProductDetailExist(ProductDetail product)
+        public async Task<bool> CheckProductDetailExist(ProductDetail productDetail)
         {
             var pt = await _context.ProductDetails
-                .FirstOrDefaultAsync(b => b.Id != product.Id &&
-                                    b.ProductId == product.ProductId 
-                                    && b.ColorId == product.ColorId
-                                    && b.CapacityId == product.CapacityId);
+                .FirstOrDefaultAsync(b => b.Id != productDetail.Id &&
+                                    b.ProductId == productDetail.ProductId 
+                                    && b.ColorId == productDetail.ColorId
+                                    && b.CapacityId == productDetail.CapacityId);
             if (pt == null)
             {
                 return false;
@@ -28,9 +28,9 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> CreateProductDetail(ProductDetail product)
+        public async Task<IActionResult> CreateProductDetail(ProductDetail productDetail)
         {
-            var check = await CheckProductDetailExist(product);
+            var check = await CheckProductDetailExist(productDetail);
             if (check == true)
             {
                 return new BadRequestObjectResult(new
@@ -40,7 +40,7 @@ namespace backend.Repository
             }
             try
             {
-                await _context.ProductDetails.AddAsync(product);
+                await _context.ProductDetails.AddAsync(productDetail);
             }
             catch(DbUpdateException ex)
             {
@@ -75,7 +75,9 @@ namespace backend.Repository
 
         public async Task<ProductDetail> GetProductDetail(int id)
         {
-            return await _context.ProductDetails.FindAsync(id);   
+            return await _context.ProductDetails
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == id);   
         }
 
         public async Task<IEnumerable<ProductDetail>> GetProductDetails()
@@ -97,16 +99,16 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail product)
+        public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail productDetail)
         {
-            if (id != product.Id)
+            if (id != productDetail.Id)
             {
                 return new BadRequestObjectResult(new
                 {
                     mess = "Something went wrong!!!"
                 });
             }
-            var check = await CheckProductDetailExist(product);
+            var check = await CheckProductDetailExist(productDetail);
             if (check == true)
             {
                 return new BadRequestObjectResult(new
@@ -124,8 +126,17 @@ namespace backend.Repository
                         mess = "Not Found!"
                     });
                 }
+                pt.Images.Clear();
+                foreach(var image in productDetail.Images)
+                {
+                    var newImg = new Image();
+                    newImg.ProductDetailId = productDetail.Id;
+                    newImg.ImagePublicId = image.ImagePublicId;
+                    newImg.ImageUrl = image.ImageUrl;
 
-                _context.Entry(pt).CurrentValues.SetValues(product);
+                    await _context.Images.AddAsync(newImg);
+                }
+                _context.Entry(pt).CurrentValues.SetValues(productDetail);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

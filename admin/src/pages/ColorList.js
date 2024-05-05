@@ -28,7 +28,7 @@ const columns = [
   },
 ];
 
-const BrandList = () => {
+const ColorList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetState())
@@ -70,4 +70,4 @@ const BrandList = () => {
   );
 };
 
-export default BrandList;
+export default ColorList;

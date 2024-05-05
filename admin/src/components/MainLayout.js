@@ -5,6 +5,7 @@ import { FaUserPlus, FaUser, FaUserGroup, FaProductHunt  } from "react-icons/fa6
 import { GrCapacity } from "react-icons/gr";
 import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe, TbSlideshow  } from "react-icons/tb";
 import { PiSignOut } from "react-icons/pi";
+import { FaFileInvoiceDollar, FaFileInvoice } from "react-icons/fa6";
 import { useDispatch } from 'react-redux';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,6 +16,7 @@ import { Logout } from '../features/auths/authSlice';
 import { IoColorWandSharp } from 'react-icons/io5';
 import { ImPlus } from 'react-icons/im';
 import { RiSlideshowLine } from 'react-icons/ri';
+import { BiSolidCoupon } from 'react-icons/bi';
 
 const { Header, Sider, Content } = Layout;
 
@@ -89,6 +91,23 @@ const MainLayout = () => {
                   key: 'productDetail-list',
                   icon: <FaProductHunt   className='fs-5' />,
                   label: 'List product Detail',
+                },
+              ]
+            },
+            {
+              key: 'invoice-cata',
+              icon: <FaFileInvoiceDollar    className='fs-5' />,
+              label: 'Invoices',
+              children: [
+                {
+                  key: 'invoice',
+                  icon: <ImPlus className='fs-5' />,
+                  label: 'Add Product',
+                },
+                {
+                  key: 'invoice-list',
+                  icon: <FaFileInvoice    className='fs-5' />,
+                  label: 'List Invoices',
                 },
               ]
             },
@@ -174,6 +193,23 @@ const MainLayout = () => {
                   key: 'slideshow-list',
                   icon: <RiSlideshowLine className='fs-5' />,
                   label: 'List Category',
+                },
+              ]
+            },
+            {
+              key: 'coupon-cata',
+              icon: <BiSolidCoupon  className='fs-5' />,
+              label: 'Coupons',
+              children: [
+                {
+                  key: 'coupon',
+                  icon: <ImPlus   className='fs-5' />,
+                  label: 'Add Coupon',
+                },
+                {
+                  key: 'coupon-list',
+                  icon: <BiSolidCoupon  className='fs-5' />,
+                  label: 'List Coupon',
                 },
               ]
             },

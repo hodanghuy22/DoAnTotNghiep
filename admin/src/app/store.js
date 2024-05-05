@@ -8,6 +8,7 @@ import uploadReducer from '../features/uploadImage/uploadSlice';
 import slideshowReducer from '../features/slideshows/slideshowSlice';
 import productReducer from '../features/products/productSlice';
 import productDetailReducer from '../features/productDetails/productDetailSlice';
+import couponReducer from '../features/coupons/couponSlice';
 
 
 export const store = configureStore({
@@ -21,5 +22,6 @@ export const store = configureStore({
         upload: uploadReducer,
         product: productReducer,
         productDetail: productDetailReducer,
+        coupon: couponReducer,
     }
 })

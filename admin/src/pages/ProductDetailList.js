@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { BiEdit } from 'react-icons/bi';
-import { GetProductDetais, UpdateStatusProductDetail, resetState } from '../features/productDetails/productDetailSlice';
+import { GetProductDetails, UpdateStatusProductDetail, resetState } from '../features/productDetails/productDetailSlice';
 
 const columns = [
   {
@@ -39,7 +39,7 @@ const ProductDetailList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetState())
-    dispatch(GetProductDetais())
+    dispatch(GetProductDetails())
   }, []);
   const productDetailState = useSelector(state => state?.productDetail?.productDetails)
   const data1 = [];
@@ -48,7 +48,7 @@ const ProductDetailList = () => {
       key: i,
       id: productDetailState[i].id,
       name: productDetailState[i].product?.name,
-      capacity: productDetailState[i].capacity?.title,
+      capacity: productDetailState[i].capacity?.totalCapacity,
       color: productDetailState[i].color?.colorName,
       status: (<>
         <select defaultValue={productDetailState[i]?.status}
@@ -67,7 +67,7 @@ const ProductDetailList = () => {
   const updateStatus = (a, b) => {
     dispatch(UpdateStatusProductDetail({ id: a, status: b }))
     setTimeout(() => {
-      dispatch(GetProductDetais())
+      dispatch(GetProductDetails())
     }, 300)
   }
   return (

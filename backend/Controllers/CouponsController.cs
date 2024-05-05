@@ -16,6 +16,7 @@ namespace backend.Controllers
             _uow = uow;
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetCoupons()
         {
             var coupons = await _uow.CouponRepository.GetCoupons();

@@ -20,6 +20,9 @@ import SlideshowList from "./pages/SlideshowList";
 import AddSlideshow from "./pages/AddSlideshow";
 import AddProductDetails from "./pages/AddProductDetails";
 import ProductDetailList from "./pages/ProductDetailList";
+import InvoiceList from "./pages/InvoiceList";
+import CouponList from "./pages/CouponList";
+import AddCoupon from "./pages/AddCoupon";
 
 function App() {
   return (
@@ -51,6 +54,12 @@ function App() {
           <Route path='slideshow-list' element={<SlideshowList />} />
           <Route path='slideshow' element={<AddSlideshow />} />
           <Route path='slideshow/:id' element={<AddSlideshow />} />
+          <Route path='invoice-list' element={<InvoiceList />} />
+          <Route path='invoice' element={<InvoiceList />} />
+          <Route path='invoice/:id' element={<InvoiceList />} />
+          <Route path='coupon-list' element={<CouponList />} />
+          <Route path='coupon' element={<AddCoupon />} />
+          <Route path='coupon/:id' element={<AddCoupon />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

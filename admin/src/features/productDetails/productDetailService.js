@@ -8,8 +8,15 @@ const createProductDetail = async (data) => {
   }
 }
 
-const getProductDetais = async () => {
+const getProductDetails = async () => {
   const response = await axios.get(`${base_url}ProductDetails`);
+  if (response.data) {
+    return response.data;
+  }
+}
+
+const getProductDetail = async (id) => {
+  const response = await axios.get(`${base_url}ProductDetails/${id}`, config);
   if (response.data) {
     return response.data;
   }
@@ -22,10 +29,19 @@ const updateStatusProductDetail = async (data) => {
   }
 }
 
+const updateProductDetail = async (data) => {
+  const response = await axios.put(`${base_url}ProductDetails/${data.id}`, data.productDetailData, config);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const productDetailService = {
   createProductDetail,
-  getProductDetais,
+  getProductDetails,
   updateStatusProductDetail,
+  getProductDetail,
+  updateProductDetail,
 };
 
 export default productDetailService;

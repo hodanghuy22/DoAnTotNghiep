@@ -11,7 +11,7 @@ import { GetColorsShow } from '../features/colors/colorSlice';
 import { GetCategoriesShow } from '../features/categories/categorySlice';
 import { TbCircleNumber1, TbCircleNumber2 } from 'react-icons/tb';
 import { DeleteImg, UploadImg } from '../features/uploadImage/uploadSlice';
-import { CreateProductDetail, resetState } from '../features/productDetails/productDetailSlice';
+import { CreateProductDetail, GetProductDetail, UpdateProductDetail, resetState } from '../features/productDetails/productDetailSlice';
 
 const productDetailsSchema = yup.object({
   quantity: yup.number().min(1, 'Quantity must be greater than 0').required('Quantity is Required'),
@@ -33,19 +33,11 @@ const AddProductDetails = () => {
   const colorState = useSelector(state => state?.color?.colors)
   const uploadState = useSelector(state => state?.upload?.images)
   const categoryState = useSelector(state => state?.category?.categories)
+  const productDetailState = useSelector(state => state?.productDetail?.productDetail)
 
   const location = useLocation();
   const getProductDetailId = location.pathname.split("/")[3];
   const [categoryId, setCategoryId] = useState(1);
-
-  // useEffect(() => {
-  //     if (getProductDetailId !== undefined) {
-  //         dispatch(GetAProduct(getProductDetailId))
-  //     } else {
-  //         dispatch(resetState())
-  //     }
-  // }, [getProductDetailId])
-
 
   useEffect(() => {
     dispatch(GetProductsShow())
@@ -55,10 +47,26 @@ const AddProductDetails = () => {
   }, [])
 
   useEffect(() => {
+      if (getProductDetailId !== undefined) {
+          dispatch(GetProductDetail(getProductDetailId))
+      } else {
+          dispatch(resetState())
+      }
+  }, [getProductDetailId])
+
+  useEffect(()=>{
+    if(productDetailState?.capacityId === null){
+      setCategoryId(2)
+    }else{
+      setCategoryId(1)
+    }
+  }, [productDetailState])
+
+  useEffect(() => {
     if (uploadState && uploadState.publicId) {
       const newImage = {
-        ImagePublicId: uploadState?.publicId,
-        ImageUrl: uploadState?.url
+        imagePublicId: uploadState?.publicId,
+        imageUrl: uploadState?.url
       };
       const currentImages = formik.values.images || [];
       const updatedImages = [...currentImages, newImage];
@@ -76,31 +84,31 @@ const AddProductDetails = () => {
   const deleteImg = (e) => {
     const currentImages = formik.values.images || [];
     const updatedImages = currentImages.filter(function(doiTuong) {
-      return doiTuong.ImagePublicId !== e.ImagePublicId;
+      return doiTuong.imagePublicId !== e.imagePublicId;
     });
     formik.setFieldValue("images", updatedImages);
-    dispatch(DeleteImg(e.ImagePublicId))
+    dispatch(DeleteImg(e.imagePublicId))
   }
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      quantity: 0,
-      price: 0,
-      soldQuantity: 0,
-      averageRating: 0,
-      productId: "",
-      capacityId: "",
-      colorId: "",
-      status: false,
-      images: []
+      quantity: productDetailState?.quantity || 0,
+      price: productDetailState?.price || 0,
+      soldQuantity: productDetailState?.soldQuantity || 0,
+      averageRating: productDetailState?.averageRating || 0,
+      productId: productDetailState?.productId || "",
+      capacityId: productDetailState?.capacityId || "",
+      colorId: productDetailState?.colorId || "",
+      status: productDetailState?.status || false,
+      images: productDetailState?.images || []
     },
     validationSchema: productDetailsSchema,
     onSubmit: values => {
       if (getProductDetailId !== undefined) {
-        // const data = { id: getProductDetailId, productData: { ...values, id: getProductDetailId, comments: null, ratings:null } }
-        // dispatch(UpdateProduct(data))
-        // dispatch(resetState())
+        const data = { id: getProductDetailId, productDetailData: { ...values, id: getProductDetailId, comments: null, ratings:null } }
+        dispatch(UpdateProductDetail(data))
+        dispatch(resetState())
       } else {
         dispatch(CreateProductDetail(values));
         formik.resetForm();
@@ -255,7 +263,7 @@ const AddProductDetails = () => {
                 <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3'>
                   <div className='position-relative'>
                     <button type="button" onClick={() => deleteImg(item)} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
-                    <img src={item?.ImageUrl} alt="" width={200} height={200} />
+                    <img src={item?.imageUrl} alt="" width={200} height={200} />
                   </div>
                 </div>
               )
