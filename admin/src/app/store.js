@@ -9,6 +9,7 @@ import slideshowReducer from '../features/slideshows/slideshowSlice';
 import productReducer from '../features/products/productSlice';
 import productDetailReducer from '../features/productDetails/productDetailSlice';
 import couponReducer from '../features/coupons/couponSlice';
+import orderStatusReducer from '../features/orderStatus/orderStatusSlice';
 
 
 export const store = configureStore({
@@ -23,5 +24,6 @@ export const store = configureStore({
         product: productReducer,
         productDetail: productDetailReducer,
         coupon: couponReducer,
+        orderStatus: orderStatusReducer,
     }
 })

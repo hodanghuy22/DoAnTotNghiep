@@ -23,6 +23,8 @@ import ProductDetailList from "./pages/ProductDetailList";
 import InvoiceList from "./pages/InvoiceList";
 import CouponList from "./pages/CouponList";
 import AddCoupon from "./pages/AddCoupon";
+import OrderStatusList from "./pages/OrderStatusList";
+import AddOrderStatus from "./pages/AddOrderStatus";
 
 function App() {
   return (
@@ -60,6 +62,9 @@ function App() {
           <Route path='coupon-list' element={<CouponList />} />
           <Route path='coupon' element={<AddCoupon />} />
           <Route path='coupon/:id' element={<AddCoupon />} />
+          <Route path='orderstatus-list' element={<OrderStatusList />} />
+          <Route path='orderstatus' element={<AddOrderStatus />} />
+          <Route path='orderstatus/:id' element={<AddOrderStatus />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import CustomModal from '../components/CustomModal';
-import { AiFillDelete } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
-import { GetColors, UpdateStatusColor, resetState } from '../features/colors/colorSlice';
+import { GetOrderStatuses, UpdateStatusOrderStatus, resetState } from '../features/orderStatus/orderStatusSlice';
 
 const columns = [
   {
     title: <h5 className='fw-bold'>Id</h5>,
     dataIndex: 'id',
+    sorter: (a, b) => a.id - b.id,
   },
   {
-    title: <h5 className='fw-bold'>Color Name</h5>,
-    dataIndex: 'colorName',
-    sorter: (a, b) => a.colorName.length - b.colorName.length,
+    title: <h5 className='fw-bold'>Title</h5>,
+    dataIndex: 'title',
+    sorter: (a, b) => a.title.length - b.title.length,
   },
   {
     title: <h5 className='fw-bold'>Status</h5>,
@@ -27,36 +26,37 @@ const columns = [
   },
 ];
 
-const ColorList = () => {
+const OrderStatusList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetState())
-    dispatch(GetColors())
+    dispatch(GetOrderStatuses())
   }, []);
-  const colorState = useSelector(state => state?.color?.colors)
+  const orderStatusState = useSelector(state => state?.orderStatus?.orderStatuses)
   const data1 = [];
-  for (let i = 0; i < colorState?.length; i++) {
+  for (let i = 0; i < orderStatusState?.length; i++) {
     data1.push({
-      id: colorState[i].id,
-      colorName: colorState[i].colorName,
+      key: i,
+      id: orderStatusState[i].id,
+      title: orderStatusState[i].title,
       status: (<>
-        <select defaultValue={colorState[i]?.status}
-          onChange={(e) => updateStatus(colorState[i]?.id, e.target.value)}
-          name="" className={`form-control form-select fw-bold ${colorState[i]?.status ? 'text-success' : 'text-danger'}`}
+        <select defaultValue={orderStatusState[i]?.status}
+          onChange={(e) => updateStatus(orderStatusState[i]?.id, e.target.value)}
+          name="" className={`form-control form-select fw-bold ${orderStatusState[i]?.status ? 'text-success' : 'text-danger'}`}
         >
           <option value="true">Hoạt động</option>
           <option value="false">Không hoạt động</option>
         </select>
       </>),
       action: (<>
-        <Link className='fs-3 text-danger' to={`/admin/color/${colorState[i].id}`}><BiEdit /></Link>
+        <Link className='fs-3 text-info' to={`/admin/orderstatus/${orderStatusState[i].id}`}><BiEdit /></Link>
       </>)
     });
   }
   const updateStatus = (a, b) => {
-    dispatch(UpdateStatusColor({ id: a, status: b }))
+    dispatch(UpdateStatusOrderStatus({ id: a, status: b }))
     setTimeout(() => {
-      dispatch(GetColors())
+      dispatch(GetOrderStatuses())
     }, 300)
   }
   return (
@@ -69,4 +69,4 @@ const ColorList = () => {
   );
 };
 
-export default ColorList;
+export default OrderStatusList;

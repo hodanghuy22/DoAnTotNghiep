@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
-import { MdCategory, MdColorLens, MdDashboard } from "react-icons/md";
+import { MdCategory, MdColorLens, MdDashboard, MdLocalShipping } from "react-icons/md";
 import { FaUserPlus, FaUser, FaUserGroup, FaProductHunt  } from "react-icons/fa6";
 import { GrCapacity } from "react-icons/gr";
 import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe, TbSlideshow  } from "react-icons/tb";
@@ -210,6 +210,23 @@ const MainLayout = () => {
                   key: 'coupon-list',
                   icon: <BiSolidCoupon  className='fs-5' />,
                   label: 'List Coupon',
+                },
+              ]
+            },
+            {
+              key: 'orderstatus-cata',
+              icon: <MdLocalShipping className='fs-5' />,
+              label: 'Order Status',
+              children: [
+                {
+                  key: 'orderstatus',
+                  icon: <ImPlus   className='fs-5' />,
+                  label: 'Add Order Status',
+                },
+                {
+                  key: 'orderstatus-list',
+                  icon: <MdLocalShipping className='fs-5' />,
+                  label: 'List Order Status',
                 },
               ]
             },
