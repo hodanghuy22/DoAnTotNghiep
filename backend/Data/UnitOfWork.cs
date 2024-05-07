@@ -72,5 +72,8 @@ namespace backend.Data
 
         public ICategoryRepository CategoryRepository => 
            new CategoryRepository(_context);
+
+        public ISupplierRepository SupplierRepository => 
+           new SupplierRepository(_context);
     }
 }

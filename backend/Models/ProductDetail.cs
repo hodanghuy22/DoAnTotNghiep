@@ -4,7 +4,8 @@
     {
         public int Id { get; set; }
         public int Quantity { get; set; }
-        public int Price { get; set; }
+        public int RetailPrice { get; set; }
+        public int CostPrice { get; set; }
         public int SoldQuantity { get; set; }
         public int AverageRating { get; set; }
         public int ProductId { get; set; }
