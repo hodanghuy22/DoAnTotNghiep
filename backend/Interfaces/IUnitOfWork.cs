@@ -18,6 +18,7 @@
         IRatingRepository RatingRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         ISupplierRepository SupplierRepository { get; }
+        IImportInvoiceRepository ImportInvoiceRepository { get; }
 
     }
 }

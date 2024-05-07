@@ -75,5 +75,8 @@ namespace backend.Data
 
         public ISupplierRepository SupplierRepository => 
            new SupplierRepository(_context);
+
+        public IImportInvoiceRepository ImportInvoiceRepository => 
+           new ImportInvoiceRepository(_context);
     }
 }
