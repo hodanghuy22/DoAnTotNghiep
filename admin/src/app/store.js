@@ -10,6 +10,7 @@ import productReducer from '../features/products/productSlice';
 import productDetailReducer from '../features/productDetails/productDetailSlice';
 import couponReducer from '../features/coupons/couponSlice';
 import orderStatusReducer from '../features/orderStatus/orderStatusSlice';
+import supplierReducer from '../features/suppliers/supplierSlice';
 
 
 export const store = configureStore({
@@ -25,5 +26,6 @@ export const store = configureStore({
         productDetail: productDetailReducer,
         coupon: couponReducer,
         orderStatus: orderStatusReducer,
+        supplier: supplierReducer,
     }
 })

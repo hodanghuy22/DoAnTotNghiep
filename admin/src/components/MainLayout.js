@@ -3,7 +3,7 @@ import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import { MdCategory, MdColorLens, MdDashboard, MdLocalShipping } from "react-icons/md";
 import { FaUserPlus, FaUser, FaUserGroup, FaProductHunt  } from "react-icons/fa6";
 import { GrCapacity } from "react-icons/gr";
-import { TbBrand4Chan, TbBrandAbstract, TbBrandAdobe, TbSlideshow  } from "react-icons/tb";
+import { TbBrand4Chan, TbBrandAdobe, TbSlideshow  } from "react-icons/tb";
 import { PiSignOut } from "react-icons/pi";
 import { FaFileInvoiceDollar, FaFileInvoice } from "react-icons/fa6";
 import { useDispatch } from 'react-redux';
@@ -17,6 +17,7 @@ import { IoColorWandSharp } from 'react-icons/io5';
 import { ImPlus } from 'react-icons/im';
 import { RiSlideshowLine } from 'react-icons/ri';
 import { BiSolidCoupon } from 'react-icons/bi';
+import { BsBoxes } from 'react-icons/bs';
 
 const { Header, Sider, Content } = Layout;
 
@@ -108,6 +109,23 @@ const MainLayout = () => {
                   key: 'invoice-list',
                   icon: <FaFileInvoice    className='fs-5' />,
                   label: 'List Invoices',
+                },
+              ]
+            },
+            {
+              key: 'importinvoice-cata',
+              icon: <FaFileInvoiceDollar  className='fs-5' />,
+              label: 'Import Invoice',
+              children: [
+                {
+                  key: 'importinvoice',
+                  icon: <ImPlus className='fs-5' />,
+                  label: 'Add Import Invoice',
+                },
+                {
+                  key: 'importinvoice-list',
+                  icon: <FaFileInvoiceDollar  className='fs-5' />,
+                  label: 'List Import Invoices',
                 },
               ]
             },
@@ -227,6 +245,23 @@ const MainLayout = () => {
                   key: 'orderstatus-list',
                   icon: <MdLocalShipping className='fs-5' />,
                   label: 'List Order Status',
+                },
+              ]
+            },
+            {
+              key: 'supplier-cata',
+              icon: <BsBoxes className='fs-5' />,
+              label: 'Supplier',
+              children: [
+                {
+                  key: 'supplier',
+                  icon: <ImPlus   className='fs-5' />,
+                  label: 'Add Supplier',
+                },
+                {
+                  key: 'supplier-list',
+                  icon: <BsBoxes className='fs-5' />,
+                  label: 'List Supplier',
                 },
               ]
             },

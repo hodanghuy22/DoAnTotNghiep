@@ -25,6 +25,8 @@ import CouponList from "./pages/CouponList";
 import AddCoupon from "./pages/AddCoupon";
 import OrderStatusList from "./pages/OrderStatusList";
 import AddOrderStatus from "./pages/AddOrderStatus";
+import SupplierList from "./pages/SupplierList";
+import AddSupplier from "./pages/AddSupplier";
 
 function App() {
   return (
@@ -65,6 +67,12 @@ function App() {
           <Route path='orderstatus-list' element={<OrderStatusList />} />
           <Route path='orderstatus' element={<AddOrderStatus />} />
           <Route path='orderstatus/:id' element={<AddOrderStatus />} />
+          <Route path='supplier-list' element={<SupplierList />} />
+          <Route path='supplier' element={<AddSupplier />} />
+          <Route path='supplier/:id' element={<AddSupplier />} />
+          <Route path='importinvoice-list' element={<SupplierList />} />
+          <Route path='importinvoice' element={<AddSupplier />} />
+          <Route path='importinvoice/:id' element={<AddSupplier />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />
