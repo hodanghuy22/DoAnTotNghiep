@@ -8,22 +8,28 @@ import { GetProductDetails, UpdateStatusProductDetail, resetState } from '../fea
 const columns = [
   {
     title: <h5 className='fw-bold'>Id</h5>,
+    sorter: (a, b) => a.id - b.id,
     dataIndex: 'id',
   },
   {
     title: <h5 className='fw-bold'>Name</h5>,
     dataIndex: 'name',
-    sorter: (a, b) => a.Name.length - b.Name.length,
+    sorter: (a, b) => a.name.length - b.name.length,
+  },
+  {
+    title: <h5 className='fw-bold'>Category</h5>,
+    dataIndex: 'category',
+    sorter: (a, b) => a.category.length - b.category.length,
   },
   {
     title: <h5 className='fw-bold'>Capacity</h5>,
-    sorter: (a, b) => a.Capacity.length - b.Capacity.length,
+    sorter: (a, b) => a.capacity.length - b.capacity.length,
     dataIndex: 'capacity',
   },
   {
     title: <h5 className='fw-bold'>Color</h5>,
     dataIndex: 'color',
-    sorter: (a, b) => a.Color.length - b.Color.length,
+    sorter: (a, b) => a.color.length - b.color.length,
   },
   {
     title: <h5 className='fw-bold'>Status</h5>,
@@ -48,6 +54,7 @@ const ProductDetailList = () => {
       key: i,
       id: productDetailState[i].id,
       name: productDetailState[i].product?.name,
+      category: productDetailState[i].product?.category?.title,
       capacity: productDetailState[i].capacity?.totalCapacity,
       color: productDetailState[i].color?.colorName,
       status: (<>

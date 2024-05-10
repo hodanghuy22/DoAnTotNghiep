@@ -15,7 +15,8 @@ import { CreateProductDetail, GetProductDetail, UpdateProductDetail, resetState 
 
 const productDetailsSchema = yup.object({
   quantity: yup.number().min(1, 'Quantity must be greater than 0').required('Quantity is Required'),
-  price: yup.number().min(1, 'Price must be greater than 0').required('Price is Required'),
+  retailPrice: yup.number().min(1, 'Price must be greater than 0').required('Price is Required'),
+  costPrice: yup.number().min(1, 'Price must be greater than 0').required('Price is Required'),
   productId: yup.number().required('Product is Required'),
   capacityId: yup.number(),
   colorId: yup.number().required('Color is Required'),
@@ -94,7 +95,8 @@ const AddProductDetails = () => {
     enableReinitialize: true,
     initialValues: {
       quantity: productDetailState?.quantity || 0,
-      price: productDetailState?.price || 0,
+      retailPrice: productDetailState?.retailPrice || 0,
+      costPrice: productDetailState?.costPrice || 0,
       soldQuantity: productDetailState?.soldQuantity || 0,
       averageRating: productDetailState?.averageRating || 0,
       productId: productDetailState?.productId || "",
@@ -222,19 +224,36 @@ const AddProductDetails = () => {
             </div>
           </div>
           <div className='mb-3'>
-            <label class="form-label">Price</label>
+            <label class="form-label">Retail Price</label>
             <input
               type="number"
-              name="price"
+              name="retailPrice"
               class="form-control"
-              placeholder="Price"
-              value={formik.values.price}
-              onChange={formik.handleChange('price')}
-              onBlur={formik.handleBlur('price')}
+              placeholder="Retail Price"
+              value={formik.values.retailPrice}
+              onChange={formik.handleChange('retailPrice')}
+              onBlur={formik.handleBlur('retailPrice')}
             />
             <div className='error'>
               {
-                formik.touched.price && formik.errors.price
+                formik.touched.retailPrice && formik.errors.retailPrice
+              }
+            </div>
+          </div>
+          <div className='mb-3'>
+            <label class="form-label">Cost Price</label>
+            <input
+              type="number"
+              name="costPrice"
+              class="form-control"
+              placeholder="Cost Price"
+              value={formik.values.costPrice}
+              onChange={formik.handleChange('costPrice')}
+              onBlur={formik.handleBlur('costPrice')}
+            />
+            <div className='error'>
+              {
+                formik.touched.costPrice && formik.errors.costPrice
               }
             </div>
           </div>
@@ -258,16 +277,18 @@ const AddProductDetails = () => {
                 </section>
               )}
             </Dropzone>
-            {formik.values.images.length > 0 && formik.values.images.map((item, index) => {
-              return (
-                <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3'>
-                  <div className='position-relative'>
-                    <button type="button" onClick={() => deleteImg(item)} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
-                    <img src={item?.imageUrl} alt="" width={200} height={200} />
+            <div className='d-flex flex-row'>
+              {formik.values.images.length > 0 && formik.values.images.map((item, index) => {
+                return (
+                  <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3 ms-3'>
+                    <div className='position-relative'>
+                      <button type="button" onClick={() => deleteImg(item)} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
+                      <img src={item?.imageUrl} alt="" width={200} height={200} />
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
           <button className='btn btn-success' type='submit'>{getProductDetailId !== undefined ? "Edit" : "Add"} Product</button>
         </form>

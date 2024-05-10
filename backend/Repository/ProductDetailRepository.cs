@@ -65,6 +65,7 @@ namespace backend.Repository
         {
             return await _context.ProductDetails
                 .Include(p => p.Product)
+                .ThenInclude(p => p.Category)
                 .Include(p => p.Color)
                 .Include(p => p.Capacity)
                 .Include(p => p.Images)
@@ -85,6 +86,7 @@ namespace backend.Repository
             return await _context.ProductDetails
                 .Include(p => p.Images)
                 .Include(p => p.Product)
+                .ThenInclude(p => p.Category)
                 .Include(p => p.Color)
                 .Include(p => p.Capacity).ToListAsync();
         }

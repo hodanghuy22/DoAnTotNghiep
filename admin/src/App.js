@@ -27,6 +27,8 @@ import OrderStatusList from "./pages/OrderStatusList";
 import AddOrderStatus from "./pages/AddOrderStatus";
 import SupplierList from "./pages/SupplierList";
 import AddSupplier from "./pages/AddSupplier";
+import AddImportInvoice from "./pages/AddImportInvoice";
+import ImportInvoiceList from "./pages/ImportInvoiceList";
 
 function App() {
   return (
@@ -70,9 +72,9 @@ function App() {
           <Route path='supplier-list' element={<SupplierList />} />
           <Route path='supplier' element={<AddSupplier />} />
           <Route path='supplier/:id' element={<AddSupplier />} />
-          <Route path='importinvoice-list' element={<SupplierList />} />
-          <Route path='importinvoice' element={<AddSupplier />} />
-          <Route path='importinvoice/:id' element={<AddSupplier />} />
+          <Route path='importinvoice-list' element={<ImportInvoiceList />} />
+          <Route path='importinvoice' element={<AddImportInvoice />} />
+          <Route path='importinvoice/:id' element={<AddImportInvoice />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />
