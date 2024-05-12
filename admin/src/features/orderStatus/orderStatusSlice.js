@@ -18,6 +18,15 @@ export const GetOrderStatuses = createAsyncThunk('orderStatuses-getAll', async (
   }
 })
 
+export const GetOrderStatusesActive = createAsyncThunk('orderStatuses-getAll-active', async (thunkAPI) => {
+  try {
+    return await orderStatusService.getOrderStatusesActive();
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+
 export const GetOrderStatus = createAsyncThunk('orderStatuses-get', async (id, thunkAPI) => {
   try {
     return await orderStatusService.getOrderStatus(id);
@@ -136,6 +145,18 @@ export const orderStatusSlice = createSlice({
       if (state.isError) {
         toast.error("The update of the order status was not successful!");
       }
+    }).addCase(GetOrderStatusesActive.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetOrderStatusesActive.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.orderStatuses = action.payload;
+    }).addCase(GetOrderStatusesActive.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
     }).addCase(resetState, () => initialState);
   }
 })

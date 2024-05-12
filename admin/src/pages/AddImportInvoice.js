@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { Checkbox } from 'antd';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GetSuppliersActive } from '../features/suppliers/supplierSlice';
 import { GetProductDetails } from '../features/productDetails/productDetailSlice';
-import { toast } from 'react-toastify';
 import { CreateImportInvoice, GetImportInvoice, resetState } from '../features/importInvoices/importInvoiceSlice';
 import { BiEdit } from 'react-icons/bi';
 
@@ -32,7 +30,6 @@ const AddImportInvoice = () => {
     return [year, formattedMonth, day].join("-");
   };
   const location = useLocation();
-  const navigate = useNavigate();
   const getImportInvoiceId = location.pathname.split("/")[3];
   const importInvoiceState = useSelector(state => state?.importInvoice?.importInvoice)
   const supplierState = useSelector(state => state?.supplier?.suppliers)

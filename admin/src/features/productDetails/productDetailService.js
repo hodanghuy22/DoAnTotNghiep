@@ -15,6 +15,13 @@ const getProductDetails = async () => {
   }
 }
 
+const getProductDetailsActive = async () => {
+  const response = await axios.get(`${base_url}ProductDetails/Active`);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getProductDetail = async (id) => {
   const response = await axios.get(`${base_url}ProductDetails/${id}`, config);
   if (response.data) {
@@ -42,6 +49,7 @@ const productDetailService = {
   updateStatusProductDetail,
   getProductDetail,
   updateProductDetail,
+  getProductDetailsActive,
 };
 
 export default productDetailService;

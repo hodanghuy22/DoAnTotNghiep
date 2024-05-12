@@ -61,6 +61,12 @@ namespace backend.Repository
             return await _context.OrderStatuses.ToListAsync();
         }
 
+        public async Task<IEnumerable<OrderStatus>> GetOrderStatusesActive()
+        {
+            return await _context.OrderStatuses
+                .Where(p => p.Status == true).ToListAsync();
+        }
+
         public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus orderStatus)
         {
             if (id != orderStatus.Id)

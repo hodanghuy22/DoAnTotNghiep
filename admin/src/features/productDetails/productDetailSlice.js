@@ -18,6 +18,14 @@ export const GetProductDetails = createAsyncThunk('productDetails-getAll', async
   }
 })
 
+export const GetProductDetailsActive = createAsyncThunk('productDetails-getAll-active', async (thunkAPI) => {
+  try {
+    return await productDetailService.getProductDetailsActive();
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const GetProductDetail = createAsyncThunk('productDetails-get-one', async (id, thunkAPI) => {
   try {
     return await productDetailService.getProductDetail(id);
@@ -136,6 +144,18 @@ export const productDetailSlice = createSlice({
       if(state.isError) {
         toast.success("The product detail update was not successful!");
       } 
+    }).addCase(GetProductDetailsActive.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetProductDetailsActive.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.productDetails = action.payload;
+    }).addCase(GetProductDetailsActive.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
     }).addCase(resetState, () => initialState);
   }
 })

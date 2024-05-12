@@ -27,7 +27,6 @@ const AddCoupon = () => {
     return [year, formattedMonth, day].join("-");
   };
   const location = useLocation();
-  const navigate = useNavigate();
   const getCouponId = location.pathname.split("/")[3];
   const couponState = useSelector(state => state?.coupon?.coupon)
   useEffect(()=>{

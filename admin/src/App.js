@@ -29,6 +29,7 @@ import SupplierList from "./pages/SupplierList";
 import AddSupplier from "./pages/AddSupplier";
 import AddImportInvoice from "./pages/AddImportInvoice";
 import ImportInvoiceList from "./pages/ImportInvoiceList";
+import AddInvoice from "./pages/AddInvoice";
 
 function App() {
   return (
@@ -61,8 +62,8 @@ function App() {
           <Route path='slideshow' element={<AddSlideshow />} />
           <Route path='slideshow/:id' element={<AddSlideshow />} />
           <Route path='invoice-list' element={<InvoiceList />} />
-          <Route path='invoice' element={<InvoiceList />} />
-          <Route path='invoice/:id' element={<InvoiceList />} />
+          <Route path='invoice' element={<AddInvoice />} />
+          <Route path='invoice/:id' element={<AddInvoice />} />
           <Route path='coupon-list' element={<CouponList />} />
           <Route path='coupon' element={<AddCoupon />} />
           <Route path='coupon/:id' element={<AddCoupon />} />

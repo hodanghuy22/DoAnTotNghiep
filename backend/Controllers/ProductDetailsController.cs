@@ -21,6 +21,13 @@ namespace backend.Controllers
             return Ok(products);
         }
         [HttpGet]
+        [Route("Active")]
+        public async Task<IActionResult> GetProductDetailsActive()
+        {
+            var products = await _uow.ProductDetailRepository.GetProductDetailsActive();
+            return Ok(products);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {

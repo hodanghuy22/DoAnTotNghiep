@@ -8,6 +8,13 @@ const getOrderStatuses = async () => {
   }
 }
 
+const getOrderStatusesActive = async () => {
+  const response = await axios.get(`${base_url}OrderStatus/Active`, config);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getOrderStatus = async (id) => {
   const response = await axios.get(`${base_url}OrderStatus/${id}`, config);
   if (response.data) {
@@ -44,6 +51,7 @@ const orderStatusService = {
   updateStatusOrderStatus,
   getOrderStatus,
   updateOrderStatus,
+  getOrderStatusesActive,
 };
 
 export default orderStatusService;

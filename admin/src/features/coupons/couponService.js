@@ -15,6 +15,13 @@ const getCoupons = async() => {
   }
 }
 
+const getCouponsActive = async() => {
+  const response = await axios.get(`${base_url}Coupons/GetCouponsActive`);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getCoupon = async(id) => {
   const response = await axios.get(`${base_url}Coupons/${id}`);
   if (response.data) {
@@ -42,6 +49,7 @@ const couponService = {
   updateStatusCoupon,
   getCoupon,
   updateCoupon,
+  getCouponsActive,
 };
 
 export default couponService;

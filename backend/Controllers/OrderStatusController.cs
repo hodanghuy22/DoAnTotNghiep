@@ -28,6 +28,13 @@ namespace backend.Controllers
             return Ok(orderStatuses);
         }
         [HttpGet]
+        [Route("Active")]
+        public async Task<IActionResult> GetOrderStatusesActive()
+        {
+            var orderStatuses = await _uow.OrderStatusRepository.GetOrderStatusesActive();
+            return Ok(orderStatuses);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetOrderStatus(int id)
         {

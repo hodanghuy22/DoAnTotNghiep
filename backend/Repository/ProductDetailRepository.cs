@@ -71,7 +71,7 @@ namespace backend.Repository
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.ProductId == productId
                                     && p.ColorId == colorId
-                                    && p.CapacityId == capacityId);
+                                    && p.CapacityId == capacityId && p.Status == true);
         }
 
         public async Task<ProductDetail> GetProductDetail(int id)
@@ -89,6 +89,18 @@ namespace backend.Repository
                 .ThenInclude(p => p.Category)
                 .Include(p => p.Color)
                 .Include(p => p.Capacity).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductDetail>> GetProductDetailsActive()
+        {
+            return await _context.ProductDetails
+                .Include(p => p.Images)
+                .Include(p => p.Product)
+                .ThenInclude(p => p.Category)
+                .Include(p => p.Color)
+                .Include(p => p.Capacity)
+                .Where(p => p.Status == true)
+                .ToListAsync();
         }
 
         public async Task<bool> ProductDetailExist(int id)
