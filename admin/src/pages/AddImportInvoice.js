@@ -7,7 +7,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { GetSuppliersActive } from '../features/suppliers/supplierSlice';
 import { GetProductDetails } from '../features/productDetails/productDetailSlice';
 import { toast } from 'react-toastify';
-import { CreateImportInvoice, resetState } from '../features/importInvoices/importInvoiceSlice';
+import { CreateImportInvoice, GetImportInvoice, resetState } from '../features/importInvoices/importInvoiceSlice';
+import { BiEdit } from 'react-icons/bi';
 
 const importInvoiceSchema = yup.object({
   dateOfReceipt: yup.date().required('Date Of Receipt is Required'),
@@ -33,7 +34,7 @@ const AddImportInvoice = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const getImportInvoiceId = location.pathname.split("/")[3];
-  const importInvoiceState = useSelector(state => state?.coupon?.coupon)
+  const importInvoiceState = useSelector(state => state?.importInvoice?.importInvoice)
   const supplierState = useSelector(state => state?.supplier?.suppliers)
   const productDetailState = useSelector(state => state?.productDetail?.productDetails)
   useEffect(() => {
@@ -42,9 +43,9 @@ const AddImportInvoice = () => {
   }, [])
   useEffect(() => {
     if (getImportInvoiceId !== undefined) {
-      //dispatch(GetCoupon(getImportInvoiceId))
+      dispatch(GetImportInvoice(getImportInvoiceId))
     } else {
-      //dispatch(resetState())
+      dispatch(resetState())
     }
   }, [getImportInvoiceId])
   const formik = useFormik({
@@ -52,7 +53,7 @@ const AddImportInvoice = () => {
     initialValues: {
       totalPrice: importInvoiceState?.totalPrice || 0,
       supplierId: importInvoiceState?.supplierId || "",
-      dateOfReceipt: (importInvoiceState?.dateOfReceipt) || new Date().toISOString().substr(0, 10),
+      dateOfReceipt: changeDateFormat(importInvoiceState?.dateOfReceipt) || new Date().toISOString().substr(0, 10),
       importInvoiceDetails: importInvoiceState?.importInvoiceDetails || [],
     },
     validationSchema: importInvoiceSchema,
@@ -82,18 +83,28 @@ const AddImportInvoice = () => {
     const { productDetailId, quantity, costPrice } = e;
     const currentInvoiceDetails = formik.values.importInvoiceDetails || [];
 
-    // Kiểm tra xem productDetailId đã tồn tại trong mảng trước đó hay chưa
     const isProductDetailIdExist = currentInvoiceDetails.some(
       (detail) => detail.productDetailId === productDetailId
     );
 
     if (isProductDetailIdExist) {
-      // Hiển thị thông báo hoặc thực hiện các hành động khác khi productDetailId đã tồn tại
-      toast.error('Sản phẩm đã được chọn rồi vui lòng chọn lại!');
+      const updatedInvoiceDetails = currentInvoiceDetails.map((detail) => {
+        if (detail.productDetailId === productDetailId) {
+          return {
+            ...detail,
+            // Cập nhật các giá trị mới tại đây
+            quantity: quantity,
+            costPrice: costPrice,
+          };
+        }
+        return detail; // Giữ nguyên các phần tử không cần cập nhật
+      });
+      
+      // Cập nhật mảng chi tiết hóa đơn với mảng đã được cập nhật
+      formik.setFieldValue("importInvoiceDetails", updatedInvoiceDetails);
       return;
     }
 
-    // Nếu productDetailId chưa tồn tại, thêm mới chi tiết hóa đơn
     const newInvoiceDetail = {
       productDetailId: productDetailId,
       quantity: quantity,
@@ -104,6 +115,13 @@ const AddImportInvoice = () => {
     let total = formik.values.totalPrice + quantity * costPrice
     formik.setFieldValue("totalPrice", total);
   };
+
+  const setInvoiceDetails = (e) => {
+    console.log(e);
+    formik2.setFieldValue("productDetailId", e.productDetailId);
+    formik2.setFieldValue("quantity", e.quantity);
+    formik2.setFieldValue("costPrice", e.costPrice);
+  }
 
   return (
     <div>
@@ -167,12 +185,13 @@ const AddImportInvoice = () => {
             </div>
             {
               formik.values.importInvoiceDetails && formik.values.importInvoiceDetails.length > 0 && (
-                <table class="table">
+                <table className="table">
                   <thead>
                     <tr>
                       <th>Name</th>
                       <th>Quantity</th>
                       <th>Cost Price</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -183,6 +202,8 @@ const AddImportInvoice = () => {
                             <th>{i?.productDetailId}</th>
                             <th>{i?.quantity}</th>
                             <th>{i?.costPrice}</th>
+                            <th><button type='button' className='btn btn-info'
+                            onClick={() => setInvoiceDetails(i)}><BiEdit /></button></th>
                           </tr>
                         )
                       })

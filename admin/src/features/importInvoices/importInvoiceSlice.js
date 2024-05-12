@@ -18,6 +18,14 @@ export const GetImportInvoices = createAsyncThunk('importInvoices-get-all', asyn
   }
 })
 
+export const GetImportInvoice = createAsyncThunk('importInvoices-get', async (id,thunkAPI) => {
+  try {
+    return await importInvoiceService.getImportInvoice(id);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 
 export const resetState = createAction('Reset_all')
 
@@ -60,6 +68,18 @@ export const importInvoiceSlice = createSlice({
       state.isSuccess = true;
       state.importInvoices = action.payload;
     }).addCase(GetImportInvoices.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetImportInvoice.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetImportInvoice.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.importInvoice = action.payload;
+    }).addCase(GetImportInvoice.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

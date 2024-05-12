@@ -38,11 +38,17 @@ const ImportInvoiceList = () => {
     dispatch(GetImportInvoices())
   }, []);
   const importInvoiceState = useSelector(state => state?.importInvoice?.importInvoices)
+  const changeDateFormat = (date) => {
+    const newDate = new Date(date).toLocaleDateString();
+    const [month, day, year] = newDate.split("/");
+    const formattedMonth = month.padStart(2, '0');
+    return [year, formattedMonth, day].join("-");
+  };
   const data1 = [];
   for (let i = 0; i < importInvoiceState?.length; i++) {
     data1.push({
       id: importInvoiceState[i].id,
-      dateOfReceipt: importInvoiceState[i].dateOfReceipt,
+      dateOfReceipt: changeDateFormat(importInvoiceState[i].dateOfReceipt),
       totalPrice: importInvoiceState[i].totalPrice,
       supplier: importInvoiceState[i].supplier?.name,
       action: (<>
