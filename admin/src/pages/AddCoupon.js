@@ -14,7 +14,7 @@ const couponSchema = yup.object({
   requiredTotal: yup.number().required('RequiredTotal is Required'),
   startDate: yup.date().required('StartDate is Required'),
   endDate: yup.date().required('EndDate is Required'),
-  quantity: yup.number().required("Quantity is Required"),
+  quantity: yup.number().min(1, 'Quantity must be greater than 1').required("Quantity is Required"),
   status: yup.bool(),
 });
 

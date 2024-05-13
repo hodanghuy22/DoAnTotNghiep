@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { GetAllUsers } from '../features/auths/authSlice';
-import { GetCouponsActive } from '../features/coupons/couponSlice';
+import { GetCoupon, GetCouponsActive } from '../features/coupons/couponSlice';
 import { Checkbox } from 'antd';
 import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice';
 import { GetProductDetail, GetProductDetailsActive } from '../features/productDetails/productDetailSlice';
@@ -26,8 +26,8 @@ const invoiceSchema = yup.object({
 });
 
 const invoiceDetailSchema = yup.object({
-  productDetailId: yup.number().required('Product is Required'),
-  quantity: yup.number().required('Quantity is Required'),
+  productDetailId: yup.number().min(1, 'Product is Required').required('Product is Required'),
+  quantity: yup.number().min(1, 'Quantity must be greater than 1').required('Quantity is Required'),
   totalPrice: yup.number(),
 });
 
@@ -53,8 +53,9 @@ const AddInvoice = () => {
   const couponState = useSelector(state => state?.coupon?.coupons)
   const orderStatusState = useSelector(state => state?.orderStatus?.orderStatuses)
   const productDetailState = useSelector(state => state?.productDetail?.productDetails)
-  const aProductDetailState = useSelector(state => state.productDetail?.productDetail);
   const invoiceState = useSelector(state => state.invoice?.invoice);
+  const aProductDetailState = useSelector(state => state.productDetail?.productDetail);
+  const aCouponState = useSelector(state => state?.coupon?.coupon)
 
   useEffect(() => {
     dispatch(GetAllUsers())
@@ -119,9 +120,13 @@ const AddInvoice = () => {
   }, [aProductDetailState])
 
   useEffect(() => {
-    let total = formik.values.totalPrice;
-    formik.setFieldValue("totalPriceAfterDiscount", total);
-  }, [formik.values.totalPrice])
+    let totalPrice = formik.values.invoiceDetails.reduce(
+      (sum, item) => sum + item.totalPrice,
+      0
+    );
+    formik.setFieldValue("totalPrice", totalPrice);
+    formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
+  }, [formik.values.invoiceDetails])
 
   const handleChangeProductDetailId = (e) => {
     formik2.handleChange('productDetailId')(e);
@@ -138,8 +143,6 @@ const AddInvoice = () => {
   const uploadInvoiceDetails = (e) => {
     const { productDetailId, quantity, totalPrice } = e;
     const currentInvoiceDetails = formik.values.invoiceDetails || [];
-    let total = formik.values.totalPrice + totalPrice
-    formik.setFieldValue("totalPrice", total);
     const isProductDetailIdExist = currentInvoiceDetails.some(
       (detail) => detail.productDetailId === productDetailId
     );
@@ -181,9 +184,6 @@ const AddInvoice = () => {
     const currentInvoiceDetails = formik.values.invoiceDetails;
     const updatedItems = currentInvoiceDetails.filter(item => item.productDetailId !== e.productDetailId);
     formik.setFieldValue("invoiceDetails", updatedItems);
-
-    let total = formik.values.totalPrice - e.totalPrice
-    formik.setFieldValue("totalPrice", total);
   }
 
   return (

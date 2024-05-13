@@ -7,6 +7,7 @@ import { GetSuppliersActive } from '../features/suppliers/supplierSlice';
 import { GetProductDetails } from '../features/productDetails/productDetailSlice';
 import { CreateImportInvoice, GetImportInvoice, resetState } from '../features/importInvoices/importInvoiceSlice';
 import { BiEdit } from 'react-icons/bi';
+import { AiFillDelete } from 'react-icons/ai';
 
 const importInvoiceSchema = yup.object({
   dateOfReceipt: yup.date().required('Date Of Receipt is Required'),
@@ -16,8 +17,8 @@ const importInvoiceSchema = yup.object({
 });
 
 const importInvoiceDetailSchema = yup.object({
-  productDetailId: yup.number().required('Rroduct is Required'),
-  quantity: yup.number().required('Quantity is Required'),
+  productDetailId: yup.number().min(1, 'Product is Required').required('Product is Required'),
+  quantity: yup.number().min(1, 'Quantity must be greater than 1').required('Quantity is Required'),
   costPrice: yup.number().required('CostPrice is Required'),
 });
 
@@ -73,8 +74,17 @@ const AddImportInvoice = () => {
     validationSchema: importInvoiceDetailSchema,
     onSubmit: values => {
       uploadInvoiceDetails(values);
+      formik2.resetForm();
     },
   });
+
+  useEffect(() => {
+    let totalPrice = formik.values.importInvoiceDetails.reduce(
+      (sum, item) => sum + (item.costPrice * item.quantity),
+      0
+    );
+    formik.setFieldValue("totalPrice", totalPrice);
+  }, [formik.values.importInvoiceDetails])
 
   const uploadInvoiceDetails = (e) => {
     const { productDetailId, quantity, costPrice } = e;
@@ -109,15 +119,18 @@ const AddImportInvoice = () => {
     };
     const updatedInvoiceDetails = [...currentInvoiceDetails, newInvoiceDetail];
     formik.setFieldValue("importInvoiceDetails", updatedInvoiceDetails);
-    let total = formik.values.totalPrice + quantity * costPrice
-    formik.setFieldValue("totalPrice", total);
   };
 
   const setInvoiceDetails = (e) => {
-    console.log(e);
     formik2.setFieldValue("productDetailId", e.productDetailId);
     formik2.setFieldValue("quantity", e.quantity);
     formik2.setFieldValue("costPrice", e.costPrice);
+  }
+
+  const removeItemInInvoiceDetails = (e) => {
+    const currentInvoiceDetails = formik.values.importInvoiceDetails;
+    const updatedItems = currentInvoiceDetails.filter(item => item.productDetailId !== e.productDetailId);
+    formik.setFieldValue("importInvoiceDetails", updatedItems);
   }
 
   return (
@@ -199,8 +212,12 @@ const AddImportInvoice = () => {
                             <th>{i?.productDetailId}</th>
                             <th>{i?.quantity}</th>
                             <th>{i?.costPrice}</th>
-                            <th><button type='button' className='btn btn-info'
-                            onClick={() => setInvoiceDetails(i)}><BiEdit /></button></th>
+                            <th>
+                              <button type='button' className='btn btn-info'
+                            onClick={() => setInvoiceDetails(i)}><BiEdit /></button>
+                              <button type='button' className='btn btn-danger ms-3'
+                              onClick={() => removeItemInInvoiceDetails(i)}><AiFillDelete /></button>
+                            </th>
                           </tr>
                         )
                       })
