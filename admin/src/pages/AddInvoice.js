@@ -10,7 +10,7 @@ import { Checkbox } from 'antd';
 import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice';
 import { GetProductDetail, GetProductDetailsActive } from '../features/productDetails/productDetailSlice';
 import { AiFillDelete } from 'react-icons/ai';
-import { CreateInvoice, resetState } from '../features/invoices/invoiceSlice';
+import { CreateInvoice, GetInvoice, resetState } from '../features/invoices/invoiceSlice';
 
 const invoiceSchema = yup.object({
   userId: yup.string().required('User Id is Required'),
@@ -34,13 +34,18 @@ const invoiceDetailSchema = yup.object({
 const AddInvoice = () => {
   const dispatch = useDispatch();
   const changeDateFormat = (date) => {
-    const newDate = new Date(date).toLocaleDateString();
-    const [month, day, year] = newDate.split("/");
-    const formattedMonth = month.padStart(2, '0');
-    return [year, formattedMonth, day].join("-");
+    try {
+      const newDate = new Date(date).toLocaleDateString();
+      const [month, day, year] = newDate.split("/");
+      const formattedMonth = month.padStart(2, '0');
+      return [year, formattedMonth, day].join("-");
+    } catch (error) {
+      console.error('Error while formatting date:', error);
+      return ''; // Trả về giá trị mặc định hoặc xử lý khác tùy ý
+    }
   };
   const location = useLocation();
-  const getImportInvoiceId = location.pathname.split("/")[3];
+  const getInvoiceId = location.pathname.split("/")[3];
 
   const [selectProducDetail, setSelectProducDetail] = useState(0);
 
@@ -48,7 +53,8 @@ const AddInvoice = () => {
   const couponState = useSelector(state => state?.coupon?.coupons)
   const orderStatusState = useSelector(state => state?.orderStatus?.orderStatuses)
   const productDetailState = useSelector(state => state?.productDetail?.productDetails)
-  const aProductDetailState = useSelector(state => state.productDetail.productDetail);
+  const aProductDetailState = useSelector(state => state.productDetail?.productDetail);
+  const invoiceState = useSelector(state => state.invoice?.invoice);
 
   useEffect(() => {
     dispatch(GetAllUsers())
@@ -58,32 +64,29 @@ const AddInvoice = () => {
   }, [])
 
   useEffect(() => {
-    // if (getImportInvoiceId !== undefined) {
-    //   dispatch(GetImportInvoice(getImportInvoiceId))
-    // } else {
-    //   dispatch(resetState())
-    // }
-  }, [getImportInvoiceId])
-
-  
+    if (getInvoiceId !== undefined) {
+      dispatch(GetInvoice(getInvoiceId))
+    } else {
+      dispatch(resetState())
+    }
+  }, [getInvoiceId])
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      userId: "",
-      shippingInfo: "",
-      issueDate: new Date().toISOString().substr(0, 10),
-      deliveryDate: "",
-      totalPrice: 0,
-      totalPriceAfterDiscount: 0,
-      couponId: "",
-      paid: false,
-      orderStatusId: 1,
-      invoiceDetails: [],
+      userId: invoiceState?.userId || "",
+      shippingInfo: invoiceState?.shippingInfo || "",
+      issueDate: invoiceState?.issueDate ? changeDateFormat(invoiceState?.issueDate) : new Date().toISOString().substr(0, 10),
+      deliveryDate: changeDateFormat(invoiceState?.deliveryDate) || "",
+      totalPrice: invoiceState?.totalPrice || 0,
+      totalPriceAfterDiscount: invoiceState?.totalPriceAfterDiscount || 0,
+      couponId: invoiceState?.couponId || "",
+      paid: invoiceState?.paid || false,
+      orderStatusId: invoiceState?.orderStatusId || 1,
+      invoiceDetails: invoiceState?.invoiceDetails || [],
     },
     validationSchema: invoiceSchema,
     onSubmit: values => {
-      console.log(values);
       dispatch(CreateInvoice(values));
       formik.resetForm();
       setTimeout(() => {
@@ -134,7 +137,7 @@ const AddInvoice = () => {
 
   const uploadInvoiceDetails = (e) => {
     const { productDetailId, quantity, totalPrice } = e;
-    const currentInvoiceDetails = formik.values.importInvoiceDetails || [];
+    const currentInvoiceDetails = formik.values.invoiceDetails || [];
     let total = formik.values.totalPrice + totalPrice
     formik.setFieldValue("totalPrice", total);
     const isProductDetailIdExist = currentInvoiceDetails.some(
@@ -155,7 +158,7 @@ const AddInvoice = () => {
       });
 
       // Cập nhật mảng chi tiết hóa đơn với mảng đã được cập nhật
-      formik.setFieldValue("importInvoiceDetails", updatedInvoiceDetails);
+      formik.setFieldValue("invoiceDetails", updatedInvoiceDetails);
       return;
     }
 
@@ -165,7 +168,7 @@ const AddInvoice = () => {
       totalPrice: totalPrice,
     };
     const updatedInvoiceDetails = [...currentInvoiceDetails, newInvoiceDetail];
-    formik.setFieldValue("importInvoiceDetails", updatedInvoiceDetails);
+    formik.setFieldValue("invoiceDetails", updatedInvoiceDetails);
   };
 
   const setInvoiceDetails = (e) => {
@@ -175,9 +178,9 @@ const AddInvoice = () => {
   }
 
   const removeItemInInvoiceDetails = (e) => {
-    const currentInvoiceDetails = formik.values.importInvoiceDetails;
+    const currentInvoiceDetails = formik.values.invoiceDetails;
     const updatedItems = currentInvoiceDetails.filter(item => item.productDetailId !== e.productDetailId);
-    formik.setFieldValue("importInvoiceDetails", updatedItems);
+    formik.setFieldValue("invoiceDetails", updatedItems);
 
     let total = formik.values.totalPrice - e.totalPrice
     formik.setFieldValue("totalPrice", total);
@@ -186,7 +189,7 @@ const AddInvoice = () => {
   return (
     <div>
       <div>
-        <h1 className='mb-4 fw-bold'>{getImportInvoiceId !== undefined ? "Edit" : "Add"} Invoice</h1>
+        <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice</h1>
         <div className='mt-3 row border bg-white border-3 p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>
             <div className='mb-3'>
@@ -342,7 +345,7 @@ const AddInvoice = () => {
             </Checkbox><br />
             <br />
             {
-              formik.values.importInvoiceDetails && formik.values.importInvoiceDetails.length > 0 && (
+              formik.values.invoiceDetails && formik.values.invoiceDetails.length > 0 && (
                 <table className="table">
                   <thead>
                     <tr>
@@ -354,7 +357,7 @@ const AddInvoice = () => {
                   </thead>
                   <tbody>
                     {
-                      formik.values.importInvoiceDetails && formik.values.importInvoiceDetails.map((i, j) => {
+                      formik.values.invoiceDetails && formik.values.invoiceDetails.map((i, j) => {
                         return (
                           <tr key={j}>
                             <th>{i?.productDetailId}</th>
@@ -374,12 +377,12 @@ const AddInvoice = () => {
                 </table>
               )
             }
-            <button className='btn btn-success' type='submit'>{getImportInvoiceId !== undefined ? "Edit" : "Add"} Import Invoice</button>
+            <button className='btn btn-success' type='submit'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice</button>
           </form>
         </div>
       </div>
       <div className='mt-3'>
-        <h1 className='mb-4 fw-bold'>{getImportInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</h1>
+        <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</h1>
         <div className='mt-3 row border bg-white border-3 p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik2.handleSubmit}>
             <div className='mb-3'>
@@ -435,7 +438,7 @@ const AddInvoice = () => {
                 }
               </div>
             </div>
-            <button className='btn btn-success' type='submit'>{getImportInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</button>
+            <button className='btn btn-success' type='submit'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</button>
           </form>
         </div>
       </div>

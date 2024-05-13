@@ -81,7 +81,7 @@ const InvoiceList = () => {
       paid: invoiceState[i].paid ? <p className='text-success'>Đã thanh toán</p> : <p className='text-danger'>Chưa thanh toán</p>,
       orderStatus: invoiceState[i].orderStatus?.title,
       action: (<>
-        <Link className='fs-3 text-info' to={`/admin/importinvoice/${invoiceState[i].id}`}><BiEdit /></Link>
+        <Link className='fs-3 text-info' to={`/admin/invoice/${invoiceState[i].id}`}><BiEdit /></Link>
       </>)
     });
   }

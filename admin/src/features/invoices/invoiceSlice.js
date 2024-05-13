@@ -20,7 +20,7 @@ export const GetInvoices = createAsyncThunk('invoices-get-all', async (thunkAPI)
 
 export const GetInvoice = createAsyncThunk('invoices-get', async (id,thunkAPI) => {
   try {
-    return await invoiceService.GetInvoice(id);
+    return await invoiceService.getInvoice(id);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -78,7 +78,7 @@ export const invoiceSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.importInvoice = action.payload;
+      state.invoice = action.payload;
     }).addCase(GetInvoice.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;

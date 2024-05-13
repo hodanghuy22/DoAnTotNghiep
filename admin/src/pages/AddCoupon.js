@@ -44,7 +44,7 @@ const AddCoupon = () => {
       discountPercent: couponState?.discountPercent || "",
       discountMoney: couponState?.discountMoney || "",
       requiredTotal: couponState?.requiredTotal || "",
-      startDate: changeDateFormat(couponState?.startDate) || new Date().toISOString().substr(0, 10),
+      startDate: couponState?.startDate ? changeDateFormat(couponState?.startDate) : new Date().toISOString().substr(0, 10),
       endDate: changeDateFormat(couponState?.endDate) || "",
       quantity: couponState?.quantity || "",
       status: couponState?.status || false,

@@ -465,7 +465,7 @@ const AddProduct = () => {
                     name="tienIch"
                     class="form-control"
                     placeholder="Tiện ích"
-                    value={formik.values.name}
+                    value={formik.values.tienIch}
                     onChange={formik.handleChange('tienIch')}
                     onBlur={formik.handleBlur('tienIch')}
                   />

@@ -50,7 +50,7 @@ const AddImportInvoice = () => {
     initialValues: {
       totalPrice: importInvoiceState?.totalPrice || 0,
       supplierId: importInvoiceState?.supplierId || "",
-      dateOfReceipt: changeDateFormat(importInvoiceState?.dateOfReceipt) || new Date().toISOString().substr(0, 10),
+      dateOfReceipt: importInvoiceState?.dateOfReceipt ? changeDateFormat(importInvoiceState?.dateOfReceipt) : new Date().toISOString().substr(0, 10),
       importInvoiceDetails: importInvoiceState?.importInvoiceDetails || [],
     },
     validationSchema: importInvoiceSchema,

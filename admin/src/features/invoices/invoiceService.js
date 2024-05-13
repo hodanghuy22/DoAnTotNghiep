@@ -15,8 +15,8 @@ const getInvoices = async() => {
   }
 }
 
-const getImportInvoice = async(id) => {
-  const response = await axios.get(`${base_url}Invoices/${id}`, config);
+const getInvoice = async(id) => {
+  const response = await axios.get(`${base_url}Invoices/GetInvoice/${id}`, config);
   if (response.data) {
     return response.data;
   }
@@ -25,7 +25,7 @@ const getImportInvoice = async(id) => {
 const invoiceService = {
   createInvoice,
   getInvoices,
-  getImportInvoice,
+  getInvoice,
 };
 
 export default invoiceService;
