@@ -9,6 +9,8 @@ import { GetCouponsActive } from '../features/coupons/couponSlice';
 import { Checkbox } from 'antd';
 import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice';
 import { GetProductDetail, GetProductDetailsActive } from '../features/productDetails/productDetailSlice';
+import { AiFillDelete } from 'react-icons/ai';
+import { CreateInvoice, resetState } from '../features/invoices/invoiceSlice';
 
 const invoiceSchema = yup.object({
   userId: yup.string().required('User Id is Required'),
@@ -70,22 +72,23 @@ const AddInvoice = () => {
     initialValues: {
       userId: "",
       shippingInfo: "",
-      issueDate: "",
+      issueDate: new Date().toISOString().substr(0, 10),
       deliveryDate: "",
       totalPrice: 0,
       totalPriceAfterDiscount: 0,
-      couponId: 0,
+      couponId: "",
       paid: false,
       orderStatusId: 1,
       invoiceDetails: [],
     },
     validationSchema: invoiceSchema,
     onSubmit: values => {
-      // dispatch(CreateImportInvoice(values));
-      // formik.resetForm();
-      // setTimeout(() => {
-      //   dispatch(resetState())
-      // }, 300)
+      console.log(values);
+      dispatch(CreateInvoice(values));
+      formik.resetForm();
+      setTimeout(() => {
+        dispatch(resetState())
+      }, 300)
     },
   });
 
@@ -105,14 +108,17 @@ const AddInvoice = () => {
 
   useEffect(() => {
     dispatch(GetProductDetail(formik2.values.productDetailId));
-    const newTotalPrice = formik2.values.quantity * aProductDetailState?.retailPrice || 0;
-    formik2.setFieldValue("totalPrice", newTotalPrice);
   }, [selectProducDetail])
 
   useEffect(() => {
     const newTotalPrice = formik2.values.quantity * aProductDetailState?.retailPrice || 0;
     formik2.setFieldValue("totalPrice", newTotalPrice);
   }, [aProductDetailState])
+
+  useEffect(() => {
+    let total = formik.values.totalPrice;
+    formik.setFieldValue("totalPriceAfterDiscount", total);
+  }, [formik.values.totalPrice])
 
   const handleChangeProductDetailId = (e) => {
     formik2.handleChange('productDetailId')(e);
@@ -168,7 +174,14 @@ const AddInvoice = () => {
     formik2.setFieldValue("totalPrice", e.totalPrice);
   }
 
+  const removeItemInInvoiceDetails = (e) => {
+    const currentInvoiceDetails = formik.values.importInvoiceDetails;
+    const updatedItems = currentInvoiceDetails.filter(item => item.productDetailId !== e.productDetailId);
+    formik.setFieldValue("importInvoiceDetails", updatedItems);
 
+    let total = formik.values.totalPrice - e.totalPrice
+    formik.setFieldValue("totalPrice", total);
+  }
 
   return (
     <div>
@@ -347,8 +360,12 @@ const AddInvoice = () => {
                             <th>{i?.productDetailId}</th>
                             <th>{i?.quantity}</th>
                             <th>{i?.totalPrice}</th>
-                            <th><button type='button' className='btn btn-info'
-                              onClick={() => setInvoiceDetails(i)}><BiEdit /></button></th>
+                            <th>
+                              <button type='button' className='btn btn-info'
+                              onClick={() => setInvoiceDetails(i)}><BiEdit /></button>
+                              <button type='button' className='btn btn-danger ms-3'
+                              onClick={() => removeItemInInvoiceDetails(i)}><AiFillDelete /></button>
+                            </th>
                           </tr>
                         )
                       })
