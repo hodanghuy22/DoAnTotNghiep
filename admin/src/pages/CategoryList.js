@@ -58,9 +58,8 @@ const CategoryList = () => {
     }, 300)
   }
   return (
-
     <div>
-      <h3>List of categories</h3>
+      <h1 className='mb-4 fw-bold'>List of categories</h1>
       <div>
         <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }} /></div>
       </div>

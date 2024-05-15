@@ -75,9 +75,8 @@ const SupplierList = () => {
     }, 300)
   }
   return (
-
     <div>
-      <h3>List of suppliers</h3>
+      <h1 className='mb-4 fw-bold'>List of suppliers</h1>
       <div>
         <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }} /></div>
       </div>

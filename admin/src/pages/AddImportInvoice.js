@@ -137,7 +137,7 @@ const AddImportInvoice = () => {
     <div>
       <div>
         <h1 className='mb-4 fw-bold'>{getImportInvoiceId !== undefined ? "Edit" : "Add"} Import Invoice</h1>
-        <div className='mt-3 row border bg-white border-3 p-3 rounded-3 d-flex flex-row'>
+        <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>
             <div className='mb-3'>
               <input
@@ -232,7 +232,7 @@ const AddImportInvoice = () => {
       </div>
       <div className='mt-3'>
         <h1 className='mb-4 fw-bold'>{getImportInvoiceId !== undefined ? "Edit" : "Add"} Import Invoice Details</h1>
-        <div className='mt-3 row border bg-white border-3 p-3 rounded-3 d-flex flex-row'>
+        <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik2.handleSubmit}>
             <div className='mb-3'>
               <select name="productDetailId"

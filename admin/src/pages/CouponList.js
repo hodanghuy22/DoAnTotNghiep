@@ -96,7 +96,7 @@ const CouponList = () => {
   }
   return (
     <div>
-      <h3>Coupon List</h3>
+      <h1 className='mb-4 fw-bold'>List of coupons</h1>
       <div>
         <div><Table columns={columns} dataSource={data1} scroll={{ x: 1500, y: 500 }} /></div>
       </div>

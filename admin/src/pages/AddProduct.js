@@ -129,7 +129,7 @@ const AddProduct = () => {
       <h1 className='mb-4 fw-bold'>{getProductId!==undefined?"Edit":"Add"} Product</h1>
       <div className='mt-3'>
         <h3 className='fw-bold fst-italic'><TbCircleNumber1 /> Chọn loại sản phẩm</h3>
-        <div className='row border border-3 p-3 rounded-3 d-flex flex-row mt-3'>
+        <div className='row border bg-white p-3 rounded-3 d-flex flex-row mt-3'>
           {
             categoryState && categoryState?.map((i, j) => {
               return <>
@@ -146,7 +146,7 @@ const AddProduct = () => {
         <h3 className='fw-bold fst-italic'><TbCircleNumber2 /> Nhập thông tin</h3>
         {
           productTypeSelect && productTypeSelect === 1 && (
-            <div className='row border border-3 p-3 rounded-3 mt-3'>
+            <div className='row border bg-white p-3 rounded-3 mt-3'>
               <form onSubmit={formik.handleSubmit}>
                 <div className='mb-3'>
                   <input
@@ -389,7 +389,7 @@ const AddProduct = () => {
         }
         {
           productTypeSelect && productTypeSelect === 2 && (
-            <div className='row border border-3 p-3 rounded-3 mt-3'>
+            <div className='row border bg-white p-3 rounded-3 mt-3'>
               <form onSubmit={formik.handleSubmit}>
                 <div className='mb-3'>
                   <select name="brandId"
@@ -511,7 +511,7 @@ const AddProduct = () => {
         }
         {
           productTypeSelect && productTypeSelect === 3 && (
-            <div className='row border border-3 p-3 rounded-3 mt-3'>
+            <div className='row border bg-white p-3 rounded-3 mt-3'>
               <form onSubmit={formik.handleSubmit}>
                 <div className='mb-3'>
                   <select name="brandId"
@@ -681,7 +681,7 @@ const AddProduct = () => {
         }
         {
           productTypeSelect && productTypeSelect === 4 && (
-            <div className='row border border-3 p-3 rounded-3 mt-3'>
+            <div className='row border bg-white p-3 rounded-3 mt-3'>
               <form onSubmit={formik.handleSubmit}>
                 <div className='mb-3'>
                   <select name="brandId"

@@ -53,9 +53,9 @@ const AddSupplier = () => {
     },
   });
   return (
-    <div>
+    <div className='container'>
       <h1 className='mb-4 fw-bold'>{getSupplierId !== undefined ? "Edit" : "Add"} Supplier</h1>
-      <div>
+      <div className='container-fuild border rounded-3 bg-white p-3 mb-5'>
         <form onSubmit={formik.handleSubmit}>
           <div className='mb-3'>
             <input

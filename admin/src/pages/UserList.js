@@ -55,7 +55,7 @@ const UserList = () => {
   }
   return (
     <div>
-      <h1 className='mb-4 fw-bold'>Register Admin</h1>
+      <h1 className='mb-4 fw-bold'>List of accounts</h1>
       <div>
         <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }} /></div>
       </div>

@@ -33,9 +33,9 @@ const AddAdmin = () => {
     },
   });
   return (
-    <div>
+    <div className='container'>
       <h1 className='mb-4 fw-bold'>Register Admin</h1>
-      <div className='container border border-3 rounded-3 shadow p-3 mb-5'>
+      <div className='container-fuild border rounded-3 bg-white p-3 mb-5'>
         <form onSubmit={formik.handleSubmit}>
           <div className="form-outline mb-4">
             <h5 className="form-h5 fw-bold">Email</h5>

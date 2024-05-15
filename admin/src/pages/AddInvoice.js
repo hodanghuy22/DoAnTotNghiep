@@ -112,7 +112,7 @@ const AddInvoice = () => {
 
   useEffect(() => {
     dispatch(GetProductDetail(formik2.values.productDetailId));
-  }, [selectProducDetail])
+  }, [formik2.values.productDetailId])
 
   useEffect(() => {
     const newTotalPrice = formik2.values.quantity * aProductDetailState?.retailPrice || 0;
@@ -125,13 +125,37 @@ const AddInvoice = () => {
       0
     );
     formik.setFieldValue("totalPrice", totalPrice);
+    if(aCouponState?.discountPercent){
+      totalPrice = totalPrice -(totalPrice * aCouponState?.discountPercent) / 100;
+    }else{
+      if(aCouponState?.discountMoney){
+        totalPrice -= aCouponState?.discountMoney;
+      }
+    }
     formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
   }, [formik.values.invoiceDetails])
 
-  const handleChangeProductDetailId = (e) => {
-    formik2.handleChange('productDetailId')(e);
-    setSelectProducDetail(e.target.value);
-  }
+  useEffect(() => {
+    if(formik.values.couponId !== ""){
+      dispatch(GetCoupon(formik.values.couponId))
+    }
+    if(formik.values.couponId === ""){
+      let total = formik.values.totalPrice;
+      formik.setFieldValue("totalPriceAfterDiscount", total);
+    }
+  }, [formik.values.couponId])
+
+  useEffect(()=>{
+    var total = formik.values.totalPrice;
+    if(aCouponState?.discountPercent){
+      total = total -(total * aCouponState?.discountPercent) / 100;
+    }else{
+      if(aCouponState?.discountMoney){
+        total -= aCouponState?.discountMoney;
+      }
+    }
+    formik.setFieldValue("totalPriceAfterDiscount", total);
+  }, [aCouponState])
 
   const handleChangeQuantity = (e) => {
     formik2.handleChange('quantity')(e);
@@ -190,7 +214,7 @@ const AddInvoice = () => {
     <div>
       <div>
         <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice</h1>
-        <div className='mt-3 row border bg-white border-3 p-3 rounded-3 d-flex flex-row'>
+        <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>
             <div className='mb-3'>
               <select name="userId"
@@ -383,13 +407,13 @@ const AddInvoice = () => {
       </div>
       <div className='mt-3'>
         <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</h1>
-        <div className='mt-3 row border bg-white border-3 p-3 rounded-3 d-flex flex-row'>
+        <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik2.handleSubmit}>
             <div className='mb-3'>
               <select name="productDetailId"
                 type="number"
                 value={formik2.values.productDetailId}
-                onChange={handleChangeProductDetailId}
+                onChange={formik2.handleChange('productDetailId')}
                 onBlur={formik2.handleBlur('productDetailId')}
                 id='' className='form-control py-3 mb-3'>
                 <option value="">Danh sách sản phẩm</option>

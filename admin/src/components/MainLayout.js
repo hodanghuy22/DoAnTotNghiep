@@ -103,7 +103,7 @@ const MainLayout = () => {
                 {
                   key: 'invoice',
                   icon: <ImPlus className='fs-5' />,
-                  label: 'Add Product',
+                  label: 'Add Invoice',
                 },
                 {
                   key: 'invoice-list',

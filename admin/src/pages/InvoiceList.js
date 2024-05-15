@@ -94,7 +94,7 @@ const InvoiceList = () => {
   return (
 
     <div>
-      <h3>List of invoices</h3>
+      <h1 className='mb-4 fw-bold'>List of invoices</h1>
       <div>
         <div><Table columns={columns} dataSource={data1} scroll={{ x: 2000, y: 500 }} /></div>
       </div>

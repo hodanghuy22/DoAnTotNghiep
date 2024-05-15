@@ -66,9 +66,9 @@ const AddCoupon = () => {
     },
   });
   return (
-    <div>
+    <div className='container'>
       <h1 className='mb-4 fw-bold'>{getCouponId!==undefined?"Edit":"Add"} Coupon</h1>
-      <div className='mt-3 row border border-3 p-3 rounded-3 d-flex flex-row'>
+      <div className='mt-3 row border bg-white p-3 rounded-3 d-flex flex-row'>
         <form onSubmit={formik.handleSubmit}>
           <div className='mb-3'>
             <input

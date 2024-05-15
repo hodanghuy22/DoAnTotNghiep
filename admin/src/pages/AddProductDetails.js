@@ -126,7 +126,7 @@ const AddProductDetails = () => {
       <h3 className='mb-4'>{getProductDetailId !== undefined ? "Edit" : "Add"} Product Detail</h3>
       <div className='mt-3'>
         <h3 className='fw-bold fst-italic'><TbCircleNumber1 /> Chọn loại sản phẩm</h3>
-        <div className='row border border-3 p-3 rounded-3 d-flex flex-row mt-3'>
+        <div className='row border bg-white p-3 rounded-3 d-flex flex-row mt-3'>
           {
             categoryState && categoryState?.map((i, j) => {
               return <>
@@ -140,158 +140,159 @@ const AddProductDetails = () => {
       </div>
       <div className='mt-3'>
         <h3 className='fw-bold fst-italic'><TbCircleNumber2 /> Nhập thông tin</h3>
-        <form onSubmit={formik.handleSubmit}>
-          <div className='mb-3'>
-            <select name="productId"
-              type="number"
-              value={formik.values.productId}
-              onChange={formik.handleChange('productId')}
-              onBlur={formik.handleBlur('productId')}
-              id='' className='form-control py-3 mb-3'>
-              <option value="">Select Product</option>
-              {
-                productState && productState?.map((i, j) => {
-                  return <option key={j} value={i.id}>{i.name}</option>
-                })
-              }
-            </select>
-            <div className='error'>
-              {
-                formik.touched.productId && formik.errors.productId
-              }
-            </div>
-          </div>
-          {
-            categoryId && categoryId === 1 && (
-              <div className='mb-3'>
-                <select name="capacityId"
-                  type="number"
-                  value={formik.values.capacityId}
-                  onChange={formik.handleChange('capacityId')}
-                  onBlur={formik.handleBlur('capacityId')}
-                  id='' className='form-control py-3 mb-3'>
-                  <option value="">Select Capacity</option>
-                  {
-                    capacityState && capacityState?.map((i, j) => {
-                      return <option key={j} value={i.id}>{i.totalCapacity}</option>
-                    })
-                  }
-                </select>
-                <div className='error'>
-                  {
-                    formik.touched.capacityId && formik.errors.capacityId
-                  }
-                </div>
+        <div className='row border bg-white p-3 rounded-3 d-flex flex-row mt-3'>
+          <form onSubmit={formik.handleSubmit}>
+            <div className='mb-3'>
+              <select name="productId"
+                type="number"
+                value={formik.values.productId}
+                onChange={formik.handleChange('productId')}
+                onBlur={formik.handleBlur('productId')}
+                id='' className='form-control py-3 mb-3'>
+                <option value="">Select Product</option>
+                {
+                  productState && productState?.map((i, j) => {
+                    return <option key={j} value={i.id}>{i.name}</option>
+                  })
+                }
+              </select>
+              <div className='error'>
+                {
+                  formik.touched.productId && formik.errors.productId
+                }
               </div>
-            )
-          }
-
-          <div className='mb-3'>
-            <select name="colorId"
-              type="number"
-              value={formik.values.colorId}
-              onChange={formik.handleChange('colorId')}
-              onBlur={formik.handleBlur('colorId')}
-              id='' className='form-control py-3 mb-3'>
-              <option value="">Select Color</option>
-              {
-                colorState && colorState?.map((i, j) => {
-                  return <option key={j} value={i.id}>{i.colorName}</option>
-                })
-              }
-            </select>
-            <div className='error'>
-              {
-                formik.touched.colorId && formik.errors.colorId
-              }
             </div>
-          </div>
-          <div className='mb-3'>
-            <label class="form-label">Quantity</label>
-            <input
-              type="number"
-              name="quantity"
-              class="form-control"
-              placeholder="Quantity"
-              value={formik.values.quantity}
-              onChange={formik.handleChange('quantity')}
-              onBlur={formik.handleBlur('quantity')}
-            />
-            <div className='error'>
-              {
-                formik.touched.quantity && formik.errors.quantity
-              }
-            </div>
-          </div>
-          <div className='mb-3'>
-            <label class="form-label">Retail Price</label>
-            <input
-              type="number"
-              name="retailPrice"
-              class="form-control"
-              placeholder="Retail Price"
-              value={formik.values.retailPrice}
-              onChange={formik.handleChange('retailPrice')}
-              onBlur={formik.handleBlur('retailPrice')}
-            />
-            <div className='error'>
-              {
-                formik.touched.retailPrice && formik.errors.retailPrice
-              }
-            </div>
-          </div>
-          <div className='mb-3'>
-            <label class="form-label">Cost Price</label>
-            <input
-              type="number"
-              name="costPrice"
-              class="form-control"
-              placeholder="Cost Price"
-              value={formik.values.costPrice}
-              onChange={formik.handleChange('costPrice')}
-              onBlur={formik.handleBlur('costPrice')}
-            />
-            <div className='error'>
-              {
-                formik.touched.costPrice && formik.errors.costPrice
-              }
-            </div>
-          </div>
-          <Checkbox
-            name="status"
-            checked={formik.values.status}
-            onChange={formik.handleChange('status')}
-            defaultChecked={formik.values.status}
-          >
-            Status
-          </Checkbox><br />
-          <br />
-          <div className='bg-white border-1 p-5 text-center'>
-            <Dropzone onDrop={acceptedFiles => dispatch(UploadImg(acceptedFiles))}>
-              {({ getRootProps, getInputProps }) => (
-                <section>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <p>Drag 'n' drop some files here, or click to select files</p>
+            {
+              categoryId && categoryId === 1 && (
+                <div className='mb-3'>
+                  <select name="capacityId"
+                    type="number"
+                    value={formik.values.capacityId}
+                    onChange={formik.handleChange('capacityId')}
+                    onBlur={formik.handleBlur('capacityId')}
+                    id='' className='form-control py-3 mb-3'>
+                    <option value="">Select Capacity</option>
+                    {
+                      capacityState && capacityState?.map((i, j) => {
+                        return <option key={j} value={i.id}>{i.totalCapacity}</option>
+                      })
+                    }
+                  </select>
+                  <div className='error'>
+                    {
+                      formik.touched.capacityId && formik.errors.capacityId
+                    }
                   </div>
-                </section>
-              )}
-            </Dropzone>
-            <div className='d-flex flex-row'>
-              {formik.values.images.length > 0 && formik.values.images.map((item, index) => {
-                return (
-                  <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3 ms-3'>
-                    <div className='position-relative'>
-                      <button type="button" onClick={() => deleteImg(item)} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
-                      <img src={item?.imageUrl} alt="" width={200} height={200} />
+                </div>
+              )
+            }
+            <div className='mb-3'>
+              <select name="colorId"
+                type="number"
+                value={formik.values.colorId}
+                onChange={formik.handleChange('colorId')}
+                onBlur={formik.handleBlur('colorId')}
+                id='' className='form-control py-3 mb-3'>
+                <option value="">Select Color</option>
+                {
+                  colorState && colorState?.map((i, j) => {
+                    return <option key={j} value={i.id}>{i.colorName}</option>
+                  })
+                }
+              </select>
+              <div className='error'>
+                {
+                  formik.touched.colorId && formik.errors.colorId
+                }
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label class="form-label">Quantity</label>
+              <input
+                type="number"
+                name="quantity"
+                class="form-control"
+                placeholder="Quantity"
+                value={formik.values.quantity}
+                onChange={formik.handleChange('quantity')}
+                onBlur={formik.handleBlur('quantity')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.quantity && formik.errors.quantity
+                }
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label class="form-label">Retail Price</label>
+              <input
+                type="number"
+                name="retailPrice"
+                class="form-control"
+                placeholder="Retail Price"
+                value={formik.values.retailPrice}
+                onChange={formik.handleChange('retailPrice')}
+                onBlur={formik.handleBlur('retailPrice')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.retailPrice && formik.errors.retailPrice
+                }
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label class="form-label">Cost Price</label>
+              <input
+                type="number"
+                name="costPrice"
+                class="form-control"
+                placeholder="Cost Price"
+                value={formik.values.costPrice}
+                onChange={formik.handleChange('costPrice')}
+                onBlur={formik.handleBlur('costPrice')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.costPrice && formik.errors.costPrice
+                }
+              </div>
+            </div>
+            <Checkbox
+              name="status"
+              checked={formik.values.status}
+              onChange={formik.handleChange('status')}
+              defaultChecked={formik.values.status}
+            >
+              Status
+            </Checkbox><br />
+            <br />
+            <div className='bg-white border-1 p-5 text-center'>
+              <Dropzone onDrop={acceptedFiles => dispatch(UploadImg(acceptedFiles))}>
+                {({ getRootProps, getInputProps }) => (
+                  <section>
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <p>Drag 'n' drop some files here, or click to select files</p>
                     </div>
-                  </div>
-                )
-              })}
+                  </section>
+                )}
+              </Dropzone>
+              <div className='d-flex flex-row'>
+                {formik.values.images.length > 0 && formik.values.images.map((item, index) => {
+                  return (
+                    <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3 ms-3'>
+                      <div className='position-relative'>
+                        <button type="button" onClick={() => deleteImg(item)} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
+                        <img src={item?.imageUrl} alt="" width={200} height={200} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-          <button className='btn btn-success' type='submit'>{getProductDetailId !== undefined ? "Edit" : "Add"} Product</button>
-        </form>
+            <button className='btn btn-success' type='submit'>{getProductDetailId !== undefined ? "Edit" : "Add"} Product</button>
+          </form>
+        </div>
       </div>
     </div>
   )
