@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import CustomModal from '../components/CustomModal';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
+import AddBrand from './AddBrand';
 
 const columns = [
   {
@@ -43,7 +44,7 @@ const BrandList = () => {
       status: (<>
         <select defaultValue={brandState[i]?.status}
           onChange={(e) => updateStatusBrand(brandState[i]?.id, e.target.value)}
-          name=""   className={`form-control form-select fw-bold ${brandState[i]?.status ? 'text-success' : 'text-danger'}`}
+          name="" className={`form-control form-select fw-bold ${brandState[i]?.status ? 'text-success' : 'text-danger'}`}
         >
           <option value="true">Hoạt động</option>
           <option value="false">Không hoạt động</option>
@@ -54,14 +55,13 @@ const BrandList = () => {
       </>)
     });
   }
-  const updateStatusBrand = (a,b) => {
-    dispatch(UpdateStatusBrand({id:a, status:b}))
+  const updateStatusBrand = (a, b) => {
+    dispatch(UpdateStatusBrand({ id: a, status: b }))
     setTimeout(() => {
       dispatch(GetBrands())
     }, 300)
   }
   return (
-
     <div>
       <h1 className='mb-4 fw-bold'>List of brands</h1>
       <div>

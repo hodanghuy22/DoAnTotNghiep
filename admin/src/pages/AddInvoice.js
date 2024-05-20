@@ -11,6 +11,7 @@ import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice
 import { GetProductDetail, GetProductDetailsActive } from '../features/productDetails/productDetailSlice';
 import { AiFillDelete } from 'react-icons/ai';
 import { CreateInvoice, GetInvoice, resetState } from '../features/invoices/invoiceSlice';
+import { toast } from 'react-toastify';
 
 const invoiceSchema = yup.object({
   userId: yup.string().required('User Id is Required'),
@@ -28,7 +29,7 @@ const invoiceSchema = yup.object({
 const invoiceDetailSchema = yup.object({
   productDetailId: yup.number().min(1, 'Product is Required').required('Product is Required'),
   quantity: yup.number().min(1, 'Quantity must be greater than 1').required('Quantity is Required'),
-  totalPrice: yup.number(),
+  price: yup.number(),
 });
 
 const AddInvoice = () => {
@@ -47,7 +48,7 @@ const AddInvoice = () => {
   const location = useLocation();
   const getInvoiceId = location.pathname.split("/")[3];
 
-  const [selectProducDetail, setSelectProducDetail] = useState(0);
+  const [acceptCoupon, setAcceptCoupon] = useState(false);
 
   const userState = useSelector(state => state?.auth?.listUser)
   const couponState = useSelector(state => state?.coupon?.coupons)
@@ -101,7 +102,7 @@ const AddInvoice = () => {
     initialValues: {
       productDetailId: 0,
       quantity: 0,
-      totalPrice: 0,
+      price: 0,
     },
     validationSchema: invoiceDetailSchema,
     onSubmit: values => {
@@ -115,16 +116,27 @@ const AddInvoice = () => {
   }, [formik2.values.productDetailId])
 
   useEffect(() => {
-    const newTotalPrice = formik2.values.quantity * aProductDetailState?.retailPrice || 0;
-    formik2.setFieldValue("totalPrice", newTotalPrice);
+    formik2.setFieldValue("price", aProductDetailState?.retailPrice);
   }, [aProductDetailState])
 
   useEffect(() => {
     let totalPrice = formik.values.invoiceDetails.reduce(
-      (sum, item) => sum + item.totalPrice,
+      (sum, item) => sum + item.price * item.quantity, 
       0
     );
     formik.setFieldValue("totalPrice", totalPrice);
+    if(totalPrice < aCouponState?.requiredTotal){
+      toast.error("The total amount is not enough to use the coupon!");
+      formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
+      formik.setFieldValue("couponId", "");
+      return;
+    }
+    if(aCouponState?.quantity <= 0){
+      toast.error("The coupon is out!");
+      formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
+      formik.setFieldValue("couponId", "");
+      return;
+    }
     if(aCouponState?.discountPercent){
       totalPrice = totalPrice -(totalPrice * aCouponState?.discountPercent) / 100;
     }else{
@@ -147,6 +159,18 @@ const AddInvoice = () => {
 
   useEffect(()=>{
     var total = formik.values.totalPrice;
+    if(total < aCouponState?.requiredTotal){
+      toast.error("The total amount is not enough to use the coupon!");
+      formik.setFieldValue("totalPriceAfterDiscount", total);
+      formik.setFieldValue("couponId", "");
+      return;
+    }
+    if(aCouponState?.quantity <= 0){
+      toast.error("The coupon is out!");
+      formik.setFieldValue("totalPriceAfterDiscount", total);
+      formik.setFieldValue("couponId", "");
+      return;
+    }
     if(aCouponState?.discountPercent){
       total = total -(total * aCouponState?.discountPercent) / 100;
     }else{
@@ -157,15 +181,8 @@ const AddInvoice = () => {
     formik.setFieldValue("totalPriceAfterDiscount", total);
   }, [aCouponState])
 
-  const handleChangeQuantity = (e) => {
-    formik2.handleChange('quantity')(e);
-    const newQuantity = e.target.value;
-    const newTotalPrice = newQuantity * aProductDetailState?.retailPrice || 0;
-    formik2.setFieldValue("totalPrice", newTotalPrice);
-  };
-
   const uploadInvoiceDetails = (e) => {
-    const { productDetailId, quantity, totalPrice } = e;
+    const { productDetailId, quantity, price } = e;
     const currentInvoiceDetails = formik.values.invoiceDetails || [];
     const isProductDetailIdExist = currentInvoiceDetails.some(
       (detail) => detail.productDetailId === productDetailId
@@ -178,7 +195,7 @@ const AddInvoice = () => {
             ...detail,
             // Cập nhật các giá trị mới tại đây
             quantity: quantity,
-            totalPrice: totalPrice,
+            price: price,
           };
         }
         return detail; // Giữ nguyên các phần tử không cần cập nhật
@@ -192,7 +209,7 @@ const AddInvoice = () => {
     const newInvoiceDetail = {
       productDetailId: productDetailId,
       quantity: quantity,
-      totalPrice: totalPrice,
+      price: price,
     };
     const updatedInvoiceDetails = [...currentInvoiceDetails, newInvoiceDetail];
     formik.setFieldValue("invoiceDetails", updatedInvoiceDetails);
@@ -201,7 +218,7 @@ const AddInvoice = () => {
   const setInvoiceDetails = (e) => {
     formik2.setFieldValue("productDetailId", e.productDetailId);
     formik2.setFieldValue("quantity", e.quantity);
-    formik2.setFieldValue("totalPrice", e.totalPrice);
+    formik2.setFieldValue("price", e.price);
   }
 
   const removeItemInInvoiceDetails = (e) => {
@@ -252,111 +269,119 @@ const AddInvoice = () => {
                 }
               </div>
             </div>
-            <div className='mb-3'>
-              <input
-                type="date"
-                name="issueDate"
-                className="form-control"
-                placeholder="Issue Date"
-                value={formik.values.issueDate}
-                onChange={formik.handleChange('issueDate')}
-                onBlur={formik.handleBlur('issueDate')}
-                readOnly
-              />
-              <div className='error'>
-                {
-                  formik.touched.issueDate && formik.errors.issueDate
-                }
+            <div className='row'>
+              <div className='mb-3 col-6'>
+                <input
+                  type="date"
+                  name="issueDate"
+                  className="form-control"
+                  placeholder="Issue Date"
+                  value={formik.values.issueDate}
+                  onChange={formik.handleChange('issueDate')}
+                  onBlur={formik.handleBlur('issueDate')}
+                  readOnly
+                />
+                <div className='error'>
+                  {
+                    formik.touched.issueDate && formik.errors.issueDate
+                  }
+                </div>
+              </div>
+              <div className='mb-3 col-6'>
+                <input
+                  type="date"
+                  name="deliveryDate"
+                  className="form-control"
+                  placeholder="Delivery Date"
+                  value={formik.values.deliveryDate}
+                  onChange={formik.handleChange('deliveryDate')}
+                  onBlur={formik.handleBlur('deliveryDate')}
+                />
+                <div className='error'>
+                  {
+                    formik.touched.deliveryDate && formik.errors.deliveryDate
+                  }
+                </div>
               </div>
             </div>
-            <div className='mb-3'>
-              <input
-                type="date"
-                name="deliveryDate"
-                className="form-control"
-                placeholder="Delivery Date"
-                value={formik.values.deliveryDate}
-                onChange={formik.handleChange('deliveryDate')}
-                onBlur={formik.handleBlur('deliveryDate')}
-              />
-              <div className='error'>
-                {
-                  formik.touched.deliveryDate && formik.errors.deliveryDate
-                }
+            <div className='row'>
+              <div className='mb-3 col-6'>
+                <label class="form-label">Total Price</label>
+                <input
+                  type="number"
+                  name="totalPrice"
+                  className="form-control"
+                  placeholder="Total Price"
+                  value={formik.values.totalPrice}
+                  onChange={formik.handleChange('totalPrice')}
+                  onBlur={formik.handleBlur('totalPrice')}
+                  readOnly
+                />
+                <div className='error'>
+                  {
+                    formik.touched.totalPrice && formik.errors.totalPrice
+                  }
+                </div>
+              </div>
+              <div className='mb-3 col-6'>
+                <label class="form-label">Total Price After Discount</label>
+                <input
+                  type="number"
+                  name="totalPriceAfterDiscount"
+                  className="form-control"
+                  placeholder="Total Price After Discount"
+                  value={formik.values.totalPriceAfterDiscount}
+                  onChange={formik.handleChange('totalPriceAfterDiscount')}
+                  onBlur={formik.handleBlur('totalPriceAfterDiscount')}
+                  readOnly
+                />
+                <div className='error'>
+                  {
+                    formik.touched.totalPriceAfterDiscount && formik.errors.totalPriceAfterDiscount
+                  }
+                </div>
               </div>
             </div>
-            <div className='mb-3'>
-              <input
-                type="number"
-                name="totalPrice"
-                className="form-control"
-                placeholder="Total Price"
-                value={formik.values.totalPrice}
-                onChange={formik.handleChange('totalPrice')}
-                onBlur={formik.handleBlur('totalPrice')}
-                readOnly
-              />
-              <div className='error'>
-                {
-                  formik.touched.totalPrice && formik.errors.totalPrice
-                }
+            <div className='row'>
+              <div className='mb-3 col-6'>
+                <select name="couponId"
+                  type="number"
+                  value={formik.values.couponId}
+                  onChange={formik.handleChange('couponId')}
+                  onBlur={formik.handleBlur('couponId')}
+                  id='' className='form-control py-3 mb-3'>
+                  <option value="">Danh sách coupon</option>
+                  {
+                    couponState && couponState?.map((i, j) => {
+                      return <option key={j} value={i.id}>{i.title} | {i.code}</option>
+                    })
+                  }
+                </select>
+                <div className='error'>
+                  {
+                    formik.touched.couponId && formik.errors.couponId
+                  }
+                </div>
               </div>
-            </div>
-            <div className='mb-3'>
-              <input
-                type="number"
-                name="totalPriceAfterDiscount"
-                className="form-control"
-                placeholder="Total Price After Discount"
-                value={formik.values.totalPriceAfterDiscount}
-                onChange={formik.handleChange('totalPriceAfterDiscount')}
-                onBlur={formik.handleBlur('totalPriceAfterDiscount')}
-                readOnly
-              />
-              <div className='error'>
-                {
-                  formik.touched.totalPriceAfterDiscount && formik.errors.totalPriceAfterDiscount
-                }
-              </div>
-            </div>
-            <div className='mb-3'>
-              <select name="couponId"
-                type="number"
-                value={formik.values.couponId}
-                onChange={formik.handleChange('couponId')}
-                onBlur={formik.handleBlur('couponId')}
-                id='' className='form-control py-3 mb-3'>
-                <option value="">Danh sách coupon</option>
-                {
-                  couponState && couponState?.map((i, j) => {
-                    return <option key={j} value={i.id}>{i.title} | {i.code}</option>
-                  })
-                }
-              </select>
-              <div className='error'>
-                {
-                  formik.touched.couponId && formik.errors.couponId
-                }
-              </div>
-            </div>
-            <div className='mb-3'>
-              <select name="orderStatusId"
-                type="number"
-                value={formik.values.orderStatusId}
-                onChange={formik.handleChange('orderStatusId')}
-                onBlur={formik.handleBlur('orderStatusId')}
-                id='' className='form-control py-3 mb-3'>
-                <option value="">Danh sách order status</option>
-                {
-                  orderStatusState && orderStatusState?.map((i, j) => {
-                    return <option key={j} value={i.id}>{i.title}</option>
-                  })
-                }
-              </select>
-              <div className='error'>
-                {
-                  formik.touched.orderStatusId && formik.errors.orderStatusId
-                }
+              <div className='mb-3 col-6'>
+                <select name="orderStatusId"
+                  type="number"
+                  value={formik.values.orderStatusId}
+                  onChange={formik.handleChange('orderStatusId')}
+                  onBlur={formik.handleBlur('orderStatusId')}
+                  id='' className='form-control py-3 mb-3'>
+                  <option value="">Danh sách order status</option>
+                  {
+                    orderStatusState && orderStatusState?.map((i, j) => {
+                      return <option key={j} value={i.id}>{i.title}</option>
+                    })
+                  }
+                </select>
+                <div className='error'>
+                  {
+                    formik.touched.orderStatusId && formik.errors.orderStatusId
+                  }
+                </div>
               </div>
             </div>
             <Checkbox
@@ -375,7 +400,7 @@ const AddInvoice = () => {
                     <tr>
                       <th>Name</th>
                       <th>Quantity</th>
-                      <th>TotalPrice</th>
+                      <th>Price</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -386,7 +411,7 @@ const AddInvoice = () => {
                           <tr key={j}>
                             <th>{i?.productDetailId}</th>
                             <th>{i?.quantity}</th>
-                            <th>{i?.totalPrice}</th>
+                            <th>{i?.price}</th>
                             <th>
                               <button type='button' className='btn btn-info'
                               onClick={() => setInvoiceDetails(i)}><BiEdit /></button>
@@ -429,37 +454,39 @@ const AddInvoice = () => {
                 }
               </div>
             </div>
-            <div className='mb-3'>
-              <input
-                type="number"
-                name="quantity"
-                className="form-control"
-                placeholder="Quantity"
-                value={formik2.values.quantity}
-                onChange={handleChangeQuantity}
-                onBlur={formik2.handleBlur('quantity')}
-              />
-              <div className='error'>
-                {
-                  formik2.touched.quantity && formik2.errors.quantity
-                }
+            <div className='row'>
+              <div className='mb-3 col-6'>
+                <input
+                  type="number"
+                  name="quantity"
+                  className="form-control"
+                  placeholder="Quantity"
+                  value={formik2.values.quantity}
+                  onChange={formik2.handleChange('quantity')}
+                  onBlur={formik2.handleBlur('quantity')}
+                />
+                <div className='error'>
+                  {
+                    formik2.touched.quantity && formik2.errors.quantity
+                  }
+                </div>
               </div>
-            </div>
-            <div className='mb-3'>
-              <input
-                type="number"
-                name="totalPrice"
-                className="form-control"
-                placeholder="Total Price"
-                value={formik2.values.totalPrice}
-                onChange={formik2.handleChange('totalPrice')}
-                onBlur={formik2.handleBlur('totalPrice')}
-                readOnly
-              />
-              <div className='error'>
-                {
-                  formik2.touched.totalPrice && formik2.errors.totalPrice
-                }
+              <div className='mb-3 col-6'>
+                <input
+                  type="number"
+                  name="price"
+                  className="form-control"
+                  placeholder="Price"
+                  value={formik2.values.price}
+                  onChange={formik2.handleChange('price')}
+                  onBlur={formik2.handleBlur('price')}
+                  readOnly
+                />
+                <div className='error'>
+                  {
+                    formik2.touched.price && formik2.errors.price
+                  }
+                </div>
               </div>
             </div>
             <button className='btn btn-success' type='submit'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</button>

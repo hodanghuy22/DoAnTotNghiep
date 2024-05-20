@@ -57,6 +57,12 @@ const columns = [
 
 const CouponList = () => {
   const dispatch = useDispatch();
+  const changeDateFormat = (date) => {
+    const newDate = new Date(date).toLocaleDateString();
+    const [month, day, year] = newDate.split("/");
+    const formattedMonth = month.padStart(2, '0');
+    return [year, formattedMonth, day].join("-");
+  };
   useEffect(() => {
     dispatch(resetState())
     dispatch(GetCoupons())
@@ -71,8 +77,8 @@ const CouponList = () => {
       discountPercent: couponState[i].discountPercent,
       discountMoney: couponState[i].discountMoney,
       requiredTotal: couponState[i].requiredTotal,
-      startDate: couponState[i].startDate,
-      endDate: couponState[i].endDate,
+      startDate: changeDateFormat(couponState[i].startDate),
+      endDate: changeDateFormat(couponState[i].endDate),
       quantity: couponState[i].quantity,
       status: (<>
         <select defaultValue={couponState[i]?.status}

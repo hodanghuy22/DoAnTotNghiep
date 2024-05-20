@@ -70,143 +70,151 @@ const AddCoupon = () => {
       <h1 className='mb-4 fw-bold'>{getCouponId!==undefined?"Edit":"Add"} Coupon</h1>
       <div className='mt-3 row border bg-white p-3 rounded-3 d-flex flex-row'>
         <form onSubmit={formik.handleSubmit}>
-          <div className='mb-3'>
-            <input
-              type="text"
-              name="title"
-              class="form-control"
-              placeholder="Title"
-              value={formik.values.title}
-              onChange={formik.handleChange('title')}
-              onBlur={formik.handleBlur('title')}
-            />
-            <div className='error'>
-              {
-                formik.touched.title && formik.errors.title
-              }
+          <div className='row'>
+            <div className='mb-3 col-6'>
+              <input
+                type="text"
+                name="title"
+                class="form-control"
+                placeholder="Title"
+                value={formik.values.title}
+                onChange={formik.handleChange('title')}
+                onBlur={formik.handleBlur('title')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.title && formik.errors.title
+                }
+              </div>
+            </div>
+            <div className='mb-3 col-6'>
+              <input
+                type="text"
+                name="code"
+                class="form-control"
+                placeholder="Code"
+                value={formik.values.code}
+                onChange={formik.handleChange('code')}
+                onBlur={formik.handleBlur('code')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.code && formik.errors.code
+                }
+              </div>
             </div>
           </div>
-          <div className='mb-3'>
-            <input
-              type="text"
-              name="code"
-              class="form-control"
-              placeholder="Code"
-              value={formik.values.code}
-              onChange={formik.handleChange('code')}
-              onBlur={formik.handleBlur('code')}
-            />
-            <div className='error'>
-              {
-                formik.touched.code && formik.errors.code
-              }
+          <div className='row'>
+            <div className='mb-3 col-4'>
+              <input
+                type="number"
+                name="discountPercent"
+                class="form-control"
+                placeholder="DiscountPercent"
+                value={formik.values.discountPercent}
+                onChange={formik.handleChange('discountPercent')}
+                onBlur={formik.handleBlur('discountPercent')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.discountPercent && formik.errors.discountPercent
+                }
+              </div>
+            </div>
+            <div className='mb-3 col-4'>
+              <input
+                type="number"
+                name="discountMoney"
+                class="form-control"
+                placeholder="DiscountMoney"
+                value={formik.values.discountMoney}
+                onChange={formik.handleChange('discountMoney')}
+                onBlur={formik.handleBlur('discountMoney')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.discountMoney && formik.errors.discountMoney
+                }
+              </div>
+            </div>
+            <div className='mb-3 col-4'>
+              <input
+                type="number"
+                name="requiredTotal"
+                class="form-control"
+                placeholder="RequiredTotal"
+                value={formik.values.requiredTotal}
+                onChange={formik.handleChange('requiredTotal')}
+                onBlur={formik.handleBlur('requiredTotal')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.requiredTotal && formik.errors.requiredTotal
+                }
+              </div>
             </div>
           </div>
-          <div className='mb-3'>
-            <input
-              type="number"
-              name="discountPercent"
-              class="form-control"
-              placeholder="DiscountPercent"
-              value={formik.values.discountPercent}
-              onChange={formik.handleChange('discountPercent')}
-              onBlur={formik.handleBlur('discountPercent')}
-            />
-            <div className='error'>
-              {
-                formik.touched.discountPercent && formik.errors.discountPercent
-              }
+          <div className='row'>
+            <div className='mb-3 col-6'>
+              <input
+                type="date"
+                readOnly
+                name="requiredTotal"
+                class="form-control"
+                placeholder="StartDate"
+                value={formik.values.startDate}
+                onChange={formik.handleChange('startDate')}
+                onBlur={formik.handleBlur('startDate')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.startDate && formik.errors.startDate
+                }
+              </div>
+            </div>
+            <div className='mb-3 col-6'>
+              <input
+                type="date"
+                name="requiredTotal"
+                class="form-control"
+                placeholder="EndDate"
+                value={formik.values.endDate}
+                onChange={formik.handleChange('endDate')}
+                onBlur={formik.handleBlur('endDate')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.endDate && formik.errors.endDate
+                }
+              </div>
             </div>
           </div>
-          <div className='mb-3'>
-            <input
-              type="number"
-              name="discountMoney"
-              class="form-control"
-              placeholder="DiscountMoney"
-              value={formik.values.discountMoney}
-              onChange={formik.handleChange('discountMoney')}
-              onBlur={formik.handleBlur('discountMoney')}
-            />
-            <div className='error'>
-              {
-                formik.touched.discountMoney && formik.errors.discountMoney
-              }
+          <div className='row'>
+            <div className='mb-3 col-6'>
+              <input
+                type="number"
+                name="requiredTotal"
+                class="form-control"
+                placeholder="Quantity"
+                value={formik.values.quantity}
+                onChange={formik.handleChange('quantity')}
+                onBlur={formik.handleBlur('quantity')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.quantity && formik.errors.quantity
+                }
+              </div>
             </div>
-          </div>
-          <div className='mb-3'>
-            <input
-              type="number"
-              name="requiredTotal"
-              class="form-control"
-              placeholder="RequiredTotal"
-              value={formik.values.requiredTotal}
-              onChange={formik.handleChange('requiredTotal')}
-              onBlur={formik.handleBlur('requiredTotal')}
-            />
-            <div className='error'>
-              {
-                formik.touched.requiredTotal && formik.errors.requiredTotal
-              }
+            <div className='mb-3 col-6'>
+              <Checkbox
+                checked={formik.values.status}
+                onChange={formik.handleChange('status')}
+                onBlur={formik.handleBlur('status')}
+              >
+                Status
+              </Checkbox>
             </div>
-          </div>
-          <div className='mb-3'>
-            <input
-              type="date"
-              readOnly
-              name="requiredTotal"
-              class="form-control"
-              placeholder="StartDate"
-              value={formik.values.startDate}
-              onChange={formik.handleChange('startDate')}
-              onBlur={formik.handleBlur('startDate')}
-            />
-            <div className='error'>
-              {
-                formik.touched.startDate && formik.errors.startDate
-              }
-            </div>
-          </div>
-          <div className='mb-3'>
-            <input
-              type="date"
-              name="requiredTotal"
-              class="form-control"
-              placeholder="EndDate"
-              value={formik.values.endDate}
-              onChange={formik.handleChange('endDate')}
-              onBlur={formik.handleBlur('endDate')}
-            />
-            <div className='error'>
-              {
-                formik.touched.endDate && formik.errors.endDate
-              }
-            </div>
-          </div>
-          <div className='mb-3'>
-            <input
-              type="number"
-              name="requiredTotal"
-              class="form-control"
-              placeholder="Quantity"
-              value={formik.values.quantity}
-              onChange={formik.handleChange('quantity')}
-              onBlur={formik.handleBlur('quantity')}
-            />
-            <div className='error'>
-              {
-                formik.touched.quantity && formik.errors.quantity
-              }
-            </div>
-          </div>
-          <div className='mb-3'>
-            <Checkbox
-              checked={formik.values.status}
-              onChange={formik.handleChange('status')}
-              onBlur={formik.handleBlur('status')}
-            >
-              Status
-            </Checkbox>
           </div>
           <button className='btn btn-success' type='submit'>{getCouponId !== undefined ? "Edit" : "Add"} Coupon</button>
         </form>

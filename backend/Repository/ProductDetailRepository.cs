@@ -76,6 +76,8 @@ namespace backend.Repository
         public async Task<ProductDetail> GetProductDetail(int id)
         {
             return await _context.ProductDetails
+                .Include(p => p.Product)
+                .ThenInclude(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);   
         }
 
