@@ -10,7 +10,7 @@ namespace backend.Data
         {
         }
         public DbSet<Brand> Brands { get; set; } = default!;
-        public DbSet<Capacity> Capacitys { get; set; } = default!;
+        public DbSet<Capacity> Capacities { get; set; } = default!;
         public DbSet<Cart> Carts { get; set; } = default!;
         public DbSet<Color> Colors { get; set; } = default!;
         public DbSet<Comment> Comments { get; set; } = default!;

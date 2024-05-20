@@ -16,7 +16,7 @@ const getColorsShow = async()=>{
 }
 
 const getAColor = async(id)=>{
-    const response = await axios.get(`${base_url}Colors/${id}`);
+    const response = await axios.get(`${base_url}Colors/${id}`, config);
     if(response.data){
         return response.data;
     }

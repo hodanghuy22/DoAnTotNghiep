@@ -7,7 +7,7 @@ namespace backend.Models
     {
         public int Id { get; set; }
         public string Content { get; set; }
-        public DateTime NgayDang { get; set; }
+        public DateTime Date { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }

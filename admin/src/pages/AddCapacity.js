@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { CreateCapacity, GetCapacity, UpdateCapacity, resetState } from '../features/capacitites/capacitySlice';
 
 const capacitySchema = yup.object({
-    totalCapacity: yup.number("Total Capacity must be number!!!").required('Total Capacity is Required!!!'),
+    totalCapacity: yup.string().required('Total Capacity is Required!!!'),
     status: yup.boolean()
 });
 
@@ -52,7 +52,7 @@ const AddCapacity = () => {
                 <form onSubmit={formik.handleSubmit}>
                     <div className='mb-3'>
                         <input
-                            type="number"
+                            type="text"
                             name="totalCapacity"
                             className="form-control"
                             placeholder="Total Capacity"

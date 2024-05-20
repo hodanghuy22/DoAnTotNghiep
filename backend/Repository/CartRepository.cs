@@ -36,13 +36,13 @@ namespace backend.Repository
             {
                 var cartDetail = await _context.Carts
                     .FirstOrDefaultAsync(c => c.UserId == cart.UserId && c.ProductDetailId == cart.ProductDetailId);
-                cartDetail.Quantity += 1;
+                cartDetail.Quantity += cart.Quantity;
             }
             else
             {
                 await _context.Carts.AddAsync(cart);
             }
-            productDetail.Quantity -= 1;
+            productDetail.Quantity -= cart.Quantity;
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -97,7 +97,6 @@ namespace backend.Repository
                 .Include(c => c.ProductDetail)
                 .ThenInclude(p => p.Capacity)
                 .Include(c => c.ProductDetail)
-                .ThenInclude(p => p.Images)
                 .Include(c => c.ProductDetail)
                 .ThenInclude(p => p.Product)
                 .Where(c => c.UserId == userId)

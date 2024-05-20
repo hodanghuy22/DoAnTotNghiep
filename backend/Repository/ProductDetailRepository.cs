@@ -68,7 +68,6 @@ namespace backend.Repository
                 .ThenInclude(p => p.Category)
                 .Include(p => p.Color)
                 .Include(p => p.Capacity)
-                .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.ProductId == productId
                                     && p.ColorId == colorId
                                     && p.CapacityId == capacityId && p.Status == true);
@@ -77,14 +76,12 @@ namespace backend.Repository
         public async Task<ProductDetail> GetProductDetail(int id)
         {
             return await _context.ProductDetails
-                .Include(p => p.Images)
                 .FirstOrDefaultAsync(p => p.Id == id);   
         }
 
         public async Task<IEnumerable<ProductDetail>> GetProductDetails()
         {
             return await _context.ProductDetails
-                .Include(p => p.Images)
                 .Include(p => p.Product)
                 .ThenInclude(p => p.Category)
                 .Include(p => p.Color)
@@ -94,7 +91,6 @@ namespace backend.Repository
         public async Task<IEnumerable<ProductDetail>> GetProductDetailsActive()
         {
             return await _context.ProductDetails
-                .Include(p => p.Images)
                 .Include(p => p.Product)
                 .ThenInclude(p => p.Category)
                 .Include(p => p.Color)
@@ -139,16 +135,6 @@ namespace backend.Repository
                     {
                         mess = "Not Found!"
                     });
-                }
-                pt.Images.Clear();
-                foreach(var image in productDetail.Images)
-                {
-                    var newImg = new Image();
-                    newImg.ProductDetailId = productDetail.Id;
-                    newImg.ImagePublicId = image.ImagePublicId;
-                    newImg.ImageUrl = image.ImageUrl;
-
-                    await _context.Images.AddAsync(newImg);
                 }
                 _context.Entry(pt).CurrentValues.SetValues(productDetail);
                 await _context.SaveChangesAsync();

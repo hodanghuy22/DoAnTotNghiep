@@ -15,7 +15,6 @@ namespace backend.Controllers
             _uow = uow;
         }
         [HttpGet]
-        [Route("Admin")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetProducts()
         {
@@ -23,16 +22,17 @@ namespace backend.Controllers
             return Ok(products);
         }
         [HttpGet]
-        public async Task<IActionResult> GetProductsShow()
+        [Route("Active")]
+        public async Task<IActionResult> GetProductsActive()
         {
-            var products = await _uow.ProductRepository.GetProductsShow();
+            var products = await _uow.ProductRepository.GetProductsActive();
             return Ok(products);
         }
         [HttpGet]
-        [Route("GetProductsByBrand/{brandId}")]
-        public async Task<IActionResult> GetProductsByBrand(int brandId)
+        [Route("GetProductsActiveByBrand/{brandId}")]
+        public async Task<IActionResult> GetProductsActiveByBrand(int brandId)
         {
-            var products = await _uow.ProductRepository.GetProductsByBrand(brandId);
+            var products = await _uow.ProductRepository.GetProductsActiveByBrand(brandId);
             return Ok(products);
         }
         [HttpGet]
@@ -43,10 +43,10 @@ namespace backend.Controllers
             return Ok(products);
         }
         [HttpGet]
-        [Route("GetProductByName/{name}")]
-        public async Task<IActionResult> GetProductByName(string name)
+        [Route("GetProductActiveByName/{name}")]
+        public async Task<IActionResult> GetProductActiveByName(string name)
         {
-            var products = await _uow.ProductRepository.GetProductByName(name);
+            var products = await _uow.ProductRepository.GetProductActiveByName(name);
             return Ok(products);
         }
         [HttpPost]

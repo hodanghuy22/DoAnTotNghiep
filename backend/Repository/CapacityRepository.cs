@@ -16,12 +16,12 @@ namespace backend.Repository
         }
         public async Task<bool> CapacityExist(int id)
         {
-            return await _context.Capacitys.AnyAsync(c => c.Id == id);
+            return await _context.Capacities.AnyAsync(c => c.Id == id);
         }
 
         public async Task<IActionResult> CreateCapacity(Capacity capacity)
         {
-            var check = await _context.Capacitys.FirstOrDefaultAsync(c => c.TotalCapacity == capacity.TotalCapacity);
+            var check = await _context.Capacities.FirstOrDefaultAsync(c => c.TotalCapacity == capacity.TotalCapacity);
             if (check != null)
             {
                 return new BadRequestObjectResult(new
@@ -29,7 +29,7 @@ namespace backend.Repository
                     mess = "This capacity was exsist!!!"
                 });
             }
-            await _context.Capacitys.AddAsync(capacity);
+            await _context.Capacities.AddAsync(capacity);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -73,12 +73,12 @@ namespace backend.Repository
 
         public async Task<Capacity> GetCapacity(int id)
         {
-            return await _context.Capacitys.FindAsync(id);
+            return await _context.Capacities.FindAsync(id);
         }
 
         public async Task<IEnumerable<Capacity>> GetCapacities()
         {
-            return await _context.Capacitys.ToListAsync();
+            return await _context.Capacities.ToListAsync();
         }
 
         public async Task<IActionResult> UpdateCapacity(int id, Capacity capacity)
@@ -125,12 +125,12 @@ namespace backend.Repository
 
         public async Task<IEnumerable<Capacity>> GetCapacitiesShow()
         {
-            return await _context.Capacitys.Where(c => c.Status == true).ToListAsync();
+            return await _context.Capacities.Where(c => c.Status == true).ToListAsync();
         }
 
         public async Task<bool> CheckCapacityTotalExist(Capacity capacity)
         {
-            var pt = await _context.Capacitys
+            var pt = await _context.Capacities
                 .FirstOrDefaultAsync(p => p.Id != capacity.Id && p.TotalCapacity == capacity.TotalCapacity);
             if(pt == null)
             {
@@ -139,13 +139,13 @@ namespace backend.Repository
             return true;
         }
 
-        //public async Task<IEnumerable<Capacity>> GetCapacitiesByPhoneId(int id)
-        //{
-        //    return await _context.Products
-        //                    .Where(p => p.PhoneId == id && p.Capacity.Status == true)
-        //                    .Select(p => p.Capacity)
-        //                    .Distinct()
-        //                    .ToListAsync();
-        //}
+        public async Task<IEnumerable<Capacity>> GetCapacitiesByProductId(int id)
+        {
+            return await _context.ProductDetails
+                            .Where(p => p.Id == id && p.Capacity.Status == true)
+                            .Select(p => p.Capacity)
+                            .Distinct()
+                            .ToListAsync();
+        }
     }
 }

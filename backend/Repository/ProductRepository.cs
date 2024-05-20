@@ -44,50 +44,61 @@ namespace backend.Repository
         {
             return await _context.Products.Include(p => p.Brand)
                 .Include(p => p.Category)
-                .Include(p => p.ProductDetails)
-                .Include(p => p.ProductDetails)
-                    .ThenInclude(p => p.Capacity)
-                .Include(p => p.ProductDetails)
-                    .ThenInclude(p => p.Color)
+                .Include(p => p.Images)
+                .Include(p => p.ProductDetails.Where(pd => pd.Status == true))
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<Product> GetProductByName(string name)
+        public async Task<Product> GetProductActiveByName(string name)
         {
             return await _context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.ProductDetails)
-                .FirstOrDefaultAsync(p => p.Name == name);
+                .FirstOrDefaultAsync(p => p.Name == name && p.Status == true);
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
         {
             return await _context.Products.Include(p => p.Brand)
                 .Include(p => p.Category)
+                .Include(p => p.Images)
                 .Include(p => p.ProductDetails)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByBrand(int brandId)
+        public async Task<IEnumerable<Product>> GetProductsActiveByBrand(int brandId)
         {
             return await _context.Products
                    .Include(p => p.Brand)
                    .Include(p => p.Category)
                    .Include(p => p.ProductDetails)
-                   .Where(p => p.BrandId == brandId)
+                   .Include(p => p.Images)
+                   .Where(p => p.BrandId == brandId && p.Status == true)
                    .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsShow()
+        public async Task<IEnumerable<Product>> GetProductsActive()
         {
-            return await _context.Products.Where(p => p.Status == true)
+            return await _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.ProductDetails)
+                .Include(p => p.Images)
+                .Where(p => p.Status == true)
                 .ToListAsync(); ;
         }
 
-        public async Task<bool> ProductExist(int id)
+        public async Task<bool> ProductExist(Product product)
         {
-            return await _context.Products.AnyAsync(b => b.Id == id);
+            var pt = await _context.Products
+                .FirstOrDefaultAsync(p => p.Id != product.Id 
+                && p.Name == product.Name);
+            if (pt == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<IActionResult> UpdateProduct(int id, Product product)
@@ -99,25 +110,43 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            _context.Entry(product).State = EntityState.Modified;
+
+            var check = await ProductExist(product);
+            if (check == true)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "It was existed!"
+                });
+            }
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if (!await ProductExist(product.Id))
+                var pt = await GetProduct(id);
+                if (pt == null)
                 {
                     return new NotFoundObjectResult(new
                     {
                         mess = "Not Found!"
                     });
                 }
-                else
+                pt.Images.Clear();
+                foreach (var image in product.Images)
                 {
-                    throw;
+                    var newImg = new Image();
+                    newImg.ProductId = product.Id;
+                    newImg.ImagePublicId = image.ImagePublicId;
+                    newImg.ImageUrl = image.ImageUrl;
+
+                    await _context.Images.AddAsync(newImg);
                 }
+                _context.Entry(pt).CurrentValues.SetValues(product);
+                await _context.SaveChangesAsync();
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"

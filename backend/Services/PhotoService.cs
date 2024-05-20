@@ -29,7 +29,6 @@ namespace backend.Services
             var uploadResult = new ImageUploadResult();
             if (photo.Length > 0)
             {
-                Console.WriteLine("Co the Upload");
                 using var stream = photo.OpenReadStream();
                 var uploadParams = new ImageUploadParams
                 {
@@ -38,11 +37,6 @@ namespace backend.Services
                             .Height(500).Width(800)
                 };
                 uploadResult = await cloudinary.UploadAsync(uploadParams);
-            }
-            else
-            {
-                Console.WriteLine("No photo to upload.");
-                Console.WriteLine(uploadResult.Error);
             }
             return uploadResult;
         }

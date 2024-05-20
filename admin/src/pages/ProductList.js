@@ -54,7 +54,7 @@ const ProductList = () => {
       name: productState[i].name,
       brand: productState[i].brand?.title,
       category: productState[i].category?.title,
-      hinh: (<img className='img-fluid w-25' src={productState[i].imageUrl} />),
+      hinh: (<img className='img-fluid w-25' src={productState[i].images[0]?.imageUrl} />),
       status: (<>
         <select defaultValue={productState[i]?.status}
           onChange={(e) => updateStatus(productState[i]?.id, e.target.value)}

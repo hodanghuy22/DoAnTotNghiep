@@ -11,6 +11,6 @@ namespace backend.Models
         public int ProductDetailId { get; set; }
         public ProductDetail ProductDetail { get; set; }
         public int Quantity { get; set; }
-        public int TotalPrice { get; set; }
+        public int Price { get; set; }
     }
 }

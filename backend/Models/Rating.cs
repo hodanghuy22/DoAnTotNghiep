@@ -10,8 +10,8 @@ namespace backend.Models
         public int ProductDetailId { get; set; }
         [JsonIgnore]
         public ProductDetail ProductDetail { get; set; }
-        public string Comment { get; set; }
+        public string Review { get; set; }
         public int Star { get; set; }
-        public DateTime NgayDang { get; set; }
+        public DateTime Date { get; set; }
     }
 }

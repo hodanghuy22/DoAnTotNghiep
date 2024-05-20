@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
-import { GetProductsShow } from '../features/products/productSlice';
+import { GetProductsActive } from '../features/products/productSlice';
 import { GetCapacitiesShow } from '../features/capacitites/capacitySlice';
 import { GetColorsShow } from '../features/colors/colorSlice';
 import { GetCategoriesShow } from '../features/categories/categorySlice';
@@ -41,7 +41,7 @@ const AddProductDetails = () => {
   const [categoryId, setCategoryId] = useState(1);
 
   useEffect(() => {
-    dispatch(GetProductsShow())
+    dispatch(GetProductsActive())
     dispatch(GetCapacitiesShow())
     dispatch(GetColorsShow())
     dispatch(GetCategoriesShow())

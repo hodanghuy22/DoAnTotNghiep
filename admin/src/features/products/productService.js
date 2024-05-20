@@ -2,14 +2,14 @@ import axios from "axios"
 import { base_url, config } from "../../utils/axiosConfig";
 
 const getProducts = async () => {
-  const response = await axios.get(`${base_url}Products/Admin`, config);
+  const response = await axios.get(`${base_url}Products`, config);
   if (response.data) {
     return response.data;
   }
 }
 
-const getProductsShow = async () => {
-  const response = await axios.get(`${base_url}Products/`, config);
+const getProductsActive = async () => {
+  const response = await axios.get(`${base_url}Products/Active`, config);
   if (response.data) {
     return response.data;
   }
@@ -49,7 +49,7 @@ const productService = {
   updateStatusProduct,
   getProduct,
   updateProduct,
-  getProductsShow,
+  getProductsActive,
 };
 
 export default productService;

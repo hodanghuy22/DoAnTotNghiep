@@ -15,7 +15,6 @@
         public int ColorId { get; set; }
         public Color Color { get; set; }
         public bool Status { get; set; }
-        public List<Image> Images { get; set; }
         public List<Comment> Comments { get; set; }
         public List<Rating> Ratings { get; set; }
     }

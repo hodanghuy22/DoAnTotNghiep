@@ -7,7 +7,7 @@ namespace backend.Interfaces
     {
         Task<IActionResult> CreateCapacity(Capacity capacity);
         Task<IEnumerable<Capacity>> GetCapacities();
-        //Task<IEnumerable<Capacity>> GetCapacitiesByPhoneId(int id);
+        Task<IEnumerable<Capacity>> GetCapacitiesByProductId(int id);
         Task<IEnumerable<Capacity>> GetCapacitiesShow();
         Task<Capacity> GetCapacity(int id);
         Task<bool> CapacityExist(int id);
