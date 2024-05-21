@@ -1,0 +1,29 @@
+
+.navbar {
+    position: relative;
+  }
+  
+  .user-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  
+  .collapse-content-user {
+    position: absolute;
+    background-color: #f1f1f1;
+    padding: 10px;
+    right: 20px;
+    top: calc(0% + 90px);
+    width: 200px;
+  }
+  
+  .collapse-content-product {
+    position: absolute;
+    background-color: #f1f1f1;
+    padding: 10px;
+    top: calc(0% + 90px);
+    width: 600px;
+    left: 30%; 
+    z-index: 1;
+  }
