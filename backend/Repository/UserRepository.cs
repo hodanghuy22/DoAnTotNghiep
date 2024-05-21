@@ -199,7 +199,8 @@ namespace backend.Repository
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
                 Email = registerModel.Email,
-                UserName = registerModel.Username
+                UserName = registerModel.Username,
+                CreateAt = DateTime.UtcNow
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)
@@ -296,6 +297,24 @@ namespace backend.Repository
             {
                 mess = result.Errors
             });
+        }
+
+        public async Task<IEnumerable<StatisticUserModel>> StatisticUserOfYear(int year)
+        {
+            var invoices = await _context.Users
+                .Where(i => i.CreateAt.Year == year)
+                .ToListAsync();
+
+            var revenueByMonth = Enumerable.Range(1, 12)
+                .Select(month => new StatisticUserModel
+                {
+                    Month = month.ToString(),
+                    Total = invoices.Where(i => i.CreateAt.Month == month)
+                                  .Count()
+                })
+                .ToList();
+
+            return revenueByMonth;
         }
 
         public async Task<IActionResult> UpdateUser(string id, UserDto userDto)

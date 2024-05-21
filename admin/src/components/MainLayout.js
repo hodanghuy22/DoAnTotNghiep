@@ -17,6 +17,7 @@ import { IoColorWandSharp } from 'react-icons/io5';
 import { ImPlus } from 'react-icons/im';
 import { RiSlideshowLine } from 'react-icons/ri';
 import { BiSolidCoupon } from 'react-icons/bi';
+import { FcStatistics } from 'react-icons/fc';
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,6 +50,11 @@ const MainLayout = () => {
               key: '',
               icon: <MdDashboard  className='fs-5' />,
               label: 'Dashboard',
+            },
+            {
+              key: 'statistics',
+              icon: <FcStatistics  className='fs-5' />,
+              label: 'Statistics',
             },
             {
               key: 'user',

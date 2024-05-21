@@ -26,6 +26,7 @@ import AddCoupon from "./pages/AddCoupon";
 import OrderStatusList from "./pages/OrderStatusList";
 import AddOrderStatus from "./pages/AddOrderStatus";
 import AddInvoice from "./pages/AddInvoice";
+import Statistics from "./pages/Statistics";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/" element={<Login />}></Route>
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Dashboard />}></Route>
+          <Route path="statistics" element={<Statistics />}></Route>
           <Route path='brand-list' element={<BrandList />} />
           <Route path='brand' element={<AddBrand />} />
           <Route path='brand/:id' element={<AddBrand />} />

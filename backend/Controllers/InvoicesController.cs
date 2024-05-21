@@ -93,6 +93,16 @@ namespace backend.Controllers
             return Ok(invoices);
         }
 
+        [HttpGet]
+        [Route("GetTotalInvoiceOfYear/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetTotalInvoiceOfYear(int year)
+        {
+            var invoices = await _uow.InvoiceRepository
+                .GetTotalInvoiceOfYear(year);
+            return Ok(invoices);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
