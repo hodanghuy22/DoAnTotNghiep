@@ -29,19 +29,27 @@ const countCancelInvoicesByMonth = async(data) => {
   }
 }
 
-const revenueByMonth = async(data) => {
-  const response = await axios.get(`${base_url}Invoices/RevenueByMonth/${data.month}/${data.year}`, config);
+const getRevenueByMonth = async(data) => {
+  const response = await axios.get(`${base_url}Invoices/GetRevenueByMonth/${data.month}/${data.year}`, config);
   if (response.data) {
     return response.data;
   }
 }
 
-const revenueAfterDiscountByMonth = async(data) => {
-  const response = await axios.get(`${base_url}Invoices/RevenueAfterDiscountByMonth/${data.month}/${data.year}`, config);
+const getRevenueAfterDiscountByMonth = async(data) => {
+  const response = await axios.get(`${base_url}Invoices/GetRevenueAfterDiscountByMonth/${data.month}/${data.year}`, config);
   if (response.data) {
     return response.data;
   }
 }
+
+const getRevenueOfYear = async(data) => {
+  const response = await axios.get(`${base_url}Invoices/GetRevenueOfYear/${data.year}`, config);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 
 const getInvoice = async(id) => {
   const response = await axios.get(`${base_url}Invoices/GetInvoice/${id}`, config);
@@ -64,8 +72,9 @@ const invoiceService = {
   countInvoicesByMonth,
   countCancelInvoicesByMonth,
   updateStatusInvoice,
-  revenueByMonth,
-  revenueAfterDiscountByMonth,
+  getRevenueByMonth,
+  getRevenueAfterDiscountByMonth,
+  getRevenueOfYear,
 };
 
 export default invoiceService;

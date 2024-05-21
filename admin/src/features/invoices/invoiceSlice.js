@@ -42,17 +42,25 @@ export const CountCancelInvoicesByMonth = createAsyncThunk('invoices-count-cancl
   }
 })
 
-export const RevenueByMonth = createAsyncThunk('invoices-revenue', async (data, thunkAPI) => {
+export const GetRevenueByMonth = createAsyncThunk('invoices-revenue', async (data, thunkAPI) => {
   try {
-    return await invoiceService.revenueByMonth(data);
+    return await invoiceService.getRevenueByMonth(data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
 })
 
-export const RevenueAfterDiscountByMonth = createAsyncThunk('invoices-revenue-afterDiscount', async (data, thunkAPI) => {
+export const GetRevenueAfterDiscountByMonth = createAsyncThunk('invoices-revenue-afterDiscount', async (data, thunkAPI) => {
   try {
-    return await invoiceService.revenueAfterDiscountByMonth(data);
+    return await invoiceService.getRevenueAfterDiscountByMonth(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+export const GetRevenueOfYear = createAsyncThunk('invoices-revenue-year', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.getRevenueOfYear(data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -165,26 +173,38 @@ export const invoiceSlice = createSlice({
       if(state.isError) {
         toast.error("The invoice update was not successful!");
       } 
-    }).addCase(RevenueByMonth.pending, (state) => {
+    }).addCase(GetRevenueByMonth.pending, (state) => {
       state.isLoading = true;
-    }).addCase(RevenueByMonth.fulfilled, (state, action) => {
+    }).addCase(GetRevenueByMonth.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
       state.revenueByMonth = action.payload;
-    }).addCase(RevenueByMonth.rejected, (state, action) => {
+    }).addCase(GetRevenueByMonth.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-    }).addCase(RevenueAfterDiscountByMonth.pending, (state) => {
+    }).addCase(GetRevenueAfterDiscountByMonth.pending, (state) => {
       state.isLoading = true;
-    }).addCase(RevenueAfterDiscountByMonth.fulfilled, (state, action) => {
+    }).addCase(GetRevenueAfterDiscountByMonth.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
       state.revenueAfterDiscountByMonth = action.payload;
-    }).addCase(RevenueAfterDiscountByMonth.rejected, (state, action) => {
+    }).addCase(GetRevenueAfterDiscountByMonth.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetRevenueOfYear.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetRevenueOfYear.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.revenueOfYear = action.payload;
+    }).addCase(GetRevenueOfYear.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

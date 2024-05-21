@@ -66,20 +66,30 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        [Route("RevenueByMonth/{month}/{year}")]
+        [Route("GetRevenueByMonth/{month}/{year}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RevenueByMonth(int month, int year)
+        public async Task<IActionResult> GetRevenueByMonth(int month, int year)
         {
-            var invoices = await _uow.InvoiceRepository.RevenueByMonth(month, year);
+            var invoices = await _uow.InvoiceRepository.GetRevenueByMonth(month, year);
             return Ok(invoices);
         }
 
         [HttpGet]
-        [Route("RevenueAfterDiscountByMonth/{month}/{year}")]
+        [Route("GetRevenueAfterDiscountByMonth/{month}/{year}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RevenueAfterDiscountByMonth(int month, int year)
+        public async Task<IActionResult> GetRevenueAfterDiscountByMonth(int month, int year)
         {
-            var invoices = await _uow.InvoiceRepository.RevenueAfterDiscountByMonth(month, year);
+            var invoices = await _uow.InvoiceRepository.GetRevenueAfterDiscountByMonth(month, year);
+            return Ok(invoices);
+        }
+
+        [HttpGet]
+        [Route("GetRevenueOfYear/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetRevenueOfYear(int year)
+        {
+            var invoices = await _uow.InvoiceRepository
+                .GetRevenueOfYear(year);
             return Ok(invoices);
         }
 

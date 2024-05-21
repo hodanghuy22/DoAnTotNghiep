@@ -149,7 +149,7 @@ namespace backend.Repository
               .ToListAsync();
         }
 
-        public async Task<int> RevenueAfterDiscountByMonth(int month, int year)
+        public async Task<int> GetRevenueAfterDiscountByMonth(int month, int year)
         {
             int count = 0;
 
@@ -166,7 +166,7 @@ namespace backend.Repository
             return count;
         }
 
-        public async Task<int> RevenueByMonth(int month, int year)
+        public async Task<int> GetRevenueByMonth(int month, int year)
         {
             int count = 0;
 
@@ -181,6 +181,24 @@ namespace backend.Repository
             }
 
             return count;
+        }
+
+        public async Task<IEnumerable<RevenueOfYearModel>> GetRevenueOfYear(int year)
+        {
+            var invoices = await _context.Invoices
+                .Where(i => i.IssueDate.Year == year)
+                .ToListAsync();
+
+            var revenueByMonth = Enumerable.Range(1, 12)
+                .Select(month => new RevenueOfYearModel
+                {
+                    Month = month.ToString(),
+                    Revenue = invoices.Where(i => i.IssueDate.Month == month)
+                                  .Sum(i => i.TotalPrice)
+                })
+                .ToList();
+
+            return revenueByMonth;
         }
 
         public async Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId)
