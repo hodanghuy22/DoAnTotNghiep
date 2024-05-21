@@ -71,6 +71,22 @@ namespace backend.Repository
             });
         }
 
+        public async Task<int> CountUser()
+        {
+            var count = 0;
+            var users = await _context.Users.ToListAsync();
+            foreach(var item in users)
+            {
+                var roles = await _userManager.GetRolesAsync(item);
+
+                if (roles != null && roles.Any(r => r == "User"))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         public async Task<IActionResult> ForgetPassword(ForgetPasswordModel forgetPasswordModel)
         {
             var user = await _userManager.FindByEmailAsync(forgetPasswordModel.Email);

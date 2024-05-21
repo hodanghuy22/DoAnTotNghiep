@@ -24,10 +24,18 @@ const getAllUsers = async()=>{
     }
 }
 
+const countUser = async()=>{
+    const response = await axios.get(`${base_url}Users/CountUser`, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const authService = {
     login,
     registerAdmin,
     getAllUsers,
+    countUser,
 };
 
 export default authService;

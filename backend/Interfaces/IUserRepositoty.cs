@@ -16,6 +16,6 @@ namespace backend.Interfaces
         Task<IActionResult> ChangePassword(string id, ChangePasswordModel changePasswordModel);
         Task<IActionResult> ForgetPassword(ForgetPasswordModel forgetPasswordModel);
         Task<IActionResult> ResetPassword(ResetPasswordModel model);
-
+        Task<int> CountUser();
     }
 }

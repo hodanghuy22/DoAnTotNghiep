@@ -141,7 +141,7 @@ export const couponSlice = createSlice({
       state.isSuccess = false;
       state.message = action.error;
       if(state.isError) {
-        toast.success("The coupon update was not successful!");
+        toast.error("The coupon update was not successful!");
       } 
     }).addCase(GetCouponsActive.pending, (state) => {
       state.isLoading = true;

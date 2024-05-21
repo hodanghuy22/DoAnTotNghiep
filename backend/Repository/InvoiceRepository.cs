@@ -15,6 +15,40 @@ namespace backend.Repository
             _context = context;
         }
 
+        public async Task<int> CountCancelInvoicesByMonth(int month, int year)
+        {
+            int count = 0;
+
+            var invoices = await _context.Invoices.ToListAsync();
+
+            foreach (var item in invoices)
+            {
+                if (item.IssueDate.Month == month && item.IssueDate.Year == year && item.OrderStatusId == 6)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        public async Task<int> CountInvoicesByMonth(int month, int year)
+        {
+            int count = 0;
+
+            var invoices = await _context.Invoices.ToListAsync();
+
+            foreach(var item in invoices)
+            {
+                if(item.IssueDate.Month == month && item.IssueDate.Year == year)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
         public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
             if (invoice.CouponId != null)
@@ -113,6 +147,40 @@ namespace backend.Repository
                         .ThenInclude(i => i.ProductDetail)
                             .ThenInclude(p => p.Capacity)
               .ToListAsync();
+        }
+
+        public async Task<int> RevenueAfterDiscountByMonth(int month, int year)
+        {
+            int count = 0;
+
+            var invoices = await _context.Invoices.ToListAsync();
+
+            foreach (var item in invoices)
+            {
+                if (item.IssueDate.Month == month && item.IssueDate.Year == year)
+                {
+                    count += item.TotalPriceAfterDiscount;
+                }
+            }
+
+            return count;
+        }
+
+        public async Task<int> RevenueByMonth(int month, int year)
+        {
+            int count = 0;
+
+            var invoices = await _context.Invoices.ToListAsync();
+
+            foreach (var item in invoices)
+            {
+                if (item.IssueDate.Month == month && item.IssueDate.Year == year)
+                {
+                    count += item.TotalPrice;
+                }
+            }
+
+            return count;
         }
 
         public async Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId)

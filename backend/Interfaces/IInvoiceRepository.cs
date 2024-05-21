@@ -10,6 +10,10 @@ namespace backend.Interfaces
         Task<IEnumerable<Invoice>> GetInvoicesForAdmin();
         Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID, int orderStatusId);
         Task<Invoice> GetInvoice(int id);
+        Task<int> CountInvoicesByMonth(int month, int year);
+        Task<int> CountCancelInvoicesByMonth(int month, int year);
+        Task<int> RevenueByMonth(int month, int year);
+        Task<int> RevenueAfterDiscountByMonth(int month, int year);
         Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId);
     }
 }

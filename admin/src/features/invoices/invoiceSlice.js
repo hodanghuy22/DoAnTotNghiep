@@ -26,6 +26,45 @@ export const GetInvoice = createAsyncThunk('invoices-get', async (id,thunkAPI) =
   }
 })
 
+export const CountInvoicesByMonth = createAsyncThunk('invoices-count', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.countInvoicesByMonth(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+export const CountCancelInvoicesByMonth = createAsyncThunk('invoices-count-cancle', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.countCancelInvoicesByMonth(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+export const RevenueByMonth = createAsyncThunk('invoices-revenue', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.revenueByMonth(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+export const RevenueAfterDiscountByMonth = createAsyncThunk('invoices-revenue-afterDiscount', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.revenueAfterDiscountByMonth(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+export const UpdateStatusInvoice = createAsyncThunk('invoices-update-status', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.updateStatusInvoice(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
 
 export const resetState = createAction('Reset_all')
 
@@ -80,6 +119,72 @@ export const invoiceSlice = createSlice({
       state.isSuccess = true;
       state.invoice = action.payload;
     }).addCase(GetInvoice.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(CountInvoicesByMonth.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(CountInvoicesByMonth.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.countInvoicesByMonth = action.payload;
+    }).addCase(CountInvoicesByMonth.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(CountCancelInvoicesByMonth.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(CountCancelInvoicesByMonth.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.countCancelInvoicesByMonth = action.payload;
+    }).addCase(CountCancelInvoicesByMonth.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(UpdateStatusInvoice.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(UpdateStatusInvoice.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.updateInvoice = action.payload;
+      if(state.isSuccess) {
+        toast.success("The invoice update was successful!");
+      } 
+    }).addCase(UpdateStatusInvoice.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+      if(state.isError) {
+        toast.error("The invoice update was not successful!");
+      } 
+    }).addCase(RevenueByMonth.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(RevenueByMonth.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.revenueByMonth = action.payload;
+    }).addCase(RevenueByMonth.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(RevenueAfterDiscountByMonth.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(RevenueAfterDiscountByMonth.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.revenueAfterDiscountByMonth = action.payload;
+    }).addCase(RevenueAfterDiscountByMonth.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

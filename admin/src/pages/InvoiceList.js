@@ -3,7 +3,8 @@ import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { BiEdit } from 'react-icons/bi';
-import { GetInvoices, resetState } from '../features/invoices/invoiceSlice';
+import { GetInvoices, UpdateStatusInvoice, resetState } from '../features/invoices/invoiceSlice';
+import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice';
 
 const columns = [
   {
@@ -54,8 +55,11 @@ const InvoiceList = () => {
   useEffect(() => {
     dispatch(resetState())
     dispatch(GetInvoices())
+    dispatch(GetOrderStatusesActive())
   }, []);
   const invoiceState = useSelector(state => state?.invoice?.invoices)
+  const orderStatusState = useSelector(state => state?.orderStatus?.orderStatuses)
+
   const changeDateFormat = (date) => {
     const newDate = new Date(date).toLocaleDateString();
     const [month, day, year] = newDate.split("/");
@@ -73,17 +77,30 @@ const InvoiceList = () => {
       totalPrice: invoiceState[i].totalPrice,
       totalPriceAfterDiscount: invoiceState[i].totalPriceAfterDiscount,
       coupon: invoiceState[i].coupon?.title,
-      orderStatus: invoiceState[i].orderStatus?.title,
+      orderStatus: (<>
+        <select defaultValue={invoiceState[i]?.orderStatusId}
+          onChange={(e) => updateStatus(invoiceState[i]?.id, e.target.value)}
+          name="" className={`form-control form-select fw-bold ${invoiceState[i]?.orderStatusId !== 6 ? 'text-success' : 'text-danger'}`}
+        >
+          {
+            orderStatusState && orderStatusState?.map((i,j) => {
+              return (
+                <option key={j} value={i?.id}>{i?.title}</option>
+              )
+            })
+          }
+        </select>
+      </>),
       action: (<>
         <Link className='fs-3 text-info' to={`/admin/invoice/${invoiceState[i].id}`}><BiEdit /></Link>
       </>)
     });
   }
   const updateStatus = (a,b) => {
-    // dispatch(UpdateStatusCategory({id:a, status:b}))
-    // setTimeout(() => {
-    //   dispatch(GetCategories())
-    // }, 300)
+    dispatch(UpdateStatusInvoice({id:a, status:b}))
+    setTimeout(() => {
+      dispatch(GetInvoices())
+    }, 300)
   }
   return (
 

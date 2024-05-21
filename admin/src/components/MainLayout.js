@@ -17,7 +17,6 @@ import { IoColorWandSharp } from 'react-icons/io5';
 import { ImPlus } from 'react-icons/im';
 import { RiSlideshowLine } from 'react-icons/ri';
 import { BiSolidCoupon } from 'react-icons/bi';
-import { BsBoxes } from 'react-icons/bs';
 
 const { Header, Sider, Content } = Layout;
 

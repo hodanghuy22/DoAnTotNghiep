@@ -33,6 +33,14 @@ export const GetAllUsers = createAsyncThunk("auth/getAllUsers", async(thunkAPI) 
     }
 });
 
+export const CountUser = createAsyncThunk("auth/countUser", async(thunkAPI) =>{
+    try{
+        return await authService.countUser();
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+});
+
 
 const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
@@ -116,6 +124,21 @@ export const authSlice = createSlice({
             state.listUser = action.payload;
         })
         .addCase(GetAllUsers.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        })
+        .addCase(CountUser.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(CountUser.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.countUser = action.payload;
+        })
+        .addCase(CountUser.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

@@ -47,6 +47,42 @@ namespace backend.Controllers
             return Ok(invoices);
         }
 
+        [HttpGet]
+        [Route("CountInvoicesByMonth/{month}/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CountInvoicesByMonth(int month, int year)
+        {
+            var invoices = await _uow.InvoiceRepository.CountInvoicesByMonth(month, year);
+            return Ok(invoices);
+        }
+
+        [HttpGet]
+        [Route("CountCancelInvoicesByMonth/{month}/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CountCancelInvoicesByMonth(int month, int year)
+        {
+            var invoices = await _uow.InvoiceRepository.CountCancelInvoicesByMonth(month, year);
+            return Ok(invoices);
+        }
+
+        [HttpGet]
+        [Route("RevenueByMonth/{month}/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RevenueByMonth(int month, int year)
+        {
+            var invoices = await _uow.InvoiceRepository.RevenueByMonth(month, year);
+            return Ok(invoices);
+        }
+
+        [HttpGet]
+        [Route("RevenueAfterDiscountByMonth/{month}/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RevenueAfterDiscountByMonth(int month, int year)
+        {
+            var invoices = await _uow.InvoiceRepository.RevenueAfterDiscountByMonth(month, year);
+            return Ok(invoices);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
