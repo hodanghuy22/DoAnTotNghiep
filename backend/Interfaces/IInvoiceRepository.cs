@@ -15,6 +15,7 @@ namespace backend.Interfaces
         Task<int> GetRevenueByMonth(int month, int year);
         Task<int> GetRevenueAfterDiscountByMonth(int month, int year);
         Task<IEnumerable<RevenueOfYearModel>> GetRevenueOfYear(int year);
+        Task<IEnumerable<StatisticInvoiceOfYearModel>> GetTotalInvoiceOfYear(int year);
         Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId);
     }
 }

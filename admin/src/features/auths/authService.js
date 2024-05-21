@@ -31,11 +31,19 @@ const countUser = async()=>{
     }
 }
 
+const statisticUserOfYear = async(data)=>{
+    const response = await axios.get(`${base_url}Users/StatisticUserOfYear/${data.year}`, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
 const authService = {
     login,
     registerAdmin,
     getAllUsers,
     countUser,
+    statisticUserOfYear,
 };
 
 export default authService;

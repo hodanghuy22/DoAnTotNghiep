@@ -41,6 +41,14 @@ export const CountUser = createAsyncThunk("auth/countUser", async(thunkAPI) =>{
     }
 });
 
+export const StatisticUserOfYear = createAsyncThunk("auth/statistic", async(data, thunkAPI) =>{
+    try{
+        return await authService.statisticUserOfYear(data);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+});
+
 
 const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
@@ -139,6 +147,21 @@ export const authSlice = createSlice({
             state.countUser = action.payload;
         })
         .addCase(CountUser.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        })
+        .addCase(StatisticUserOfYear.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(StatisticUserOfYear.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.statisticUserOfYear = action.payload;
+        })
+        .addCase(StatisticUserOfYear.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

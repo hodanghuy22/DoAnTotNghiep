@@ -52,6 +52,14 @@ namespace backend.Controllers
             return Ok(count);
         }
         [HttpGet]
+        [Route("StatisticUserOfYear/{year}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> StatisticUserOfYear(int year)
+        {
+            var count = await _uow.UserRepositoty.StatisticUserOfYear(year);
+            return Ok(count);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<UserDto> GetAUser(string id)
         {

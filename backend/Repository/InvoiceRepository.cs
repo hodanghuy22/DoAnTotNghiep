@@ -192,13 +192,53 @@ namespace backend.Repository
             var revenueByMonth = Enumerable.Range(1, 12)
                 .Select(month => new RevenueOfYearModel
                 {
+                    Name = "Doanh thu",
                     Month = month.ToString(),
                     Revenue = invoices.Where(i => i.IssueDate.Month == month)
                                   .Sum(i => i.TotalPrice)
                 })
                 .ToList();
 
-            return revenueByMonth;
+            var revenueByMonth2 = Enumerable.Range(1, 12)
+                .Select(month => new RevenueOfYearModel
+                {
+                    Name = "Doanh thu sau chiết khấu",
+                    Month = month.ToString(),
+                    Revenue = invoices.Where(i => i.IssueDate.Month == month)
+                                  .Sum(i => i.TotalPriceAfterDiscount)
+                })
+                .ToList();
+            var combinedRevenue = revenueByMonth.Concat(revenueByMonth2).ToList();
+            return combinedRevenue;
+        }
+
+        public async Task<IEnumerable<StatisticInvoiceOfYearModel>> GetTotalInvoiceOfYear(int year)
+        {
+            var invoices = await _context.Invoices
+                .Where(i => i.IssueDate.Year == year)
+                .ToListAsync();
+
+            var countByMonth = Enumerable.Range(1, 12)
+                .Select(month => new StatisticInvoiceOfYearModel
+                {
+                    Name = "Tổng hóa đơn",
+                    Month = month.ToString(),
+                    Total = invoices.Where(i => i.IssueDate.Month == month)
+                                  .Count()
+                })
+                .ToList();
+
+            var countByMonth2 = Enumerable.Range(1, 12)
+                .Select(month => new StatisticInvoiceOfYearModel
+                {
+                    Name = "Hóa đơn hủy",
+                    Month = month.ToString(),
+                    Total = invoices.Where(i => i.IssueDate.Month == month)
+                                  .Count(i => i.OrderStatusId == 6)
+                })
+                .ToList();
+            var combinedRevenue = countByMonth.Concat(countByMonth2).ToList();
+            return combinedRevenue;
         }
 
         public async Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId)

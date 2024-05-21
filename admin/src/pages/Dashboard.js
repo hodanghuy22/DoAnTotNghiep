@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import DasboardCard from '../components/DasboardCard'
 import { RiMoneyDollarCircleLine } from 'react-icons/ri'
 import { MdOutlineShoppingCart } from 'react-icons/md'
@@ -6,7 +6,7 @@ import { FiUser } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { CountCancelInvoicesByMonth, CountInvoicesByMonth, GetRevenueAfterDiscountByMonth, GetRevenueByMonth, GetRevenueOfYear } from '../features/invoices/invoiceSlice'
 import { CountUser } from '../features/auths/authSlice'
-import { Column } from '@ant-design/charts'
+import ColumnRevenueChart from '../components/ColumnRevenueChart'
 
 const Dashboard = () => {
   const currentDate = new Date();
@@ -43,41 +43,6 @@ const Dashboard = () => {
   const revenueOfYearState = useSelector(state => state?.invoice?.revenueOfYear)
   const countUser = useSelector(state => state?.auth?.countUser)
 
-  const [monthData, setMonthData] = useState([]);
-
-  useEffect(() => {
-    let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    let data = []
-    for (let index = 0; index < revenueOfYearState?.length; index++) {
-      const element = revenueOfYearState[index];
-      data.push({
-        type: monthNames[element?.month] ? monthNames[element?.month - 1] : "December",
-        revenue: revenueOfYearState[index]?.revenue
-      })
-    }
-    setMonthData(data)
-  }, [revenueOfYearState])
-
-  const config = {
-    data: monthData,
-    xField: 'type',
-    yField: 'revenue',
-    columnWidthRatio: 0.8,
-    xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
-      },
-    },
-    meta: {
-      type: {
-        alias: '类别',
-      },
-      revenue: {
-        alias: '销售额',
-      },
-    },
-  };
   return (
     <>
       <h1>Trang thống kê nhanh</h1>
@@ -146,7 +111,7 @@ const Dashboard = () => {
       <div className='mt-5 container-fuild'>
         <h3 className='mb-3'>Doanh số theo tháng</h3>
         <div className='border rounded-3 p-3 bg-white'>
-          <Column {...config} />
+          <ColumnRevenueChart value={revenueOfYearState} />
         </div>
       </div>
     </>

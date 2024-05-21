@@ -66,6 +66,14 @@ export const GetRevenueOfYear = createAsyncThunk('invoices-revenue-year', async 
   }
 })
 
+export const GetTotalInvoiceOfYear = createAsyncThunk('invoices-getTotalInvoice', async (data, thunkAPI) => {
+  try {
+    return await invoiceService.getTotalInvoiceOfYear(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const UpdateStatusInvoice = createAsyncThunk('invoices-update-status', async (data, thunkAPI) => {
   try {
     return await invoiceService.updateStatusInvoice(data);
@@ -205,6 +213,18 @@ export const invoiceSlice = createSlice({
       state.isSuccess = true;
       state.revenueOfYear = action.payload;
     }).addCase(GetRevenueOfYear.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetTotalInvoiceOfYear.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetTotalInvoiceOfYear.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.totalInvoiceOfYear = action.payload;
+    }).addCase(GetTotalInvoiceOfYear.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

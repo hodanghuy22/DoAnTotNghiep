@@ -50,6 +50,12 @@ const getRevenueOfYear = async(data) => {
   }
 }
 
+const getTotalInvoiceOfYear = async(data) => {
+  const response = await axios.get(`${base_url}Invoices/GetTotalInvoiceOfYear/${data.year}`, config);
+  if (response.data) {
+    return response.data;
+  }
+}
 
 const getInvoice = async(id) => {
   const response = await axios.get(`${base_url}Invoices/GetInvoice/${id}`, config);
@@ -75,6 +81,7 @@ const invoiceService = {
   getRevenueByMonth,
   getRevenueAfterDiscountByMonth,
   getRevenueOfYear,
+  getTotalInvoiceOfYear,
 };
 
 export default invoiceService;
