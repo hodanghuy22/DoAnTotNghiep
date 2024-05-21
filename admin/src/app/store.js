@@ -10,8 +10,6 @@ import productReducer from '../features/products/productSlice';
 import productDetailReducer from '../features/productDetails/productDetailSlice';
 import couponReducer from '../features/coupons/couponSlice';
 import orderStatusReducer from '../features/orderStatus/orderStatusSlice';
-import supplierReducer from '../features/suppliers/supplierSlice';
-import importInvoiceReducer from '../features/importInvoices/importInvoiceSlice';
 import invoiceReducer from '../features/invoices/invoiceSlice';
 
 
@@ -28,8 +26,6 @@ export const store = configureStore({
         productDetail: productDetailReducer,
         coupon: couponReducer,
         orderStatus: orderStatusReducer,
-        supplier: supplierReducer,
-        importInvoice: importInvoiceReducer,
         invoice: invoiceReducer,
     }
 })

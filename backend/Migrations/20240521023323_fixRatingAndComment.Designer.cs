@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,10 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(CSDLContext))]
-    partial class CSDLContextModelSnapshot : ModelSnapshot
+    [Migration("20240521023323_fixRatingAndComment")]
+    partial class fixRatingAndComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,6 +228,59 @@ namespace backend.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("backend.Models.ImportInvoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateOfReceipt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("ImportInvoices");
+                });
+
+            modelBuilder.Entity("backend.Models.ImportInvoiceDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CostPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImportInvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImportInvoiceId");
+
+                    b.HasIndex("ProductDetailId");
+
+                    b.ToTable("ImportInvoiceDetails");
                 });
 
             modelBuilder.Entity("backend.Models.Invoice", b =>
@@ -517,6 +572,34 @@ namespace backend.Migrations
                     b.ToTable("Slideshows");
                 });
 
+            modelBuilder.Entity("backend.Models.Supplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Suppliers");
+                });
+
             modelBuilder.Entity("backend.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -804,6 +887,36 @@ namespace backend.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("backend.Models.ImportInvoice", b =>
+                {
+                    b.HasOne("backend.Models.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("backend.Models.ImportInvoiceDetail", b =>
+                {
+                    b.HasOne("backend.Models.ImportInvoice", "ImportInvoice")
+                        .WithMany("ImportInvoiceDetails")
+                        .HasForeignKey("ImportInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.ProductDetail", "ProductDetail")
+                        .WithMany()
+                        .HasForeignKey("ProductDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ImportInvoice");
+
+                    b.Navigation("ProductDetail");
+                });
+
             modelBuilder.Entity("backend.Models.Invoice", b =>
                 {
                     b.HasOne("backend.Models.Coupon", "Coupon")
@@ -983,6 +1096,11 @@ namespace backend.Migrations
             modelBuilder.Entity("backend.Models.Comment", b =>
                 {
                     b.Navigation("ChildComments");
+                });
+
+            modelBuilder.Entity("backend.Models.ImportInvoice", b =>
+                {
+                    b.Navigation("ImportInvoiceDetails");
                 });
 
             modelBuilder.Entity("backend.Models.Invoice", b =>

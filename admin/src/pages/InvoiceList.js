@@ -40,11 +40,6 @@ const columns = [
     dataIndex: 'coupon',
   },
   {
-    title: <h5 className='fw-bold'>Paid</h5>,
-    dataIndex: 'paid',
-    sorter: (a, b) => a.paid - b.paid,
-  },
-  {
     title: <h5 className='fw-bold'>Order Status</h5>,
     dataIndex: 'orderStatus',
   },
@@ -78,7 +73,6 @@ const InvoiceList = () => {
       totalPrice: invoiceState[i].totalPrice,
       totalPriceAfterDiscount: invoiceState[i].totalPriceAfterDiscount,
       coupon: invoiceState[i].coupon?.title,
-      paid: invoiceState[i].paid ? <p className='text-success'>Đã thanh toán</p> : <p className='text-danger'>Chưa thanh toán</p>,
       orderStatus: invoiceState[i].orderStatus?.title,
       action: (<>
         <Link className='fs-3 text-info' to={`/admin/invoice/${invoiceState[i].id}`}><BiEdit /></Link>

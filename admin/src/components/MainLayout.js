@@ -113,23 +113,6 @@ const MainLayout = () => {
               ]
             },
             {
-              key: 'importinvoice-cata',
-              icon: <FaFileInvoiceDollar  className='fs-5' />,
-              label: 'Import Invoice',
-              children: [
-                {
-                  key: 'importinvoice',
-                  icon: <ImPlus className='fs-5' />,
-                  label: 'Add Import Invoice',
-                },
-                {
-                  key: 'importinvoice-list',
-                  icon: <FaFileInvoiceDollar  className='fs-5' />,
-                  label: 'List Import Invoices',
-                },
-              ]
-            },
-            {
               key: 'capacity-cata',
               icon: <GrCapacity className='fs-5' />,
               label: 'Capacities',
@@ -245,23 +228,6 @@ const MainLayout = () => {
                   key: 'orderstatus-list',
                   icon: <MdLocalShipping className='fs-5' />,
                   label: 'List Order Status',
-                },
-              ]
-            },
-            {
-              key: 'supplier-cata',
-              icon: <BsBoxes className='fs-5' />,
-              label: 'Supplier',
-              children: [
-                {
-                  key: 'supplier',
-                  icon: <ImPlus   className='fs-5' />,
-                  label: 'Add Supplier',
-                },
-                {
-                  key: 'supplier-list',
-                  icon: <BsBoxes className='fs-5' />,
-                  label: 'List Supplier',
                 },
               ]
             },

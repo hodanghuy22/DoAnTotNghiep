@@ -64,11 +64,11 @@ namespace backend.Repository
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Comment>> GetComments(int productDetailsId)
+        public async Task<IEnumerable<Comment>> GetComments(int productId)
         {
             return await _context.Comments.Include(i => i.User)
                 .Include(c => c.ChildComments)
-                .Where(c => c.ProductDetailId == productDetailsId && c.ParentComment == null)
+                .Where(c => c.ProductId == productId && c.ParentComment == null)
                 .ToListAsync();
         }
 

@@ -25,10 +25,6 @@ import CouponList from "./pages/CouponList";
 import AddCoupon from "./pages/AddCoupon";
 import OrderStatusList from "./pages/OrderStatusList";
 import AddOrderStatus from "./pages/AddOrderStatus";
-import SupplierList from "./pages/SupplierList";
-import AddSupplier from "./pages/AddSupplier";
-import AddImportInvoice from "./pages/AddImportInvoice";
-import ImportInvoiceList from "./pages/ImportInvoiceList";
 import AddInvoice from "./pages/AddInvoice";
 
 function App() {
@@ -70,12 +66,6 @@ function App() {
           <Route path='orderstatus-list' element={<OrderStatusList />} />
           <Route path='orderstatus' element={<AddOrderStatus />} />
           <Route path='orderstatus/:id' element={<AddOrderStatus />} />
-          <Route path='supplier-list' element={<SupplierList />} />
-          <Route path='supplier' element={<AddSupplier />} />
-          <Route path='supplier/:id' element={<AddSupplier />} />
-          <Route path='importinvoice-list' element={<ImportInvoiceList />} />
-          <Route path='importinvoice' element={<AddImportInvoice />} />
-          <Route path='importinvoice/:id' element={<AddImportInvoice />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

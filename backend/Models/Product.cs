@@ -33,6 +33,8 @@
         public string AudioTechnology { get; set; }
         public string ChargingCase { get; set; }
         public string Connectivity { get; set; }
+        public int AverageRating { get; set; }
+        public int SoldQuantity { get; set; }
         public bool Status { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
@@ -40,5 +42,8 @@
         public Category Category { get; set; }
         public List<ProductDetail> ProductDetails { get; set; }
         public List<Image> Images { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<Rating> Ratings { get; set; }
+
     }
 }

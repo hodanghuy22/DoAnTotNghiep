@@ -15,7 +15,6 @@ namespace backend.Models
         public int TotalPriceAfterDiscount { get; set; }
         public int? CouponId { get; set; }
         public Coupon Coupon { get; set; }
-        public bool Paid { get; set; }
         public int OrderStatusId { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public List<InvoiceDetail> InvoiceDetails { get; set; }

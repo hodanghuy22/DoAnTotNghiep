@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { GetAllUsers } from '../features/auths/authSlice';
 import { GetCoupon, GetCouponsActive } from '../features/coupons/couponSlice';
-import { Checkbox } from 'antd';
 import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice';
 import { GetProductDetail, GetProductDetailsActive } from '../features/productDetails/productDetailSlice';
 import { AiFillDelete } from 'react-icons/ai';
@@ -21,7 +20,6 @@ const invoiceSchema = yup.object({
   totalPrice: yup.number(),
   totalPriceAfterDiscount: yup.number(),
   couponId: yup.number(),
-  paid: yup.bool(),
   orderStatusId: yup.number(),
   invoiceDetails: yup.array().required('You must create invoice details!'),
 });
@@ -47,8 +45,6 @@ const AddInvoice = () => {
   };
   const location = useLocation();
   const getInvoiceId = location.pathname.split("/")[3];
-
-  const [acceptCoupon, setAcceptCoupon] = useState(false);
 
   const userState = useSelector(state => state?.auth?.listUser)
   const couponState = useSelector(state => state?.coupon?.coupons)
@@ -83,7 +79,6 @@ const AddInvoice = () => {
       totalPrice: invoiceState?.totalPrice || 0,
       totalPriceAfterDiscount: invoiceState?.totalPriceAfterDiscount || 0,
       couponId: invoiceState?.couponId || "",
-      paid: invoiceState?.paid || false,
       orderStatusId: invoiceState?.orderStatusId || 1,
       invoiceDetails: invoiceState?.invoiceDetails || [],
     },
@@ -121,26 +116,26 @@ const AddInvoice = () => {
 
   useEffect(() => {
     let totalPrice = formik.values.invoiceDetails.reduce(
-      (sum, item) => sum + item.price * item.quantity, 
+      (sum, item) => sum + item.price * item.quantity,
       0
     );
     formik.setFieldValue("totalPrice", totalPrice);
-    if(totalPrice < aCouponState?.requiredTotal){
+    if (totalPrice < aCouponState?.requiredTotal) {
       toast.error("The total amount is not enough to use the coupon!");
       formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
       formik.setFieldValue("couponId", "");
       return;
     }
-    if(aCouponState?.quantity <= 0){
+    if (aCouponState?.quantity <= 0) {
       toast.error("The coupon is out!");
       formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
       formik.setFieldValue("couponId", "");
       return;
     }
-    if(aCouponState?.discountPercent){
-      totalPrice = totalPrice -(totalPrice * aCouponState?.discountPercent) / 100;
-    }else{
-      if(aCouponState?.discountMoney){
+    if (aCouponState?.discountPercent) {
+      totalPrice = totalPrice - (totalPrice * aCouponState?.discountPercent) / 100;
+    } else {
+      if (aCouponState?.discountMoney) {
         totalPrice -= aCouponState?.discountMoney;
       }
     }
@@ -148,33 +143,33 @@ const AddInvoice = () => {
   }, [formik.values.invoiceDetails])
 
   useEffect(() => {
-    if(formik.values.couponId !== ""){
+    if (formik.values.couponId !== "") {
       dispatch(GetCoupon(formik.values.couponId))
     }
-    if(formik.values.couponId === ""){
+    if (formik.values.couponId === "") {
       let total = formik.values.totalPrice;
       formik.setFieldValue("totalPriceAfterDiscount", total);
     }
   }, [formik.values.couponId])
 
-  useEffect(()=>{
+  useEffect(() => {
     var total = formik.values.totalPrice;
-    if(total < aCouponState?.requiredTotal){
+    if (total < aCouponState?.requiredTotal) {
       toast.error("The total amount is not enough to use the coupon!");
       formik.setFieldValue("totalPriceAfterDiscount", total);
       formik.setFieldValue("couponId", "");
       return;
     }
-    if(aCouponState?.quantity <= 0){
+    if (aCouponState?.quantity <= 0) {
       toast.error("The coupon is out!");
       formik.setFieldValue("totalPriceAfterDiscount", total);
       formik.setFieldValue("couponId", "");
       return;
     }
-    if(aCouponState?.discountPercent){
-      total = total -(total * aCouponState?.discountPercent) / 100;
-    }else{
-      if(aCouponState?.discountMoney){
+    if (aCouponState?.discountPercent) {
+      total = total - (total * aCouponState?.discountPercent) / 100;
+    } else {
+      if (aCouponState?.discountMoney) {
         total -= aCouponState?.discountMoney;
       }
     }
@@ -230,7 +225,7 @@ const AddInvoice = () => {
   return (
     <div>
       <div>
-        <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice</h1>
+        <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "View" : "Add"} Invoice</h1>
         <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>
             <div className='mb-3'>
@@ -384,14 +379,6 @@ const AddInvoice = () => {
                 </div>
               </div>
             </div>
-            <Checkbox
-              name="paid"
-              checked={formik.values.paid}
-              onChange={formik.handleChange('paid')}
-              defaultChecked={formik.values.paid}
-            >
-              Paid
-            </Checkbox><br />
             <br />
             {
               formik.values.invoiceDetails && formik.values.invoiceDetails.length > 0 && (
@@ -413,10 +400,10 @@ const AddInvoice = () => {
                             <th>{i?.quantity}</th>
                             <th>{i?.price}</th>
                             <th>
-                              <button type='button' className='btn btn-info'
-                              onClick={() => setInvoiceDetails(i)}><BiEdit /></button>
-                              <button type='button' className='btn btn-danger ms-3'
-                              onClick={() => removeItemInInvoiceDetails(i)}><AiFillDelete /></button>
+                              <button disabled={getInvoiceId !== undefined} type='button' className='btn btn-info'
+                                onClick={() => setInvoiceDetails(i)}><BiEdit /></button>
+                              <button disabled={getInvoiceId !== undefined} type='button' className='btn btn-danger ms-3'
+                                onClick={() => removeItemInInvoiceDetails(i)}><AiFillDelete /></button>
                             </th>
                           </tr>
                         )
@@ -426,12 +413,14 @@ const AddInvoice = () => {
                 </table>
               )
             }
-            <button className='btn btn-success' type='submit'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice</button>
+            <button disabled={getInvoiceId !== undefined} className='btn btn-success' type='submit'>
+              Add Invoice
+            </button>
           </form>
         </div>
       </div>
       <div className='mt-3'>
-        <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</h1>
+        <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "View" : "Add"} Invoice Details</h1>
         <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik2.handleSubmit}>
             <div className='mb-3'>
@@ -489,7 +478,7 @@ const AddInvoice = () => {
                 </div>
               </div>
             </div>
-            <button className='btn btn-success' type='submit'>{getInvoiceId !== undefined ? "Edit" : "Add"} Invoice Details</button>
+            <button disabled={getInvoiceId !== undefined} className='btn btn-success' type='submit'>Add Invoice Details</button>
           </form>
         </div>
       </div>

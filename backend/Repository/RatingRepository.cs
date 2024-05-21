@@ -18,7 +18,8 @@ namespace backend.Repository
         public async Task<IActionResult> CreateRating(Rating rating)
         {
             var kt = await _context.InvoiceDetails
-                .AnyAsync(c => c.Invoice.UserId == rating.UserId && c.ProductDetailId == rating.ProductDetailId);
+                .AnyAsync(c => c.Invoice.UserId == rating.UserId 
+                && c.ProductDetail.ProductId == rating.ProductId);
             if (kt == false)
             {
                 return new BadRequestObjectResult(new
@@ -27,7 +28,8 @@ namespace backend.Repository
                 });
             }
             var check = await _context.Ratings
-                .FirstOrDefaultAsync(r => r.UserId == rating.UserId && r.ProductDetailId == rating.ProductDetailId);
+                .FirstOrDefaultAsync(r => r.UserId == rating.UserId 
+                && r.ProductId == rating.ProductId);
             if (check != null)
             {
                 return new BadRequestObjectResult(new
@@ -35,8 +37,8 @@ namespace backend.Repository
                     mess = "You will be evaluated only once."
                 });
             }
-            var productDetails = await _context.ProductDetails.FindAsync(rating.ProductDetailId);
-            productDetails.AverageRating = (int)(productDetails.AverageRating + rating.Star) / 2;
+            var product = await _context.Products.FindAsync(rating.ProductId);
+            product.AverageRating = (int)(product.AverageRating + rating.Star) / 2;
             await _context.Ratings.AddAsync(rating);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
@@ -84,10 +86,10 @@ namespace backend.Repository
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Rating>> GetRatings(int productDetailsId)
+        public async Task<IEnumerable<Rating>> GetRatings(int productId)
         {
             return await _context.Ratings.Include(i => i.User)
-                .Where(c => c.ProductDetailId == productDetailsId)
+                .Where(c => c.ProductId == productId)
                 .ToListAsync();
         }
 
