@@ -195,7 +195,7 @@ const Home = () => {
             </Col>
           </Row>
           <Row className='justify-content-center mt-4'>
-            <Button className='w-25 bg-danger'>Xem Tất Cả <i><FaArrowRightLong /></i></Button>
+            <Link to={'/product-category/Phone'} className='btn w-25 bg-danger'>Xem Tất Cả <i><FaArrowRightLong /></i></Link>
           </Row>
         </Row>
       </Container>

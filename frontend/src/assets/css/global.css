@@ -27,3 +27,31 @@
     left: 30%; 
     z-index: 1;
   }
+  .icon-user{
+    font-size: 20px;
+    margin-right: 10px;
+  }
+  .active-user{
+    border-left: 8px solid orange;
+    color: orange;
+  }
+  .item-user:hover {
+    color: orange !important;
+    cursor: pointer;
+    border-left: 8px solid orange;
+  }
+  .item-user .link{
+    color: black;
+    text-decoration: none;
+  }
+  .item-user:hover .link {
+    color: orange; /* Đổi màu sang cam */
+  }
+  .add-address{
+    text-decoration: none;
+    color: black;
+    margin-top: 10px;
+  }
+  .add-address:hover{
+    color: orange;
+  }

@@ -52,9 +52,7 @@ const Header = () => {
             <div className='fs-5 p-3 text-nowrap'>
               <p className='btn'>Tin Tức</p>
             </div>
-            <div className='fs-5 p-3 text-nowrap'>
-              <p className='btn'>Liên Hệ </p>
-            </div>
+           
           </Col>
           <Col className='d-flex flex-row justify-content-start navbar'>
             <Link to={'/'} style={{ marginRight: '2rem', border: 'none', fontFamily: 'inherit' }} className='bg-transparent text-nowrap text-dark fs-3 '><img alt='logo' src={logo} width={'70%'} /></Link>
@@ -71,6 +69,12 @@ const Header = () => {
                 <BsCart3 />
               </p>
             </div>
+            <div className='fs-3 p-3'>
+              <p className='bg-transparent btn fs-4'>
+              <Link to={'/trang-ca-nhan'}><FaRegUser /></Link>
+              </p>
+            </div>
+           
             <div className='fs-3 p-3 btn '>
               <DropdownButton
                 as={ButtonGroup}
@@ -86,6 +90,7 @@ const Header = () => {
                 <Dropdown.Item >Register</Dropdown.Item>
               </DropdownButton>
             </div>
+
             <div className='fs-3 p-3 btn '>
               <DropdownButton
                 as={ButtonGroup}
@@ -97,6 +102,9 @@ const Header = () => {
               >
                  <Dropdown.Item>
                   <Link to={'/login'} className='text-decoration-none'>Đăng nhập</Link>
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
                   <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
