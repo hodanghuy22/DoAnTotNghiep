@@ -45,7 +45,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>Trang thống kê nhanh</h1>
+      <h1>Thống kê nhanh</h1>
       <div className='mt-3 container-fuild d-flex  justify-content-between'>
         <DasboardCard
           icon={<MdOutlineShoppingCart
