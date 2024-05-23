@@ -19,12 +19,22 @@ namespace backend.Repository
             return await _context.Slideshows.AnyAsync(c => c.Id == id);
         }
 
-        public async Task<IActionResult> CreateSlideshow(Slideshow slideshow)
+        public async Task<IActionResult> CreateSlideshow(Slideshow slideshow, string userId)
         {
             await _context.Slideshows.AddAsync(slideshow);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo Slideshow",
+                    Date = DateTime.Now,
+                    Object = "Slideshow",
+                    ObjectId = slideshow.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -36,7 +46,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> DeleteSlideshow(int id)
+        public async Task<IActionResult> DeleteSlideshow(int id, string userId)
         {
             var pt = await GetSlideshow(id);
 
@@ -51,6 +61,16 @@ namespace backend.Repository
             var result =  await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Xóa Slideshow",
+                    Date = DateTime.Now,
+                    Object = "Slideshow",
+                    ObjectId = id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully deleted!"
@@ -76,7 +96,7 @@ namespace backend.Repository
             return await _context.Slideshows.Where(s => s.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateSlideshow(int id, Slideshow slideshow)
+        public async Task<IActionResult> UpdateSlideshow(int id, Slideshow slideshow, string userId)
         {
             if(id != slideshow.Id)
             {
@@ -104,13 +124,23 @@ namespace backend.Repository
                     throw;
                 }
             }
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa Slideshow",
+                Date = DateTime.Now,
+                Object = "Slideshow",
+                ObjectId = id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"
             });
         }
 
-        public async Task<IActionResult> UpdateStatusSlideshow(int id, bool status)
+        public async Task<IActionResult> UpdateStatusSlideshow(int id, bool status, string userId)
         {
             var pt = await GetSlideshow(id);
 
@@ -126,6 +156,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái Slideshow",
+                    Date = DateTime.Now,
+                    Object = "Slideshow",
+                    ObjectId = id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"

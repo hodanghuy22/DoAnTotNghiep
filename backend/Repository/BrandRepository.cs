@@ -19,9 +19,10 @@ namespace backend.Repository
             return await _context.Brands.AnyAsync(b => b.Id == id);
         }
 
-        public async Task<IActionResult> CreateBrand(Brand brand)
+        public async Task<IActionResult> CreateBrand(Brand brand, string userId)
         {
-            var check = await _context.Brands.FirstOrDefaultAsync(c => c.Title == brand.Title);
+            var check = await _context.Brands
+                .FirstOrDefaultAsync(c => c.Title == brand.Title);
             if (check != null)
             {
                 return new BadRequestObjectResult(new
@@ -33,6 +34,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo Brand",
+                    Date = DateTime.Now,
+                    Object = "Brand",
+                    ObjectId = brand.Id.ToString()??"",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -44,7 +55,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> UpdateStatusBrand(int id, bool status)
+        public async Task<IActionResult> UpdateStatusBrand(int id, bool status, string userId)
         {
             var pt = await GetBrand(id);
 
@@ -60,6 +71,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái Brand",
+                    Date = DateTime.Now,
+                    Object = "Brand",
+                    ObjectId = id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"
@@ -86,7 +107,7 @@ namespace backend.Repository
             return await _context.Brands.Where(b => b.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateBrand(int id, Brand brand)
+        public async Task<IActionResult> UpdateBrand(int id, Brand brand, string userId)
         {
             if(id != brand.Id)
             {
@@ -121,6 +142,17 @@ namespace backend.Repository
             {
                 throw;
             }
+
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa Brand",
+                Date = DateTime.Now,
+                Object = "Brand",
+                ObjectId = id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
 
             return new OkObjectResult(new
             {

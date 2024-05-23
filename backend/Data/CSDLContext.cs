@@ -25,6 +25,6 @@ namespace backend.Data
         public DbSet<Slideshow> Slideshows { get; set; } = default!;
         public DbSet<OrderStatus> OrderStatuses { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;
-
+        public DbSet<LogModel> LogModels { get; set; } = default!;
     }
 }

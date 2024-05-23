@@ -19,7 +19,9 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrderStatus(OrderStatus orderStatus)
         {
-            return await _uow.OrderStatusRepository.CreateOrderStatus(orderStatus);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.OrderStatusRepository.CreateOrderStatus(orderStatus, userId);
         }
         [HttpGet]
         public async Task<IActionResult> GetOrderStatuses()
@@ -45,13 +47,17 @@ namespace backend.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus orderStatus)
         {
-            return await _uow.OrderStatusRepository.UpdateOrderStatus(id, orderStatus);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.OrderStatusRepository.UpdateOrderStatus(id, orderStatus, userId);
         }
         [HttpPut]
         [Route("UpdateStatusOrderStatus/{id}/{status}")]
         public async Task<IActionResult> UpdateStatusOrderStatus(int id, bool status)
         {
-            return await _uow.OrderStatusRepository.UpdateStatusOrderStatus(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.OrderStatusRepository.UpdateStatusOrderStatus(id, status, userId);
         }
     }
 }

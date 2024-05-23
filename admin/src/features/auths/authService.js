@@ -11,7 +11,7 @@ const login = async(userData)=>{
 }
 
 const registerAdmin = async(userData)=>{
-    const response = await axios.post(`${base_url}Users/register-admin`, userData);
+    const response = await axios.post(`${base_url}Users/register-admin`, userData, config);
     if(response.data){
         return response.data;
     }

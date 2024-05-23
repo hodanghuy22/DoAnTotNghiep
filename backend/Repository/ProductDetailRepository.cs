@@ -28,7 +28,7 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> CreateProductDetail(ProductDetail productDetail)
+        public async Task<IActionResult> CreateProductDetail(ProductDetail productDetail, string userId)
         {
             var check = await CheckProductDetailExist(productDetail);
             if (check == true)
@@ -50,6 +50,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo ProductDetail",
+                    Date = DateTime.Now,
+                    Object = "ProductDetail",
+                    ObjectId = productDetail.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -111,7 +121,7 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail productDetail)
+        public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail productDetail, string userId)
         {
             if (id != productDetail.Id)
             {
@@ -145,14 +155,23 @@ namespace backend.Repository
             {
                 throw;
             }
-
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa ProductDetail",
+                Date = DateTime.Now,
+                Object = "ProductDetail",
+                ObjectId = productDetail.Id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"
             });
         }
 
-        public async Task<IActionResult> UpdateStatusProductDetail(int id, bool status)
+        public async Task<IActionResult> UpdateStatusProductDetail(int id, bool status, string userId)
         {
             var pt = await GetProductDetail(id);
 
@@ -168,6 +187,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái ProductDetail",
+                    Date = DateTime.Now,
+                    Object = "ProductDetail",
+                    ObjectId = pt.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"

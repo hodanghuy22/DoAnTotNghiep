@@ -49,21 +49,26 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateColor(Color color)
         {
-            return await _uow.ColorRepository.CreateColor(color);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.ColorRepository.CreateColor(color, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateColor(int id, Color color)
         {
-            return await _uow.ColorRepository.UpdateColor(id, color);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.ColorRepository.UpdateColor(id, color, userId);
         }
         [HttpPut]
         [Route("UpdateStatusColor/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusColor(int id, bool status)
         {
-            return await _uow.ColorRepository.UpdateStatusColor(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.ColorRepository.UpdateStatusColor(id, status, userId);
         }
     }
 }

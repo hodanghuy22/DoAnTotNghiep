@@ -39,28 +39,36 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddSlideShow(Slideshow slideshow)
         {
-            return await _uow.SlideshowRepository.CreateSlideshow(slideshow);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.SlideshowRepository.CreateSlideshow(slideshow, userId);
         }
         [HttpDelete]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSlideShow(int id)
         {
-            return await _uow.SlideshowRepository.DeleteSlideshow(id);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.SlideshowRepository.DeleteSlideshow(id, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateSlideShow(int id, Slideshow slideshow)
         {
-            return await _uow.SlideshowRepository.UpdateSlideshow(id, slideshow);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.SlideshowRepository.UpdateSlideshow(id, slideshow, userId);
         }
         [HttpPut]
         [Route("UpdateStatusSlideshow/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusSlideshow(int id, bool status)
         {
-            return await _uow.SlideshowRepository.UpdateStatusSlideshow(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.SlideshowRepository.UpdateStatusSlideshow(id, status, userId);
         }
     }
 }

@@ -111,6 +111,7 @@ namespace backend.Repository
                         .ThenInclude(i => i.ProductDetail)
                             .ThenInclude(p => p.Capacity)
                     .Where(i => i.UserId == userID)
+                    .OrderByDescending(i => i.Id)
                     .ToListAsync();
         }
 
@@ -129,6 +130,7 @@ namespace backend.Repository
                         .ThenInclude(i => i.ProductDetail)
                             .ThenInclude(p => p.Capacity)
                     .Where(i => i.UserId == userID && i.OrderStatusId == orderStatusId)
+                    .OrderByDescending(i => i.Id)
                     .ToListAsync();
         }
 
@@ -146,7 +148,8 @@ namespace backend.Repository
                     .Include(i => i.InvoiceDetails)
                         .ThenInclude(i => i.ProductDetail)
                             .ThenInclude(p => p.Capacity)
-              .ToListAsync();
+                    .OrderByDescending(i => i.Id)
+                    .ToListAsync();
         }
 
         public async Task<int> GetRevenueAfterDiscountByMonth(int month, int year)

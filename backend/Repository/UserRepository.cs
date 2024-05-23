@@ -129,6 +129,13 @@ namespace backend.Repository
             return userDto;
         }
 
+        public async Task<UserDto> GetAUserByToken(string token)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Token == token);
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
+
         public async Task<User> GetUserDefault(string id)
         {
             return await _userManager.FindByIdAsync(id);
@@ -218,7 +225,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> RegisterAdmin(RegisterModel registerModel)
+        public async Task<IActionResult> RegisterAdmin(RegisterModel registerModel, string userId)
         {
             if (registerModel.Password != registerModel.Repassword)
             {
@@ -259,6 +266,16 @@ namespace backend.Repository
             {
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Tạo Admin",
+                Date = DateTime.Now,
+                Object = "User",
+                ObjectId = user.Id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully registered!"

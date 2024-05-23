@@ -19,7 +19,7 @@ namespace backend.Repository
             return await _context.Capacities.AnyAsync(c => c.Id == id);
         }
 
-        public async Task<IActionResult> CreateCapacity(Capacity capacity)
+        public async Task<IActionResult> CreateCapacity(Capacity capacity, string userId)
         {
             var check = await _context.Capacities.FirstOrDefaultAsync(c => c.TotalCapacity == capacity.TotalCapacity);
             if (check != null)
@@ -33,6 +33,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo Capacity",
+                    Date = DateTime.Now,
+                    Object = "Capacity",
+                    ObjectId = capacity.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -44,7 +54,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> UpdateStatusCapacity(int id, bool status)
+        public async Task<IActionResult> UpdateStatusCapacity(int id, bool status, string userId)
         {
             var pt = await GetCapacity(id);
 
@@ -60,6 +70,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa status Capacity",
+                    Date = DateTime.Now,
+                    Object = "Capacity",
+                    ObjectId = id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"
@@ -81,7 +101,7 @@ namespace backend.Repository
             return await _context.Capacities.ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateCapacity(int id, Capacity capacity)
+        public async Task<IActionResult> UpdateCapacity(int id, Capacity capacity, string userId)
         {
             if(id != capacity.Id)
             {
@@ -116,7 +136,16 @@ namespace backend.Repository
             {
                 throw;
             }
-
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa Capacity",
+                Date = DateTime.Now,
+                Object = "Capacity",
+                ObjectId = id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"

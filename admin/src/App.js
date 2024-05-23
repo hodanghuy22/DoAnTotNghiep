@@ -27,6 +27,7 @@ import OrderStatusList from "./pages/OrderStatusList";
 import AddOrderStatus from "./pages/AddOrderStatus";
 import AddInvoice from "./pages/AddInvoice";
 import Statistics from "./pages/Statistics";
+import LogList from "./pages/LogList";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/admin" element={<MainLayout />}>
           <Route index element={<Dashboard />}></Route>
           <Route path="statistics" element={<Statistics />}></Route>
+          <Route path="logs" element={<LogList />}></Route>
           <Route path='brand-list' element={<BrandList />} />
           <Route path='brand' element={<AddBrand />} />
           <Route path='brand/:id' element={<AddBrand />} />

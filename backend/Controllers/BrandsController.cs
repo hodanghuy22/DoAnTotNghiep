@@ -40,21 +40,24 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateBrand(Brand brand)
         {
-            return await _uow.BrandRepository.CreateBrand(brand);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.BrandRepository.CreateBrand(brand, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBrand(int id, Brand brand)
         {
-            return await _uow.BrandRepository.UpdateBrand(id, brand);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.BrandRepository.UpdateBrand(id, brand, userId);
         }
         [HttpPut]
         [Route("UpdateStatusBrand/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusBrand(int id, bool status)
         {
-            return await _uow.BrandRepository.UpdateStatusBrand(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.BrandRepository.UpdateStatusBrand(id, status, userId);
         }
     }
 }

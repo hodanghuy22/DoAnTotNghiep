@@ -39,7 +39,7 @@ namespace backend.Repository
             return false;
         }
 
-        public async Task<IActionResult> CreateCoupon(Coupon coupon)
+        public async Task<IActionResult> CreateCoupon(Coupon coupon, string userId)
         {
             var check = await CouponExist(coupon);
             if(check == true)
@@ -53,6 +53,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo Coupon",
+                    Date = DateTime.Now,
+                    Object = "Coupon",
+                    ObjectId = coupon.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -64,7 +74,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> UpdateStatusCoupon(int id, bool status)
+        public async Task<IActionResult> UpdateStatusCoupon(int id, bool status, string userId)
         {
             var coupon = await GetCoupon(id);
             if (coupon == null)
@@ -78,6 +88,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái Coupon",
+                    Date = DateTime.Now,
+                    Object = "Coupon",
+                    ObjectId = coupon.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"
@@ -96,15 +116,19 @@ namespace backend.Repository
 
         public async Task<IEnumerable<Coupon>> GetCoupons()
         {
-            return await _context.Coupons.ToListAsync();
+            return await _context.Coupons
+                .OrderByDescending(c => c.Id)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Coupon>> GetCouponsActive()
         {
-            return await _context.Coupons.Where(c => c.Status == true).ToListAsync();
+            return await _context.Coupons
+                .OrderByDescending(c => c.Id)
+                .Where(c => c.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateCoupon(int id, Coupon coupon)
+        public async Task<IActionResult> UpdateCoupon(int id, Coupon coupon, string userId)
         {
             if (id != coupon.Id)
             {
@@ -140,7 +164,16 @@ namespace backend.Repository
             {
                 throw;
             }
-
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa Coupon",
+                Date = DateTime.Now,
+                Object = "Coupon",
+                ObjectId = coupon.Id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"

@@ -9,6 +9,9 @@ export const config = {
     Authorization: `Bearer ${
       getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.token : ""
     }`,
+    UserId: `${
+      getTokenFromLocalStorage !== null ? getTokenFromLocalStorage.id : ""
+    }`,
     Accept: "application/json",
   },
 };

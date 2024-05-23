@@ -39,21 +39,24 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCategory(Category category)
         {
-            return await _uow.CategoryRepository.CreateCategory(category);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.CategoryRepository.CreateCategory(category, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCategory(int id, Category category)
         {
-            return await _uow.CategoryRepository.UpdateCategory(id, category);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.CategoryRepository.UpdateCategory(id, category, userId);
         }
         [HttpPut]
         [Route("UpdateStatusCategory/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusCategory(int id, bool status)
         {
-            return await _uow.CategoryRepository.UpdateStatusCategory(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.CategoryRepository.UpdateStatusCategory(id, status, userId);
         }
     }
 }

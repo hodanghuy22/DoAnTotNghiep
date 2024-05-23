@@ -40,21 +40,27 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCoupon(Coupon coupon)
         {
-            return await _uow.CouponRepository.CreateCoupon(coupon);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.CouponRepository.CreateCoupon(coupon, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCoupon(int id, Coupon coupon)
         {
-            return await _uow.CouponRepository.UpdateCoupon(id, coupon);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.CouponRepository.UpdateCoupon(id, coupon, userId);
         }
         [HttpPut]
         [Route("UpdateStatusCoupon/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusCoupon(int id, bool status)
         {
-            return await _uow.CouponRepository.UpdateStatusCoupon(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.CouponRepository.UpdateStatusCoupon(id, status, userId);
         }
         [HttpPost]
         [Route("CheckCoupon")]

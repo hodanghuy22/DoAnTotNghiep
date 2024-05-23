@@ -6,11 +6,12 @@ namespace backend.Interfaces
 {
     public interface IUserRepositoty
     {
-        Task<IActionResult> RegisterAdmin(RegisterModel registerModel);
+        Task<IActionResult> RegisterAdmin(RegisterModel registerMode, string userIdl);
         Task<IActionResult> Register(RegisterModel registerModel);
         Task<IActionResult> Login(LoginModel account);
         Task<IEnumerable<UserDto>> GetAllUser();
         Task<UserDto> GetAUser(string id);
+        Task<UserDto> GetAUserByToken(string token);
         Task<User> GetUserDefault(string id);
         Task<IActionResult> UpdateUser(string id, UserDto userDto);
         Task<IActionResult> ChangePassword(string id, ChangePasswordModel changePasswordModel);

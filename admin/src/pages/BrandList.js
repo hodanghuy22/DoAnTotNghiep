@@ -3,10 +3,7 @@ import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { UpdateStatusBrand, GetBrands, resetState } from '../features/brands/brandSlice';
 import { Link } from "react-router-dom";
-import CustomModal from '../components/CustomModal';
-import { AiFillDelete } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
-import AddBrand from './AddBrand';
 
 const columns = [
   {
@@ -39,6 +36,7 @@ const BrandList = () => {
   const data1 = [];
   for (let i = 0; i < brandState?.length; i++) {
     data1.push({
+      key: i,
       id: brandState[i].id,
       title: brandState[i].title,
       status: (<>

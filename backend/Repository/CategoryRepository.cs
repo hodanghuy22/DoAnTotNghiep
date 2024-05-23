@@ -31,7 +31,7 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> CreateCategory(Category category)
+        public async Task<IActionResult> CreateCategory(Category category, string userId)
         {
             var check = await CheckCategoryTitleExist(category);
             if (check == true)
@@ -45,6 +45,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo Category",
+                    Date = DateTime.Now,
+                    Object = "Category",
+                    ObjectId = category.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -71,7 +81,7 @@ namespace backend.Repository
             return await _context.Categories.FindAsync(id);
         }
 
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
+        public async Task<IActionResult> UpdateCategory(int id, Category category, string userId)
         {
             if (id != category.Id)
             {
@@ -106,14 +116,23 @@ namespace backend.Repository
             {
                 throw;
             }
-
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa Category",
+                Date = DateTime.Now,
+                Object = "Category",
+                ObjectId = category.Id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"
             });
         }
 
-        public async Task<IActionResult> UpdateStatusCategory(int id, bool status)
+        public async Task<IActionResult> UpdateStatusCategory(int id, bool status, string userId)
         {
             var pt = await GetCategory(id);
 
@@ -129,6 +148,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái Category",
+                    Date = DateTime.Now,
+                    Object = "Category",
+                    ObjectId = id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"

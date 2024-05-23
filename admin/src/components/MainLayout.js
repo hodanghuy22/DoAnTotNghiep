@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { MdCategory, MdColorLens, MdDashboard, MdLocalShipping } from "react-icons/md";
-import { FaUserPlus, FaUser, FaUserGroup, FaProductHunt  } from "react-icons/fa6";
+import { FaUserPlus, FaUser, FaUserGroup, FaProductHunt } from "react-icons/fa6";
 import { GrCapacity } from "react-icons/gr";
-import { TbBrand4Chan, TbBrandAdobe, TbSlideshow  } from "react-icons/tb";
+import { TbBrand4Chan, TbBrandAdobe, TbSlideshow } from "react-icons/tb";
 import { PiSignOut } from "react-icons/pi";
 import { FaFileInvoiceDollar, FaFileInvoice } from "react-icons/fa6";
 import { useDispatch } from 'react-redux';
@@ -18,6 +18,8 @@ import { ImPlus } from 'react-icons/im';
 import { RiSlideshowLine } from 'react-icons/ri';
 import { BiSolidCoupon } from 'react-icons/bi';
 import { FcStatistics } from 'react-icons/fc';
+import { IoMdNotificationsOutline } from 'react-icons/io';
+import { FaListUl } from 'react-icons/fa';
 
 const { Header, Sider, Content } = Layout;
 
@@ -31,7 +33,7 @@ const MainLayout = () => {
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo"></div>
+        <div className="logo"></div>
         <Menu
           theme="dark"
           mode="inline"
@@ -48,12 +50,12 @@ const MainLayout = () => {
           items={[
             {
               key: '',
-              icon: <MdDashboard  className='fs-5' />,
+              icon: <MdDashboard className='fs-5' />,
               label: 'Dashboard',
             },
             {
               key: 'statistics',
-              icon: <FcStatistics  className='fs-5' />,
+              icon: <FcStatistics className='fs-5' />,
               label: 'Statistics',
             },
             {
@@ -68,14 +70,14 @@ const MainLayout = () => {
                 },
                 {
                   key: 'user-list',
-                  icon: <FaUserGroup  className='fs-5' />,
+                  icon: <FaUserGroup className='fs-5' />,
                   label: 'List User',
                 },
               ]
             },
             {
               key: 'product-cata',
-              icon: <FaProductHunt  className='fs-5' />,
+              icon: <FaProductHunt className='fs-5' />,
               label: 'Products',
               children: [
                 {
@@ -85,7 +87,7 @@ const MainLayout = () => {
                 },
                 {
                   key: 'product-list',
-                  icon: <FaProductHunt   className='fs-5' />,
+                  icon: <FaProductHunt className='fs-5' />,
                   label: 'List Products',
                 },
                 {
@@ -95,14 +97,14 @@ const MainLayout = () => {
                 },
                 {
                   key: 'productDetail-list',
-                  icon: <FaProductHunt   className='fs-5' />,
+                  icon: <FaProductHunt className='fs-5' />,
                   label: 'List product Detail',
                 },
               ]
             },
             {
               key: 'invoice-cata',
-              icon: <FaFileInvoiceDollar    className='fs-5' />,
+              icon: <FaFileInvoiceDollar className='fs-5' />,
               label: 'Invoices',
               children: [
                 {
@@ -112,7 +114,7 @@ const MainLayout = () => {
                 },
                 {
                   key: 'invoice-list',
-                  icon: <FaFileInvoice    className='fs-5' />,
+                  icon: <FaFileInvoice className='fs-5' />,
                   label: 'List Invoices',
                 },
               ]
@@ -129,7 +131,7 @@ const MainLayout = () => {
                 },
                 {
                   key: 'capacity-list',
-                  icon: <GrCapacity  className='fs-5' />,
+                  icon: <GrCapacity className='fs-5' />,
                   label: 'List Capacity',
                 },
               ]
@@ -146,41 +148,41 @@ const MainLayout = () => {
                 },
                 {
                   key: 'brand-list',
-                  icon: <TbBrandAdobe  className='fs-5' />,
+                  icon: <TbBrandAdobe className='fs-5' />,
                   label: 'List Brand',
                 },
               ]
             },
             {
               key: 'color-cata',
-              icon: <MdColorLens  className='fs-5' />,
+              icon: <MdColorLens className='fs-5' />,
               label: 'Colors',
               children: [
                 {
                   key: 'color',
-                  icon: <ImPlus  className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Color',
                 },
                 {
                   key: 'color-list',
-                  icon: <IoColorWandSharp   className='fs-5' />,
+                  icon: <IoColorWandSharp className='fs-5' />,
                   label: 'List Color',
                 },
               ]
             },
             {
               key: 'category-cata',
-              icon: <MdCategory   className='fs-5' />,
+              icon: <MdCategory className='fs-5' />,
               label: 'Categories',
               children: [
                 {
                   key: 'category',
-                  icon: <ImPlus   className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Category',
                 },
                 {
                   key: 'category-list',
-                  icon: <MdCategory    className='fs-5' />,
+                  icon: <MdCategory className='fs-5' />,
                   label: 'List Category',
                 },
               ]
@@ -192,7 +194,7 @@ const MainLayout = () => {
               children: [
                 {
                   key: 'slideshow',
-                  icon: <ImPlus   className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Category',
                 },
                 {
@@ -204,17 +206,17 @@ const MainLayout = () => {
             },
             {
               key: 'coupon-cata',
-              icon: <BiSolidCoupon  className='fs-5' />,
+              icon: <BiSolidCoupon className='fs-5' />,
               label: 'Coupons',
               children: [
                 {
                   key: 'coupon',
-                  icon: <ImPlus   className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Coupon',
                 },
                 {
                   key: 'coupon-list',
-                  icon: <BiSolidCoupon  className='fs-5' />,
+                  icon: <BiSolidCoupon className='fs-5' />,
                   label: 'List Coupon',
                 },
               ]
@@ -226,7 +228,7 @@ const MainLayout = () => {
               children: [
                 {
                   key: 'orderstatus',
-                  icon: <ImPlus   className='fs-5' />,
+                  icon: <ImPlus className='fs-5' />,
                   label: 'Add Order Status',
                 },
                 {
@@ -237,8 +239,13 @@ const MainLayout = () => {
               ]
             },
             {
+              key: 'logs',
+              icon: <FaListUl className='fs-5' />,
+              label: 'Logs',
+            },
+            {
               key: 'signout',
-              icon: <PiSignOut  className='fs-5' />,
+              icon: <PiSignOut className='fs-5' />,
               label: 'Sign Out',
             },
           ]}
@@ -246,6 +253,7 @@ const MainLayout = () => {
       </Sider>
       <Layout>
         <Header
+          className='d-flex flex-row justify-content-between'
           style={{
             padding: 0,
             background: colorBgContainer,

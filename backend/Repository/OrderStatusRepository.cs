@@ -26,7 +26,7 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> CreateOrderStatus(OrderStatus orderStatus)
+        public async Task<IActionResult> CreateOrderStatus(OrderStatus orderStatus, string userId)
         {
             var check = await CheckOrderStatus(orderStatus);
             if(check == true)
@@ -40,6 +40,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo OrderStatus",
+                    Date = DateTime.Now,
+                    Object = "OrderStatus",
+                    ObjectId = orderStatus.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -67,7 +77,7 @@ namespace backend.Repository
                 .Where(p => p.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus orderStatus)
+        public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus orderStatus, string userId)
         {
             if (id != orderStatus.Id)
             {
@@ -102,14 +112,23 @@ namespace backend.Repository
             {
                 throw;
             }
-
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa OrderStatus",
+                Date = DateTime.Now,
+                Object = "OrderStatus",
+                ObjectId = orderStatus.Id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"
             });
         }
 
-        public async Task<IActionResult> UpdateStatusOrderStatus(int id, bool status)
+        public async Task<IActionResult> UpdateStatusOrderStatus(int id, bool status, string userId)
         {
             var pt = await GetOrderStatus(id);
             if (pt == null)
@@ -123,6 +142,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái OrderStatus",
+                    Date = DateTime.Now,
+                    Object = "OrderStatus",
+                    ObjectId = pt.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"

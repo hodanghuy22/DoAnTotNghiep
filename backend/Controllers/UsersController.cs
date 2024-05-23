@@ -20,9 +20,12 @@ namespace backend.Controllers
         }
         [HttpPost]
         [Route("register-admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegisterAdmin(RegisterModel registerModel)
         {
-            return await _uow.UserRepositoty.RegisterAdmin(registerModel);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.UserRepositoty.RegisterAdmin(registerModel, userId);
         }
         [HttpPost]
         [Route("register")]

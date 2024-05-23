@@ -36,7 +36,7 @@ namespace backend.Repository
             return true;
         }
 
-        public async Task<IActionResult> CreateColor(Color color)
+        public async Task<IActionResult> CreateColor(Color color, string userId)
         {
             var check = await _context.Colors.FirstOrDefaultAsync(c => c.ColorName == color.ColorName);
             if (check != null)
@@ -50,6 +50,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Tạo Color",
+                    Date = DateTime.Now,
+                    Object = "Color",
+                    ObjectId = color.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
@@ -61,7 +71,7 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IActionResult> UpdateStatusColor(int id, bool status)
+        public async Task<IActionResult> UpdateStatusColor(int id, bool status, string userId)
         {
             var color = await GetColor(id);
             if(color == null)
@@ -75,6 +85,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                LogModel logModel = new LogModel()
+                {
+                    UserId = userId,
+                    Action = "Sửa trạng thái Color",
+                    Date = DateTime.Now,
+                    Object = "Color",
+                    ObjectId = color.Id.ToString() ?? "",
+                };
+                await _context.LogModels.AddAsync(logModel);
+                await _context.SaveChangesAsync();
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"
@@ -110,7 +130,7 @@ namespace backend.Repository
             return await _context.Colors.Where(c => c.Status == true).ToListAsync();
         }
 
-        public async Task<IActionResult> UpdateColor(int id, Color color)
+        public async Task<IActionResult> UpdateColor(int id, Color color, string userId)
         {
             if (id != color.Id)
             {
@@ -145,7 +165,16 @@ namespace backend.Repository
             {
                 throw;
             }
-
+            LogModel logModel = new LogModel()
+            {
+                UserId = userId,
+                Action = "Sửa Color",
+                Date = DateTime.Now,
+                Object = "Color",
+                ObjectId = color.Id.ToString() ?? "",
+            };
+            await _context.LogModels.AddAsync(logModel);
+            await _context.SaveChangesAsync();
             return new OkObjectResult(new
             {
                 mess = "Successfully updated!"

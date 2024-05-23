@@ -45,21 +45,27 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProductDetail(ProductDetail product)
         {
-            return await _uow.ProductDetailRepository.CreateProductDetail(product);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.ProductDetailRepository.CreateProductDetail(product, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail product)
         {
-            return await _uow.ProductDetailRepository.UpdateProductDetail(id, product);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.ProductDetailRepository.UpdateProductDetail(id, product, userId);
         }
         [HttpPut]
         [Route("UpdateStatusProductDetail/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusProductDetail(int id, bool status)
         {
-            return await _uow.ProductDetailRepository.UpdateStatusProductDetail(id, status); 
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+
+            return await _uow.ProductDetailRepository.UpdateStatusProductDetail(id, status, userId); 
         }
     }
 }

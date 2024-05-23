@@ -48,25 +48,24 @@ namespace backend.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCapacity(Capacity capacity)
         {
-            return await _uow.CapacityRepository.CreateCapacity(capacity);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.CapacityRepository.CreateCapacity(capacity, userId);
         }
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCapacity(int id, Capacity capacity)
         {
-            if (id != capacity.Id)
-            {
-                return BadRequest();
-            }
-            return await _uow.CapacityRepository.UpdateCapacity(id, capacity);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.CapacityRepository.UpdateCapacity(id, capacity, userId);
         }
         [HttpPut]
         [Route("UpdateStatusCapacity/{id}/{status}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusCapacity(int id, bool status)
         {
-            return await _uow.CapacityRepository.UpdateStatusCapacity(id, status);
+            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
+            return await _uow.CapacityRepository.UpdateStatusCapacity(id, status, userId);
         }
     }
 }
