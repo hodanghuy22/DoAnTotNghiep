@@ -50,6 +50,14 @@ namespace backend.Controllers
             return Ok(products);
         }
         [HttpPost]
+        [Route("GetProductsBestSeller")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetProductsBestSeller()
+        {
+            var products = await _uow.ProductRepository.GetProductsBestSeller();
+            return Ok(products);
+        }
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct(Product product)
         {

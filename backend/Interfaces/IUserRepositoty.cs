@@ -19,6 +19,7 @@ namespace backend.Interfaces
         Task<IActionResult> ResetPassword(ResetPasswordModel model);
         Task<int> CountUser();
         Task<IEnumerable<StatisticUserModel>> StatisticUserOfYear(int year);
+        Task<IEnumerable<TopUserModel>> GetTopUser();
 
     }
 }

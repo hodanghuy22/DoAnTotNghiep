@@ -136,6 +136,34 @@ namespace backend.Repository
             return userDto;
         }
 
+        public async Task<IEnumerable<TopUserModel>> GetTopUser()
+        {
+            var topUsers = await _context.Invoices
+             .Where(i => i.OrderStatusId == 5)
+             .Include(i => i.User)
+             .Select(g => new TopUserModel
+             {
+                 UserId = g.User.Id,
+                 Name = g.User.Name,
+                 Email = g.User.Email,
+                 Phone = g.User.PhoneNumber,
+                 Total = g.TotalPriceAfterDiscount,
+             })
+             .GroupBy(g => new { g.UserId, g.Name, g.Email, g.Phone})
+             .Select(g => new TopUserModel
+             {
+                 UserId = g.Key.UserId,
+                 Name = g.Key.Name,
+                 Email = g.Key.Email,
+                 Phone = g.Key.Phone,
+                 Total = (int)g.Sum(x => x.Total)
+             })
+             .OrderByDescending(p => p.Total)
+             .Take(5)
+             .ToListAsync();
+            return topUsers;
+        }
+
         public async Task<User> GetUserDefault(string id)
         {
             return await _userManager.FindByIdAsync(id);

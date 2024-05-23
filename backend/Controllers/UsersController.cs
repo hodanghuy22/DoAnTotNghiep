@@ -54,6 +54,14 @@ namespace backend.Controllers
             var count = await _uow.UserRepositoty.CountUser();
             return Ok(count);
         }
+        [HttpPost]
+        [Route("GetTopUser")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetTopUser()
+        {
+            var count = await _uow.UserRepositoty.GetTopUser();
+            return Ok(count);
+        }
         [HttpGet]
         [Route("StatisticUserOfYear/{year}")]
         [Authorize(Roles = "Admin")]

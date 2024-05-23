@@ -102,7 +102,7 @@ namespace backend.Repository
         public async Task<bool> ProductExist(Product product)
         {
             var pt = await _context.Products
-                .FirstOrDefaultAsync(p => p.Id != product.Id 
+                .FirstOrDefaultAsync(p => p.Id != product.Id
                 && p.Name == product.Name);
             if (pt == null)
             {
@@ -113,7 +113,7 @@ namespace backend.Repository
 
         public async Task<IActionResult> UpdateProduct(int id, Product product, string userId)
         {
-            if(id != product.Id)
+            if (id != product.Id)
             {
                 return new BadRequestObjectResult(new
                 {
@@ -207,6 +207,40 @@ namespace backend.Repository
             {
                 mess = "Something went wrong!!!"
             });
+        }
+
+        public async Task<IEnumerable<ProductBestSellerModel>> GetProductsBestSeller()
+        {
+            var topSellingProducts = await _context.InvoiceDetails
+             .Include(i => i.ProductDetail)
+             .ThenInclude(p => p.Product)
+             .ThenInclude(b => b.Brand)
+             .Include(i => i.ProductDetail)
+             .ThenInclude(p => p.Product)
+             .ThenInclude(c => c.Category)
+             .Select(g => new ProductBestSellerModel
+             {
+                 ProductId = g.ProductDetail.ProductId,
+                 ProductName = g.ProductDetail.Product.Name,
+                 ProductAverageRating = g.ProductDetail.Product.AverageRating,
+                 BrandTitle = g.ProductDetail.Product.Brand.Title,
+                 CategoryTitle = g.ProductDetail.Product.Category.Title,
+                 SoldQuantity = g.Quantity
+             })
+             .GroupBy(g => new { g.ProductId, g.ProductName, g.ProductAverageRating, g.BrandTitle, g.CategoryTitle })
+             .Select(g => new ProductBestSellerModel
+             {
+                 ProductId = g.Key.ProductId,
+                 ProductName = g.Key.ProductName,
+                 ProductAverageRating = g.Key.ProductAverageRating,
+                 BrandTitle = g.Key.BrandTitle,
+                 CategoryTitle = g.Key.CategoryTitle,
+                 SoldQuantity = g.Sum(x => x.SoldQuantity)
+             })
+             .OrderByDescending(p => p.SoldQuantity)
+             .Take(5)
+             .ToListAsync();
+            return topSellingProducts;
         }
     }
 }

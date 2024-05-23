@@ -17,6 +17,15 @@ const registerAdmin = async(userData)=>{
     }
 }
 
+
+const getTopUser = async(data)=>{
+    const response = await axios.post(`${base_url}Users/GetTopUser`, data, config);
+    if(response.data){
+        return response.data;
+    }
+}
+
+
 const getAllUsers = async()=>{
     const response = await axios.get(`${base_url}Users/GetAllUser`, config);
     if(response.data){
@@ -44,6 +53,7 @@ const authService = {
     getAllUsers,
     countUser,
     statisticUserOfYear,
+    getTopUser,
 };
 
 export default authService;

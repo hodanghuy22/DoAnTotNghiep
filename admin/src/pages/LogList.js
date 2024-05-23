@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetLogs, resetState } from '../features/logs/logSlice';
-import { array } from 'yup';
 
 const columns = [
   {
