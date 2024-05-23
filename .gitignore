@@ -43,3 +43,4 @@ admin/coverage
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+frontend/node_modules/
