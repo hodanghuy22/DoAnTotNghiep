@@ -65,9 +65,9 @@ const Header = () => {
               </p>
             </div>
             <div className='fs-3 p-3'>
-              <p className='bg-transparent btn fs-4'>
+              <Link to={'cart'} className='bg-transparent btn fs-4'>
                 <BsCart3 />
-              </p>
+              </Link>
             </div>
             <div className='fs-3 p-3'>
               <p className='bg-transparent btn fs-4'>

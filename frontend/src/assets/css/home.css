@@ -1,0 +1,27 @@
+.phone-container {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .phone-image {
+    transition: transform 0.3s ease-out;
+  }
+  
+  .phone-container:hover .phone-image {
+    transform: translateY(-10px);
+  }
+  .phone-item{
+    color: black;
+  }
+  .phone-item:hover .phone-name{
+    color: orange;
+  }
+  .phone-price{
+    color: red;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  .phone-info{
+    color: black;
+  }

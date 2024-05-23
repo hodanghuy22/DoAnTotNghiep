@@ -40,7 +40,7 @@ const Address = () => {
       });
   };
   return (
-    <div className='p-5 border'>
+    <div className='p-5'>
       <div className=''>
         <div className='border-bottom'>
           <p>ĐỊA CHỈ</p>
@@ -69,7 +69,7 @@ const Address = () => {
                 <p>Tỉnh/Thành phố</p>
               </div>
               <div className='col-8'>
-                <select className='w-100 p-2' onChange={e => handleProvinceChange(e.target.value)}>
+                <select className='w-100 p-2 text-dark' onChange={e => handleProvinceChange(e.target.value)}>
                   <option value="">Chọn tỉnh/thành phố</option>
                   {provinces && provinces.map(province => (
                     <option key={province.code} value={province.code}>{province.name}</option>
@@ -82,7 +82,7 @@ const Address = () => {
                 <p>Quận/Huyện</p>
               </div>
               <div className='col-8'>
-                <select className='w-100 p-2' onChange={e => handleDistrictChange(e.target.value)}>
+                <select className='w-100 p-2 text-dark' onChange={e => handleDistrictChange(e.target.value)}>
                   <option value="">Chọn huyện/quận</option>
                   {districts && districts.map(district => (
                     <option key={district?.code} value={district?.code}>{district?.name}</option>
@@ -95,7 +95,7 @@ const Address = () => {
                 <p>Phường/Xã</p>
               </div>
               <div className='col-8'>
-                <select className='w-100 p-2'>
+                <select className='w-100 p-2 text-dark'>
                   <option value="">Chọn phường/xã</option>
                   {wards && wards.map(ward => (
                     <option key={ward?.code} value={ward?.code}>{ward?.name}</option>

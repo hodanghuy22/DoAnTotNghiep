@@ -2,7 +2,7 @@ import React from 'react'
 
 const ResetPasword = () => {
   return (
-    <div className='p-5 border'>
+    <div className='p-5'>
       <div className='w-100 '>
         <div>
           <p>ĐỔI MẬT KHẨU</p>

@@ -96,7 +96,7 @@ const Detail = () => {
 
         <Row className='mt-5'>
           <Col className='d-flex justify-content-center flex-column align-items-center'>
-            <p className='fw-bold text-danger'>SẢN PHẨM NỔI BẬC</p>
+            <p className='fw-bold text-danger'>SẢN PHẨM NỔI BẬT</p>
             <h1 className='w-50 text-center'>Khuyễn mãi chớp nhoáng hôm nay</h1>
           </Col>
         </Row>

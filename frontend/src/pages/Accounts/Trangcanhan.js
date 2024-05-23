@@ -7,11 +7,11 @@ import './../../assets/css/global.css'
 const Trangcanhan = () => {
     const location = useLocation();
     return (
-        <div className='container w-100 m-auto shadow p-3 mb-5 bg-body rounded p-5'>
+        <div className='container w-100 m-auto shadow p-3 mb-5 bg-body rounded'>
             <div className='container d-flex '>
-                <div className='col-4 shadow-sm mb-1 bg-body rounded p-2'>
-                    <div className='fs-4 d-flex bg-warning p-3'>
-                        <FaUser style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: 'gray', padding: '10px', marginRight: '10px' }} />
+                <div className='col-3 shadow-sm mb-1 bg-body rounded p-2'>
+                    <div className='fs-5 d-flex bg-warning p-2'>
+                        <FaUser style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'gray', padding: '10px', marginRight: '10px',marginTop:'4px' }} />
                         <div>
                             <p className='mt-2'>Xin chào, phambinh293</p>
                         </div>
@@ -24,7 +24,7 @@ const Trangcanhan = () => {
                         <p className={`item-user p-3 mb-0 `}><Link to={''} className='link'><i className='icon-user'><RiShutDownLine /></i>Đăng xuất</Link></p>
                     </div>
                 </div>
-                <div className='col-8 p-2'>
+                <div className='col-9 p-2'>
                     <Outlet/>
                 </div>
             </div>

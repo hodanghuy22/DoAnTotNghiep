@@ -1,0 +1,61 @@
+.w-30{
+    width: 40%;
+}
+.cart-item {
+    
+
+}
+.cart-iconFa{
+   padding: 5px 10px;
+   margin: 0 20px;
+   background-color: #cccccc;
+   border-radius: 10%;
+}
+.cart-iconFa:hover{
+    cursor: pointer;
+}
+.chu{
+    overflow-wrap: break-word;
+    max-width: 600px;
+}
+.uu-dai{
+    line-height: 1.2;
+}
+.square-radio {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 10px;
+    position: relative;
+    transform: translateY(4px);
+  }
+  
+  .square-radio:checked {
+    background-color: orange;
+  }
+  
+  .square-radio:checked:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+  .btn-icon{
+    border-radius: 10%;
+    cursor: pointer;
+  }
+  .btn-pay{
+    width: 200px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+  }

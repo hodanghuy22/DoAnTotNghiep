@@ -12,6 +12,8 @@ import InfoAccount from './pages/Accounts/InfoAccount'
 import OrderList from './pages/Accounts/OrderList'
 import ResetPasword from './pages/Accounts/ResetPasword'
 import Address from './pages/Accounts/Address'
+import OrderDetail from './pages/Accounts/OrderDetail'
+import Cart from './pages/Cart/Cart'
 
 const App = () => {
     return (
@@ -21,9 +23,11 @@ const App = () => {
                     <Route index element={<Home />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<SignUp />} />
+                    <Route path='/cart' element={<Cart />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
+                        <Route path='oder-list/detail' element={<OrderDetail />} />
                         <Route path='reset-password' element={<ResetPasword />} />
                         <Route path='address' element={<Address />} />
                     </Route>

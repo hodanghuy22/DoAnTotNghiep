@@ -2,7 +2,7 @@ import React from 'react'
 
 const InfoAccount = () => {
     return (
-        <div className='p-5 border'>
+        <div className='p-5'>
             <div className=''>
                 <div>
                     <p>THÔNG TIN TẢI KHOẢN</p>

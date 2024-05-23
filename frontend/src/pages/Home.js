@@ -4,6 +4,7 @@ import { BsStar } from 'react-icons/bs'
 import { FaArrowRightLong } from 'react-icons/fa6'
 import { IoGameController } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import '../assets/css/home.css';
 
 const Home = () => {
   return (
@@ -80,116 +81,86 @@ const Home = () => {
             </Container>
           </Col>
         </Row>
-        {/* Sản phẩm nổi bậc */}
+        {/* Sản phẩm nổi bật */}
         <Row>
           <Row >
             <div>
               <p className='text-danger'>KHUYẾN MÃI LỚN</p>
-              <h1>Sản Phẩm Nổi Bậc</h1>
+              <h1>Sản Phẩm Nổi Bật</h1>
             </div>
           </Row>
           <Row>
             <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'/product/1'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
+             <Link to={'/product/1'} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src='https://didongthongminh.vn/images/products/2024/05/14/resized/e65a4821afac06f25fbd.webp' alt='chuột' width={'100%'} height={'100%'} />
+                </div>
+                 <div className='phone-info p-3 border border-top-0'>
+                   <p className='fs-5 phone-name'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
                   </i>
                   <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
+                  <p className='phone-price'>1.500.000 đ</p>
                 </div>
               </Link>
             </Col>
             <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
+             <Link to={'/product/1'} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src='https://didongthongminh.vn/images/products/2024/05/14/resized/e65a4821afac06f25fbd.webp' alt='chuột' width={'100%'} height={'100%'} />
+                </div>
+                 <div className='phone-info p-3 border border-top-0'>
+                 
+                   <p className='fs-5 phone-name'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
                   </i>
                   <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
+                  <p className='phone-price'>1.500.000 đ</p>
                 </div>
               </Link>
             </Col>
             <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
+             <Link to={'/product/1'} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src='https://didongthongminh.vn/images/products/2024/05/14/resized/e65a4821afac06f25fbd.webp' alt='chuột' width={'100%'} height={'100%'} />
+                </div>
+                 <div className='phone-info p-3 border border-top-0'>
+                 
+                   <p className='fs-5 phone-name'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
                   </i>
                   <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
+                  <p className='phone-price'>1.500.000 đ</p>
                 </div>
               </Link>
             </Col>
             <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
+              <Link to={'/product/1'} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src='https://didongthongminh.vn/images/products/2024/05/14/resized/e65a4821afac06f25fbd.webp' alt='chuột' width={'100%'} height={'100%'} />
+                </div>
+                <div className='phone-info p-3 border border-top-0'>
+                 
+                  <p className='fs-5 phone-name'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
                   </i>
                   <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
+                  <p className='phone-price'>1.500.000 đ</p>
                 </div>
               </Link>
             </Col>
             <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
-                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
-                  </i>
-                  <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
+             <Link to={'/product/1'} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src='https://didongthongminh.vn/images/products/2024/05/14/resized/e65a4821afac06f25fbd.webp' alt='chuột' width={'100%'} height={'100%'} />
                 </div>
-              </Link>
-            </Col>
-            <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
+                 <div className='phone-info p-3 border border-top-0'>
+                 
+                   <p className='fs-5 phone-name'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
                   </i>
                   <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
-                </div>
-              </Link>
-            </Col>
-            <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
-                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
-                  </i>
-                  <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
-                </div>
-              </Link>
-            </Col>
-            <Col xl={3} className='p-2 m-0 border-0'>
-              <Link to={'product/detail'} className='card text-decoration-none text-dark'>
-                <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
-                <div className='p-3 border border-top-0'>
-                  <p>Loại sản phẩm</p>
-                  <p className='fs-5'>Rapoo N100 Wired Optical Mouse Hand Orientation: Both Hands</p>
-                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
-                  </i>
-                  <p>Tình trạng: còn hàng</p>
-                  <p>1.500.000 đ</p>
+                  <p className='phone-price'>1.500.000 đ</p>
                 </div>
               </Link>
             </Col>
