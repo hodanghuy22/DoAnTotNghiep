@@ -14,6 +14,7 @@ import ResetPasword from './pages/Accounts/ResetPasword'
 import Address from './pages/Accounts/Address'
 import OrderDetail from './pages/Accounts/OrderDetail'
 import Cart from './pages/Cart/Cart'
+import Notification from './components/Notification'
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
+                        <Route path='notification' element={<Notification />} />
                         <Route path='oder-list/detail' element={<OrderDetail />} />
                         <Route path='reset-password' element={<ResetPasword />} />
                         <Route path='address' element={<Address />} />

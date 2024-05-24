@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGroup, Col, Dropdown, DropdownButton, Row } from 'react-bootstrap';
+import { ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
 import { FaGamepad, FaHotjar, FaRegUser } from 'react-icons/fa';
@@ -10,9 +10,11 @@ import { CiHeadphones } from 'react-icons/ci';
 import { IoIosNotificationsOutline, IoMdBatteryCharging } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import '../assets/css/global.css';
+import '../assets/css/header.css';
 const Header = () => {
 
   return (
+
     <div>
       <Container className='p-0 m-0 m-auto '>
         <Row className='d-flex justify-content-between'>
@@ -21,38 +23,38 @@ const Header = () => {
               <Link to={'/'} className='btn'>Trang Chủ</Link>
             </div>
             <div className='fs-5 p-3 text-nowrap'>
-              <p className='btn'>Giới Thiệu</p>
+              <Link to={'/'} className='btn'>Giới thiệu</Link>
             </div>
             <div className='fs-5 p-3 btn'>
-              <DropdownButton id="dropdown-basic-button" title="Sản phẩm" variant='light' style={{}}>
+              <DropdownButton id="dropdown-basic-button" title="Sản phẩm" variant="transparent" className="border-0">
                 <div className='d-flex mt-2'>
                   <div>
-                    <Dropdown.ItemText >Action</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText >Action</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText >Action</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText >Action</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                 </div>
               </DropdownButton>
             </div>
             <div className='fs-5 p-3 text-nowrap'>
-              <p className='btn'>Tin Tức</p>
+              <Link to={'/'} className='btn'>Tin tức</Link>
             </div>
-           
+
           </Col>
           <Col className='d-flex flex-row justify-content-start navbar'>
             <Link to={'/'} style={{ marginRight: '2rem', border: 'none', fontFamily: 'inherit' }} className='bg-transparent text-nowrap text-dark fs-3 '><img alt='logo' src={logo} width={'70%'} /></Link>
@@ -60,22 +62,15 @@ const Header = () => {
           <Col className='d-flex flex-row justify-content-end'>
             <div className='fs-3 p-3'>
               <p className='bg-transparent btn fs-4'>
-
                 <IoSearchOutline />
               </p>
             </div>
             <div className='fs-3 p-3'>
-              <Link to={'cart'} className='bg-transparent btn fs-4'>
+              <Link to={'cart'} className='bg-transparent btn fs-4 '>
                 <BsCart3 />
               </Link>
             </div>
-            <div className='fs-3 p-3'>
-              <p className='bg-transparent btn fs-4'>
-              <Link to={'/trang-ca-nhan'}><FaRegUser /></Link>
-              </p>
-            </div>
-           
-            <div className='fs-3 p-3 btn '>
+            <div className='fs-3 p-3 btn mt-1 '>
               <DropdownButton
                 as={ButtonGroup}
                 align={{ lg: 'end' }}
@@ -84,30 +79,85 @@ const Header = () => {
                 variant='light'
                 style={{}}
               >
-                <Dropdown.Item>
-                  <Link to={'/login'}>Login</Link>
-                </Dropdown.Item>
-                <Dropdown.Item >Register</Dropdown.Item>
+                <div className='container'>
+                  <Dropdown.Item className='custom-dropdown-item'>
+                    <div className='d-flex mb-2' style={{ width: '400px' }}>
+                      <div className='p-2 mx-2'>
+                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
+                      </div>
+                      <div className='p-0' style={{ lineHeight: '1' }}>
+                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
+                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
+                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
+                        </p>
+                      </div>
+                    </div>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='custom-dropdown-item'>
+                    <div className='d-flex mb-2' style={{ width: '400px' }}>
+                      <div className='p-2 mx-2'>
+                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
+                      </div>
+                      <div className='p-0' style={{ lineHeight: '1' }}>
+                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
+                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
+                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
+                        </p>
+                      </div>
+                    </div>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='custom-dropdown-item'>
+                    <div className='d-flex mb-2' style={{ width: '400px' }}>
+                      <div className='p-2 mx-2'>
+                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
+                      </div>
+                      <div className='p-0' style={{ lineHeight: '1' }}>
+                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
+                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
+                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
+                        </p>
+                      </div>
+                    </div>
+                  </Dropdown.Item>
+                  <Dropdown.Item className='custom-dropdown-item'>
+                    <div className='d-flex mb-2' style={{ width: '400px' }}>
+                      <div className='p-2 mx-2'>
+                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
+                      </div>
+                      <div className='p-0' style={{ lineHeight: '1' }}>
+                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
+                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
+                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
+                        </p>
+                      </div>
+                    </div>
+                  </Dropdown.Item>
+                  <DropdownItem className='text-center mt-2'>
+                    <Link to={'trang-ca-nhan/notification'} className='text-decoration-none'>Xem tất cả</Link>
+                  </DropdownItem>
+                </div>
               </DropdownButton>
             </div>
-
-            <div className='fs-3 p-3 btn '>
+            <div className='fs-3 p-3 btn mt-1 '>
               <DropdownButton
                 as={ButtonGroup}
                 align={{ lg: 'end' }}
                 id="dropdown-menu-align-responsive-1"
                 title={<><FaRegUser /></>}
-                variant='light'
+                variant='transparent'
                 style={{}}
               >
-                 <Dropdown.Item>
+                <Dropdown.Item className='custom-dropdown-item'>
+                  <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
+                </Dropdown.Item>
+                <Dropdown.Item className='custom-dropdown-item'>
                   <Link to={'/login'} className='text-decoration-none'>Đăng nhập</Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
                   <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
+                  <Link to={'/sigout'} className='text-decoration-none'>Đăng xuất</Link>
                 </Dropdown.Item>
               </DropdownButton>
             </div>
@@ -116,19 +166,22 @@ const Header = () => {
         <Row className='d-flex border-top border-bottom'>
           <Col className='d-flex flex-row mt-3'>
             <div className='btn text-nowrap'>
-              <p className='pt-1'><i className='mr-3 fs-6'><FaHotjar /></i><span className=''> Phổ biến</span></p>
+
+              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar /></i><span className=''> Phổ biến</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
               <Link to={'product-category/Phone'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''> Tai nghe </span></p>
+
+              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''> Tai nghe </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
               <p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p>
             </div>
             <div className='btn text-nowrap'>
-              <p className='p-1'><i className='mr-3 fs-6'><FaGamepad /></i><span className=''> Phụ kiện </span></p>
+
+              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><FaGamepad /></i><span className=''> Phụ kiện </span></p></Link>
             </div>
           </Col>
 
