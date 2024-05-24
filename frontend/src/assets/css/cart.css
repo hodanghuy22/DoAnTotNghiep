@@ -59,3 +59,8 @@
     text-align: center;
     cursor: pointer;
   }
+  .btn.btn-icon.active {
+    color: orange;
+    border-color: orange;
+    ;
+  }

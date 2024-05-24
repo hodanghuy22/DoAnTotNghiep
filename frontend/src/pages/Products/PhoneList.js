@@ -7,14 +7,14 @@ const PhoneList = () => {
   return (
     <div>
       <Container className='mb-5'>
-        <Row className='justify-content-between'>
-          <Col>
+        <Row className='justify-content-between mt-5'>
+          <Col className='fs-5'>
             <p>Hiển thị tổng số sản phẩm</p>
           </Col>
-          <Col className='d-flex flex-row-reverse'>
-            <select>
+          <Col className='d-flex flex-row-reverse mb-1'>
+            <select className=' text-dark'>
               <option>Thứ tự mặc định</option>
-              <option>Mới nhất</option>
+              <option >Mới nhất</option>
             </select>
           </Col>
         </Row>

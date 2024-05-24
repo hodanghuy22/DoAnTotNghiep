@@ -1,9 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import { CiCreditCard1, CiDeliveryTruck } from 'react-icons/ci'
-import { FaMoneyBill, FaRegCalendarAlt } from 'react-icons/fa'
-import { IoHomeOutline } from 'react-icons/io5'
+import { FaMoneyBill } from 'react-icons/fa'
 
 const Payment = () => {
     const [provinces, setProvinces] = useState([]);
@@ -12,8 +11,8 @@ const Payment = () => {
     useEffect(() => {
         axios.get('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json')
             .then(response => {
-                console.log(response.data); // Check the value of response.data
-                const data = Object.values(response.data); // Extracting the array from the response data
+                console.log(response.data); 
+                const data = Object.values(response.data);
                 setProvinces(data);
                 console.log(data);
             })
@@ -27,7 +26,7 @@ const Payment = () => {
             .then(response => {
                 const data = Object.values(response.data);
                 setDistricts(data);
-                setWards([]); // Reset danh sách phường/xã khi tỉnh/thành phố thay đổi
+                setWards([]);
             })
             .catch(error => {
                 console.log(error);
@@ -87,7 +86,6 @@ const Payment = () => {
                 <p>HÌNH THỨC NHẬN HÀNG</p>
                 <div>
                     <p className='btn p-4 fs-5 border btn-icon active' style={{ marginRight: '20px' }}><CiDeliveryTruck className='fs-2' /><br /> Giao hàng tận nơi</p>
-                    <p className='btn p-4 fs-5 border btn-icon'><IoHomeOutline className='fs-2' /><br /> Nhận hàng tại cửa hàng</p>
                 </div>
                 <div className='d-flex justify-content-between mt-3'>
                     <div className='col-3'>
@@ -141,16 +139,19 @@ const Payment = () => {
             </Row>
             <Row className='mt-5'>
                 <p>HÌNH THỨC THANH TOÁN</p>
-                <div>
-                    <p className='btn p-4 fs-5 border btn-icon active' style={{ marginRight: '20px' }}><CiCreditCard1 className='fs-2' /><br /> Thanh toán online</p>
-                    <p className='btn p-4 fs-5 border btn-icon' style={{ marginRight: '20px' }}><FaRegCalendarAlt className='fs-2' /><br />Chuyển khoản ngân hàng</p>
-                    <p className='btn p-4 fs-5 border btn-icon'><FaMoneyBill className='fs-2' /><br />Thanh toán khi nhận hàng</p>
+                <div className='d-flex'>
+                    <p className='btn p-4 fs-5 border btn-icon active' style={{ marginRight: '20px' }}>
+                        <CiCreditCard1 className='fs-2' /><br /> Thanh toán online
+                    </p>
+                    <p className='btn p-4 fs-5 border btn-icon' style={{ marginRight: '20px' }}>
+                        <FaMoneyBill className='fs-2' /><br /> Thanh toán khi nhận hàng
+                    </p>
                 </div>
             </Row>
             <Row className='justify-content-end'>
-                <div className='d-flex w-30 text-end'>
-                    <p className='col-6 fs-5 text-dark fw-bold'>Tổng tiền ( 2 sản phẩm):</p>
-                    <p className='col-6 fs-5 text-danger fw-bold'>35480000đ</p>
+                <div className='d-flex w-30 text-end justify-content-end'>
+                    <p className='fs-5 text-dark fw-bold mx-3'>Tổng tiền ( 2 sản phẩm):</p>
+                    <p className='fs-5 text-danger fw-bold'>35480000đ</p>
                 </div>
             </Row>
             <Row className='justify-content-end'>
