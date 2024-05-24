@@ -136,10 +136,12 @@ namespace backend.Repository
             return userDto;
         }
 
-        public async Task<IEnumerable<TopUserModel>> GetTopUser()
+        public async Task<IEnumerable<TopUserModel>> GetTopUser(FillterModel fillterModel)
         {
             var topUsers = await _context.Invoices
-             .Where(i => i.OrderStatusId == 5)
+             .Where(i => i.OrderStatusId == 5 &&
+                        i.IssueDate >= fillterModel.StartDate &&
+                        i.IssueDate <= fillterModel.EndDate)
              .Include(i => i.User)
              .Select(g => new TopUserModel
              {
@@ -159,7 +161,7 @@ namespace backend.Repository
                  Total = (int)g.Sum(x => x.Total)
              })
              .OrderByDescending(p => p.Total)
-             .Take(5)
+             .Take(fillterModel.Top)
              .ToListAsync();
             return topUsers;
         }

@@ -10,8 +10,14 @@ import * as yup from 'yup';
 import { GetProductsBestSeller } from '../features/products/productSlice';
 import { Table } from 'antd';
 
-const dateSchema = yup.object({
-  year: yup.number()
+const filterSchema = yup.object({
+  top: yup.number(),
+  startDate: yup.date(),
+  endDate: yup.date(),
+});
+
+const filter2Schema = yup.object({
+  year: yup.number(),
 });
 
 const columnProduct = [
@@ -74,6 +80,7 @@ const Statistics = () => {
 
   const [data1, setData1] = useState([]);
   const [data2, setData2] = useState([]);
+  const [top, setTop] = useState(5);
 
   const statisticUserOfYearState = useSelector(state => state?.auth?.statisticUserOfYear)
   const revenueOfYearState = useSelector(state => state?.invoice?.revenueOfYear)
@@ -84,6 +91,8 @@ const Statistics = () => {
   useEffect(() => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().substr(0, 10);
+    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().substr(0, 10);
     dispatch(StatisticUserOfYear({
       year: currentYear
     }))
@@ -94,18 +103,18 @@ const Statistics = () => {
       year: currentYear
     }))
     dispatch(GetProductsBestSeller({
-      top: 3,
-      startDate: "",
-      endDate: "",
+      top: 2,
+      startDate: firstDayOfMonth,
+      endDate: lastDayOfMonth,
     }))
     dispatch(GetTopUser({
-      top: 3,
-      startDate: "",
-      endDate: "",
+      top: 2,
+      startDate: firstDayOfMonth,
+      endDate: lastDayOfMonth,
     }))
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     const data = productsBestSellerState?.map((item, index) => ({
       key: index,
       id: item.productId,
@@ -118,7 +127,7 @@ const Statistics = () => {
     setData1(data);
   }, [productsBestSellerState])
 
-  useEffect(()=>{
+  useEffect(() => {
     const data = topUserState?.map((item, index) => ({
       key: index,
       id: item.userId,
@@ -133,9 +142,41 @@ const Statistics = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
+      top: "",
+      startDate: "",
+      endDate: "",
+    },
+    validationSchema: filterSchema,
+    onSubmit: values => {
+      console.log(values);
+      setTop(values.top)
+      dispatch(GetProductsBestSeller({
+        top: values.top,
+        startDate: values.startDate,
+        endDate: values.endDate,
+      }))
+      dispatch(GetTopUser({
+        top: values.top,
+        startDate: values.startDate,
+        endDate: values.endDate,
+      }))
+      // dispatch(StatisticUserOfYear({
+      //   year: values.year
+      // }))
+      // dispatch(GetRevenueOfYear({
+      //   year: values.year
+      // }))
+      // dispatch(GetTotalInvoiceOfYear({
+      //   year: values.year
+      // }))
+    },
+  });
+
+  const formik2 = useFormik({
+    initialValues: {
       year: "",
     },
-    validationSchema: dateSchema,
+    validationSchema: filter2Schema,
     onSubmit: values => {
       dispatch(StatisticUserOfYear({
         year: values.year
@@ -146,14 +187,76 @@ const Statistics = () => {
       dispatch(GetTotalInvoiceOfYear({
         year: values.year
       }))
-      formik.resetForm();
     },
   });
 
   return (
     <>
-      <div className='row'>
+      <div className='row border bg-white p-3 rounded-3'>
         <form onSubmit={formik.handleSubmit}>
+          <div className='d-flex flex-row'>
+            <div>
+              <input
+                type="number"
+                name="top"
+                className="form-control"
+                placeholder="top"
+                value={formik.values.top}
+                onChange={formik.handleChange('top')}
+                onBlur={formik.handleBlur('top')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.top && formik.errors.top
+                }
+              </div>
+            </div>
+            <div className='ms-3'>
+              <input
+                type="date"
+                name="startDate"
+                className="form-control"
+                placeholder="startDate"
+                value={formik.values.startDate}
+                onChange={formik.handleChange('startDate')}
+                onBlur={formik.handleBlur('startDate')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.startDate && formik.errors.startDate
+                }
+              </div>
+            </div>
+            <div className='ms-3'>
+              <input
+                type="date"
+                name="endDate"
+                className="form-control"
+                placeholder="endDate"
+                value={formik.values.endDate}
+                onChange={formik.handleChange('endDate')}
+                onBlur={formik.handleBlur('endDate')}
+              />
+              <div className='error'>
+                {
+                  formik.touched.endDate && formik.errors.endDate
+                }
+              </div>
+            </div>
+            <button className='btn btn-success ms-3' type='submit'>Submit</button>
+          </div>
+        </form>
+      </div>
+      <div className='row border bg-white p-3 rounded-3 mt-3'>
+        <h3>Top {top} Sản Phẩm Bán Chạy Nhất</h3>
+        <Table columns={columnProduct} dataSource={data1} scroll={{ y: 500 }} />
+      </div>
+      <div className='row border bg-white p-3 rounded-3 mt-3'>
+        <h3>Top {top} Khách Hàng Mua Nhiều Nhất</h3>
+        <Table columns={columnUser} dataSource={data2} scroll={{ y: 500 }} />
+      </div>
+      <div className='row border bg-white p-3 rounded-3 mt-3'>
+        <form onSubmit={formik2.handleSubmit}>
           <div className='d-flex flex-row'>
             <div>
               <input
@@ -161,13 +264,13 @@ const Statistics = () => {
                 name="year"
                 className="form-control"
                 placeholder="year"
-                value={formik.values.year}
-                onChange={formik.handleChange('year')}
-                onBlur={formik.handleBlur('year')}
+                value={formik2.values.year}
+                onChange={formik2.handleChange('year')}
+                onBlur={formik2.handleBlur('year')}
               />
               <div className='error'>
                 {
-                  formik.touched.year && formik.errors.year
+                  formik2.touched.year && formik2.errors.year
                 }
               </div>
             </div>
@@ -185,14 +288,6 @@ const Statistics = () => {
           <ColumnInvoiceChart value={totalInvoiceOfYear} />
 
         </div>
-      </div>
-      <div className='row border bg-white p-3 rounded-3 mt-3'>
-        <h3>Top Sản Phẩm Bán Chạy Nhất</h3>
-        <Table columns={columnProduct} dataSource={data1} scroll={{ y: 500 }} />
-      </div>
-      <div className='row border bg-white p-3 rounded-3 mt-3'>
-        <h3>Top Khách Hàng Mua Nhiều Nhất</h3>
-        <Table columns={columnUser} dataSource={data2} scroll={{ y: 500 }} />
       </div>
       <div className='row border bg-white p-3 rounded-3 mt-3'>
         <h3>Thống kê doanh thu</h3>

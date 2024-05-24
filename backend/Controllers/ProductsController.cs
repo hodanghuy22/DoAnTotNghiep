@@ -52,9 +52,9 @@ namespace backend.Controllers
         [HttpPost]
         [Route("GetProductsBestSeller")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetProductsBestSeller()
+        public async Task<IActionResult> GetProductsBestSeller(FillterModel fillterModel)
         {
-            var products = await _uow.ProductRepository.GetProductsBestSeller();
+            var products = await _uow.ProductRepository.GetProductsBestSeller(fillterModel);
             return Ok(products);
         }
         [HttpPost]

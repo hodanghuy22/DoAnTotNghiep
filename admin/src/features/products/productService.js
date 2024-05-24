@@ -23,6 +23,7 @@ const getProduct = async (id) => {
 }
 
 const getProductsBestSeller = async (data) => {
+  console.log(data);
   const response = await axios.post(`${base_url}Products/GetProductsBestSeller`,data,config);
   if (response.data) {
     return response.data;

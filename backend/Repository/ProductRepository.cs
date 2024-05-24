@@ -209,9 +209,11 @@ namespace backend.Repository
             });
         }
 
-        public async Task<IEnumerable<ProductBestSellerModel>> GetProductsBestSeller()
+        public async Task<IEnumerable<ProductBestSellerModel>> GetProductsBestSeller(FillterModel fillterModel)
         {
             var topSellingProducts = await _context.InvoiceDetails
+             .Where(i => i.Invoice.IssueDate >= fillterModel.StartDate 
+                        && i.Invoice.IssueDate <= fillterModel.EndDate)
              .Include(i => i.ProductDetail)
              .ThenInclude(p => p.Product)
              .ThenInclude(b => b.Brand)
@@ -238,7 +240,7 @@ namespace backend.Repository
                  SoldQuantity = g.Sum(x => x.SoldQuantity)
              })
              .OrderByDescending(p => p.SoldQuantity)
-             .Take(5)
+             .Take(fillterModel.Top)
              .ToListAsync();
             return topSellingProducts;
         }

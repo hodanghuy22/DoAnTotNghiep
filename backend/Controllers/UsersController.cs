@@ -57,9 +57,9 @@ namespace backend.Controllers
         [HttpPost]
         [Route("GetTopUser")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetTopUser()
+        public async Task<IActionResult> GetTopUser(FillterModel fillterModel)
         {
-            var count = await _uow.UserRepositoty.GetTopUser();
+            var count = await _uow.UserRepositoty.GetTopUser(fillterModel);
             return Ok(count);
         }
         [HttpGet]

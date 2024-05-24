@@ -9,6 +9,7 @@ namespace backend.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
         public string ShippingInfo { get; set; }
+        public string Desc { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public int TotalPrice { get; set; }
