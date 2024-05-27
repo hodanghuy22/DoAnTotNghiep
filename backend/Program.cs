@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Helpers;
+using backend.Hubs;
 using backend.Interfaces;
 using backend.Models;
 using backend.Services;
@@ -55,16 +56,18 @@ builder.Services.AddControllers()
                 .AddNewtonsoftJson(
                   options => {
                       options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                  }); 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                  });
+
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(option =>
 {
     option.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true) // allow any origin
+            .AllowCredentials();
     });
 });
 
@@ -92,5 +95,7 @@ app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<NotificationHub>("/notification");
 
 app.Run();

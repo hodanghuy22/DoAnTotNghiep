@@ -75,5 +75,8 @@ namespace backend.Data
 
         public ILogRepository LogRepository => 
            new LogRepository(_context);
+
+        public INotificationRepository NotificationRepository => 
+           new NotificationRepository(_context);
     }
 }

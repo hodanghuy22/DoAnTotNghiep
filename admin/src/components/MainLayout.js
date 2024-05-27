@@ -59,6 +59,11 @@ const MainLayout = () => {
               label: 'Statistics',
             },
             {
+              key: 'testnoti',
+              icon: <FcStatistics className='fs-5' />,
+              label: 'Testnoti',
+            },
+            {
               key: 'user',
               icon: <FaUser className='fs-5' />,
               label: 'Users',

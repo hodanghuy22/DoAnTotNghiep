@@ -20,7 +20,7 @@ const initialState = {
   message: "",
 }
 
-export const uploadSlice = createSlice({
+export const logSlice = createSlice({
   name: "logs",
   initialState,
   reducers: {},
@@ -41,4 +41,4 @@ export const uploadSlice = createSlice({
   }
 })
 
-export default uploadSlice.reducer;
+export default logSlice.reducer;

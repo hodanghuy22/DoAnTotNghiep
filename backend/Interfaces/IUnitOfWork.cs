@@ -18,6 +18,7 @@
         IRatingRepository RatingRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         ILogRepository LogRepository { get; }
+        INotificationRepository NotificationRepository { get; }
 
     }
 }
