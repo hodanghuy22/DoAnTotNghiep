@@ -78,9 +78,16 @@ const columnUser = [
 const Statistics = () => {
   const dispatch = useDispatch()
 
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().substr(0, 10);
+  const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().substr(0, 10);
+
   const [data1, setData1] = useState([]);
   const [data2, setData2] = useState([]);
   const [top, setTop] = useState(5);
+  const [yearDisplay, setYearDisplay] = useState(currentYear);
+  
 
   const statisticUserOfYearState = useSelector(state => state?.auth?.statisticUserOfYear)
   const revenueOfYearState = useSelector(state => state?.invoice?.revenueOfYear)
@@ -89,10 +96,7 @@ const Statistics = () => {
   const topUserState = useSelector(state => state?.auth?.topUser)
 
   useEffect(() => {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().substr(0, 10);
-    const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().substr(0, 10);
+    
     dispatch(StatisticUserOfYear({
       year: currentYear
     }))
@@ -103,12 +107,12 @@ const Statistics = () => {
       year: currentYear
     }))
     dispatch(GetProductsBestSeller({
-      top: 2,
+      top: top,
       startDate: firstDayOfMonth,
       endDate: lastDayOfMonth,
     }))
     dispatch(GetTopUser({
-      top: 2,
+      top: top,
       startDate: firstDayOfMonth,
       endDate: lastDayOfMonth,
     }))
@@ -142,50 +146,43 @@ const Statistics = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      top: "",
-      startDate: "",
-      endDate: "",
+      top: top,
+      startDate: firstDayOfMonth,
+      endDate: lastDayOfMonth,
     },
     validationSchema: filterSchema,
     onSubmit: values => {
       console.log(values);
-      setTop(values.top)
+      setTop(values.top||5)
       dispatch(GetProductsBestSeller({
-        top: values.top,
-        startDate: values.startDate,
-        endDate: values.endDate,
+        top: values.top||5,
+        startDate: values.startDate||firstDayOfMonth,
+        endDate: values.endDate||lastDayOfMonth,
       }))
-      dispatch(GetTopUser({
-        top: values.top,
-        startDate: values.startDate,
-        endDate: values.endDate,
+      dispatch(GetProductsBestSeller({
+        top: values.top||5,
+        startDate: values.startDate||firstDayOfMonth,
+        endDate: values.endDate||lastDayOfMonth,
       }))
-      // dispatch(StatisticUserOfYear({
-      //   year: values.year
-      // }))
-      // dispatch(GetRevenueOfYear({
-      //   year: values.year
-      // }))
-      // dispatch(GetTotalInvoiceOfYear({
-      //   year: values.year
-      // }))
     },
   });
 
   const formik2 = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      year: "",
+      year: currentYear,
     },
     validationSchema: filter2Schema,
     onSubmit: values => {
+      setYearDisplay(values.year || currentYear)
       dispatch(StatisticUserOfYear({
-        year: values.year
+        year: values.year || currentYear
       }))
       dispatch(GetRevenueOfYear({
-        year: values.year
+        year: values.year || currentYear
       }))
       dispatch(GetTotalInvoiceOfYear({
-        year: values.year
+        year: values.year || currentYear
       }))
     },
   });
@@ -280,17 +277,17 @@ const Statistics = () => {
       </div>
       <div className='row d-flex justify-content-between mt-3'>
         <div className='col-5 border bg-white p-3 rounded-3'>
-          <h3>Thống kê số lượng khách hàng</h3>
+          <h3>Thống kê số lượng khách hàng năm {yearDisplay}</h3>
           <LineChart value={statisticUserOfYearState} />
         </div>
         <div className='col-6 border bg-white p-3 rounded-3'>
-          <h3>Thống kê số lượng hóa đơn</h3>
+          <h3>Thống kê số lượng hóa đơn năm {yearDisplay}</h3>
           <ColumnInvoiceChart value={totalInvoiceOfYear} />
 
         </div>
       </div>
       <div className='row border bg-white p-3 rounded-3 mt-3'>
-        <h3>Thống kê doanh thu</h3>
+        <h3>Thống kê doanh thu năm {yearDisplay}</h3>
         <ColumnRevenueChart value={revenueOfYearState} />
       </div>
     </>
