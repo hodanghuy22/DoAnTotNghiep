@@ -55,6 +55,8 @@ namespace backend.Repository
             return await _context.Products.Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.Images)
+                .Include(p => p.Ratings)
+                .Include(p => p.Comments)
                 .Include(p => p.ProductDetails.Where(pd => pd.Status == true))
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
@@ -88,15 +90,22 @@ namespace backend.Repository
                    .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsActive()
+        public async Task<IEnumerable<ProductDisplayModel>> GetProductsActive()
         {
             return await _context.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
-                .Include(p => p.ProductDetails)
-                .Include(p => p.Images)
-                .Where(p => p.Status == true)
-                .ToListAsync(); ;
+                .Select(p => new ProductDisplayModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    AverageRating = p.AverageRating,
+                    BrandTitle = p.Brand.Title,
+                    CategoryTitle = p.Category.Title,
+                    ImagePublicId = p.Images.OrderBy(i => i.ProductId).FirstOrDefault().ImagePublicId,
+                    ImageUrl = p.Images.OrderBy(i => i.ProductId).FirstOrDefault().ImageUrl,
+                    Price = p.ProductDetails.Min(pd => pd.RetailPrice),
+                    Quantity = p.ProductDetails.Sum(pd => pd.Quantity)
+                })
+                .ToListAsync(); 
         }
 
         public async Task<bool> ProductExist(Product product)
