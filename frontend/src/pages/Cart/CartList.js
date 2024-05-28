@@ -1,17 +1,26 @@
 import React from 'react'
-import { Container, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 const CartList = () => {
     return (
-        <Container>
-            <Row className='mt-4'>
-                <p>Có <strong>2 sản phẩm</strong> trong giỏ hàng</p>
+        <Container className='p-5 w-75 border'>
+            <Row className='mt-4 d-flex justify-content-between mb-5'>
+                <div className='col-3'>
+                    <input type='checkbox' style={{ top: '0' }} /><span className='mx-3'>Chọn tất cả</span>
+                </div>
+                <div className='col-3'>
+                    <p>Xoá sản phẩm đã chọn</p>
+                </div>
             </Row>
             <Row>
                 <div className='cart-item d-flex container border-bottom mb-5'>
                     <div className='col-8 d-flex'>
+                        <div>
+                            <input type='checkbox' style={{ top: '0' }} />
+                        </div>
                         <div className=''>
                             <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='laptop' />
                         </div>
@@ -45,6 +54,9 @@ const CartList = () => {
                 </div>
                 <div className='cart-item d-flex container border-bottom mb-5'>
                     <div className='col-8 d-flex'>
+                        <div>
+                            <input type='checkbox' style={{ top: '0' }} />
+                        </div>
                         <div className=''>
                             <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='laptop' />
                         </div>
@@ -75,6 +87,15 @@ const CartList = () => {
                         </div>
                         <p className='fs-5 text-danger fw-bold'>28.990.000đ</p>
                     </div>
+                </div>
+            </Row>
+            <Row className='d-flex flex-row justify-content-around'>
+                <div className='col-2'>
+                    <p className='fs-5'>Tạm tính:</p>
+                    <p className='fs-4 text-danger fw-bold'>40000000đ</p>
+                </div>
+                <div className='col-3'>
+                    <Link to={'/payment'} className='text-decoration-none text-light bg-danger btn-pay rounded-pill fs-5 mt-4 px-5'>MUA NGAY</Link>
                 </div>
             </Row>
         </Container>

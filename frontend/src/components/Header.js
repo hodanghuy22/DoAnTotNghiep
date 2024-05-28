@@ -29,22 +29,27 @@ const Header = () => {
               <DropdownButton id="dropdown-basic-button" title="Sản phẩm" variant="transparent" className="border-0">
                 <div className='d-flex mt-2'>
                   <div>
-                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.ItemText>Xiaomi</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.ItemText>Iphone</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.ItemText>SamSung</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText>Action</Dropdown.ItemText>
+                    <Dropdown.ItemText>Vivo</Dropdown.ItemText>
+                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
+                  </div>
+                  <div>
+                    <Dropdown.ItemText>OPPO</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>

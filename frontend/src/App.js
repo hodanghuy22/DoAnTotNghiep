@@ -15,6 +15,8 @@ import Address from './pages/Accounts/Address'
 import OrderDetail from './pages/Accounts/OrderDetail'
 import Cart from './pages/Cart/Cart'
 import Notification from './components/Notification'
+import Payment from './pages/Cart/Payment'
+import CartList from './pages/Cart/CartList'
 
 const App = () => {
     return (
@@ -24,7 +26,8 @@ const App = () => {
                     <Route index element={<Home />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<SignUp />} />
-                    <Route path='/cart' element={<Cart />} />
+                    <Route path='/cart' element={<CartList />} />
+                    <Route path='/payment' element={<Payment />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
