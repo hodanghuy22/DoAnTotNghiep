@@ -11,6 +11,7 @@ import { GetProductDetail, GetProductDetailsActive } from '../features/productDe
 import { AiFillDelete } from 'react-icons/ai';
 import { CreateInvoice, GetInvoice, resetState } from '../features/invoices/invoiceSlice';
 import { toast } from 'react-toastify';
+import PayPalButton from '../components/PayPalButton';
 
 const invoiceSchema = yup.object({
   userId: yup.string().required('User Id is Required'),
@@ -225,12 +226,12 @@ const AddInvoice = () => {
   return (
     <div>
       <div>
+        <PayPalButton />
         <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "View" : "Add"} Invoice</h1>
         <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>
             <div className='mb-3'>
               <select name="userId"
-                type="text"
                 value={formik.values.userId}
                 onChange={formik.handleChange('userId')}
                 onBlur={formik.handleBlur('userId')}
@@ -301,7 +302,7 @@ const AddInvoice = () => {
             </div>
             <div className='row'>
               <div className='mb-3 col-6'>
-                <label class="form-label">Total Price</label>
+                <label className="form-label">Total Price</label>
                 <input
                   type="number"
                   name="totalPrice"
@@ -319,7 +320,7 @@ const AddInvoice = () => {
                 </div>
               </div>
               <div className='mb-3 col-6'>
-                <label class="form-label">Total Price After Discount</label>
+                <label className="form-label">Total Price After Discount</label>
                 <input
                   type="number"
                   name="totalPriceAfterDiscount"

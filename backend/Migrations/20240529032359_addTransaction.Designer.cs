@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,10 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(CSDLContext))]
-    partial class CSDLContextModelSnapshot : ModelSnapshot
+    [Migration("20240529032359_addTransaction")]
+    partial class addTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,7 +262,7 @@ namespace backend.Migrations
                     b.Property<int>("TotalPriceAfterDiscount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TransactionId")
+                    b.Property<int>("TransactionId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -272,9 +274,7 @@ namespace backend.Migrations
 
                     b.HasIndex("OrderStatusId");
 
-                    b.HasIndex("TransactionId")
-                        .IsUnique()
-                        .HasFilter("[TransactionId] IS NOT NULL");
+                    b.HasIndex("TransactionId");
 
                     b.HasIndex("UserId");
 
@@ -918,8 +918,10 @@ namespace backend.Migrations
                         .IsRequired();
 
                     b.HasOne("backend.Models.Transaction", "Transaction")
-                        .WithOne("Invoice")
-                        .HasForeignKey("backend.Models.Invoice", "TransactionId");
+                        .WithMany()
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("backend.Models.User", "User")
                         .WithMany()
@@ -1129,11 +1131,6 @@ namespace backend.Migrations
                     b.Navigation("ProductDetails");
 
                     b.Navigation("Ratings");
-                });
-
-            modelBuilder.Entity("backend.Models.Transaction", b =>
-                {
-                    b.Navigation("Invoice");
                 });
 #pragma warning restore 612, 618
         }

@@ -27,5 +27,6 @@ namespace backend.Data
         public DbSet<Category> Categories { get; set; } = default!;
         public DbSet<LogModel> LogModels { get; set; } = default!;
         public DbSet<Notification> Notifications { get; set; } = default!;
+        public DbSet<Transaction> Transactions { get; set; } = default!;
     }
 }

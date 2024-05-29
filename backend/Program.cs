@@ -16,6 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<PaypalService>(new PaypalService(
+        builder.Configuration["PaypalSetting:Client_ID"],
+        builder.Configuration["PaypalSetting:Secret_Key"],
+        builder.Configuration["PaypalSetting:Url"]
+    ));
 
 
 builder.Services.AddDbContext<CSDLContext>(options =>

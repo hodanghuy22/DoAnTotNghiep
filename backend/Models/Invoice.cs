@@ -18,6 +18,8 @@ namespace backend.Models
         public Coupon Coupon { get; set; }
         public int OrderStatusId { get; set; }
         public OrderStatus OrderStatus { get; set; }
+        public int? TransactionId { get; set; }
+        public Transaction Transaction { get; set; }
         public List<InvoiceDetail> InvoiceDetails { get; set; }
     }
 }
