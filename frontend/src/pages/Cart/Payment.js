@@ -11,7 +11,7 @@ const Payment = () => {
     useEffect(() => {
         axios.get('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json')
             .then(response => {
-                console.log(response.data); 
+                console.log(response.data);
                 const data = Object.values(response.data);
                 setProvinces(data);
                 console.log(data);
@@ -43,7 +43,7 @@ const Payment = () => {
             });
     };
     return (
-        <Container>
+        <Container className='p-5 w-75 border'>
             <Row>
                 <p>THÔNG TIN NGƯỜI NHẬN</p>
             </Row>
