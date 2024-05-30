@@ -2,6 +2,7 @@ import axios from "axios"
 import { base_url, config } from "../../utils/axiosConfig";
 
 const createInvoice = async(data) => {
+  console.log("INVOICE SER", data);
   const response = await axios.post(`${base_url}Invoices`, data, config);
   if (response.data) {
     return response.data;

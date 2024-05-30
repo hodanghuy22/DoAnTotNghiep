@@ -27,7 +27,6 @@ namespace backend.Controllers
         [HttpPost("capture-order")]
         public async Task<IActionResult> CaptureOrder(CaptureOrderModel captureOrder)
         {
-            Console.WriteLine($">>> check orderId: {captureOrder.OrderId}");
             var success = await _paypalService.CaptureOrder(captureOrder);
             if (success)
             {
@@ -37,6 +36,13 @@ namespace backend.Controllers
             {
                 return BadRequest("Thanh toán thất bại");
             }
+        }
+        [HttpGet]
+        [Route("GetOrderDetails/{orderId}")]
+        public async Task<IActionResult> GetOrderDetails(string orderId)
+        {
+            var order = await _paypalService.GetOrderDetails(orderId);
+            return Ok(order);
         }
     }
 }

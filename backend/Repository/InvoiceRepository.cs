@@ -84,6 +84,7 @@ namespace backend.Repository
                     .Include(i => i.User)
                     .Include(i => i.Coupon)
                     .Include(i => i.OrderStatus)
+                    .Include(i => i.Transaction)
                     .Include(i => i.InvoiceDetails)
                         .ThenInclude(i => i.ProductDetail)
                             .ThenInclude(p => p.Product)

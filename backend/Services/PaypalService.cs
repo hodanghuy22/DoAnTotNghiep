@@ -89,5 +89,12 @@ namespace backend.Services
                 return false;
             }
         }
+        public async Task<Order> GetOrderDetails(string orderId)
+        {
+            var payPalClient = CreatePayPalClient();
+            var request = new OrdersGetRequest(orderId);
+            var response = await payPalClient.Execute(request);
+            return response.Result<Order>();
+        }
     }
 }

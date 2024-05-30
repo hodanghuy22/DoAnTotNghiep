@@ -82,7 +82,6 @@ const AddInvoice = () => {
       couponId: invoiceState?.couponId || "",
       orderStatusId: invoiceState?.orderStatusId || 1,
       invoiceDetails: invoiceState?.invoiceDetails || [],
-      transactionId: ""
     },
     validationSchema: invoiceSchema,
     onSubmit: values => {
@@ -227,7 +226,7 @@ const AddInvoice = () => {
   return (
     <div>
       <div>
-        <PayPalButton total={formik.values.totalPriceAfterDiscount}/>
+        <PayPalButton invoice={formik.values}/>
         <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "View" : "Add"} Invoice</h1>
         <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>
