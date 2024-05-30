@@ -1,6 +1,7 @@
 ﻿using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Specialized;
 
 namespace backend.Controllers
 {
@@ -16,9 +17,10 @@ namespace backend.Controllers
         }
 
         [HttpPost("create-payment")]
-        public async Task<IActionResult> CreatePayment()
+        public async Task<IActionResult> CreatePayment(CreatePaymentModel createPayment)
         {
-            var orderId = await _paypalService.CreatePayment(50000);
+            Console.WriteLine($">>> check Tien: {createPayment.Amount}");
+            var orderId = await _paypalService.CreatePayment(createPayment.Amount);
             return Ok(orderId);
         }
 

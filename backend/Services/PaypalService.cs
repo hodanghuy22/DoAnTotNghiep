@@ -22,8 +22,12 @@ namespace backend.Services
             var environment = new SandboxEnvironment(_clientId, _clientSecret);
             return new PayPalHttpClient(environment);
         }
+        public decimal ConvertVndToUsd(int amountInVnd)
+        {
+            return amountInVnd / 25000m;
+        }
 
-        public async Task<string> CreatePayment(decimal amount)
+        public async Task<string> CreatePayment(int amount)
         {
             var payPalClient = CreatePayPalClient();
 
@@ -38,7 +42,7 @@ namespace backend.Services
                         AmountWithBreakdown = new AmountWithBreakdown
                         {
                             CurrencyCode = "USD",
-                            Value = amount.ToString("0.00")
+                            Value = ConvertVndToUsd(amount).ToString("0.00")
                         }
                     }
                 },
@@ -47,8 +51,6 @@ namespace backend.Services
                     BrandName = "HUBI",
                     LandingPage = "LOGIN",
                     UserAction = "PAY_NOW",
-                    ReturnUrl = "http://localhost:3000/admin/brand",
-                    CancelUrl = "http://localhost:3000/admin/logs"
                 }
             });
 
