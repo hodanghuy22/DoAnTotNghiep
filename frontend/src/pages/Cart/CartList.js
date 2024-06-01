@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import {  Container, Row } from 'react-bootstrap'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
 import { Link } from 'react-router-dom'
