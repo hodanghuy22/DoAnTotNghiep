@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
 import { FaGamepad, FaHotjar, FaRegUser } from 'react-icons/fa';
@@ -8,11 +8,20 @@ import logo from '../assets/images/logo-nobg.png';
 import { LuSmartphone } from 'react-icons/lu';
 import { CiHeadphones } from 'react-icons/ci';
 import { IoIosNotificationsOutline, IoMdBatteryCharging } from 'react-icons/io';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../assets/css/global.css';
 import '../assets/css/header.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { Logout } from '../features/auths/authSlice';
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
+  const authState = useSelector(state => state.auth);
+  const handleLogout = () => {
+    dispatch(Logout());
+    navigate('/login');
+  };
   return (
 
     <div>
@@ -155,14 +164,20 @@ const Header = () => {
                 <Dropdown.Item className='custom-dropdown-item'>
                   <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
                 </Dropdown.Item>
-                <Dropdown.Item className='custom-dropdown-item'>
-                  <Link to={'/login'} className='text-decoration-none'>Đăng nhập</Link>
-                </Dropdown.Item>
                 <Dropdown.Item>
                   <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
                 </Dropdown.Item>
+                {
+                  authState.user === null && (
+                    <Dropdown.Item className='custom-dropdown-item'>
+                      <Link to={'/login'} className='text-decoration-none'>Đăng nhập</Link>
+                    </Dropdown.Item>
+                  )
+                }
                 <Dropdown.Item>
-                  <Link to={'/sigout'} className='text-decoration-none'>Đăng xuất</Link>
+                  <Button variant='light' className='w-100' onClick={handleLogout}>
+                    Đăng xuất
+                  </Button>
                 </Dropdown.Item>
               </DropdownButton>
             </div>

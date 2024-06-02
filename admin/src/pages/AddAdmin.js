@@ -42,7 +42,7 @@ const AddAdmin = () => {
             <input
               type="email"
               className="form-control"
-              name="firstname"
+              name="email"
               placeholder='Email'
               value={formik.values.email}
               onChange={formik.handleChange('email')}

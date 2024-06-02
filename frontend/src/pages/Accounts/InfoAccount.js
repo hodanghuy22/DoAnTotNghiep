@@ -1,6 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { GetAUser, UpdateUser } from '../../features/auths/authSlice';
+
+const infoSchema = yup.object({
+    name: yup.string().required('Name is Required'),
+    age: yup.number()
+    .moreThan(0, 'Giá trị phải lớn hơn 0'),
+    phoneNumber: yup.string()
+    .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ')
+    
+});
 
 const InfoAccount = () => {
+    const dispatch = useDispatch()
+    const userState = useSelector(state => state.auth.user);
+    const formik = useFormik({
+        initialValues: {
+            id: userState?.id,
+            name: userState?.name || '',
+            age: userState?.age || '',
+            phoneNumber: userState?.phoneNumber || '',
+            address: userState?.address,
+            email: userState?.email,
+            userName: userState?.userName,
+        },
+        validationSchema: infoSchema,
+        onSubmit: values => {
+            const data = { id: userState.id, data: values }
+            dispatch(UpdateUser(data))
+        },
+    });
     return (
         <div className='p-5'>
             <div className=''>
@@ -8,37 +39,69 @@ const InfoAccount = () => {
                     <p>THÔNG TIN TẢI KHOẢN</p>
                 </div>
                 <div className=''>
-                    <div className='d-flex  p-2'>
-                        <div className='col-3 mt-1'>
-                            <p>Họ tên</p>
+                    <form onSubmit={formik.handleSubmit}>
+                        <div className='d-flex p-2 mb-3'>
+                            <div className='col-3 mt-1'>
+                                <p>Họ tên</p>
+                            </div>
+                            <div className='col-8'>
+                                <input
+                                    type='text'
+                                    name="name"
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange('name')}
+                                    onBlur={formik.handleBlur('name')}
+                                    className='text-dark w-100 p-2'
+                                />
+                                <div className='error'>
+                                    {
+                                        formik.touched.name && formik.errors.name
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div className='col-8'>
-                            <input typeof='text' placeholder='' value={'hksbai2003'} className='text-dark w-100 p-2' />
+                        <div className='d-flex p-2 mb-3'>
+                            <div className='col-3 mt-1'>
+                                <p>Tuổi</p>
+                            </div>
+                            <div className='col-8'>
+                                <input
+                                    type='numbet'
+                                    name="age"
+                                    value={formik.values.age}
+                                    onChange={formik.handleChange('age')}
+                                    onBlur={formik.handleBlur('age')}
+                                    className='text-dark w-100 p-2'
+                                />
+                                <div className='error'>
+                                    {
+                                        formik.touched.age && formik.errors.age
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div className='d-flex p-2'>
-                        <div className='col-3 mt-1'>
-                            <p>Email</p>
+                        <div className='d-flex p-2 mb-3'>
+                            <div className='col-3 mt-1'>
+                                <p>Số điện thoại</p>
+                            </div>
+                            <div className='col-8'>
+                                <input
+                                    type='text'
+                                    name="phoneNumber"
+                                    value={formik.values.phoneNumber}
+                                    onChange={formik.handleChange('phoneNumber')}
+                                    onBlur={formik.handleBlur('phoneNumber')}
+                                    className='text-dark w-100 p-2'
+                                />
+                                <div className='error'>
+                                    {
+                                        formik.touched.phoneNumber && formik.errors.phoneNumber
+                                    }
+                                </div>
+                            </div>
                         </div>
-                        <div className='col-8'>
-                            <input typeof='text' placeholder='' value={'hksbai2003'} className='text-dark w-100 p-2' />
-                        </div>
-                    </div>
-                    <div className='d-flex p-2'>
-                        <div className='col-3 mt-1'>
-                            <p>Điện thoại</p>
-                        </div>
-                        <div className='col-8'>
-                            <input typeof='text' placeholder='' value={'hksbai2003'} className='text-dark w-100 p-2' />
-                        </div>
-                    </div>
-                    <div className='d-flex p-2'>
-                        <div className='col-3 mt-1'>
-                        </div>
-                        <div className='col-8 '>
-                            <button typeof='submit' className='w-100 btn bg-danger fw-bold text-light' >Cập nhật</button>
-                        </div>
-                    </div>
+                        <button type='submit' className='w-100 btn bg-danger p-2 text-light fw-bold mb-2'>Cập nhật</button>
+                    </form>
                 </div>
             </div>
         </div>

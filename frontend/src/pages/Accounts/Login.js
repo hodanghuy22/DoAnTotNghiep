@@ -1,7 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginUser } from '../../features/auths/authSlice';
+
+const loginSchema = yup.object({
+  username: yup.string().required('Username is Required'),
+  password: yup.string().required("Password is Required")
+});
 
 const Login = () => {
+  const authState = useSelector(state => state.auth);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validationSchema: loginSchema,
+    onSubmit: values => {
+      dispatch(LoginUser(values));
+    },
+  });
+  useEffect(() => {
+    if (authState.user !== null && authState.isError === false) {
+      navigate('/');
+    }
+  }, [authState, navigate]);
   return (
     <div className='container w-100 m-auto shadow p-3 mb-5 bg-body rounded p-5'>
       <div className='d-flex w-75 m-auto shadow p-3 mb-5 bg-body rounded '>
@@ -19,9 +46,25 @@ const Login = () => {
             <Link className='w-100 fw-bold fs-5 text-center pt-3 pb-3 pl-4 pr-4 border-bottom border-danger text-danger text-decoration-none'>ĐĂNG NHẬP</Link>
             <Link to='/signup' className='w-100 fw-bold fs-5 text-center pt-3 pb-3 pl-4 pr-4 border-bottom text-dark text-decoration-none'>ĐĂNG KÝ</Link>
           </div>
-          <form className='d-flex flex-column'>
-            <input type='text' placeholder='Email đăng nhập' className='w-100 shadow p-3 mb-4 bg-body rounded' />
-            <input type='password' placeholder='Mật khẩu' className='w-100 shadow p-3 mb-3 bg-body rounded' />
+          <form onSubmit={formik.handleSubmit} className='d-flex flex-column'>
+            <input 
+              type='text' 
+              placeholder='Username' 
+              name="username"
+              value={formik.values.username}
+              onChange={formik.handleChange('username')}
+              onBlur={formik.handleBlur('username')}
+              className='w-100 shadow p-3 mb-4 bg-body rounded' 
+            />
+            <input 
+              type='password' 
+              placeholder='Password' 
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange('password')}
+              onBlur={formik.handleBlur('password')}
+              className='w-100 shadow p-3 mb-3 bg-body rounded' 
+            />
             <div className='d-flex justify-content-end'>
               <Link to={''} className='text-danger mb-3'>Quên mật khẩu</Link>
             </div>
