@@ -90,6 +90,27 @@ namespace backend.Repository
                    .ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> GetProductsActiveByCategory(int categoryId)
+        {
+            return await _context.Products
+                   .Include(p => p.Brand)
+                   .Include(p => p.Category)
+                   .Include(p => p.ProductDetails)
+                   .Include(p => p.Images)
+                   .Where(p => p.CategoryId == categoryId && p.Status == true)
+                   .ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> SearchProductByName(string name)
+        {
+            return await _context.Products
+                   .Include(p => p.Brand)
+                   .Include(p => p.Category)
+                   .Include(p => p.ProductDetails)
+                   .Include(p => p.Images)
+                   .Where(p => p.Name.ToLower().Contains(name.ToLower()))
+                   .ToListAsync();
+        }
+
         public async Task<IEnumerable<ProductDisplayModel>> GetProductsActive()
         {
             return await _context.Products
