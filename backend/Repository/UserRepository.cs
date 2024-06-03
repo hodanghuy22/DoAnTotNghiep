@@ -237,7 +237,8 @@ namespace backend.Repository
                 SecurityStamp = Guid.NewGuid().ToString(),
                 Email = registerModel.Email,
                 UserName = registerModel.Username,
-                CreateAt = DateTime.UtcNow
+                CreateAt = DateTime.UtcNow,
+                Name = registerModel.Name,
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)

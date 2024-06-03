@@ -66,7 +66,7 @@ const Login = () => {
               className='w-100 shadow p-3 mb-3 bg-body rounded' 
             />
             <div className='d-flex justify-content-end'>
-              <Link to={''} className='text-danger mb-3'>Quên mật khẩu</Link>
+              <Link to={'/forgot-password'} className='text-danger mb-3'>Quên mật khẩu</Link>
             </div>
             <button type='submit' className='w-100 btn bg-danger p-2 text-light fw-bold mb-2'>ĐĂNG NHẬP</button>
           </form>

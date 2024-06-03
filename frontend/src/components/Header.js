@@ -20,7 +20,9 @@ const Header = () => {
   const authState = useSelector(state => state.auth);
   const handleLogout = () => {
     dispatch(Logout());
-    navigate('/login');
+    setTimeout(() => {
+      navigate('/login');
+  }, 300)
   };
   return (
 

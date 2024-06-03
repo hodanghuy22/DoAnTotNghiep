@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { GetAUser, UpdateUser } from '../../features/auths/authSlice';
+import { UpdateUser } from '../../features/auths/authSlice';
 
 const infoSchema = yup.object({
     name: yup.string().required('Name is Required'),
@@ -10,7 +10,6 @@ const infoSchema = yup.object({
     .moreThan(0, 'Giá trị phải lớn hơn 0'),
     phoneNumber: yup.string()
     .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ')
-    
 });
 
 const InfoAccount = () => {
@@ -100,7 +99,13 @@ const InfoAccount = () => {
                                 </div>
                             </div>
                         </div>
-                        <button type='submit' className='w-100 btn bg-danger p-2 text-light fw-bold mb-2'>Cập nhật</button>
+                        <div className='d-flex p-2'>
+                        <div className='col-3 mt-1'>
+                        </div>
+                        <div className='col-8 '>
+                            <button type='submit' className='w-100 btn bg-danger p-2 text-light fw-bold mb-2'>Lưu thay đổi</button>
+                        </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -10,12 +10,14 @@ import NotFound from './pages/NotFound'
 import Trangcanhan from './pages/Accounts/Trangcanhan'
 import InfoAccount from './pages/Accounts/InfoAccount'
 import OrderList from './pages/Accounts/OrderList'
-import ResetPasword from './pages/Accounts/ResetPasword'
 import Address from './pages/Accounts/Address'
 import OrderDetail from './pages/Accounts/OrderDetail'
 import Notification from './components/Notification'
 import Payment from './pages/Cart/Payment'
 import CartList from './pages/Cart/CartList'
+import ForgotPassword from './pages/Accounts/ForgotPassword'
+import ChangePassword from './pages/Accounts/ChangePassword'
+import ResetPassword from './pages/Accounts/ResetPassword'
 
 const App = () => {
     return (
@@ -25,6 +27,8 @@ const App = () => {
                     <Route index element={<Home />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<SignUp />} />
+                    <Route path='/forgot-password' element={<ForgotPassword />} />
+                    <Route path='/reset-password/:token' element={<ResetPassword />} />
                     <Route path='/cart' element={<CartList />} />
                     <Route path='/payment' element={<Payment />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
@@ -32,7 +36,7 @@ const App = () => {
                         <Route path='oder-list' element={<OrderList />} />
                         <Route path='notification' element={<Notification />} />
                         <Route path='oder-list/detail' element={<OrderDetail />} />
-                        <Route path='reset-password' element={<ResetPasword />} />
+                        <Route path='change-password' element={<ChangePassword />} />
                         <Route path='address' element={<Address />} />
                     </Route>
                     <Route path='/product/:productId' element={<Detail />} />
