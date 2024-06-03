@@ -1,8 +1,8 @@
 import axios from "axios"
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const getLogs = async() => {
-  const response = await axios.get(`${base_url}Logs`, config);
+  const response = await axios.get(`${base_url}Logs`, getConfig());
   if (response.data) {
     return response.data;
   }

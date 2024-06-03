@@ -45,7 +45,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>Thống kê nhanh</h1>
+      <h1>Thống kê nhanh tháng {currentMonth}</h1>
       <div className='mt-3 container-fuild d-flex  justify-content-between'>
         <DasboardCard
           icon={<MdOutlineShoppingCart
@@ -109,7 +109,7 @@ const Dashboard = () => {
           value={revenueAfterDiscountByMonth} />
       </div>
       <div className='mt-5 container-fuild'>
-        <h3 className='mb-3'>Doanh số theo tháng</h3>
+        <h3 className='mb-3'>Doanh số theo tháng trong năm {currentYear}</h3>
         <div className='border rounded-3 p-3 bg-white'>
           <ColumnRevenueChart value={revenueOfYearState} />
         </div>

@@ -1,6 +1,5 @@
 import axios from "axios"
-import { base_url,config } from "../../utils/axiosConfig";
-
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const login = async(userData)=>{
     const response = await axios.post(`${base_url}Users/login`, userData);
@@ -11,7 +10,7 @@ const login = async(userData)=>{
 }
 
 const registerAdmin = async(userData)=>{
-    const response = await axios.post(`${base_url}Users/register-admin`, userData, config);
+    const response = await axios.post(`${base_url}Users/register-admin`, userData, getConfig());
     if(response.data){
         return response.data;
     }
@@ -19,7 +18,7 @@ const registerAdmin = async(userData)=>{
 
 
 const getTopUser = async(data)=>{
-    const response = await axios.post(`${base_url}Users/GetTopUser`, data, config);
+    const response = await axios.post(`${base_url}Users/GetTopUser`, data, getConfig());
     if(response.data){
         return response.data;
     }
@@ -27,21 +26,21 @@ const getTopUser = async(data)=>{
 
 
 const getAllUsers = async()=>{
-    const response = await axios.get(`${base_url}Users/GetAllUser`, config);
+    const response = await axios.get(`${base_url}Users/GetAllUser`, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const countUser = async()=>{
-    const response = await axios.get(`${base_url}Users/CountUser`, config);
+    const response = await axios.get(`${base_url}Users/CountUser`, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const statisticUserOfYear = async(data)=>{
-    const response = await axios.get(`${base_url}Users/StatisticUserOfYear/${data.year}`, config);
+    const response = await axios.get(`${base_url}Users/StatisticUserOfYear/${data.year}`, getConfig());
     if(response.data){
         return response.data;
     }

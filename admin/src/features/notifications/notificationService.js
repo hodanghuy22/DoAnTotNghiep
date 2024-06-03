@@ -1,5 +1,5 @@
 import axios from "axios"
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const getNotifications = async(id) => {
   const response = await axios.get(`${base_url}Notifications/${id}`);
@@ -16,14 +16,14 @@ const getNotification = async(id) => {
 }
 
 const createNotification = async(data) => {
-  const response = await axios.post(`${base_url}Notifications`, data, config);
+  const response = await axios.post(`${base_url}Notifications`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const updateNotification = async(data) => {
-  const response = await axios.put(`${base_url}Notifications/${data.id}`, data.data, config);
+  const response = await axios.put(`${base_url}Notifications/${data.id}`, data.data, getConfig());
   if (response.data) {
     return response.data;
   }

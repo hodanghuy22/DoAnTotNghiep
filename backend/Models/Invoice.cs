@@ -8,6 +8,8 @@ namespace backend.Models
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
+        public string RecipientName { get; set; }
+        public string RecipientPhoneNumber { get; set; }
         public string ShippingInfo { get; set; }
         public string Desc { get; set; }
         public DateTime IssueDate { get; set; }
