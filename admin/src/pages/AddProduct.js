@@ -223,7 +223,7 @@ const AddProduct = () => {
               </div>
             </div>
             {
-              productTypeSelect && ( productTypeSelect === 1 || productTypeSelect === 2 || productTypeSelect === 4 ) && (
+              productTypeSelect && ( productTypeSelect === 1 || productTypeSelect === 2 || productTypeSelect === 3 ) && (
                 <>
                   <div className='row'>
                     <div className='mb-3 col-6'>
@@ -477,7 +477,7 @@ const AddProduct = () => {
               )
             }
             {
-              productTypeSelect && ( productTypeSelect === 2 || productTypeSelect === 3 ) && (
+              productTypeSelect && ( productTypeSelect === 4 || productTypeSelect === 3 ) && (
                 <>
                   <div className='mb-3'>
                     <input
@@ -499,7 +499,7 @@ const AddProduct = () => {
               )
             }
             {
-              productTypeSelect && productTypeSelect === 2 && (
+              productTypeSelect && productTypeSelect === 4 && (
                 <>
                   <div className='row'>
                     <div className='mb-3 col-6'>
@@ -539,7 +539,7 @@ const AddProduct = () => {
               )
             }
             {
-              productTypeSelect && productTypeSelect === 4 && (
+              productTypeSelect && productTypeSelect === 2 && (
                 <>
                   <div className='row'> 
                     <div className='mb-3 col-6'>
