@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { BsStar } from 'react-icons/bs'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { GetProductsActiveByCategory, resetState } from '../../features/products/productSlice'
 
 const PhoneList = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(GetProductsActiveByCategory(1));
+  }, [dispatch]);
+
+  const productState = useSelector(state => state?.product?.productByCategory);
+  console.log(productState);
   return (
     <div>
       <Container className='mb-5'>

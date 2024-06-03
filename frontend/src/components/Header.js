@@ -196,14 +196,13 @@ const Header = () => {
             </div>
             <div className='btn text-nowrap'>
 
-              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''> Tai nghe </span></p></Link>
+              <Link to={'product-category/tai-nghe-co-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''> Tai nghe </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p>
+              <Link to={'product-category/tai-nghe-khong-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''>Tai nghe BlueTooth </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-
-              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><FaGamepad /></i><span className=''> Phụ kiện </span></p></Link>
+            <Link to={'product-category/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p></Link> 
             </div>
           </Col>
 
