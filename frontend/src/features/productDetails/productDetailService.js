@@ -1,8 +1,8 @@
 import axios from "axios"
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url } from "../../utils/axiosConfig";
 
 const createProductDetail = async (data) => {
-  const response = await axios.post(`${base_url}ProductDetails`,data, config);
+  const response = await axios.post(`${base_url}ProductDetails`,data, getConfig());
   if (response.data) {
     return response.data;
   }
@@ -23,21 +23,21 @@ const getProductDetailsActive = async () => {
 }
 
 const getProductDetail = async (id) => {
-  const response = await axios.get(`${base_url}ProductDetails/${id}`, config);
+  const response = await axios.get(`${base_url}ProductDetails/${id}`, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const updateStatusProductDetail = async (data) => {
-  const response = await axios.put(`${base_url}ProductDetails/UpdateStatusProductDetail/${data.id}/${data.status}`, "", config);
+  const response = await axios.put(`${base_url}ProductDetails/UpdateStatusProductDetail/${data.id}/${data.status}`, "", getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const updateProductDetail = async (data) => {
-  const response = await axios.put(`${base_url}ProductDetails/${data.id}`, data.productDetailData, config);
+  const response = await axios.put(`${base_url}ProductDetails/${data.id}`, data.productDetailData, getConfig());
   if (response.data) {
     return response.data;
   }

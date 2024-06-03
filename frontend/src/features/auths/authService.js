@@ -1,5 +1,5 @@
 import axios from "axios";
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const login = async(userData)=>{
     const response = await axios.post(`${base_url}Users/login`, userData);
@@ -33,14 +33,14 @@ const resetPassword = async(data)=>{
 
 
 const getAUser = async(id)=>{
-  const response = await axios.get(`${base_url}Users/${id}`, config);
+  const response = await axios.get(`${base_url}Users/${id}`, getConfig());
   if(response.data){
       return response.data;
   }
 }
 
 const updateUser = async(userData) => {
-  const response = await axios.put(`${base_url}Users/${userData.id}`, userData.data, config);
+  const response = await axios.put(`${base_url}Users/${userData.id}`, userData.data, getConfig());
   if(response.data){
     localStorage.setItem("customer", JSON.stringify(response.data));
     return response.data;
@@ -48,7 +48,7 @@ const updateUser = async(userData) => {
 }
 
 const changePassword = async(data) => {
-  const response = await axios.put(`${base_url}Users/ChangePassword/${data.id}`, data.data, config);
+  const response = await axios.put(`${base_url}Users/ChangePassword/${data.id}`, data.data, getConfig());
   if(response.data){
     localStorage.setItem("customer", JSON.stringify(response.data));
     return response.data;

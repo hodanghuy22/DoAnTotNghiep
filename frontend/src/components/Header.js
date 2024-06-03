@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
-import { FaGamepad, FaHotjar, FaRegUser } from 'react-icons/fa';
+import { FaHotjar, FaRegUser } from 'react-icons/fa';
 import { IoSearchOutline } from 'react-icons/io5';
 import logo from '../assets/images/logo-nobg.png';
 import { LuSmartphone } from 'react-icons/lu';
