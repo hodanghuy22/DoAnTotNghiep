@@ -3,6 +3,7 @@ import {  Container, Row } from 'react-bootstrap'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import './../../assets/css/cart.css'
 
 const CartList = () => {
     return (
