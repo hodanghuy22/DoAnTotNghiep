@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
-import { FaGamepad, FaHotjar, FaRegUser } from 'react-icons/fa';
+import { FaHotjar, FaRegUser } from 'react-icons/fa';
 import { IoSearchOutline } from 'react-icons/io5';
 import logo from '../assets/images/logo-nobg.png';
 import { LuSmartphone } from 'react-icons/lu';
@@ -38,29 +38,24 @@ const Header = () => {
             </div>
             <div className='fs-5 p-3 btn'>
               <DropdownButton id="dropdown-basic-button" title="Sản phẩm" variant="transparent" className="border-0">
-                <div className='d-flex mt-2'>
+                <div className='d-flex mt-3'>
                   <div>
-                    <Dropdown.ItemText>Xiaomi</Dropdown.ItemText>
+                    <Dropdown.ItemText>Điện thoại</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText>Iphone</Dropdown.ItemText>
+                    <Dropdown.ItemText>Sạc dự phòng</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText>SamSung</Dropdown.ItemText>
+                    <Dropdown.ItemText >Tai nghe</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
                   <div>
-                    <Dropdown.ItemText>Vivo</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
-                  </div>
-                  <div>
-                    <Dropdown.ItemText>OPPO</Dropdown.ItemText>
+                    <Dropdown.ItemText>Tai nghe không dây</Dropdown.ItemText>
                     <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
                   </div>
