@@ -48,22 +48,6 @@ const Address = () => {
         <div className=''>
           {/* <p className='mt-3 fw-bold'><Link className='add-address' ><CiEdit/>Thêm địa chỉ</Link></p> */}
           <div className=''>
-            <div className='d-flex  p-2'>
-              <div className='col-3 mt-1'>
-                <p>Họ tên</p>
-              </div>
-              <div className='col-8'>
-                <input typeof='text' placeholder='hksbai2003' className='text-dark w-100 p-2' />
-              </div>
-            </div>
-            <div className='d-flex p-2'>
-              <div className='col-3 mt-1'>
-                <p>Số điện thoại</p>
-              </div>
-              <div className='col-8'>
-                <input typeof='text' placeholder='hksbai2003' className='text-dark w-100 p-2' />
-              </div>
-            </div>
             <div className='d-flex p-2'>
               <div className='col-3 mt-1'>
                 <p>Tỉnh/Thành phố</p>

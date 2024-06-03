@@ -79,7 +79,7 @@ namespace backend.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsActiveByBrand(int brandId)
+        public async Task<IEnumerable<ProductDisplayModel>> GetProductsActiveByBrand(int brandId)
         {
             return await _context.Products
                    .Include(p => p.Brand)
@@ -87,10 +87,22 @@ namespace backend.Repository
                    .Include(p => p.ProductDetails)
                    .Include(p => p.Images)
                    .Where(p => p.BrandId == brandId && p.Status == true)
+                   .Select(p => new ProductDisplayModel
+                   {
+                       Id = p.Id,
+                       Name = p.Name,
+                       AverageRating = p.AverageRating,
+                       BrandTitle = p.Brand != null ? p.Brand.Title : "",
+                       CategoryTitle = p.Category != null ? p.Category.Title : "",
+                       ImagePublicId = p.Images.OrderBy(i => i.Id).Select(i => i.ImagePublicId).FirstOrDefault(),
+                       ImageUrl = p.Images.OrderBy(i => i.Id).Select(i => i.ImageUrl).FirstOrDefault(),
+                       Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
+                       Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
+                   })
                    .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductsActiveByCategory(int categoryId)
+        public async Task<IEnumerable<ProductDisplayModel>> GetProductsActiveByCategory(int categoryId)
         {
             return await _context.Products
                    .Include(p => p.Brand)
@@ -98,6 +110,18 @@ namespace backend.Repository
                    .Include(p => p.ProductDetails)
                    .Include(p => p.Images)
                    .Where(p => p.CategoryId == categoryId && p.Status == true)
+                   .Select(p => new ProductDisplayModel
+                   {
+                       Id = p.Id,
+                       Name = p.Name,
+                       AverageRating = p.AverageRating,
+                       BrandTitle = p.Brand != null ? p.Brand.Title : "",
+                       CategoryTitle = p.Category != null ? p.Category.Title : "",
+                       ImagePublicId = p.Images.OrderBy(i => i.Id).Select(i => i.ImagePublicId).FirstOrDefault(),
+                       ImageUrl = p.Images.OrderBy(i => i.Id).Select(i => i.ImageUrl).FirstOrDefault(),
+                       Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
+                       Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
+                   })
                    .ToListAsync();
         }
         public async Task<IEnumerable<Product>> SearchProductByName(string name)
@@ -114,19 +138,24 @@ namespace backend.Repository
         public async Task<IEnumerable<ProductDisplayModel>> GetProductsActive()
         {
             return await _context.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.ProductDetails)
+                .Where(p => p.Status == true)
                 .Select(p => new ProductDisplayModel
                 {
                     Id = p.Id,
                     Name = p.Name,
                     AverageRating = p.AverageRating,
-                    BrandTitle = p.Brand.Title,
-                    CategoryTitle = p.Category.Title,
-                    ImagePublicId = p.Images.OrderBy(i => i.ProductId).FirstOrDefault().ImagePublicId,
-                    ImageUrl = p.Images.OrderBy(i => i.ProductId).FirstOrDefault().ImageUrl,
-                    Price = p.ProductDetails.Min(pd => pd.RetailPrice),
-                    Quantity = p.ProductDetails.Sum(pd => pd.Quantity)
+                    BrandTitle = p.Brand != null ? p.Brand.Title : "",
+                    CategoryTitle = p.Category != null ? p.Category.Title : "",
+                    ImagePublicId = p.Images.OrderBy(i => i.Id).Select(i => i.ImagePublicId).FirstOrDefault(),
+                    ImageUrl = p.Images.OrderBy(i => i.Id).Select(i => i.ImageUrl).FirstOrDefault(),
+                    Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
+                    Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
                 })
-                .ToListAsync(); 
+                .ToListAsync();
         }
 
         public async Task<bool> ProductExist(Product product)
