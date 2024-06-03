@@ -171,7 +171,7 @@ namespace backend.Repository
         public async Task<IEnumerable<Capacity>> GetCapacitiesByProductId(int id)
         {
             return await _context.ProductDetails
-                            .Where(p => p.Id == id && p.Capacity.Status == true)
+                            .Where(p => p.ProductId == id && p.Capacity.Status == true)
                             .Select(p => p.Capacity)
                             .Distinct()
                             .ToListAsync();
