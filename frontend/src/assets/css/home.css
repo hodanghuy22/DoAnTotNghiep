@@ -25,3 +25,12 @@
   .phone-info{
     color: black;
   }
+  .text-price{
+    color: #E83A45;
+    margin-top: 10px;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
+  .amount::after {
+    content: " đ";
+  }

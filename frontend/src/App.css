@@ -10,6 +10,12 @@
 .bg-gray{
   background-color: eeeeee;
 }
+.text-price{
+  color: #E83A45;
+  margin-top: 10px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
 .icon-user{
   font-size: 40px;
 }

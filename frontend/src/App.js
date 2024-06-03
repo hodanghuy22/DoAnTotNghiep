@@ -18,7 +18,9 @@ import CartList from './pages/Cart/CartList'
 import ForgotPassword from './pages/Accounts/ForgotPassword'
 import ChangePassword from './pages/Accounts/ChangePassword'
 import ResetPassword from './pages/Accounts/ResetPassword'
-
+import PDUList from './pages/Products/PDUList'
+import HeadPhoneWireless from './pages/Products/HeadPhoneWireless'
+import HeadPhone from './pages/Products/HeadPhone'
 const App = () => {
     return (
         <BrowserRouter>
@@ -41,6 +43,9 @@ const App = () => {
                     </Route>
                     <Route path='/product/:productId' element={<Detail />} />
                     <Route path='/product-category/Phone' element={<PhoneList />} />
+                    <Route path='/product-category/sac-du-phong' element={<PDUList />} />
+                    <Route path='/product-category/tai-nghe-co-day' element={<HeadPhone />} />
+                    <Route path='/product-category/tai-nghe-khong-day' element={<HeadPhoneWireless />} />
                 </Route>
                 <Route path='*' element={<NotFound />} />
             </Routes>

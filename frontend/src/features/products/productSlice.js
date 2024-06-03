@@ -58,6 +58,13 @@ export const UpdateProduct = createAsyncThunk('products/update', async (data, th
   }
 })
 
+export const GetProductsActiveByCategory = createAsyncThunk('products/get-category', async (data, thunkAPI) => {
+  try {
+    return await productService.getProductCategory(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
 
 export const resetState = createAction('Reset_all')
 
@@ -130,6 +137,18 @@ export const productSlice = createSlice({
       state.isSuccess = true;
       state.product = action.payload;
     }).addCase(GetProduct.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetProductsActiveByCategory.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetProductsActiveByCategory.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.productByCategory = action.payload;
+    }).addCase(GetProductsActiveByCategory.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
