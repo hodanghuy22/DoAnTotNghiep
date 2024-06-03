@@ -1,5 +1,5 @@
 import axios from "axios"
-import { base_url,config } from "../../utils/axiosConfig";
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const getSlideShows = async()=>{
     const response = await axios.get(`${base_url}Slideshows/Admin`);
@@ -16,28 +16,28 @@ const getASlideShow = async(id)=>{
 }
 
 const createSlideShow = async(SlideShowData)=>{
-    const response = await axios.post(`${base_url}Slideshows`, SlideShowData, config);
+    const response = await axios.post(`${base_url}Slideshows`, SlideShowData, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const deleteSlideShow = async(id)=>{
-    const response = await axios.delete(`${base_url}Slideshows/${id}`,config);
+    const response = await axios.delete(`${base_url}Slideshows/${id}`,getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const updateSlideShow = async(id)=>{
-    const response = await axios.put(`${base_url}Slideshows/${id}`, "",config);
+    const response = await axios.put(`${base_url}Slideshows/${id}`, "",getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const updateStatusSlideShow = async(data)=>{
-    const response = await axios.put(`${base_url}Slideshows/UpdateStatusSlideshow/${data.id}/${data.status}`, "",config);
+    const response = await axios.put(`${base_url}Slideshows/UpdateStatusSlideshow/${data.id}/${data.status}`, "",getConfig());
     if(response.data){
         return response.data;
     }

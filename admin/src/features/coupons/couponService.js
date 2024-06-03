@@ -1,15 +1,15 @@
 import axios from "axios"
-import { base_url, config } from "../../utils/axiosConfig";
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const createCoupon = async(data) => {
-  const response = await axios.post(`${base_url}Coupons`, data, config);
+  const response = await axios.post(`${base_url}Coupons`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const getCoupons = async() => {
-  const response = await axios.get(`${base_url}Coupons`, config);
+  const response = await axios.get(`${base_url}Coupons`, getConfig());
   if (response.data) {
     return response.data;
   }
@@ -30,14 +30,14 @@ const getCoupon = async(id) => {
 }
 
 const updateStatusCoupon = async(data) => {
-  const response = await axios.put(`${base_url}Coupons/UpdateStatusCoupon/${data.id}/${data.status}`, "", config);
+  const response = await axios.put(`${base_url}Coupons/UpdateStatusCoupon/${data.id}/${data.status}`, "", getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const updateCoupon = async(data) => {
-  const response = await axios.put(`${base_url}Coupons/${data.id}`, data.couponData, config);
+  const response = await axios.put(`${base_url}Coupons/${data.id}`, data.couponData, getConfig());
   if (response.data) {
     return response.data;
   }

@@ -1,43 +1,43 @@
 import axios from "axios"
-import { base_url,config } from "../../utils/axiosConfig";
+import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const getColors = async()=>{
-    const response = await axios.get(`${base_url}Colors`, config);
+    const response = await axios.get(`${base_url}Colors`, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const getColorsShow = async()=>{
-    const response = await axios.get(`${base_url}Colors/Show`, config);
+    const response = await axios.get(`${base_url}Colors/Show`, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const getAColor = async(id)=>{
-    const response = await axios.get(`${base_url}Colors/${id}`, config);
+    const response = await axios.get(`${base_url}Colors/${id}`, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const createColor = async(colorData)=>{
-    const response = await axios.post(`${base_url}Colors`, colorData, config);
+    const response = await axios.post(`${base_url}Colors`, colorData, getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const updateStatusColor = async(data)=>{
-    const response = await axios.put(`${base_url}Colors/UpdateStatusColor/${data.id}/${data.status}`,"",config);
+    const response = await axios.put(`${base_url}Colors/UpdateStatusColor/${data.id}/${data.status}`,"",getConfig());
     if(response.data){
         return response.data;
     }
 }
 
 const updateColor = async(colorData)=>{
-    const response = await axios.put(`${base_url}Colors/${colorData.id}`,colorData.colorData,config);
+    const response = await axios.put(`${base_url}Colors/${colorData.id}`,colorData.colorData,getConfig());
     if(response.data){
         return response.data;
     }

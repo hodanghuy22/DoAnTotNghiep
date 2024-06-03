@@ -23,7 +23,6 @@ const Login = () => {
     },
     validationSchema: loginSchema,
     onSubmit: values => {
-      console.log(values);
       dispatch(LoginAdmin(values));
     },
   });
@@ -62,7 +61,7 @@ const Login = () => {
           </div>
           <div className="group">
             <input
-              type="text"
+              type="password"
               className="form-control"
               name="password"
               placeholder='Password'
