@@ -11,7 +11,7 @@ import { GetProductsBestSeller } from '../features/products/productSlice';
 import { Table } from 'antd';
 
 const filterSchema = yup.object({
-  top: yup.number(),
+  top: yup.number().moreThan(0, 'Giá trị phải lớn hơn 0'),
   startDate: yup.date(),
   endDate: yup.date(),
 });

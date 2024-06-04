@@ -87,9 +87,9 @@ const AddInvoice = () => {
     onSubmit: values => {
       dispatch(CreateInvoice(values));
       formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetState())
-      }, 300)
+      // setTimeout(() => {
+      //   dispatch(resetState())
+      // }, 300)
     },
   });
 
@@ -226,7 +226,7 @@ const AddInvoice = () => {
   return (
     <div>
       <div>
-        <PayPalButton invoice={formik.values}/>
+        {/* <PayPalButton invoice={formik.values}/> */}
         <h1 className='mb-4 fw-bold'>{getInvoiceId !== undefined ? "View" : "Add"} Invoice</h1>
         <div className='mt-3 row border bg-white  p-3 rounded-3 d-flex flex-row'>
           <form onSubmit={formik.handleSubmit}>

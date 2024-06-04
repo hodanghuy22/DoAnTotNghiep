@@ -271,7 +271,7 @@ namespace backend.Repository
         public async Task<IEnumerable<ProductBestSellerModel>> GetProductsBestSeller(FillterModel fillterModel)
         {
             var topSellingProducts = await _context.InvoiceDetails
-             .Where(i => i.Invoice.IssueDate >= fillterModel.StartDate 
+             .Where(i => i.Invoice.IssueDate >= fillterModel.StartDate
                         && i.Invoice.IssueDate <= fillterModel.EndDate)
              .Include(i => i.ProductDetail)
              .ThenInclude(p => p.Product)
@@ -302,6 +302,32 @@ namespace backend.Repository
              .Take(fillterModel.Top)
              .ToListAsync();
             return topSellingProducts;
+        }
+
+        public async Task<IEnumerable<ProductDisplayModel>> GetPopularProducts(FillterModel fillterModel)
+        {
+            return await _context.Products
+    .Join(_context.ProductDetails, p => p.Id, pd => pd.ProductId, (p, pd) => new { Product = p, ProductDetail = pd })
+    .Join(_context.InvoiceDetails, ppd => ppd.ProductDetail.Id, id => id.ProductDetailId, (ppd, id) => new { ppd.Product, ppd.ProductDetail, InvoiceDetail = id })
+    .Join(_context.Invoices, pid => pid.InvoiceDetail.InvoiceId, iv => iv.Id, (pid, iv) => new { pid.Product, pid.ProductDetail, pid.InvoiceDetail, Invoice = iv })
+    .Join(_context.Images, ppi => ppi.Product.Id, i => i.ProductId, (ppi, i) => new { ppi.Product, ppi.ProductDetail, ppi.InvoiceDetail, ppi.Invoice, Image = i })
+    .Where(ppii => ppii.Invoice.IssueDate <= fillterModel.EndDate && ppii.Invoice.IssueDate >= fillterModel.StartDate)
+    .GroupBy(ppii => new { ppii.Product.Id, ppii.Product.Name, BrandTitle = ppii.Product.Brand.Title, CategoryTitle = ppii.Product.Category.Title, ppii.Image.ImagePublicId, ppii.Image.ImageUrl })
+    .Select(g => new ProductDisplayModel
+    {
+        Id = g.Key.Id,
+        Name = g.Key.Name,
+        BrandTitle = g.Key.BrandTitle,
+        CategoryTitle = g.Key.CategoryTitle,
+        ImagePublicId = g.Select(ppii => ppii.Image.ImagePublicId).FirstOrDefault(),
+        ImageUrl = g.Select(ppii => ppii.Image.ImageUrl).FirstOrDefault(),
+        Quantity = g.Sum(ppii => ppii.InvoiceDetail.Quantity),
+        Price = g.Min(ppii => ppii.ProductDetail.RetailPrice),
+        AverageRating = g.Select(ppii => ppii.Product.AverageRating).FirstOrDefault()
+    })
+    .OrderByDescending(p => p.Quantity)
+    .Take(fillterModel.Top)
+    .ToListAsync();
         }
     }
 }
