@@ -11,6 +11,14 @@ export const GetCapacities = createAsyncThunk("capacity/get-capacities", async(t
     }
 })
 
+export const GetCapacitiesByProductId = createAsyncThunk("capacity/get-capacityByProductId", async(id, thunkAPI) =>{
+    try{
+        return await capacityService.getCapacityByProductId(id);
+    }catch(err){
+        return thunkAPI.rejectWithValue(err);
+    }
+})
+
 export const GetCapacitiesShow = createAsyncThunk("capacity/get-capacities-show", async(thunkAPI) =>{
     try{
         return await capacityService.getCapacitiesShow();
@@ -77,6 +85,21 @@ export const capacitySlice = createSlice({
             state.capacities = action.payload;
         })
         .addCase(GetCapacities.rejected, (state, action)=>{
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+        })
+        .addCase(GetCapacitiesByProductId.pending, (state)=>{
+            state.isLoading = true;
+        })
+        .addCase(GetCapacitiesByProductId.fulfilled, (state, action)=>{
+            state.isLoading = false;
+            state.isError = false;
+            state.isSuccess = true;
+            state.capacities = action.payload;
+        })
+        .addCase(GetCapacitiesByProductId.rejected, (state, action)=>{
             state.isLoading = false;
             state.isError = true;
             state.isSuccess = false;

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Modal, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
 import { FaHotjar, FaRegUser } from 'react-icons/fa';
@@ -16,13 +16,22 @@ import { Logout } from '../features/auths/authSlice';
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-
   const authState = useSelector(state => state.auth);
   const handleLogout = () => {
     dispatch(Logout());
     setTimeout(() => {
       navigate('/login');
-  }, 300)
+    }, 300)
+
+  };
+  const [showModal, setShowModal] = useState(false);
+
+  const handleSearchIconClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
   return (
 
@@ -73,7 +82,7 @@ const Header = () => {
           <Col className='d-flex flex-row justify-content-end'>
             <div className='fs-3 p-3'>
               <p className='bg-transparent btn fs-4'>
-                <IoSearchOutline />
+                <IoSearchOutline onClick={handleSearchIconClick} />
               </p>
             </div>
             <div className='fs-3 p-3'>
@@ -197,13 +206,22 @@ const Header = () => {
               <Link to={'product-category/tai-nghe-khong-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''>Tai nghe BlueTooth </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-            <Link to={'product-category/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p></Link> 
+              <Link to={'product-category/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p></Link>
             </div>
           </Col>
-
-
         </Row>
       </Container>
+      <Modal show={showModal} onHide={handleCloseModal} size='xl' >
+        <Modal.Body className=''>
+          <div className='d-flex flex-row'>
+            <div>
+            <IoSearchOutline className='fs-4 mx-4 mt-2'/>
+            </div>
+            <input type="text" placeholder="Nhập từ khóa tìm kiếm" className='border-0 w-100 d-block p-2'>
+            </input>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

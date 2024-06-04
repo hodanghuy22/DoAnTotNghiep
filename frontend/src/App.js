@@ -21,6 +21,7 @@ import ResetPassword from './pages/Accounts/ResetPassword'
 import PDUList from './pages/Products/PDUList'
 import HeadPhoneWireless from './pages/Products/HeadPhoneWireless'
 import HeadPhone from './pages/Products/HeadPhone'
+import Compare from './pages/Compare'
 const App = () => {
     return (
         <BrowserRouter>
@@ -33,6 +34,7 @@ const App = () => {
                     <Route path='/reset-password/:token' element={<ResetPassword />} />
                     <Route path='/cart' element={<CartList />} />
                     <Route path='/payment' element={<Payment />} />
+                    <Route path="so-sanh" element={<Compare />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />

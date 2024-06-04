@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Breadcrumb, Button, Col, Container, Row } from 'react-bootstrap'
+import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -10,20 +10,23 @@ import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { BsStar } from 'react-icons/bs';
 import { GetProduct, resetState } from '../../features/products/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { GetCapacitiesByProductId } from '../../features/capacitites/capacitySlice';
+import { GetColorByProductId } from '../../features/colors/colorSlice';
 
 const Detail = () => {
   const dispatch = useDispatch();
-  const productState = useSelector(state => state?.product?.product);
-  const productDetails = productState?.productDetails;
+  const productState = useSelector(state => state?.product?.Aproduct);
+  const capacities = useSelector(state => state?.capacities?.capacities);
+  const colors = useSelector(state => state?.color?.colors);
   const { productId } = useParams();
   const product = productState;
   useEffect(() => {
     dispatch(resetState());
+    dispatch(GetCapacitiesByProductId(productId));
     dispatch(GetProduct(productId));
-  }, [dispatch, productId]);
+    dispatch(GetColorByProductId(productId));
 
-  console.log(productState);
-  console.log(productDetails);
+  }, [dispatch, productId]);
   return (
     <div>
       <Container>
@@ -38,6 +41,15 @@ const Detail = () => {
 
         </Row>
         <Row>
+          <Col className='d-flex flex-row'>
+            <h3>Điện thoại {product?.name} {product?.rom}</h3>
+            <Link to="/so-sanh" className='ml-3' >
+              <p className='mx-4 mt-1'><FaPlus /> So Sánh</p>
+            </Link>
+          </Col>
+        </Row>
+        <Row>
+
           <Col className='w-50 p-5'>
             <Swiper
               spaceBetween={30}
@@ -56,14 +68,9 @@ const Detail = () => {
               {
                 product && product?.images?.map((item, index) => {
                   return (
-                    <>
-                      <SwiperSlide key={index}>
-                        <img className='border border-bottom-0' src={item.imageUrl} alt='chuột' width={'300px'} height={'300px'} />
-                      </SwiperSlide>
-                      <SwiperSlide key={index}>
-                        <img className='border border-bottom-0' src={item.imageUrl} alt='chuột' width={'300px'} height={'300px'} />
-                      </SwiperSlide>
-                    </>
+                    <SwiperSlide key={index} >
+                      <img className='border border-bottom-0' src={item.imageUrl} alt='chuột' width={'300px'} height={'300px'} />
+                    </SwiperSlide>
 
                   )
                 })
@@ -73,7 +80,37 @@ const Detail = () => {
             </Swiper>
           </Col>
           <Col className='w-50'>
-            <h2>{product?.name}</h2>
+            <Row>
+              <Col>
+                {
+                  capacities &&
+                  capacities.map((item, index) => {
+                    return (
+                      <Button className='bg-transparent text-dark border-dark' style={{ marginRight: '8px' }}>
+                        {item.totalCapacity}GB
+                      </Button>
+                    );
+                  })
+                }
+              </Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col>
+                {
+                  colors && colors?.map((item, index) => {
+                    return (
+                      <Button
+                        key={index}
+                        className='bg-transparent text-dark border-dark' style={{ marginRight: '8px' }}
+                      >
+                        {item.colorName}
+                      </Button>
+
+                    )
+                  })
+                }
+              </Col>
+            </Row>
             <p className='text-danger fw-bold fs-5 amount'>{product?.productDetails?.price}<span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
             <p>This Bluetooth speaker has various features such as water resistance, long battery life, built-in microphones for hands-free calling, and more.</p>
             <ul>
@@ -155,52 +192,52 @@ const Detail = () => {
           <Col className='col-8'>
 
           </Col>
-          <Col className='col-4'>
+          <Col className='col-4' >
             <div className='shadow p-3 mb-5 bg-body rounded-3-'>
-              <div class="is-flex is-justify-content-space-between is-align-items-center"><h2 class="title is-6 mb-3">Thông số kỹ thuật</h2>
+              <div className="is-flex is-justify-content-space-between is-align-items-center"><h2 className="title is-6 mb-3">Thông số kỹ thuật</h2>
               </div>
-              <ul class="technical-content rounded-3">
-                <li class="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
+              <ul className="technical-content rounded-3">
+                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Kích thước màn hình</div>
                   <div className='col-6'>{product?.size} inch</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2">
+                <li className="d-flex align-items-center justify-content-between p-2">
                   <div className='col-6'>Công nghệ màn hình</div>
                   <div className='col-6'>{product?.screen}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
+                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Camera sau</div>
                   <div className='col-6'>{product?.rearCamera}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2">
+                <li className="d-flex align-items-center justify-content-between p-2">
                   <div className='col-6'>Camera trước</div>
                   <div className='col-6'>{product?.frontCamera}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
+                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Chipset</div>
                   <div className='col-6'>{product?.chip}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2">
+                <li className="d-flex align-items-center justify-content-between p-2">
                   <div className='col-6'>Dung lượng RAM</div>
                   <div className='col-6'>{product?.ram}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
+                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Bộ nhớ trong</div>
                   <div className='col-6'>{product?.rom}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2">
+                <li className="d-flex align-items-center justify-content-between p-2">
                   <div className='col-6'>Pin</div>
                   <div className='col-6'>{product?.battery}  {product?.chargingEfficiency}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
+                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Hệ điều hành</div>
                   <div className='col-6'>{product?.os}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2">
+                <li className="d-flex align-items-center justify-content-between p-2">
                   <div className='col-6'>Trọng lượng</div>
                   <div className='col-6'>{product?.weight}</div>
                 </li>
-                <li class="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
+                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Hãng</div>
                   <div className='col-6'>{product?.brand?.title}</div>
                 </li>

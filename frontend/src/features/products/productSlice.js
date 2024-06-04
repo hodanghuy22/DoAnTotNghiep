@@ -34,6 +34,14 @@ export const GetProductsBestSeller = createAsyncThunk('products/get-bestSeller',
   }
 })
 
+export const GetSearchProductByName = createAsyncThunk('products/get-searhproduct', async (data, thunkAPI) => {
+  try {
+    return await productService.searchProductByName(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const CreateProduct = createAsyncThunk('products/create', async (data, thunkAPI) => {
   try {
     return await productService.createProduct(data);
@@ -100,7 +108,7 @@ export const productSlice = createSlice({
       state.isError = false;
       state.isSuccess = true;
       state.product = action.payload;
-      if(state.isSuccess){
+      if (state.isSuccess) {
         toast.success("The creation of the product was successful!");
       }
     }).addCase(CreateProduct.rejected, (state, action) => {
@@ -108,7 +116,7 @@ export const productSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-      if(state.isError){
+      if (state.isError) {
         toast.error("The creation of the product was not successful!");
       }
     }).addCase(UpdateStatusProduct.pending, (state) => {
@@ -118,7 +126,7 @@ export const productSlice = createSlice({
       state.isError = false;
       state.isSuccess = true;
       state.product = action.payload;
-      if(state.isSuccess){
+      if (state.isSuccess) {
         toast.success("Update A product is successfully!");
       }
     }).addCase(UpdateStatusProduct.rejected, (state, action) => {
@@ -126,7 +134,7 @@ export const productSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-      if(state.isError){
+      if (state.isError) {
         toast.error("Update A product is not successfully!");
       }
     }).addCase(GetProduct.pending, (state) => {
@@ -135,7 +143,7 @@ export const productSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.product = action.payload;
+      state.Aproduct = action.payload;
     }).addCase(GetProduct.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -160,7 +168,7 @@ export const productSlice = createSlice({
       state.isError = false;
       state.isSuccess = true;
       state.product = action.payload;
-      if(state.isSuccess){
+      if (state.isSuccess) {
         toast.success("Update A product is successfully!");
       }
     }).addCase(UpdateProduct.rejected, (state, action) => {
@@ -168,7 +176,7 @@ export const productSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-      if(state.isError){
+      if (state.isError) {
         toast.error("Update A product is not successfully!");
       }
     }).addCase(GetProductsActive.pending, (state) => {
@@ -185,20 +193,35 @@ export const productSlice = createSlice({
       state.message = action.error;
     }).addCase(GetProductsBestSeller
       .pending, (state) => {
-      state.isLoading = true;
-    }).addCase(GetProductsBestSeller
-      .fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      state.productsBestSeller = action.payload;
-    }).addCase(GetProductsBestSeller
-      .rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
-    }).addCase(resetState, () => initialState);
+        state.isLoading = true;
+      }).addCase(GetProductsBestSeller
+        .fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isError = false;
+          state.isSuccess = true;
+          state.productsBestSeller = action.payload;
+        }).addCase(GetProductsBestSeller
+          .rejected, (state, action) => {
+            state.isLoading = false;
+            state.isError = true;
+            state.isSuccess = false;
+            state.message = action.error;
+          }).addCase(GetSearchProductByName
+            .pending, (state) => {
+              state.isLoading = true;
+            }).addCase(GetSearchProductByName
+              .fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.SearhProduct = action.payload;
+              }).addCase(GetSearchProductByName
+                .rejected, (state, action) => {
+                  state.isLoading = false;
+                  state.isError = true;
+                  state.isSuccess = false;
+                  state.message = action.error;
+                }).addCase(resetState, () => initialState);
   }
 })
 

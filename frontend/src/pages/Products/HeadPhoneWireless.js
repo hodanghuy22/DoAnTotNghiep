@@ -31,25 +31,22 @@ const HeadPhoneWireless = () => {
         </Col>
       </Row>
       <Row>
-        {
-          productState && productState?.map((item, index) => {
-            return (
-              <Col xl={3} className='p-2 m-0 border-0' key={index}>
-                <Link to={'/product/1'} className='card text-decoration-none phone-item'>
-                  <div className='phone-container p-3'>
-                    <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                  </div>
-                  <div className='phone-info p-3 border border-top-0'>
-                    <p className='fs-5 phone-name'>{ item?.name}</p>
-                    <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar />
-                    </i>
-                    <p>Tình trạng: còn hàng</p>
-                    <p className='phone-price amount'>{formatNumber(item?.price)}</p>
-                  </div>
-                </Link>
-              </Col>
-            )
-          })
+      {
+          productState && productState.map((item, index) => (
+            <Col xl={3} className='p-2 m-0 border-0' key={index}>
+              <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                </div>
+                <div className='phone-info p-3 border border-top-0'>
+                  <p className='fs-5 phone-name'>{item?.name}</p>
+                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
+                  <p>Tình trạng: còn hàng</p>
+                  <p className='phone-price amount'>{formatNumber(item?.price)}</p>
+                </div>
+              </Link>
+            </Col>
+          ))
         }
       </Row>
     </Container>
