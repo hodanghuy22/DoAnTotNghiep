@@ -9,7 +9,8 @@ const infoSchema = yup.object({
     age: yup.number()
     .moreThan(0, 'Giá trị phải lớn hơn 0'),
     phoneNumber: yup.string()
-    .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ')
+    .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ'),
+    address: yup.string(),
 });
 
 const InfoAccount = () => {
@@ -21,7 +22,7 @@ const InfoAccount = () => {
             name: userState?.name || '',
             age: userState?.age || '',
             phoneNumber: userState?.phoneNumber || '',
-            address: userState?.address,
+            address: userState?.address || '',
             email: userState?.email,
             userName: userState?.userName,
         },
@@ -95,6 +96,26 @@ const InfoAccount = () => {
                                 <div className='error'>
                                     {
                                         formik.touched.phoneNumber && formik.errors.phoneNumber
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div className='d-flex p-2 mb-3'>
+                            <div className='col-3 mt-1'>
+                                <p>Địa chỉ</p>
+                            </div>
+                            <div className='col-8'>
+                                <input
+                                    type='text'
+                                    name="address"
+                                    value={formik.values.address}
+                                    onChange={formik.handleChange('address')}
+                                    onBlur={formik.handleBlur('address')}
+                                    className='text-dark w-100 p-2'
+                                />
+                                <div className='error'>
+                                    {
+                                        formik.touched.address && formik.errors.address
                                     }
                                 </div>
                             </div>
