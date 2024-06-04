@@ -10,7 +10,6 @@ import NotFound from './pages/NotFound'
 import Trangcanhan from './pages/Accounts/Trangcanhan'
 import InfoAccount from './pages/Accounts/InfoAccount'
 import OrderList from './pages/Accounts/OrderList'
-import Address from './pages/Accounts/Address'
 import OrderDetail from './pages/Accounts/OrderDetail'
 import Notification from './components/Notification'
 import Payment from './pages/Cart/Payment'
@@ -39,7 +38,6 @@ const App = () => {
                         <Route path='notification' element={<Notification />} />
                         <Route path='oder-list/detail' element={<OrderDetail />} />
                         <Route path='change-password' element={<ChangePassword />} />
-                        <Route path='address' element={<Address />} />
                     </Route>
                     <Route path='/product/:productId' element={<Detail />} />
                     <Route path='/product-category/Phone' element={<PhoneList />} />
