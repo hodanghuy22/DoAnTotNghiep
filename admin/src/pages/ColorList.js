@@ -37,6 +37,7 @@ const ColorList = () => {
   const data1 = [];
   for (let i = 0; i < colorState?.length; i++) {
     data1.push({
+      key: i,
       id: colorState[i].id,
       colorName: colorState[i].colorName,
       status: (<>

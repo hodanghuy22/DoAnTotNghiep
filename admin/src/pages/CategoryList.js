@@ -35,6 +35,7 @@ const CategoryList = () => {
   const data1 = [];
   for (let i = 0; i < categoryState?.length; i++) {
     data1.push({
+      key: i,
       id: categoryState[i].id,
       title: categoryState[i].title,
       status: (<>

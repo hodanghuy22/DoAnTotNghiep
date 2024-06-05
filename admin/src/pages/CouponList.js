@@ -71,6 +71,7 @@ const CouponList = () => {
   const data1 = [];
   for (let i = 0; i < couponState?.length; i++) {
     data1.push({
+      key: i,
       id: couponState[i].id,
       title: couponState[i].title,
       code: couponState[i].code,

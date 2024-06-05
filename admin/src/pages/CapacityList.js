@@ -40,6 +40,7 @@ const CapacityList = () => {
   const data1 = [];
   for (let i = 0; i < capacityState?.length; i++) {
     data1.push({
+      key: i,
       id: capacityState[i].id,
       totalCapacity: capacityState[i].totalCapacity,
       status: (<>

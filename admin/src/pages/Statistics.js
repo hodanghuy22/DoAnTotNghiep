@@ -283,7 +283,6 @@ const Statistics = () => {
         <div className='col-6 border bg-white p-3 rounded-3'>
           <h3>Thống kê số lượng hóa đơn năm {yearDisplay}</h3>
           <ColumnInvoiceChart value={totalInvoiceOfYear} />
-
         </div>
       </div>
       <div className='row border bg-white p-3 rounded-3 mt-3'>

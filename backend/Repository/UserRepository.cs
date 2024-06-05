@@ -279,7 +279,8 @@ namespace backend.Repository
             {
                 Email = registerModel.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.Username
+                UserName = registerModel.Username,
+                Name = registerModel.Name,
             };
             var result = await _userManager.CreateAsync(user, registerModel.Password);
             if (!result.Succeeded)

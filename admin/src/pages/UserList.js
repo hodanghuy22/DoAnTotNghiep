@@ -44,6 +44,7 @@ const UserList = () => {
   const data1 = [];
   for (let i = 0; i < userState?.length; i++) {
     data1.push({
+      key: i,
       id: userState[i].id,
       name: userState[i].name,
       age: userState[i].age,
