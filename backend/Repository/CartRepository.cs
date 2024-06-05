@@ -99,6 +99,7 @@ namespace backend.Repository
                 .Include(c => c.ProductDetail)
                 .Include(c => c.ProductDetail)
                 .ThenInclude(p => p.Product)
+                .ThenInclude(p => p.Images)
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
         }

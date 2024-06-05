@@ -170,7 +170,7 @@ const Header = () => {
                 <Dropdown.Item className='custom-dropdown-item'>
                   <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
                 </Dropdown.Item>
-                <Dropdown.Item>
+                <Dropdown.Item className='custom-dropdown-item'>
                   <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
                 </Dropdown.Item>
                 {
@@ -180,10 +180,8 @@ const Header = () => {
                     </Dropdown.Item>
                   )
                 }
-                <Dropdown.Item>
-                  <Button variant='light' className='w-100' onClick={handleLogout}>
-                    Đăng xuất
-                  </Button>
+                <Dropdown.Item className='custom-dropdown-item'>
+                  <button className='w-100 btn btn-link text-decoration-none text-start p-0' onClick={handleLogout}>Đăng xuất</button>
                 </Dropdown.Item>
               </DropdownButton>
             </div>

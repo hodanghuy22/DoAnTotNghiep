@@ -79,6 +79,13 @@ namespace backend.Controllers
             return Ok(products);
         }
         [HttpPost]
+        [Route("GetPopularProductsByCategory/{categoryId}")]
+        public async Task<IActionResult> GetPopularProductsByCategory(int categoryId, FillterModel fillterModel)
+        {
+            var products = await _uow.ProductRepository.GetPopularProductsByCategory(categoryId, fillterModel);
+            return Ok(products);
+        }
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct(Product product)
         {
