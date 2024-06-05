@@ -29,6 +29,7 @@ import AddInvoice from "./pages/AddInvoice";
 import Statistics from "./pages/Statistics";
 import LogList from "./pages/LogList";
 import TestNoti from "./pages/TestNoti";
+import InvoiceDetails from "./pages/InvoiceDetails";
 
 function App() {
   return (
@@ -64,7 +65,7 @@ function App() {
           <Route path='slideshow/:id' element={<AddSlideshow />} />
           <Route path='invoice-list' element={<InvoiceList />} />
           <Route path='invoice' element={<AddInvoice />} />
-          <Route path='invoice/:id' element={<AddInvoice />} />
+          <Route path='invoice/:id' element={<InvoiceDetails />} />
           <Route path='coupon-list' element={<CouponList />} />
           <Route path='coupon' element={<AddCoupon />} />
           <Route path='coupon/:id' element={<AddCoupon />} />
