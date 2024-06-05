@@ -35,6 +35,13 @@ const getProductsBestSeller = async (data) => {
   }
 }
 
+const searchProductByName = async (data) => {
+  const response = await axios.get(`${base_url}Products/SearchProductByName`,data, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+
 
 const createProduct = async (data) => {
   const response = await axios.post(`${base_url}Products`,data, getConfig());
@@ -65,7 +72,8 @@ const productService = {
   updateProduct,
   getProductsActive,
   getProductsBestSeller,
-  getProductCategory
+  getProductCategory,
+  searchProductByName
 };
 
 export default productService;

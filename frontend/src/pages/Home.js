@@ -6,7 +6,7 @@ import { IoGameController } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetProduct, resetState } from '../features/products/productSlice';
+import { GetProductsActive, resetState } from '../features/products/productSlice';
 import formatNumber from '../utils/formatNumber';
 
 const Home = () => {
@@ -14,10 +14,10 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(resetState());
-    dispatch(GetProduct(2));
+    dispatch(GetProductsActive());
   }, [dispatch]);
 
-  const productState = useSelector(state => state?.product?.product);
+  const productState = useSelector(state => state?.product?.products);
   console.log(productState);
 
   return (
@@ -54,27 +54,24 @@ const Home = () => {
         </Col>
       </Row>
       <Row>
-        <Col xl={3} className='p-2 m-0 border-0'>
-          <Link to={'/product/1'} className='card text-decoration-none phone-item'>
-            <div className='phone-container p-3'>
-              <img
-                className='phone-image'
-                src='https://didongthongminh.vn/images/products/2024/05/14/resized/e65a4821afac06f25fbd.webp'
-                alt='chuột'
-                width={'100%'}
-                height={'100%'}
-              />
-            </div>
-            <div className='phone-info p-3 border border-top-0'>
-              <p className='fs-5 phone-name'>{productState?.name}</p>
-              <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-              <p>Tình trạng: còn hàng</p>
-              <p className='phone-price text-price amount'>
-                {formatNumber( productState?.productDetails?.[1]?.costPrice ?? 'Price not available')}
-              </p>
-            </div>
-          </Link>
-        </Col>
+        {
+          productState && productState.map((item, index) => (
+            <Col xl={3} className='p-2 m-0 border-0' key={index}>
+              <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3'>
+                  <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                </div>
+                <div className='phone-info p-3 border border-top-0'>
+                  <p className='fs-5 phone-name'>{item?.name}</p>
+                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
+                  <p>Tình trạng: còn hàng</p>
+                  <p className='phone-price amount'>{formatNumber(item?.price)}</p>
+                </div>
+              </Link>
+            </Col>
+          ))
+        }
+
       </Row>
       <Row className='justify-content-center mt-4'>
         <Link to={'/product-category/Phone'} className='btn w-25 bg-danger'>
