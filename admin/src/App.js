@@ -28,6 +28,7 @@ import AddOrderStatus from "./pages/AddOrderStatus";
 import AddInvoice from "./pages/AddInvoice";
 import Statistics from "./pages/Statistics";
 import LogList from "./pages/LogList";
+import TestNoti from "./pages/TestNoti";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
           <Route path='orderstatus-list' element={<OrderStatusList />} />
           <Route path='orderstatus' element={<AddOrderStatus />} />
           <Route path='orderstatus/:id' element={<AddOrderStatus />} />
+          <Route path='testnoti' element={<TestNoti />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

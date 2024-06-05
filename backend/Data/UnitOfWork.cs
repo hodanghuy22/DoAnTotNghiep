@@ -59,7 +59,7 @@ namespace backend.Data
            new CouponRepository(_context);
 
         public IInvoiceRepository InvoiceRepository =>
-           new InvoiceRepository(_context);
+           new InvoiceRepository(_context, _emailService);
 
         public IOrderStatusRepository OrderStatusRepository =>
            new OrderStatusRepository(_context);

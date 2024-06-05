@@ -9,10 +9,12 @@ namespace backend.Repository
     public class InvoiceRepository : IInvoiceRepository
     {
         private readonly CSDLContext _context;
+        private readonly IEmailService _emailService;
 
-        public InvoiceRepository(CSDLContext context)
+        public InvoiceRepository(CSDLContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public async Task<int> CountCancelInvoicesByMonth(int month, int year)
@@ -67,6 +69,17 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                var user = await _context.Users.FindAsync(invoice.UserId);
+                var body = new EmailModel
+                {
+                    To = user.Email,
+                    Subject = "Đơn hàng đặt thành công!",
+                    Body = $"Đơn hàng đã được tạo thành công!. Đơn sẽ được giao trong vòng 1 đến 2 ngày. Trân trọng!\n" +
+                        $"<p>Mã hóa đơn: {invoice.Id}</p> \n" +
+                        $"<p>Tồng tiền: {invoice.TotalPriceAfterDiscount}</p> \n" +
+                        $"<p>Ngày đặt hàng: {invoice.IssueDate}</p> \n",
+                };
+                await _emailService.SendEmail(body);
                 return new OkObjectResult(new
                 {
                     mess = "Successfully created!"
