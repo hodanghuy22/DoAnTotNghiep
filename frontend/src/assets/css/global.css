@@ -56,3 +56,27 @@
     color: orange;
   }
 
+.activeToggle{
+  background-color: #fed3cf;
+
+}
+.toggleContent{
+  background-color: #ffffff;
+}
+.toggle-button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-button.active {
+  background-color: green;
+}
+
+.toggleContent {
+  transition: height 0.3s;
+}

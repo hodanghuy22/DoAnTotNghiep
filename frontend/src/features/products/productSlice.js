@@ -18,6 +18,25 @@ export const GetProductsActive = createAsyncThunk('products/get-active', async (
   }
 })
 
+export const GetProductPopular = createAsyncThunk('products/get-popular', async (data, thunkAPI) => {
+  try {
+    return await productService.getProductPopular(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+export const GetProductPopularByCategogy = createAsyncThunk(
+  'products/get-popular-categogry',
+  async (data, thunkAPI) => {
+    try {
+      return await productService.getProductPopularByCategogy(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err);
+    }
+  }
+);
+
+
 export const GetProduct = createAsyncThunk('products/get-one', async (id, thunkAPI) => {
   try {
     return await productService.getProduct(id);
@@ -157,6 +176,30 @@ export const productSlice = createSlice({
       state.isSuccess = true;
       state.productByCategory = action.payload;
     }).addCase(GetProductsActiveByCategory.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetProductPopularByCategogy.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetProductPopularByCategogy.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.productByCategory = action.payload;
+    }).addCase(GetProductPopularByCategogy.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetProductPopular.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetProductPopular.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.productPopular = action.payload;
+    }).addCase(GetProductPopular.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

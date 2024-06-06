@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Modal, Row } from 'react-bootstrap';
+import { ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Modal, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
 import { FaHotjar, FaRegUser } from 'react-icons/fa';
@@ -43,7 +43,7 @@ const Header = () => {
               <Link to={'/'} className='btn'>Trang Chủ</Link>
             </div>
             <div className='fs-5 p-3 text-nowrap'>
-              <Link to={'/'} className='btn'>Giới thiệu</Link>
+              <Link to={'/gioi-thieu'} className='btn'>Giới thiệu</Link>
             </div>
             <div className='fs-5 p-3 btn'>
               <DropdownButton id="dropdown-basic-button" title="Sản phẩm" variant="transparent" className="border-0">
@@ -71,10 +71,6 @@ const Header = () => {
                 </div>
               </DropdownButton>
             </div>
-            <div className='fs-5 p-3 text-nowrap'>
-              <Link to={'/'} className='btn'>Tin tức</Link>
-            </div>
-
           </Col>
           <Col className='d-flex flex-row justify-content-start navbar'>
             <Link to={'/'} style={{ marginRight: '2rem', border: 'none', fontFamily: 'inherit' }} className='bg-transparent text-nowrap text-dark fs-3 '><img alt='logo' src={logo} width={'70%'} /></Link>
@@ -191,20 +187,20 @@ const Header = () => {
           <Col className='d-flex flex-row mt-3'>
             <div className='btn text-nowrap'>
 
-              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar /></i><span className=''> Phổ biến</span></p></Link>
+              <Link to={'product/hot'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar /></i><span className=''> Phổ biến</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <Link to={'product-category/Phone'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>
+              <Link to={'product/Phone'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
 
-              <Link to={'product-category/tai-nghe-co-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''> Tai nghe </span></p></Link>
+              <Link to={'product/tai-nghe-co-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''> Tai nghe </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <Link to={'product-category/tai-nghe-khong-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''>Tai nghe BlueTooth </span></p></Link>
+              <Link to={'product/tai-nghe-khong-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''>Tai nghe BlueTooth </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <Link to={'product-category/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p></Link>
+              <Link to={'product/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p></Link>
             </div>
           </Col>
         </Row>

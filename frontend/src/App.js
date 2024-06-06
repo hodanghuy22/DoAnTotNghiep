@@ -21,6 +21,8 @@ import PDUList from './pages/Products/PDUList'
 import HeadPhoneWireless from './pages/Products/HeadPhoneWireless'
 import HeadPhone from './pages/Products/HeadPhone'
 import Compare from './pages/Compare'
+import Agency from './pages/Agency'
+import ProductHot from './pages/Products/ProductHot'
 const App = () => {
     return (
         <BrowserRouter>
@@ -34,6 +36,7 @@ const App = () => {
                     <Route path='/cart' element={<CartList />} />
                     <Route path='/payment' element={<Payment />} />
                     <Route path="so-sanh" element={<Compare />} />
+                    <Route path="/gioi-thieu" element={<Agency />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
@@ -42,10 +45,11 @@ const App = () => {
                         <Route path='change-password' element={<ChangePassword />} />
                     </Route>
                     <Route path='/product/:productId' element={<Detail />} />
-                    <Route path='/product-category/Phone' element={<PhoneList />} />
-                    <Route path='/product-category/sac-du-phong' element={<PDUList />} />
-                    <Route path='/product-category/tai-nghe-co-day' element={<HeadPhone />} />
-                    <Route path='/product-category/tai-nghe-khong-day' element={<HeadPhoneWireless />} />
+                    <Route path='/product/Phone' element={<PhoneList />} />
+                    <Route path='/product/sac-du-phong' element={<PDUList />} />
+                    <Route path='/product/tai-nghe-co-day' element={<HeadPhone />} />
+                    <Route path='/product/tai-nghe-khong-day' element={<HeadPhoneWireless />} />
+                    <Route path='/product/hot' element={<ProductHot />} />
                 </Route>
                 <Route path='*' element={<NotFound />} />
             </Routes>

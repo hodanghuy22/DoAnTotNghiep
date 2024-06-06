@@ -12,14 +12,17 @@ import { GetProduct, resetState } from '../../features/products/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCapacitiesByProductId } from '../../features/capacitites/capacitySlice';
 import { GetColorByProductId } from '../../features/colors/colorSlice';
+import { AddCart } from '../../features/cart/cartSlice';
 
 const Detail = () => {
   const dispatch = useDispatch();
   const productState = useSelector(state => state?.product?.Aproduct);
+  const authState = useSelector(state => state?.auth?.user);
   const capacities = useSelector(state => state?.capacities?.capacities);
   const colors = useSelector(state => state?.color?.colors);
   const { productId } = useParams();
   const product = productState;
+
   useEffect(() => {
     dispatch(resetState());
     dispatch(GetCapacitiesByProductId(productId));
@@ -27,6 +30,15 @@ const Detail = () => {
     dispatch(GetColorByProductId(productId));
 
   }, [dispatch, productId]);
+
+  
+  const addCart = () => {
+    dispatch(AddCart({
+      userId: authState?.id,
+      productDetailId: productState?.id,
+      quantity: 1
+    }))
+  }
   return (
     <div>
       <Container>
@@ -43,8 +55,8 @@ const Detail = () => {
         <Row>
           <Col className='d-flex flex-row'>
             <h3>Điện thoại {product?.name} {product?.rom}</h3>
-            <Link to="/so-sanh" className='ml-3' >
-              <p className='mx-4 mt-1'><FaPlus /> So Sánh</p>
+            <Link to="/so-sanh" className='ml-3 text-decoration-none ' >
+              <p className='mx-4 mt-1 '><FaPlus /> So Sánh</p>
             </Link>
           </Col>
         </Row>
@@ -66,14 +78,11 @@ const Detail = () => {
               className="mySwiper text-center"
             >
               {
-                product && product?.images?.map((item, index) => {
-                  return (
-                    <SwiperSlide key={index} >
-                      <img className='border border-bottom-0' src={item.imageUrl} alt='chuột' width={'300px'} height={'300px'} />
-                    </SwiperSlide>
-
-                  )
-                })
+                product?.images?.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <img className='border border-bottom-0' src={item.imageUrl} alt='chuột' width={'300px'} height={'300px'} />
+                  </SwiperSlide>
+                ))
               }
 
 
@@ -83,14 +92,11 @@ const Detail = () => {
             <Row>
               <Col>
                 {
-                  capacities &&
-                  capacities.map((item, index) => {
-                    return (
-                      <Button className='bg-transparent text-dark border-dark' style={{ marginRight: '8px' }}>
-                        {item.totalCapacity}GB
-                      </Button>
-                    );
-                  })
+                  capacities?.map((item, index) => (
+                    <Button variant="outline-light" className="bg-transparent text-dark border-dark" style={{ marginRight: '8px' }} key={index}>
+                      {item.totalCapacity}GB
+                    </Button>
+                  ))
                 }
               </Col>
             </Row>
@@ -127,7 +133,8 @@ const Detail = () => {
                 <Button variant="outline-light" className="bg-light text-dark"><FaPlus /></Button>
               </div>
               <div className='p-2'>
-                <Button variant='danger'>Thêm vào giỏ hàng</Button>
+                {/* <Button variant='danger'>Thêm vào giỏ hàng</Button> */}
+                <Button onClick={(e) => addCart()} variant='danger'>Thêm vào giỏ hàng</Button>
               </div>
             </div>
           </Col>

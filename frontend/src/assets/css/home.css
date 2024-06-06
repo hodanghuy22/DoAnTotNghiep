@@ -25,6 +25,9 @@
   .phone-info{
     color: black;
   }
+  .phone-name{
+    height: 4rem;
+  }
   .text-price{
     color: #E83A45;
     margin-top: 10px;

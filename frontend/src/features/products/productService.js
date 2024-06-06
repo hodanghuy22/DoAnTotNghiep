@@ -28,6 +28,19 @@ const getProductCategory = async (id) => {
   }
 }
 
+const getProductPopularByCategogy = async (data) => {
+  const response = await axios.post(`${base_url}Products/GetPopularProductsByCategory/${data.id}`, data.data, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+const getProductPopular = async (data) => {
+  const response = await axios.post(`${base_url}Products/GetPopularProducts`,data, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getProductsBestSeller = async (data) => {
   const response = await axios.post(`${base_url}Products/GetProductsBestSeller`,data, getConfig());
   if (response.data) {
@@ -73,7 +86,9 @@ const productService = {
   getProductsActive,
   getProductsBestSeller,
   getProductCategory,
-  searchProductByName
+  searchProductByName,
+  getProductPopularByCategogy,
+  getProductPopular
 };
 
 export default productService;
