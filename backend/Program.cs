@@ -21,6 +21,12 @@ builder.Services.AddSingleton<PaypalService>(new PaypalService(
         builder.Configuration["PaypalSetting:Secret_Key"],
         builder.Configuration["PaypalSetting:Url"]
     ));
+builder.Services.AddSingleton<VnPayService>(new VnPayService(
+        builder.Configuration["VnPaySetting:VNP_TmnCode"],
+        builder.Configuration["VnPaySetting:VNP_HashSecret"],
+        builder.Configuration["VnPaySetting:VNP_Url"],
+        builder.Configuration["VnPaySetting:VNP_Returnurl"]
+    ));
 
 
 builder.Services.AddDbContext<CSDLContext>(options =>
@@ -64,6 +70,7 @@ builder.Services.AddControllers()
                   });
 
 builder.Services.AddSignalR();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddCors(option =>
 {
