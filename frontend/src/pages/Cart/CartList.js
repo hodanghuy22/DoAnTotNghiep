@@ -22,7 +22,7 @@ const CartList = () => {
     useEffect(() => {
       let total = 0;
       cartState?.forEach((item) => {
-        const itemPrice = (item?.productDetail?.costPrice) * item?.quantity;
+        const itemPrice = (item?.productDetail?.retailPrice) * item?.quantity;
         total += itemPrice;
       });
       setTotalPrice(total);

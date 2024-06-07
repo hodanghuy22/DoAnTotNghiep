@@ -14,18 +14,24 @@ namespace backend.Repository
         {
             _context = context;
         }
-        public async Task<Coupon> CheckCoupon(CheckCouponModel checkCoupon)
+        public async Task<Result<Coupon>> CheckCoupon(CheckCouponModel checkCoupon)
         {
             var coupon = await _context.Coupons
-                .FirstOrDefaultAsync(c => c.Code == checkCoupon.Code);
-            if (coupon == null ||
-                coupon.Quantity <= 0 ||
-                coupon.EndDate < checkCoupon.Date ||
-                coupon.RequiredTotal > checkCoupon.Money)
-            {
-                return null;
-            }
-            return coupon;
+                        .FirstOrDefaultAsync(c => c.Code == checkCoupon.Code && c.Status == true);
+
+            if (coupon == null)
+                return Result<Coupon>.Failure("Không tìm thấy coupon hợp lệ.");
+
+            if (coupon.Quantity <= 0)
+                return Result<Coupon>.Failure("Coupon đã hết hàng.");
+
+            if (coupon.EndDate < checkCoupon.Date)
+                return Result<Coupon>.Failure("Coupon đã hết hạn.");
+
+            if (coupon.RequiredTotal > checkCoupon.Money)
+                return Result<Coupon>.Failure("Đơn hàng không đủ điều kiện sử dụng coupon.");
+
+            return Result<Coupon>.Success(coupon);
         }
 
         public async Task<bool> CouponExist(Coupon coupon)

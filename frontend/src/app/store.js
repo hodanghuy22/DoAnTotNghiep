@@ -4,6 +4,8 @@ import authReducer from '../features/auths/authSlice';
 import capacitiesReduce from '../features/capacitites/capacitySlice';
 import colorReduce from '../features/colors/colorSlice';
 import cartReduce from '../features/cart/cartSlice';
+import couponReducer from '../features/coupons/couponSlice';
+import invoiceReducer from '../features/invoices/invoiceSlice';
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +13,8 @@ export const store = configureStore({
         product: productReducer,
         capacities: capacitiesReduce,
         color: colorReduce,
-        cart: cartReduce
+        cart: cartReduce,
+        coupon: couponReducer,
+        invoice: invoiceReducer,
     }
 })

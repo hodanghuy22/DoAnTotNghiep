@@ -10,7 +10,7 @@ namespace backend.Interfaces
         Task<IEnumerable<Coupon>> GetCouponsActive();
         Task<Coupon> GetCoupon(int id);
         Task<bool> CouponExist(Coupon coupon);
-        Task<Coupon> CheckCoupon(CheckCouponModel checkCoupon);
+        Task<Result<Coupon>> CheckCoupon(CheckCouponModel checkCoupon);
         Task<IActionResult> UpdateCoupon(int id, Coupon coupon, string userId);
         Task<IActionResult> UpdateStatusCoupon(int id, bool status, string userId);
     }

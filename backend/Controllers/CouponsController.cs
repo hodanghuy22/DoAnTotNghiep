@@ -67,8 +67,13 @@ namespace backend.Controllers
         [Authorize]
         public async Task<IActionResult> CheckCoupon(CheckCouponModel checkCoupon)
         {
-            var coupon = await _uow.CouponRepository.CheckCoupon(checkCoupon);
-            return Ok(coupon);
+            var result = await _uow.CouponRepository.CheckCoupon(checkCoupon);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(new { error = result.Message });
         }
     }
 }
