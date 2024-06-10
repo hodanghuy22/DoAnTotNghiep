@@ -18,7 +18,6 @@ namespace backend.Controllers
         [HttpPost("create-payment")]
         public async Task<IActionResult> CreatePayment(CreatePaymentModel createPayment)
         {
-            Console.WriteLine($">>> check Tien: {createPayment.Amount}");
             var orderId = await _paypalService.CreatePayment(createPayment.Amount);
             return Ok(orderId);
         }

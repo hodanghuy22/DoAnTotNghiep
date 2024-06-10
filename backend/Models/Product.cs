@@ -36,6 +36,8 @@
         public int AverageRating { get; set; }
         public int SoldQuantity { get; set; }
         public bool Status { get; set; }
+        public string ThumnailId { get; set; }
+        public string ThumnailUrl { get; set; }
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
         public int CategoryId { get; set; }

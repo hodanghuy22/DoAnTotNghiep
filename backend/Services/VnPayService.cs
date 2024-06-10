@@ -1,4 +1,6 @@
-﻿namespace backend.Services
+﻿using backend.Models;
+
+namespace backend.Services
 {
     public class VnPayService
     {
@@ -20,14 +22,14 @@
             _vnp_Returnurl = vnp_Returnurl;
         }
 
-        public string CreatePayment(int amount, string ipAdress)
+        public string CreatePayment(CreatePaymentModel createPayment, string ipAdress)
         {
             VnPayLibrary vnpay = new VnPayLibrary();
 
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnpay.AddRequestData("vnp_Command", "pay");
             vnpay.AddRequestData("vnp_TmnCode", _vnp_TmnCode);
-            vnpay.AddRequestData("vnp_Amount", (amount*100).ToString());
+            vnpay.AddRequestData("vnp_Amount", (createPayment.Amount * 100).ToString());
 
             vnpay.AddRequestData("vnp_BankCode", "VNBANK");
 

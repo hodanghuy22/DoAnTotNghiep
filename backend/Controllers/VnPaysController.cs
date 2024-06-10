@@ -17,12 +17,13 @@ namespace backend.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("create-payment")]
-        public async Task<IActionResult> CreatePayment(int amount)
+        public async Task<IActionResult> CreatePayment(CreatePaymentModel createPayment)
         {
             Utils utils = new Utils(_httpContextAccessor);
-            var url = _vnPayService.CreatePayment(amount, utils.GetIpAddress());
+            var url = _vnPayService.CreatePayment(createPayment, utils.GetIpAddress());
+            //return Redirect(url);
             return Ok(url);
         }
 

@@ -267,3 +267,4 @@ D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\System.Ne
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\PayPalCheckoutSdk.dll
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\PayPalHttp-Dotnet.dll
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.csproj.AssemblyReference.cache
+D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\System.Net.Http.Formatting.dll

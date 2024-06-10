@@ -94,8 +94,8 @@ namespace backend.Repository
                        AverageRating = p.AverageRating,
                        BrandTitle = p.Brand != null ? p.Brand.Title : "",
                        CategoryTitle = p.Category != null ? p.Category.Title : "",
-                       ImagePublicId = p.Images.OrderBy(i => i.Id).Select(i => i.ImagePublicId).FirstOrDefault(),
-                       ImageUrl = p.Images.OrderBy(i => i.Id).Select(i => i.ImageUrl).FirstOrDefault(),
+                       ImagePublicId = p.ThumnailId,
+                       ImageUrl = p.ThumnailUrl,
                        Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
                        Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
                    })
@@ -117,8 +117,8 @@ namespace backend.Repository
                        AverageRating = p.AverageRating,
                        BrandTitle = p.Brand != null ? p.Brand.Title : "",
                        CategoryTitle = p.Category != null ? p.Category.Title : "",
-                       ImagePublicId = p.Images.OrderBy(i => i.Id).Select(i => i.ImagePublicId).FirstOrDefault(),
-                       ImageUrl = p.Images.OrderBy(i => i.Id).Select(i => i.ImageUrl).FirstOrDefault(),
+                       ImagePublicId = p.ThumnailId,
+                       ImageUrl = p.ThumnailUrl,
                        Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
                        Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
                    })
@@ -150,8 +150,8 @@ namespace backend.Repository
                     AverageRating = p.AverageRating,
                     BrandTitle = p.Brand != null ? p.Brand.Title : "",
                     CategoryTitle = p.Category != null ? p.Category.Title : "",
-                    ImagePublicId = p.Images.OrderBy(i => i.Id).Select(i => i.ImagePublicId).FirstOrDefault(),
-                    ImageUrl = p.Images.OrderBy(i => i.Id).Select(i => i.ImageUrl).FirstOrDefault(),
+                    ImagePublicId = p.ThumnailId,
+                    ImageUrl = p.ThumnailUrl,
                     Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
                     Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
                 })
@@ -312,15 +312,15 @@ namespace backend.Repository
                 .Join(_context.Invoices, pid => pid.InvoiceDetail.InvoiceId, iv => iv.Id, (pid, iv) => new { pid.Product, pid.ProductDetail, pid.InvoiceDetail, Invoice = iv })
                 .Join(_context.Images, ppi => ppi.Product.Id, i => i.ProductId, (ppi, i) => new { ppi.Product, ppi.ProductDetail, ppi.InvoiceDetail, ppi.Invoice, Image = i })
                 .Where(ppii => ppii.Invoice.IssueDate <= fillterModel.EndDate && ppii.Invoice.IssueDate >= fillterModel.StartDate)
-                .GroupBy(ppii => new { ppii.Product.Id, ppii.Product.Name, BrandTitle = ppii.Product.Brand.Title, CategoryTitle = ppii.Product.Category.Title, ppii.Image.ImagePublicId, ppii.Image.ImageUrl })
+                .GroupBy(ppii => new { ppii.Product.Id, ppii.Product.Name, BrandTitle = ppii.Product.Brand.Title, CategoryTitle = ppii.Product.Category.Title, ppii.Product.ThumnailId, ppii.Product.ThumnailUrl })
                 .Select(g => new ProductDisplayModel
                 {
                     Id = g.Key.Id,
                     Name = g.Key.Name,
                     BrandTitle = g.Key.BrandTitle,
                     CategoryTitle = g.Key.CategoryTitle,
-                    ImagePublicId = g.Select(ppii => ppii.Image.ImagePublicId).FirstOrDefault(),
-                    ImageUrl = g.Select(ppii => ppii.Image.ImageUrl).FirstOrDefault(),
+                    ImagePublicId = g.Key.ThumnailId,
+                    ImageUrl = g.Key.ThumnailUrl,
                     Quantity = g.Sum(ppii => ppii.InvoiceDetail.Quantity),
                     Price = g.Min(ppii => ppii.ProductDetail.RetailPrice),
                     AverageRating = g.Select(ppii => ppii.Product.AverageRating).FirstOrDefault()
@@ -338,15 +338,15 @@ namespace backend.Repository
                 .Join(_context.Invoices, pid => pid.InvoiceDetail.InvoiceId, iv => iv.Id, (pid, iv) => new { pid.Product, pid.ProductDetail, pid.InvoiceDetail, Invoice = iv })
                 .Join(_context.Images, ppi => ppi.Product.Id, i => i.ProductId, (ppi, i) => new { ppi.Product, ppi.ProductDetail, ppi.InvoiceDetail, ppi.Invoice, Image = i })
                 .Where(ppii =>ppii.Product.CategoryId == categoryId && ppii.Invoice.IssueDate <= fillterModel.EndDate && ppii.Invoice.IssueDate >= fillterModel.StartDate)
-                .GroupBy(ppii => new { ppii.Product.Id, ppii.Product.Name, BrandTitle = ppii.Product.Brand.Title, CategoryTitle = ppii.Product.Category.Title, ppii.Image.ImagePublicId, ppii.Image.ImageUrl })
+                .GroupBy(ppii => new { ppii.Product.Id, ppii.Product.Name, BrandTitle = ppii.Product.Brand.Title, CategoryTitle = ppii.Product.Category.Title, ppii.Product.ThumnailId, ppii.Product.ThumnailUrl })
                 .Select(g => new ProductDisplayModel
                 {
                     Id = g.Key.Id,
                     Name = g.Key.Name,
                     BrandTitle = g.Key.BrandTitle,
                     CategoryTitle = g.Key.CategoryTitle,
-                    ImagePublicId = g.Select(ppii => ppii.Image.ImagePublicId).FirstOrDefault(),
-                    ImageUrl = g.Select(ppii => ppii.Image.ImageUrl).FirstOrDefault(),
+                    ImagePublicId = g.Key.ThumnailId,
+                    ImageUrl = g.Key.ThumnailUrl,
                     Quantity = g.Sum(ppii => ppii.InvoiceDetail.Quantity),
                     Price = g.Min(ppii => ppii.ProductDetail.RetailPrice),
                     AverageRating = g.Select(ppii => ppii.Product.AverageRating).FirstOrDefault()

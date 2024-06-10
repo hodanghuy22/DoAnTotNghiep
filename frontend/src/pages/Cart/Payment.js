@@ -9,12 +9,14 @@ import * as yup from 'yup';
 import { CheckCoupon } from '../../features/coupons/couponSlice'
 import { CreateInvoice } from '../../features/invoices/invoiceSlice'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { base_url, getConfig } from '../../utils/axiosConfig'
 
 const invoiceSchema = yup.object({
     recipientName: yup.string().required("Tên người nhận là bắt buộc!"),
     recipientPhoneNumber: yup.string()
-    .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ')
-    .required("SĐT người nhận là bắt buộc!"),
+        .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ')
+        .required("SĐT người nhận là bắt buộc!"),
     shippingInfo: yup.string().required("Địa chỉ nhận hàng là bắt buộc!"),
     desc: yup.string(),
 });
@@ -32,13 +34,15 @@ const Payment = () => {
 
     const [totalPrice, setTotalPrice] = useState(0);
     const [tongTienCuoi, setTongTienCuoi] = useState(0);
-    const [tienChietKhau, setTienChietKhau] = useState(0);   
+    const [tienChietKhau, setTienChietKhau] = useState(0);
     const [quantityProduct, setQuantityProduct] = useState(0);
+    const [isPaymentOnline, setIsPaymentOnline] = useState(false);
+    const [activeButton, setActiveButton] = useState('online');
 
     useEffect(() => {
         dispatch(resetState());
         dispatch(GetCart(authState?.id));
-    }, [dispatch]);
+    }, [dispatch, authState?.id]);
 
     const formik = useFormik({
         initialValues: {
@@ -107,21 +111,21 @@ const Payment = () => {
         if (couponState) {
             formik.setFieldValue("couponId", couponState.id);
             if (couponState.discountPercent > 0) {
-                var tien = totalPrice
-                var chietkhau = (couponState.discountPercent / 100) * tien
+                let tien = totalPrice
+                let chietkhau = (couponState.discountPercent / 100) * tien
                 tien -= chietkhau;
                 setTongTienCuoi(tien)
                 setTienChietKhau(chietkhau)
                 formik.setFieldValue("totalPriceAfterDiscount", tien);
             } else {
-                var tien = totalPrice
-                var chietkhau = couponState.discountMoney;
+                let tien = totalPrice
+                let chietkhau = couponState.discountMoney;
                 tien -= couponState.discountMoney;
                 setTongTienCuoi(tien)
                 setTienChietKhau(chietkhau)
                 formik.setFieldValue("totalPriceAfterDiscount", tien);
             }
-        }else{
+        } else {
             setTongTienCuoi(totalPrice)
             setTienChietKhau(0)
             formik.setFieldValue("totalPriceAfterDiscount", totalPrice);
@@ -130,6 +134,23 @@ const Payment = () => {
         }
     }, [couponState])
 
+    const handlePaymentChoice = (value) => {
+        setIsPaymentOnline(value);
+        setActiveButton(value ? 'offline' : 'online');
+    };
+
+    const createVnPay = async () => {
+        try {
+            const response = await axios.post(`${base_url}VnPays/create-payment`, {amount: tongTienCuoi}, getConfig());
+            console.log("vn: ", response.data);
+            const paymentUrl = response.data;
+            setTimeout(() => {
+                window.location.replace(paymentUrl);
+            }, [300])
+          } catch (error) {
+            console.error('Error creating payment:', error);
+          }
+    }
     return (
         <Container className='p-5 w-75 border'>
             <Row className='mb-5'>
@@ -240,10 +261,20 @@ const Payment = () => {
                     <Row className='mt-5'>
                         <p>HÌNH THỨC THANH TOÁN</p>
                         <div className='d-flex'>
-                            <button className='btn p-4 fs-5 border btn-icon active' style={{ marginRight: '20px' }}>
+                            <button
+                                type='button'
+                                className={`btn p-4 fs-5 border btn-icon ${activeButton === 'online' ? 'active' : ''}`}
+                                style={{ marginRight: '20px' }}
+                                onClick={() => handlePaymentChoice(false)}
+                            >
                                 <CiCreditCard1 className='fs-2' /><br /> Thanh toán online
                             </button>
-                            <button className='btn p-4 fs-5 border btn-icon' style={{ marginRight: '20px' }}>
+                            <button
+                                type='button'
+                                className={`btn p-4 fs-5 border btn-icon ${activeButton === 'offline' ? 'active' : ''}`}
+                                style={{ marginRight: '20px' }}
+                                onClick={() => handlePaymentChoice(true)}
+                            >
                                 <FaMoneyBill className='fs-2' /><br /> Thanh toán khi nhận hàng
                             </button>
                         </div>
@@ -269,11 +300,26 @@ const Payment = () => {
                         </div>
                     </Row>
                     <Row className='justify-content-end'>
-                        <button type='submit' className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'>THANH TOÁN</button>
+                        {
+                            isPaymentOnline ? (
+                                <>
+                                    <button 
+                                        type='button' 
+                                        className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'
+                                        onClick={() => createVnPay()}
+                                    >VNPAY</button>
+                                    <button 
+                                        type='button' 
+                                        className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4 ms-3'
+                                    >PAYPAL</button>
+                                </>
+                            ) : (
+                                <button type='submit' className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'>THANH TOÁN</button>
+                            )
+                        }
                     </Row>
                 </form>
             </Row>
-
         </Container>
     )
 }
