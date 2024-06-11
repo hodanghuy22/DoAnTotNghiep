@@ -28,6 +28,7 @@ const PaymentProcess = () => {
       "txnRef" : urlParams.get('vnp_TxnRef'),
       "amount" : urlParams.get('vnp_Amount'),
       "date" : convertDateString(urlParams.get('vnp_PayDate')),
+      "paymentMethod" : "VNPAY"
     }
     console.log("data", data);
     const makeApiCall = async () => {

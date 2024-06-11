@@ -141,7 +141,7 @@ const Payment = () => {
     const createVnPay = async () => {
         try {
             const taoHD = await axios.post(`${base_url}Invoices`, formik.values, getConfig());
-            const response = await axios.post(`${base_url}VnPays/create-payment`, 
+            const response = await axios.post(`${base_url}VnPays/create-payment`,
                 {
                     amount: tongTienCuoi,
                     maHD: taoHD.data.id,
@@ -150,9 +150,9 @@ const Payment = () => {
             setTimeout(() => {
                 window.location.replace(paymentUrl);
             }, [300])
-          } catch (error) {
+        } catch (error) {
             console.error('Error creating payment:', error);
-          }
+        }
     }
     return (
         <Container className='p-5 w-75 border'>
@@ -270,7 +270,7 @@ const Payment = () => {
                                 style={{ marginRight: '20px' }}
                                 onClick={() => handlePaymentChoice(false)}
                             >
-                                <CiCreditCard1 className='fs-2' /><br /> Thanh toán online
+                                <FaMoneyBill className='fs-2' /><br /> Thanh toán khi nhận hàng
                             </button>
                             <button
                                 type='button'
@@ -278,7 +278,7 @@ const Payment = () => {
                                 style={{ marginRight: '20px' }}
                                 onClick={() => handlePaymentChoice(true)}
                             >
-                                <FaMoneyBill className='fs-2' /><br /> Thanh toán khi nhận hàng
+                                <CiCreditCard1 className='fs-2' /><br /> Thanh toán online
                             </button>
                         </div>
                     </Row>
@@ -306,13 +306,13 @@ const Payment = () => {
                         {
                             isPaymentOnline ? (
                                 <>
-                                    <button 
-                                        type='button' 
+                                    <button
+                                        type='button'
                                         className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'
                                         onClick={() => createVnPay()}
                                     >VNPAY</button>
-                                    <button 
-                                        type='button' 
+                                    <button
+                                        type='button'
                                         className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4 ms-3'
                                     >PAYPAL</button>
                                 </>

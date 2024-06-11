@@ -78,9 +78,9 @@ const InvoiceDetails = () => {
             <p>Địa chỉ giao: <strong>{invoiceState?.shippingInfo}</strong></p>
           </div>
           <div className='col-4'>
-            <p>Chiết khấu: <strong>{invoiceState?.coupon?.discountPercent? invoiceState?.coupon?.discountPercent + " %":invoiceState?.coupon?.discountMoney}</strong></p>
-            <p>TransactionId: <strong>{invoiceState?.transaction?.transactionId}</strong></p>
-            <p>Trạng thái: <strong className={invoiceState?.orderStatusId===6?"text-danger":"text-success"}>{invoiceState?.orderStatus?.title}</strong></p>
+            <p>Chiết khấu: <strong>{invoiceState?.coupon?.discountPercent ? invoiceState?.coupon?.discountPercent + " %" : invoiceState?.coupon?.discountMoney}</strong></p>
+            <p>TransactionId: <strong>{invoiceState?.transactionId}</strong></p>
+            <p>Trạng thái: <strong className={invoiceState?.orderStatusId === 6 ? "text-danger" : "text-success"}>{invoiceState?.orderStatus?.title}</strong></p>
           </div>
           <p>Ghi chú: <strong>{invoiceState?.desc}</strong></p>
         </div>
@@ -96,6 +96,27 @@ const InvoiceDetails = () => {
             <p>SĐT: <strong>{invoiceState?.recipientPhoneNumber}</strong></p>
           </div>
         </div>
+        {
+          invoiceState?.transaction &&
+          (
+            <div className='row border rounded-3 bg-white p-3 mb-3'>
+              <h3>Thông tin giao dịch</h3>
+              <div className='col-4'>
+                <p>Phương thức thanh toán: <strong>{invoiceState?.transaction?.paymentMethod}</strong></p>
+                <p>Số tiền: <strong>{invoiceState?.transaction?.amount}</strong></p>
+              </div>
+              <div className='col-4'>
+                <p>Mã giao dịch ngân hàng: <strong>{invoiceState?.transaction?.bankTranNo}</strong></p>
+                <p>Mã giao dịch {invoiceState?.transaction?.paymentMethod}: <strong>{invoiceState?.transaction?.transactionNo}</strong></p>
+              </div>
+              <div className='col-4'>
+                <p>Mã ngân hàng: <strong>{invoiceState?.transaction?.bankCode}</strong></p>
+                <p>Ngày giao dịch: <strong>{invoiceState?.transaction?.date}</strong></p>
+                <p>Nội dung giao dịch: <strong>{invoiceState?.transaction?.orderInfo}</strong></p>
+              </div>
+            </div>
+          )
+        }
         <div className='row border rounded-3 bg-white p-3 mb-3'>
           <Table columns={columns} dataSource={data1} scroll={{ y: 500 }} />
         </div>

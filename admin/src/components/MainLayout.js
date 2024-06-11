@@ -108,11 +108,6 @@ const MainLayout = () => {
               label: 'Invoices',
               children: [
                 {
-                  key: 'invoice',
-                  icon: <ImPlus className='fs-5' />,
-                  label: 'Add Invoice',
-                },
-                {
                   key: 'invoice-list',
                   icon: <FaFileInvoice className='fs-5' />,
                   label: 'List Invoices',
