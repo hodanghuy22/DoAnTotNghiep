@@ -63,7 +63,6 @@ const Payment = () => {
         },
         validationSchema: invoiceSchema,
         onSubmit: values => {
-            console.log(values);
             dispatch(CreateInvoice(values))
             setTimeout(() => {
                 navigate('/trang-ca-nhan/oder-list');
@@ -141,8 +140,12 @@ const Payment = () => {
 
     const createVnPay = async () => {
         try {
-            const response = await axios.post(`${base_url}VnPays/create-payment`, {amount: tongTienCuoi}, getConfig());
-            console.log("vn: ", response.data);
+            const taoHD = await axios.post(`${base_url}Invoices`, formik.values, getConfig());
+            const response = await axios.post(`${base_url}VnPays/create-payment`, 
+                {
+                    amount: tongTienCuoi,
+                    maHD: taoHD.data.id,
+                }, getConfig());
             const paymentUrl = response.data;
             setTimeout(() => {
                 window.location.replace(paymentUrl);

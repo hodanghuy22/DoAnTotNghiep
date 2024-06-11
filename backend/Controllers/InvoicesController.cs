@@ -106,13 +106,25 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(Invoice invoice)
         {
+            var result = await _uow.InvoiceRepository.CreateInvoice(invoice);
+            if (result.IsSuccess)
+            {
+                return Ok(result.Data);
+            }
+            return BadRequest(new { error = result.Message });
+        }
 
-            return await _uow.InvoiceRepository.CreateInvoice(invoice);
+        [HttpPost]
+        [Route("HookPayment")]
+        public async Task<IActionResult> HookPayment(Transaction transaction)
+        {
+            var result = await _uow.InvoiceRepository.HookPayment(transaction);
+            return Ok(result);
         }
 
         [HttpPut]
         [Route("UpdateStatusInvoice/{id}/{orderStatusId}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId)
         {
             return await _uow.InvoiceRepository.UpdateStatusInvoice(id, orderStatusId);

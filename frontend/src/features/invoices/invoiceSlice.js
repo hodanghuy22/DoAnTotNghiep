@@ -39,7 +39,7 @@ export const invoiceSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.importInvoice = action.payload;
+      state.invoice = action.payload;
       if (state.isSuccess) {
         toast.success("Hóa đơn đã được tạo thành công!");
       }

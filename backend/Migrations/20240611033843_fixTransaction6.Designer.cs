@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.Data;
 
@@ -11,9 +12,10 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(CSDLContext))]
-    partial class CSDLContextModelSnapshot : ModelSnapshot
+    [Migration("20240611033843_fixTransaction6")]
+    partial class fixTransaction6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -634,13 +636,7 @@ namespace backend.Migrations
                     b.Property<string>("PayPalOrderId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ResponseCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TransactionNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TransactionStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TxnRef")

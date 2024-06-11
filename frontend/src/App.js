@@ -24,13 +24,17 @@ import Compare from './pages/Compare'
 import Agency from './pages/Agency'
 import ProductHot from './pages/Products/ProductHot'
 import PaymentSuccess from './pages/Cart/PaymentSuccess'
+import PaymentProcess from './pages/Cart/PaymentProcess'
+import PaymentFail from './pages/Cart/PaymentFail'
 const App = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path='/payment-process' element={<PaymentProcess />} />
+                <Route path='/payment-success' element={<PaymentSuccess />} />
+                <Route path='/payment-fail' element={<PaymentFail />} />
                 <Route path="/" element={<Mainlayout />}>
                     <Route index element={<Home />} />
-                    <Route path='/payment-success' element={<PaymentSuccess />} />
                     <Route path='/login' element={<Login />} />
                     <Route path='/signup' element={<SignUp />} />
                     <Route path='/forgot-password' element={<ForgotPassword />} />

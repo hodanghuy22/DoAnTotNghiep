@@ -51,7 +51,7 @@ namespace backend.Repository
             return count;
         }
 
-        public async Task<IActionResult> CreateInvoice(Invoice invoice)
+        public async Task<Result<Invoice>> CreateInvoice(Invoice invoice)
         {
             if (invoice.CouponId != null)
             {
@@ -80,15 +80,9 @@ namespace backend.Repository
                         $"<p>Ngày đặt hàng: {invoice.IssueDate}</p> \n",
                 };
                 await _emailService.SendEmail(body);
-                return new OkObjectResult(new
-                {
-                    mess = "Successfully created!"
-                });
+                return Result<Invoice>.Success(invoice);
             }
-            return new BadRequestObjectResult(new
-            {
-                mess = "Something went wrong!!!"
-            });
+            return Result<Invoice>.Failure("Lỗi không tạo được hóa đơn!");
         }
 
         public async Task<Invoice> GetInvoice(int id)
@@ -256,6 +250,42 @@ namespace backend.Repository
                 .ToList();
             var combinedRevenue = countByMonth.Concat(countByMonth2).ToList();
             return combinedRevenue;
+        }
+
+        public async Task<Result<Invoice>> HookPayment(Transaction transaction)
+        {
+            var invoice = await _context.Invoices
+                .FirstOrDefaultAsync(i => i.Id == transaction.TxnRef);
+
+            if(transaction.TransactionStatus != "00" && transaction.ResponseCode != "00")
+            {
+                invoice.Transaction = transaction;
+                _context.Entry(invoice).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return Result<Invoice>.Failure("Lỗi khi thanh toán!");
+            }
+            if (invoice == null)
+            {
+                return Result<Invoice>.Failure("Lỗi không tìm được hóa đơn!");
+            }
+            if (invoice.IsPaid == true)
+            {
+                return Result<Invoice>.Failure("Lỗi hóa đơn đã được thanh toán trước đó!");
+            }
+            if (invoice.TotalPriceAfterDiscount > transaction.Amount)
+            {
+                return Result<Invoice>.Failure("Lỗi số tiền thanh toán hóa đơn không đủ!");
+            }
+            if (invoice.TotalPriceAfterDiscount > transaction.Amount)
+            {
+                return Result<Invoice>.Failure("Lỗi số tiền thanh toán hóa đơn không đủ!");
+            }
+            invoice.OrderStatusId = 2;
+            invoice.IsPaid = true;
+            invoice.Transaction = transaction;
+            _context.Entry(invoice).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return Result<Invoice>.Success(invoice);
         }
 
         public async Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId)

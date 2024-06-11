@@ -40,12 +40,12 @@ namespace backend.Services
 
             int randomNumber = random.Next(1, 1000);
             vnpay.AddRequestData("vnp_Locale", "vn");
-            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang: "+ randomNumber.ToString());
+            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang: "+ createPayment.MaHD);
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
 
             vnpay.AddRequestData("vnp_ReturnUrl", _vnp_Returnurl);
             
-            vnpay.AddRequestData("vnp_TxnRef", randomNumber.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
+            vnpay.AddRequestData("vnp_TxnRef", createPayment.MaHD); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
 
             //Add Params of 2.1.0 Version
             //Billing

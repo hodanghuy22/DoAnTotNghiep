@@ -5,7 +5,7 @@ namespace backend.Interfaces
 {
     public interface IInvoiceRepository
     {
-        Task<IActionResult> CreateInvoice(Invoice invoice);
+        Task<Result<Invoice>> CreateInvoice(Invoice invoice);
         Task<IEnumerable<Invoice>> GetInvoices(string userID);
         Task<IEnumerable<Invoice>> GetInvoicesForAdmin();
         Task<IEnumerable<Invoice>> GetInvoicesByStatus(string userID, int orderStatusId);
@@ -17,5 +17,7 @@ namespace backend.Interfaces
         Task<IEnumerable<RevenueOfYearModel>> GetRevenueOfYear(int year);
         Task<IEnumerable<StatisticInvoiceOfYearModel>> GetTotalInvoiceOfYear(int year);
         Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId);
+        Task<Result<Invoice>> HookPayment(Transaction transaction);
+
     }
 }
