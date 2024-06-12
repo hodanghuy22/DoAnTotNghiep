@@ -12,7 +12,7 @@ const ProductHot = () => {
     useEffect(() => {
       dispatch(resetState());
       dispatch(GetProductPopular({
-        top: 8,
+        top: 40,
         startDate: '2024-01-01',
         endDate: '2024-12-30'
       }));

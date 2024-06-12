@@ -17,9 +17,9 @@ const OrderList = () => {
 
   const handleTabClick = (tabId) => {
     setSelectedTab(tabId);
-    if(tabId === 0){
+    if (tabId === 0) {
       setType("all")
-    }else{
+    } else {
       setType("getByType")
     }
   };
@@ -27,22 +27,15 @@ const OrderList = () => {
   return (
     <div className='p-5 '>
       <Helmet>
-        <title>Lịch sử mua hang | PHBshop</title>
+        <title>Lịch sử mua hàng | HUBI</title>
       </Helmet>
       <div>
         <div className="bg-light shadow mb-3 bg-white rounded d-flex">
-          <div className={`pt-3 pb-3 w-25 ${selectedTab === 0 ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
-            <p className={`m-auto text-center ${selectedTab === 0 ? 'text-danger' : ''}`} onClick={() => handleTabClick(0)}>Tất cả</p>
-          </div>
-          {
-            orderStatusState && orderStatusState?.map((item, index) => {
-              return (
-                <div key={index} className={`pt-3 pb-3 w-25 ${selectedTab === item?.id ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
-                  <p className={`m-auto text-center ${selectedTab === item?.id ? 'text-danger' : ''}`} onClick={() => handleTabClick(item?.id)}>{item?.title}</p>
-                </div>
-              )
-            })
-          }
+          {["Tất cả", "Đã thanh toán", "Đang vận chuyển", "Đã vận chuyển", "Đã hoàn thành", "Đã hủy"].map((tab, index) => (
+            <div key={index} className={`pt-3 pb-3 w-25 ${selectedTab === index ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+              <p className={`m-auto text-center ${selectedTab === index ? 'text-danger' : ''}`} onClick={() => handleTabClick(index)}>{tab}</p>
+            </div>
+          ))}
         </div>
         <div>
           <InvoiceCard type={type} orderStatusId={selectedTab} />
