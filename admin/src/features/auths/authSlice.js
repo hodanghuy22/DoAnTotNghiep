@@ -57,7 +57,7 @@ export const GetTopUser = createAsyncThunk("auth/get-top-user", async(data, thun
     }
 });
 
-const getCustomerfromLocalStorage = localStorage.getItem('admin')? JSON.parse(localStorage.getItem("admin")):null;
+const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
 
 const initialState = {
     user: getCustomerfromLocalStorage,
