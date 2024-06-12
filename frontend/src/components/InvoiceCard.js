@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetInvoices, GetInvoicesByOrderType } from '../features/invoices/invoiceSlice'
 import { Link } from 'react-router-dom'
+import formatNumber from '../utils/formatNumber'
+import { BsCart } from 'react-icons/bs'
+import cartIcon from '../assets/images/shopping-trolley.png';
 
 const InvoiceCard = ({ type, orderStatusId }) => {
   const dispatch = useDispatch()
@@ -20,6 +23,15 @@ const InvoiceCard = ({ type, orderStatusId }) => {
   return (
     <>
       {
+        invoiceState.length <= 0 && (
+          <div className='text-center p-5' style={{ display: "block" }}>
+            <div className='icon-cart'><img src={cartIcon} alt='gio hang' width={'50%'}/></div>
+            <p>Rất tiếc, không tìm thấy đơn hàng nào phù hợp</p>
+            <Link to="/" className='btn btn-outline-primary w-50 bg-light text-primary bold'>Về trang chủ</Link>
+          </div>
+        )
+      }
+      {
         invoiceState && invoiceState?.map((item, index) => {
           return (
             <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
@@ -30,16 +42,16 @@ const InvoiceCard = ({ type, orderStatusId }) => {
               <div className='d-flex justify-content-between mt-3'>
                 <div className='d-flex flex-column'>
                   {
-                    item?.invoiceDetails?.map((y)=>{
+                    item?.invoiceDetails?.map((y) => {
                       return (
                         <>
-                          <div className='mb-2'>
-                          <div className=''>
-                            <img style={{ width: '60px' }} src={y?.productDetail?.product?.thumnailUrl} alt='hinh' />
-                          </div>
-                          <div className=''>
-                            <p>{y?.productDetail?.product?.name}</p>
-                          </div>
+                          <div className='d-flex mb-2'>
+                            <div className=''>
+                              <img style={{ width: '60px' }} src={y?.productDetail?.product?.thumnailUrl} alt='hinh' />
+                            </div>
+                            <div className=''>
+                              <p>{y?.productDetail?.product?.name}</p>
+                            </div>
                           </div>
                         </>
                       )
@@ -48,7 +60,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
                 </div>
                 <div>
                   <div>
-                    <p>Tổng tiền: <strong>{item?.totalPriceAfterDiscount}đ</strong></p>
+                    <p>Tổng tiền: <strong className='amount text-danger'>{formatNumber(item?.totalPriceAfterDiscount)}</strong></p>
                   </div>
                 </div>
               </div>
@@ -61,6 +73,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
           )
         })
       }
+
     </>
   )
 }
