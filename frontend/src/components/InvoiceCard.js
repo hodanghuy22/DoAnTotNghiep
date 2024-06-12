@@ -54,7 +54,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
               </div>
               <div className='d-flex justify-content-end mt-3'>
                 <div>
-                  <Link to={'detail'} className='btn border border-danger'>Xem chi tiết</Link>
+                  <Link to={`detail/${item?.id}`} className='btn border border-danger'>Xem chi tiết</Link>
                 </div>
               </div>
             </div>
