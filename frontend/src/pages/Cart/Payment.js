@@ -11,6 +11,7 @@ import { CreateInvoice } from '../../features/invoices/invoiceSlice'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { base_url, getConfig } from '../../utils/axiosConfig'
+import PayPalButton from '../../components/PayPalButton'
 
 const invoiceSchema = yup.object({
     recipientName: yup.string().required("Tên người nhận là bắt buộc!"),
@@ -302,22 +303,23 @@ const Payment = () => {
                             </div>
                         </div>
                     </Row>
-                    <Row className='justify-content-end'>
+                    <Row className=''>
                         {
                             isPaymentOnline ? (
                                 <>
-                                    <button
-                                        type='button'
-                                        className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'
-                                        onClick={() => createVnPay()}
-                                    >VNPAY</button>
-                                    <button
-                                        type='button'
-                                        className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4 ms-3'
-                                    >PAYPAL</button>
+                                    <div className='d-flex flex-column align-items-end justify-content-end'>
+                                        <button
+                                            type='button'
+                                            className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4 mb-3'
+                                            onClick={() => createVnPay()}
+                                        >VNPAY</button>
+                                        <PayPalButton className="w-100" invoice={formik.values} />
+                                    </div>
                                 </>
                             ) : (
-                                <button type='submit' className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'>THANH TOÁN</button>
+                                <div className='d-flex flex-row align-items-end justify-content-end'>
+                                    <button type='submit' className='btn text-light bg-danger btn-pay rounded-pill fs-5 mt-4'>THANH TOÁN</button>
+                                </div>
                             )
                         }
                     </Row>

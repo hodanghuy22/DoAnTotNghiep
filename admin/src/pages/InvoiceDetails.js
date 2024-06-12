@@ -49,7 +49,7 @@ const InvoiceDetails = () => {
     if (getInvoiceId !== undefined) {
       dispatch(GetInvoice(getInvoiceId))
     }
-  }, [getInvoiceId])
+  }, [getInvoiceId, dispatch])
 
   const data1 = [];
   for (let i = 0; i < invoiceState?.invoiceDetails?.length; i++) {

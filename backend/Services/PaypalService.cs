@@ -51,6 +51,8 @@ namespace backend.Services
                     BrandName = "HUBI",
                     LandingPage = "LOGIN",
                     UserAction = "PAY_NOW",
+                    ReturnUrl = "http://localhost:3000/payment-success",
+                    CancelUrl = "http://localhost:3000/payment-fail"
                 }
             });
 
