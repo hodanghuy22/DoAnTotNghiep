@@ -5,12 +5,23 @@ import { FaArrowRightLong } from 'react-icons/fa6';
 import { IoGameController } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GetProductPopularByCategogy, resetState } from '../features/products/productSlice';
 import formatNumber from '../utils/formatNumber';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { GetSlidehow } from '../features/slideshows/slideshowSlice';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const slideshowState = useSelector(state => state?.slideshow?.slideshow);
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(GetSlidehow())
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(resetState());
@@ -30,20 +41,19 @@ const Home = () => {
             startDate: '2024-01-01',
             endDate: '2024-12-30'
           }
-        })
+        }),
+        
       );
       const data = response.payload;
       const variableName = categoryIdToVariableMap[id];
       if (variableName) {
-        // Gán dữ liệu vào biến tương ứng
         setVariableByName(variableName, data);
       }
     };
-    // Lặp qua mỗi id và gọi fetchData cho mỗi id
     [1, 2, 3, 4].forEach(id => fetchData(id));
 
   }, [dispatch]);
-  // Hàm này sẽ gán dữ liệu vào biến dựa trên tên biến
+  
   const setVariableByName = (name, value) => {
     switch (name) {
       case "phonePopular":
@@ -70,6 +80,31 @@ const Home = () => {
 
   return (
     <Container>
+      <Row>
+        <Col className='col-12'>
+          <Swiper
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+            }}
+            modules={[Autoplay, Navigation]}
+            className="mySwiper text-center"
+          >
+            {
+              slideshowState && slideshowState?.map((item,index) => {
+                return (
+                  <SwiperSlide key={index} className='d-flex justify-content-center align-items-center p-5'>
+                  <Link to={item.contentUrl}><img className='border' src={item.imageUrl} alt='chuột' width={'100%'} /></Link>
+                </SwiperSlide>
+                )
+              })
+            }
+          </Swiper>
+        </Col>
+
+      </Row>
       {/* Danh mục phổ biến */}
       <Row>
         <Col xl={4} className='p-2'>
