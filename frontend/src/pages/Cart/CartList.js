@@ -73,7 +73,7 @@ const CartList = () => {
                                             <i className='cart-iconFa'> <FaPlus /></i>
                                         </div>
                                     </div>
-                                    <p className='fs-5 text-danger fw-bold amount'>{formatNumber(item?.productDetail?.costPrice)}</p>
+                                    <p className='fs-5 text-danger fw-bold amount'>{formatNumber(item?.productDetail?.retailPrice)}</p>
                                 </div>
                             </div>
                         )

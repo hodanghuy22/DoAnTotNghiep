@@ -5,7 +5,7 @@ import { TiDelete } from "react-icons/ti";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import formatNumber from '../utils/formatNumber';
-import { GetProduct, GetProductsActive, resetState } from '../features/products/productSlice';
+import { GetProduct, GetProductsActive } from '../features/products/productSlice';
 
 const Compare = () => {
     const dispatch = useDispatch();

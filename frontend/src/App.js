@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Mainlayout from './layouts/Mainlayout'
 import Home from './pages/Home'
 import PhoneList from './pages/Products/PhoneList'
-import Detail from './pages/Products/Detail'
 import Login from './pages/Accounts/Login'
 import SignUp from './pages/Accounts/SignUp'
 import NotFound from './pages/NotFound'
@@ -26,6 +25,10 @@ import ProductHot from './pages/Products/ProductHot'
 import PaymentSuccess from './pages/Cart/PaymentSuccess'
 import PaymentProcess from './pages/Cart/PaymentProcess'
 import PaymentFail from './pages/Cart/PaymentFail'
+import PDUDetail from './pages/Products/PDUDetail'
+import HeadPhoneWirelessDetail from './pages/Products/HeadPhoneWirelessDetail'
+import HeadPhoneDetail from './pages/Products/HeadPhoneDetail'
+import Detail from './pages/Products/PhoneDetail'
 const App = () => {
     return (
         <BrowserRouter>
@@ -50,12 +53,15 @@ const App = () => {
                         <Route path='oder-list/detail' element={<OrderDetail />} />
                         <Route path='change-password' element={<ChangePassword />} />
                     </Route>
-                    <Route path='/product/:productId' element={<Detail />} />
-                    <Route path='/product/Phone' element={<PhoneList />} />
-                    <Route path='/product/sac-du-phong' element={<PDUList />} />
-                    <Route path='/product/tai-nghe-co-day' element={<HeadPhone />} />
-                    <Route path='/product/tai-nghe-khong-day' element={<HeadPhoneWireless />} />
-                    <Route path='/product/hot' element={<ProductHot />} />
+                    <Route path='/dtdd/:productId' element={<Detail />} />
+                    <Route path='/dtdd' element={<PhoneList />} />
+                    <Route path='/sac-du-phong' element={<PDUList />} />
+                    <Route path='/sac-du-phong/:productId' element={<PDUDetail />} />
+                    <Route path='/tai-nghe-co-day' element={<HeadPhone />} />
+                    <Route path='/tai-nghe-co-day/:productId' element={<HeadPhoneDetail />} />
+                    <Route path='/tai-nghe-khong-day' element={<HeadPhoneWireless />} />
+                    <Route path='/tai-nghe-khong-day/:productId' element={<HeadPhoneWirelessDetail />} />
+                    <Route path='/hot' element={<ProductHot />} />
                 </Route>
                 <Route path='*' element={<NotFound />} />
             </Routes>

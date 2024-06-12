@@ -34,7 +34,7 @@ const PhoneList = () => {
         {
           productState && productState.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+               <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                 </div>

@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetCapacitiesByProductId } from '../../features/capacitites/capacitySlice';
 import { GetColorByProductId } from '../../features/colors/colorSlice';
 import { AddCart } from '../../features/cart/cartSlice';
+import formatNumber from '../../utils/formatNumber';
 
-const Detail = () => {
+const HeadPhoneWirelessDetail = () => {
   const dispatch = useDispatch();
   const productState = useSelector(state => state?.product?.Aproduct);
   const authState = useSelector(state => state?.auth?.user);
@@ -46,7 +47,7 @@ const Detail = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><Link to="/">Trang Chủ</Link></li>
-              <li className="breadcrumb-item"><Link href="#">Điện thoại</Link></li>
+              <li className="breadcrumb-item"><Link href="#">Tai nghe không dây</Link></li>
               <li className="breadcrumb-item active" aria-current="page">{product?.name}</li>
             </ol>
           </nav>
@@ -117,7 +118,7 @@ const Detail = () => {
                 }
               </Col>
             </Row>
-            <p className='text-danger fw-bold fs-5 amount'>{product?.productDetails?.price}<span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
+            <p className='text-danger fw-bold fs-5 '> <span className='amount'> { formatNumber( productState?.productDetails[0]?.retailPrice )}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
             <p>This Bluetooth speaker has various features such as water resistance, long battery life, built-in microphones for hands-free calling, and more.</p>
             <ul>
               <li>Model: UB7OM</li>
@@ -205,44 +206,32 @@ const Detail = () => {
               </div>
               <ul className="technical-content rounded-3">
                 <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                  <div className='col-6'>Kích thước màn hình</div>
-                  <div className='col-6'>{product?.size} inch</div>
+                  <div className='col-6'>Thời lượng pin tai nghe:</div>
+                  <div className='col-6'>{product?.battery} {product?.chargingTime}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2">
-                  <div className='col-6'>Công nghệ màn hình</div>
-                  <div className='col-6'>{product?.screen}</div>
+                  <div className='col-6'>Thời lượng pin hộp sạc:</div>
+                  <div className='col-6'>{product?.chargingCase}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                  <div className='col-6'>Camera sau</div>
-                  <div className='col-6'>{product?.rearCamera}</div>
+                  <div className='col-6'>Tương thích:</div> 
+                  <div className='col-6'>{product?.accessibility}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2">
-                  <div className='col-6'>Camera trước</div>
-                  <div className='col-6'>{product?.frontCamera}</div>
+                  <div className='col-6'>Cổng sạc:</div>
+                  <div className='col-6'>{product?.input}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                  <div className='col-6'>Chipset</div>
-                  <div className='col-6'>{product?.chip}</div>
+                  <div className='col-6'>Công nghệ âm thanh:</div>
+                  <div className='col-6'>{product?.audioTechnology}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2">
-                  <div className='col-6'>Dung lượng RAM</div>
-                  <div className='col-6'>{product?.ram}</div>
-                </li>
-                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                  <div className='col-6'>Bộ nhớ trong</div>
-                  <div className='col-6'>{product?.rom}</div>
+                  <div className='col-6'>Kích thước:</div>
+                  <div className='col-6'>{product?.size}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2">
-                  <div className='col-6'>Pin</div>
-                  <div className='col-6'>{product?.battery}  {product?.chargingEfficiency}</div>
-                </li>
-                <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                  <div className='col-6'>Hệ điều hành</div>
-                  <div className='col-6'>{product?.os}</div>
-                </li>
-                <li className="d-flex align-items-center justify-content-between p-2">
-                  <div className='col-6'>Trọng lượng</div>
-                  <div className='col-6'>{product?.weight}</div>
+                  <div className='col-6'>Công nghệ kết nối:</div>
+                  <div className='col-6'>{product?.connectivity}</div>
                 </li>
                 <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                   <div className='col-6'>Hãng</div>
@@ -259,4 +248,4 @@ const Detail = () => {
   )
 }
 
-export default Detail;
+export default HeadPhoneWirelessDetail;

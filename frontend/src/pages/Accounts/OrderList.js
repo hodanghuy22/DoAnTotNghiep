@@ -1,112 +1,67 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import './../../assets/css/order.css'
+import { Helmet } from 'react-helmet';
+import AllInvoices from '../Invoices/AllInvoices';
+import IsPaid from '../Invoices/IsPaid';
+import IsBeginShipped from '../Invoices/IsBeginShipped';
+import IsShipped from '../Invoices/IsShipped';
+import IsCompled from '../Invoices/IsCompled';
+import IsCanceled from '../Invoices/IsCanceled';
+
 
 const OrderList = () => {
-  const [activeItem, setActiveItem] = useState(0);
+  const [selectedTab, setSelectedTab] = useState('Tất cả');
 
-  const handleItemClick = (index) => {
-    setActiveItem(index);
+  const handleTabClick = (tabName) => {
+    setSelectedTab(tabName);
   };
+
+  const renderForm = () => {
+    switch (selectedTab) {
+      case 'Tất cả':
+        return <AllInvoices />;
+      case 'Đã thanh toán':
+        return <IsPaid />;
+      case 'Đang vận chuyển':
+        return <IsBeginShipped />;
+      case 'Đã vận chuyển':
+        return <IsShipped />;
+      case 'Đã hoàn thành':
+        return <IsCompled />;
+      case 'Đã hủy':
+        return <IsCanceled />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className='p-5 '>
-      <div className=''>
-        <div className='border-bottom'>
-          <p>QUẢN LÝ ĐƠN HÀNG</p>
+      <Helmet>
+        <title>Lịch sử mua hang | PHBshop</title>
+      </Helmet>
+      <div>
+        <div className="bg-light shadow mb-3 bg-white rounded d-flex">
+          <div className={`pt-3 pb-3 w-25 ${selectedTab === 'Tất cả' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Tất cả' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Tất cả')}>Tất cả</p>
+          </div>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã thanh toán' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Đã thanh toán' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã thanh toán')}>Đã thanh toán</p>
+          </div>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đang vận chuyển' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Đang vận chuyển' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đang vận chuyển')}>Đang vận chuyển</p>
+          </div>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã vận chuyển' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Đã vận chuyển' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã vận chuyển')}>Đã vận chuyển</p>
+          </div>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã hoàn thành' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Đã hoàn thành' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã hoàn thành')}>Đã hoàn thành</p>
+          </div>
+          <div className={`pt-3 pb-3 w-25 ml-2 ${selectedTab === 'Đã hủy' ? 'border-bottom border-danger' : 'border-bottom'}`} style={{ cursor: 'pointer' }}>
+            <p className={`m-auto text-center ${selectedTab === 'Đã hủy' ? 'text-danger' : ''}`} onClick={() => handleTabClick('Đã hủy')}>Đã hủy</p>
+          </div>
         </div>
-        <div className='container w-100 m-auto'>
-          <div className=' '>
-            <div className="grid-container">
-              <p
-                className={`grid-item ${activeItem === 0 ? 'active' : ''}`}
-                onClick={() => handleItemClick(0)}
-              >
-                Đã đặt
-              </p>
-              <p
-                className={`grid-item ${activeItem === 1 ? 'active' : ''}`}
-                onClick={() => handleItemClick(1)}
-              >
-                Đã thanh toán
-              </p>
-              <p
-                className={`grid-item ${activeItem === 2 ? 'active' : ''}`}
-                onClick={() => handleItemClick(2)}
-              >
-                Đang giao
-              </p>
-              <p
-                className={`grid-item ${activeItem === 3 ? 'active' : ''}`}
-                onClick={() => handleItemClick(3)}
-              >
-                Đã giao
-              </p>
-              <p
-                className={`grid-item ${activeItem === 4 ? 'active' : ''}`}
-                onClick={() => handleItemClick(4)}
-              >
-                Hoàn tất
-              </p>
-              <p
-                className={`grid-item ${activeItem === 5 ? 'active' : ''}`}
-                onClick={() => handleItemClick(5)}
-              >
-                Đã huỷ
-              </p>
-            </div>
-          </div>
-          <div className='order-item p-3 shadow mb-2 bg-body rounded'>
-            <div className='d-flex justify-content-between border-bottom'>
-              <p>Đơn hàng: #123123</p>
-              <p className='text-success fw-bold'>Đã nhận hàng</p>
-            </div>
-            <div className='d-flex justify-content-between mt-3'>
-              <div className='d-flex'>
-                <div className=''>
-                  <img style={{ width: '60px' }} src='https://cdn.tgdd.vn/Products/Images/2162/313884/loa-bluetooth-ava-plus-minipod-y23-trang-0-1-180x125.jpg' alt='loa blu' />
-                </div>
-                <div className=''>
-                  <p>Loa Bluetooth AVA+ MiniPod Y23 Trắng</p>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <p>Tổng tiền: 110.000đ</p>
-                </div>
-              </div>
-            </div>
-            <div className='d-flex justify-content-end mt-3'>
-              <div>
-                <Link to={'detail'} className='btn border border-danger'>Xem chi tiết</Link>
-              </div>
-            </div>
-          </div>
-          <div className='order-item p-3 shadow mb-2 bg-body rounded'>
-            <div className='d-flex justify-content-between border-bottom'>
-              <p>Đơn hàng: #123123</p>
-              <p className='text-success fw-bold'>Đã nhận hàng</p>
-            </div>
-            <div className='d-flex justify-content-between mt-3'>
-              <div className='d-flex'>
-                <div className=''>
-                  <img style={{ width: '60px' }} src='https://cdn.tgdd.vn/Products/Images/1363/315619/mieng-dan-may-cat-tpu-4-lop-o-tech-hd10-thumb-400x400.jpg' alt='loa blu' />
-                </div>
-                <div className=''>
-                  <p>Miếng dán máy cắt TPU 4 lớp O-TECH HD10</p>
-                </div>
-              </div>
-              <div>
-                <div>
-                  <p>Tổng tiền: 70.000đ</p>
-                </div>
-              </div>
-            </div>
-            <div className='d-flex justify-content-end mt-3'>
-              <div>
-                <Link to={'detail'} className='btn border border-danger'>Xem chi tiết</Link>
-              </div>
-            </div>
-          </div>
+        <div>
+          {renderForm()}
         </div>
       </div>
     </div>
