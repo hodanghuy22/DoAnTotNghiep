@@ -50,7 +50,7 @@ const App = () => {
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
                         <Route path='notification' element={<Notification />} />
-                        <Route path='oder-list/detail' element={<OrderDetail />} />
+                        <Route path='oder-list/detail/:id' element={<OrderDetail />} />
                         <Route path='change-password' element={<ChangePassword />} />
                     </Route>
                     <Route path='/dtdd/:productId' element={<Detail />} />

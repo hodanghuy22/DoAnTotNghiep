@@ -8,6 +8,13 @@ const createInvoice = async(data) => {
   }
 }
 
+const getInvoice = async(id) => {
+  const response = await axios.get(`${base_url}Invoices/GetInvoice/${id}`, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const getInvoices = async(id) => {
   const response = await axios.get(`${base_url}Invoices/${id}`, getConfig());
   if (response.data) {
@@ -26,6 +33,7 @@ const invoiceService = {
   createInvoice,
   getInvoices,
   getInvoicesByOrderType,
+  getInvoice,
 };
 
 export default invoiceService;

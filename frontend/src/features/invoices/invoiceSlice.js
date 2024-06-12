@@ -10,6 +10,14 @@ export const CreateInvoice = createAsyncThunk('invoices-create', async (data, th
   }
 })
 
+export const GetAInvoice = createAsyncThunk('invoices-get-a', async (id,thunkAPI) => {
+  try {
+    return await invoiceService.getInvoice(id);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const GetInvoices = createAsyncThunk('invoices-get', async (id,thunkAPI) => {
   try {
     return await invoiceService.getInvoices(id);
@@ -84,7 +92,21 @@ export const invoiceSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-    }).addCase(resetState, () => initialState);
+    })
+    .addCase(GetAInvoice.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetAInvoice.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.invoice = action.payload;
+    }).addCase(GetAInvoice.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    })
+    .addCase(resetState, () => initialState);
   }
 })
 
