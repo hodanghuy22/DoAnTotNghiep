@@ -31,6 +31,7 @@ namespace backend.Controllers
         }
         [HttpGet]
         [Route("Active")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetOrderStatusesActive()
         {
             var orderStatuses = await _uow.OrderStatusRepository.GetOrderStatusesActive();

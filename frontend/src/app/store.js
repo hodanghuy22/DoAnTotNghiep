@@ -6,6 +6,7 @@ import colorReduce from '../features/colors/colorSlice';
 import cartReduce from '../features/cart/cartSlice';
 import couponReducer from '../features/coupons/couponSlice';
 import invoiceReducer from '../features/invoices/invoiceSlice';
+import orderStatusReducer from '../features/orderStatus/orderStatusSlice';
 
 export const store = configureStore({
     reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
         cart: cartReduce,
         coupon: couponReducer,
         invoice: invoiceReducer,
+        orderStatus: orderStatusReducer
     }
 })

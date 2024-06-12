@@ -8,8 +8,15 @@ const createInvoice = async(data) => {
   }
 }
 
-const getInvoice = async(id) => {
-  const response = await axios.get(`${base_url}Invoices/GetInvoice/${id}`, getConfig());
+const getInvoices = async(id) => {
+  const response = await axios.get(`${base_url}Invoices/${id}`, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+
+const getInvoicesByOrderType = async(data) => {
+  const response = await axios.get(`${base_url}Invoices/GetInvoicesByStatus/${data.userId}/${data.orderType}`, getConfig());
   if (response.data) {
     return response.data;
   }
@@ -17,8 +24,8 @@ const getInvoice = async(id) => {
 
 const invoiceService = {
   createInvoice,
-  getInvoice,
-  
+  getInvoices,
+  getInvoicesByOrderType,
 };
 
 export default invoiceService;

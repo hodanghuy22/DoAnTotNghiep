@@ -10,9 +10,17 @@ export const CreateInvoice = createAsyncThunk('invoices-create', async (data, th
   }
 })
 
-export const GetInvoice = createAsyncThunk('invoices-get', async (id,thunkAPI) => {
+export const GetInvoices = createAsyncThunk('invoices-get', async (id,thunkAPI) => {
   try {
-    return await invoiceService.getInvoice(id);
+    return await invoiceService.getInvoices(id);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
+export const GetInvoicesByOrderType = createAsyncThunk('invoices-get-type', async (data,thunkAPI) => {
+  try {
+    return await invoiceService.getInvoicesByOrderType(data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -51,14 +59,27 @@ export const invoiceSlice = createSlice({
       if (state.isError) {
         toast.error("Đã xảy ra lỗi!");
       }
-    }).addCase(GetInvoice.pending, (state) => {
+    }).addCase(GetInvoices.pending, (state) => {
       state.isLoading = true;
-    }).addCase(GetInvoice.fulfilled, (state, action) => {
+    }).addCase(GetInvoices.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.invoice = action.payload;
-    }).addCase(GetInvoice.rejected, (state, action) => {
+      state.invoices = action.payload;
+    }).addCase(GetInvoices.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    })
+    .addCase(GetInvoicesByOrderType.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetInvoicesByOrderType.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.invoices = action.payload;
+    }).addCase(GetInvoicesByOrderType.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
