@@ -10,6 +10,8 @@ import { GetBrandsShow } from '../features/brands/brandSlice';
 import { GetCategoriesShow } from '../features/categories/categorySlice';
 import { useLocation } from 'react-router-dom';
 import { CreateProduct, GetProduct, UpdateProduct, resetState } from '../features/products/productSlice';
+import axios from 'axios';
+import { base_url } from '../utils/axiosConfig';
 
 const productSchema = yup.object({
   name: yup.string().required('Name is Required'),
@@ -35,6 +37,8 @@ const productSchema = yup.object({
   audioTechnology: yup.string(),
   chargingCase: yup.string(),
   connectivity: yup.string(),
+  thumnailId: yup.string(),
+  thumnailUrl: yup.string(),
   status: yup.bool(),
   categoryId: yup.number().required('Category is Required'),
   brandId: yup.number().required('Brand is Required'),
@@ -117,6 +121,8 @@ const AddProduct = () => {
       chargingCase: productState?.chargingCase || "",
       connectivity: productState?.connectivity || "",
       status: productState?.status || false,
+      thumnailId: productState?.thumnailId || "",
+      thumnailUrl: productState?.thumnailUrl || "",
       categoryId: productState?.categoryId || 1,
       brandId: productState?.brandId || "",
       images: productState?.images || [],
@@ -145,6 +151,18 @@ const AddProduct = () => {
     });
     formik.setFieldValue("images", updatedImages);
     dispatch(DeleteImg(e.imagePublicId))
+  }
+
+  const uploadThumnail =async (e) => {
+    const formData = new FormData();
+    formData.append('file', e[0]);
+    const response = await axios.post(`${base_url}UploadPhotos`, formData);
+    if (response.data) {
+      const rs = response.data
+      console.log(rs);
+      formik.setFieldValue('thumnailId', rs.publicId);
+      formik.setFieldValue('thumnailUrl', rs.url);
+    }
   }
 
   return (
@@ -282,7 +300,7 @@ const AddProduct = () => {
                         name="chargingTime"
                         className="form-control"
                         placeholder="ChargingTime"
-                        value={formik.values.battery}
+                        value={formik.values.chargingTime}
                         onChange={formik.handleChange('chargingTime')}
                         onBlur={formik.handleBlur('chargingTime')}
                       />
@@ -619,9 +637,38 @@ const AddProduct = () => {
               defaultChecked={formik.values.status}
             >
               Status
-            </Checkbox><br />
+            </Checkbox>
+            <br />
             <br />
             <div className='bg-white border-1 p-5 text-center'>
+              <p className='fw-bold'>Thumnail</p>
+              <Dropzone onDrop={acceptedFiles => uploadThumnail(acceptedFiles)}>
+                {({ getRootProps, getInputProps }) => (
+                  <section>
+                    <div {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <p>Drag 'n' drop some files here, or click to select files</p>
+                    </div>
+                  </section>
+                )}
+              </Dropzone>
+              <div className='d-flex flex-row'>
+                {
+                  formik.values.thumnailId !== "" && formik.values.thumnailUrl !== "" && (
+                    <div key={formik.values.thumnailId} className='showImages d-flex flex-wrap gap-3 mb-3 ms-3'>
+                      <div className='position-relative'>
+                        <button type="button" onClick={() => deleteImg(formik.values.thumnailId)} className='btn-close position-absolute' style={{ top: "10px", right: "10px" }}></button>
+                        <img src={formik.values.thumnailUrl} alt="" width={200} height={200} />
+                      </div>
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+            <br />
+            <br />
+            <div className='bg-white border-1 p-5 text-center'>
+              <p className='fw-bold'>List images</p>
               <Dropzone onDrop={acceptedFiles => dispatch(UploadImg(acceptedFiles))}>
                 {({ getRootProps, getInputProps }) => (
                   <section>

@@ -25,7 +25,6 @@ import CouponList from "./pages/CouponList";
 import AddCoupon from "./pages/AddCoupon";
 import OrderStatusList from "./pages/OrderStatusList";
 import AddOrderStatus from "./pages/AddOrderStatus";
-import AddInvoice from "./pages/AddInvoice";
 import Statistics from "./pages/Statistics";
 import LogList from "./pages/LogList";
 import TestNoti from "./pages/TestNoti";
@@ -64,7 +63,6 @@ function App() {
           <Route path='slideshow' element={<AddSlideshow />} />
           <Route path='slideshow/:id' element={<AddSlideshow />} />
           <Route path='invoice-list' element={<InvoiceList />} />
-          <Route path='invoice' element={<AddInvoice />} />
           <Route path='invoice/:id' element={<InvoiceDetails />} />
           <Route path='coupon-list' element={<CouponList />} />
           <Route path='coupon' element={<AddCoupon />} />

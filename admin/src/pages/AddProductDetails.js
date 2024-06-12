@@ -91,13 +91,14 @@ const AddProductDetails = () => {
       if (getProductDetailId !== undefined) {
         const data = { id: getProductDetailId, productDetailData: { ...values, id: getProductDetailId, comments: null, ratings:null } }
         dispatch(UpdateProductDetail(data))
-        dispatch(resetState())
+        formik.resetForm();
+        //dispatch(resetState())
       } else {
         dispatch(CreateProductDetail(values));
         formik.resetForm();
-        setTimeout(() => {
-          dispatch(resetState())
-        }, 300)
+        // setTimeout(() => {
+        //   dispatch(resetState())
+        // }, 300)
       }
     },
   });

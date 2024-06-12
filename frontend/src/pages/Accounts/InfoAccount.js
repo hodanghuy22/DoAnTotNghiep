@@ -25,6 +25,8 @@ const InfoAccount = () => {
             address: userState?.address || '',
             email: userState?.email,
             userName: userState?.userName,
+            token: userState?.token,
+            expiration: userState?.expiration,
         },
         validationSchema: infoSchema,
         onSubmit: values => {

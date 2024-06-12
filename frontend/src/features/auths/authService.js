@@ -42,7 +42,6 @@ const getAUser = async(id)=>{
 const updateUser = async(userData) => {
   const response = await axios.put(`${base_url}Users/${userData.id}`, userData.data, getConfig());
   if(response.data){
-    localStorage.setItem("customer", JSON.stringify(response.data));
     return response.data;
   }
 }
@@ -50,7 +49,6 @@ const updateUser = async(userData) => {
 const changePassword = async(data) => {
   const response = await axios.put(`${base_url}Users/ChangePassword/${data.id}`, data.data, getConfig());
   if(response.data){
-    localStorage.setItem("customer", JSON.stringify(response.data));
     return response.data;
   }
 }
