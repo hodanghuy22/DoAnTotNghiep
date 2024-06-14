@@ -1,24 +1,21 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Container, Row } from 'react-bootstrap'
-import { GetProductPopular, resetState } from '../../features/products/productSlice';
-import { Link } from 'react-router-dom';
+import { GetProductByBrand, resetState } from '../../features/products/productSlice';
+import { Link, useParams } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
 import FormatData from '../../utils/FormatData';
 
-const ProductHot = () => {
+const ProductByBrand = () => {
     const dispatch = useDispatch();
-
+    const productState = useSelector((state) => state?.product?.productByBrand);
+    const { brandId } = useParams();
+    console.log(brandId);
     useEffect(() => {
       dispatch(resetState());
-      dispatch(GetProductPopular({
-        top: 40,
-        startDate: '2024-01-01',
-        endDate: '2024-12-30'
-      }));
-    }, [dispatch]);
-    const productState = useSelector((state) => state?.product?.productPopular);
-
+      dispatch(GetProductByBrand(brandId));
+    }, [dispatch,brandId]);
+    console.log(productState);
   return (
     <div>
       <Container className='mb-5'>
@@ -57,4 +54,4 @@ const ProductHot = () => {
   )
 }
 
-export default ProductHot
+export default ProductByBrand

@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import {  Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
-import { FaArrowRightLong } from 'react-icons/fa6';
-import { IoGameController } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProductPopularByCategogy, resetState } from '../features/products/productSlice';
-import formatNumber from '../utils/FormatData';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
+import { FreeMode, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { GetSlidehow } from '../features/slideshows/slideshowSlice';
 import FormatData from '../utils/FormatData';
-
 const Home = () => {
   const dispatch = useDispatch();
   const slideshowState = useSelector(state => state?.slideshow?.slideshow);
@@ -131,104 +128,148 @@ const Home = () => {
           <Col className='d-flex align-items-center mt-5 mb-5'>
             <p className='text-danger'>KHUYẾN MÃI LỚN</p>
             <h1 className='text-center m-auto'>Điện Thoại Nổi Bật</h1>
+            <Link to={'/dtdd'} className='btn bg-gray p-2'>Xem tất cả</Link>
           </Col>
         </Row>
         <Row>
-          {
-            phonePopular && phonePopular.map((item, index) => (
-              <Col xl={3} className='p-2 m-0 border-0' key={index}>
-                <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
-                  <div className='phone-container p-3'>
-                    <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                  </div>
-                  <div className='phone-info p-3 border border-top-0'>
-                    <p className='fs-5 phone-name d-flex'>{item?.name}</p>
-                    <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                    <p>Tình trạng: còn hàng</p>
-                    <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
-                  </div>
-                </Link>
-              </Col>
-            ))
-          }
-
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={20}
+            freeMode={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[FreeMode, Pagination]}
+            className="mySwiper"
+          >
+            {
+              phonePopular && phonePopular?.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                      <div className='phone-container p-3'>
+                        <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                      </div>
+                      <div className='phone-info p-3 border border-top-0'>
+                        <p className='fs-5 phone-name'>{item?.name}</p>
+                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
+                        <p>Tình trạng: còn hàng</p>
+                        <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Swiper>
         </Row>
         <Col className='d-flex align-items-center mt-5 mb-5'>
-            <p className='text-danger'>KHUYẾN MÃI LỚN</p>
-            <h1 className='text-center m-auto'>Tai Nghe Không Dây Nổi Bật</h1>
-          </Col>
+          <h1 className='text-center m-auto'>Tai Nghe Không Dây Nổi Bật</h1>
+          <Link to={'/tai-nghe-khong-day'} className='btn bg-gray p-2'>Xem tất cả</Link>
+        </Col>
         <Row>
-          {
-            headphoneTWPopular && headphoneTWPopular?.map((item, index) => (
-              <Col xl={3} className='p-2 m-0 border-0' key={index}>
-                <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
-                  <div className='phone-container p-3'>
-                    <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                  </div>
-                  <div className='phone-info p-3 border border-top-0'>
-                    <p className='fs-5 phone-name'>{item?.name}</p>
-                    <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                    <p>Tình trạng: còn hàng</p>
-                    <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
-                  </div>
-                </Link>
-              </Col>
-            ))
-          }
-
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={20}
+            freeMode={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[FreeMode, Pagination]}
+            className="mySwiper"
+          >
+            {
+              headphonePopular && headphonePopular?.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                      <div className='phone-container p-3'>
+                        <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                      </div>
+                      <div className='phone-info p-3 border border-top-0'>
+                        <p className='fs-5 phone-name'>{item?.name}</p>
+                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
+                        <p>Tình trạng: còn hàng</p>
+                        <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Swiper>
         </Row>
         <Col className='d-flex align-items-center mt-5 mb-5'>
-            <p className='text-danger'>KHUYẾN MÃI LỚN</p>
-            <h1 className='text-center m-auto'>Tai Nghe Nổi Bật</h1>
-          </Col>
+          <h1 className='text-center m-auto'>Tai Nghe Nổi Bật</h1>
+          <Link to={'/tai-nghe-co-day'} className='btn bg-gray p-2'>Xem tất cả</Link>
+        </Col>
         <Row>
-          {
-            headphonePopular && headphonePopular?.map((item, index) => (
-              <Col xl={3} className='p-2 m-0 border-0' key={index}>
-                <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
-                  <div className='phone-container p-3'>
-                    <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                  </div>
-                  <div className='phone-info p-3 border border-top-0'>
-                    <p className='fs-5 phone-name'>{item?.name}</p>
-                    <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                    <p>Tình trạng: còn hàng</p>
-                    <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
-                  </div>
-                </Link>
-              </Col>
-            ))
-          }
-
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={20}
+            freeMode={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[FreeMode, Pagination]}
+            className="mySwiper"
+          >
+            {
+              headphoneTWPopular && headphoneTWPopular?.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                      <div className='phone-container p-3'>
+                        <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                      </div>
+                      <div className='phone-info p-3 border border-top-0'>
+                        <p className='fs-5 phone-name'>{item?.name}</p>
+                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
+                        <p>Tình trạng: còn hàng</p>
+                        <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Swiper>
         </Row>
         <Col className='d-flex align-items-center mt-5 mb-5'>
-            <p className='text-danger'>KHUYẾN MÃI LỚN</p>
-            <h1 className='text-center m-auto'>Sạc Dự Phòng Nổi Bật</h1>
-          </Col>
+          <h1 className='text-center m-auto'>Sạc Dự Phòng Nổi Bật</h1>
+          <Link to={'/sac-du-phong'} className='btn bg-gray p-2'>Xem tất cả</Link>
+        </Col>
         <Row>
-          {
-            PDUPopular && PDUPopular?.map((item, index) => (
-              <Col xl={3} className='p-2 m-0 border-0' key={index}>
-                <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
-                  <div className='phone-container p-3'>
-                    <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                  </div>
-                  <div className='phone-info p-3 border border-top-0'>
-                    <p className='fs-5 phone-name'>{item?.name}</p>
-                    <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                    <p>Tình trạng: còn hàng</p>
-                    <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
-                  </div>
-                </Link>
-              </Col>
-            ))
-          }
-
-        </Row>
-        <Row className='justify-content-center mt-4'>
-          <Link to={'/product-category/Phone'} className='btn w-25 bg-danger'>
-            Xem Tất Cả <i><FaArrowRightLong /></i>
-          </Link>
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={20}
+            freeMode={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[FreeMode, Pagination]}
+            className="mySwiper"
+          >
+            {
+              PDUPopular && PDUPopular?.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                      <div className='phone-container p-3'>
+                        <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                      </div>
+                      <div className='phone-info p-3 border border-top-0'>
+                        <p className='fs-5 phone-name'>{item?.name}</p>
+                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
+                        <p>Tình trạng: còn hàng</p>
+                        <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Swiper>
         </Row>
       </Container>
     </>

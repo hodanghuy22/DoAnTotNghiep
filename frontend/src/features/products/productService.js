@@ -48,14 +48,6 @@ const getProductsBestSeller = async (data) => {
   }
 }
 
-const searchProductByName = async (data) => {
-  const response = await axios.get(`${base_url}Products/SearchProductByName`,data, getConfig());
-  if (response.data) {
-    return response.data;
-  }
-}
-
-
 const createProduct = async (data) => {
   const response = await axios.post(`${base_url}Products`,data, getConfig());
   if (response.data) {
@@ -65,6 +57,19 @@ const createProduct = async (data) => {
 
 const updateProduct = async (data) => {
   const response = await axios.put(`${base_url}Products/${data.id}`,data.data, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+
+const getProductByBrand = async (id) => {
+  const response = await axios.get(`${base_url}Products/GetProductsActiveByBrand/${id}`);
+  if (response.data) {
+    return response.data;
+  }
+}
+const getSearchProduct = async (data) => {
+  const response = await axios.get(`${base_url}Products/SearchProductByName/${data.searchQuery}`,data, getConfig());
   if (response.data) {
     return response.data;
   }
@@ -86,9 +91,10 @@ const productService = {
   getProductsActive,
   getProductsBestSeller,
   getProductCategory,
-  searchProductByName,
   getProductPopularByCategogy,
-  getProductPopular
+  getProductPopular,
+  getProductByBrand,
+  getSearchProduct
 };
 
 export default productService;

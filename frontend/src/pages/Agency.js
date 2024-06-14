@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Collapse, Container, Row } from 'react-bootstrap'
 import { FaAngleDown, FaArrowRight } from 'react-icons/fa'
 import { MdOutlineLocalShipping } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 const Agency = () => {
   const buttons = [
@@ -25,12 +26,12 @@ const Agency = () => {
   };
   return (
     <Container>
-      <Row className='pt-5 pb-5 bg-secondary '>
+      <Row className='pt-5 pb-5 '>
         <div className='col-6'>
           <h6>Giới thiệu</h6>
           <h2>Những thiết bị công nghệ hàng đầu</h2>
           <p>Chúng tôi tự hào giới thiệu đến bạn một trang web bán hàng trực tuyến chuyên về các sản phẩm điện tử, nơi bạn có thể tìm thấy những thiết bị công nghệ hàng đầu và đáng tin cậy. Với sứ mệnh mang đến cho khách hàng những trải nghiệm mua sắm tuyệt vời và sự hài lòng tuyệt đối, chúng tôi đã xây dựng một nền tảng mua sắm đáng tin cậy và tiện lợi.</p>
-          <p className='btn'>Xem Sản Phẩm <FaArrowRight /></p>
+          <Link className='btn' to={'/hot'}>Xem Sản Phẩm <FaArrowRight /></Link>
         </div>
         <div className='col-6'>
           <img src='https://electio.ecom.themepreview.xyz/home-one/wp-content/uploads/sites/2/2023/10/about1.png' alt='ảnh' />
@@ -59,7 +60,7 @@ const Agency = () => {
           <p className='text-center'>Cung cấp những sản phẩm điện tử chất lượng cao và dịch vụ mua sắm tốt nhất để mang đến sự hài lòng và tiện ích cho khách hàng.</p>
         </div>
       </Row>
-      <Row className='pt-5 pb-5 bg-secondary'>
+      <Row className='pt-5 pb-5 bg-gray'>
         <div className='d-flex flex-column align-items-center mb-5'>
           <p className='fs-6 text-danger'>CÁC CÂU HỎI VÀ TRẢ LỜI</p>
           <p className='fs-1 fw-bold'>Câu Hỏi Thường Gặp</p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Modal, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
@@ -17,6 +17,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const authState = useSelector(state => state.auth);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const handleLogout = () => {
     dispatch(Logout());
     setTimeout(() => {
@@ -33,8 +35,12 @@ const Header = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/tim-kiem/${encodeURIComponent(searchQuery)}`);
+    setShowModal(false);
+  }
   return (
-
     <div>
       <Container className='p-0 m-0 m-auto '>
         <Row className='d-flex justify-content-between'>
@@ -45,28 +51,34 @@ const Header = () => {
             <div className='fs-5 p-3 text-nowrap'>
               <Link to={'/gioi-thieu'} className='btn'>Giới thiệu</Link>
             </div>
-            <div className='fs-5 p-3 btn'>
+            <div className='fs-5 p-3 btn w-100'>
               <DropdownButton id="dropdown-basic-button" title="Sản phẩm" variant="transparent" className="border-0">
                 <div className='d-flex mt-3'>
-                  <div>
-                    <Dropdown.ItemText>Điện thoại</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
+                  <div className="dropdown-column phone-brand">
+                    <Dropdown.ItemText>Thương hiệu điện thoại</Dropdown.ItemText>
+                    <Dropdown.Item as={Link} to={'/product/1'} className='custom-dropdown-item'>Iphone</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/2'} className='custom-dropdown-item'>Xiaomi</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/3'} className='custom-dropdown-item'>vivo</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/4'} className='custom-dropdown-item'>OPPO</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/5'} className='custom-dropdown-item'>Samsung</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/6'} className='custom-dropdown-item'>Realme</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/7'} className='custom-dropdown-item'>OnePlus</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/8'} className='custom-dropdown-item'>POCO</Dropdown.Item>
                   </div>
-                  <div>
+                  <div className="dropdown-column">
                     <Dropdown.ItemText>Sạc dự phòng</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/9'} className='custom-dropdown-item'>ANKER</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/10'} className='custom-dropdown-item'>Baseus</Dropdown.Item>
                   </div>
-                  <div>
-                    <Dropdown.ItemText >Tai nghe</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
+                  <div className="dropdown-column">
+                    <Dropdown.ItemText>Tai nghe</Dropdown.ItemText>
+                    <Dropdown.Item as={Link} to={'/product/13'} className='custom-dropdown-item'>JBL</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/14'} className='custom-dropdown-item'>Sony</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/16'} className='custom-dropdown-item'>Awei</Dropdown.Item>
                   </div>
-                  <div>
+                  <div className="dropdown-column headphone-brand">
                     <Dropdown.ItemText>Tai nghe không dây</Dropdown.ItemText>
-                    <Dropdown.Item href="#/action-2" className='custom-dropdown-item'>Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" className='custom-dropdown-item'>Something else</Dropdown.Item>
+                    <Dropdown.Item as={Link} to={'/product/12'} className='custom-dropdown-item'>HAVIT</Dropdown.Item>
                   </div>
                 </div>
               </DropdownButton>
@@ -166,9 +178,14 @@ const Header = () => {
                 <Dropdown.Item className='custom-dropdown-item'>
                   <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
                 </Dropdown.Item>
-                <Dropdown.Item className='custom-dropdown-item'>
-                  <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
-                </Dropdown.Item>
+
+                {
+                  authState.user === null && (
+                    <Dropdown.Item className='custom-dropdown-item'>
+                      <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
+                    </Dropdown.Item>
+                  )
+                }
                 {
                   authState.user === null && (
                     <Dropdown.Item className='custom-dropdown-item'>
@@ -205,15 +222,20 @@ const Header = () => {
           </Col>
         </Row>
       </Container>
-      <Modal show={showModal} onHide={handleCloseModal} size='xl' >
-        <Modal.Body className=''>
-          <div className='d-flex flex-row'>
+      <Modal show={showModal} onHide={handleCloseModal} size='xl'>
+        <Modal.Body>
+          <form onSubmit={handleSubmit} method='get' className='d-flex flex-row'>
             <div>
-            <IoSearchOutline className='fs-4 mx-4 mt-2'/>
+              <IoSearchOutline className='fs-4 mx-4 mt-2' />
             </div>
-            <input type="text" placeholder="Nhập từ khóa tìm kiếm" className='border-0 w-100 d-block p-2'>
-            </input>
-          </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Nhập từ khóa tìm kiếm"
+              className='border-0 w-100 d-block p-2'
+            />
+          </form>
         </Modal.Body>
       </Modal>
     </div>

@@ -30,6 +30,8 @@ import HeadPhoneWirelessDetail from './pages/Products/HeadPhoneWirelessDetail'
 import HeadPhoneDetail from './pages/Products/HeadPhoneDetail'
 import Detail from './pages/Products/PhoneDetail'
 import WishLists from './pages/Accounts/WishLists'
+import ProductByBrand from './pages/Products/ProductByBrand'
+import SearchResults from './pages/Products/SearchResults'
 const App = () => {
     return (
         <BrowserRouter>
@@ -47,6 +49,7 @@ const App = () => {
                     <Route path='/payment' element={<Payment />} />
                     <Route path="so-sanh" element={<Compare />} />
                     <Route path="/gioi-thieu" element={<Agency />} />
+                    <Route path="/tim-kiem/:searchQuery" element={<SearchResults />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
@@ -55,6 +58,7 @@ const App = () => {
                         <Route path='change-password' element={<ChangePassword />} />
                         <Route path='wishlist' element={<WishLists />} />
                     </Route>
+                    <Route path='/product/:brandId' element={<ProductByBrand />} />
                     <Route path='/dtdd/:productId' element={<Detail />} />
                     <Route path='/dtdd' element={<PhoneList />} />
                     <Route path='/sac-du-phong' element={<PDUList />} />

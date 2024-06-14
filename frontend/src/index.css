@@ -1,3 +1,17 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'SamsungOne', sans-serif;
+}
+@font-face {
+  font-family: 'SamsungOne';
+  src: url('assets/fonts/SamsungOne-700.ttf') format('truetype');
+  /* Thay đổi đường dẫn tới tập tin font cụ thể của bạn */
+}
+#dropdown-basic-button{
+  font-family: 'SamsungOne', sans-serif;
+}
 .error{
   color:red;
   font-size: 13px;
@@ -36,4 +50,7 @@
   10%, 30%, 50%, 70%, 90% {
     transform: scale(1.3);
   }
+}
+.bg-gray{
+  background-color: #e9e3e3;
 }
