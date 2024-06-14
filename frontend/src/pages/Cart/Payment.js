@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { base_url, getConfig } from '../../utils/axiosConfig'
 import PayPalButton from '../../components/PayPalButton'
+import FormatData from '../../utils/FormatData'
 
 const invoiceSchema = yup.object({
     recipientName: yup.string().required("Tên người nhận là bắt buộc!"),
@@ -291,15 +292,15 @@ const Payment = () => {
                             </div>
                             <div className='d-flex align-items-center mb-2'>
                                 <p className='fs-5 text-dark fw-bold me-3'>Tổng tiền:</p>
-                                <p className='fs-5 text-danger fw-bold'>{totalPrice}</p>
+                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(totalPrice)}</p>
                             </div>
                             <div className='d-flex align-items-center mb-2'>
                                 <p className='fs-5 text-dark fw-bold me-3'>Tổng tiền sau chiết khấu:</p>
-                                <p className='fs-5 text-danger fw-bold'>{tongTienCuoi}</p>
+                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(tongTienCuoi)}</p>
                             </div>
                             <div className='d-flex align-items-center'>
                                 <p className='fs-5 text-dark fw-bold me-3'>Chiết khấu:</p>
-                                <p className='fs-5 text-danger fw-bold'>{tienChietKhau}</p>
+                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(tienChietKhau)}</p>
                             </div>
                         </div>
                     </Row>

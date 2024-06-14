@@ -2,3 +2,38 @@
   color:red;
   font-size: 13px;
 }
+/* HeartIcon.css */
+.icon-container {
+  position: relative;
+  width: fit-content;
+}
+
+.icon {
+  font-size: 2rem; /* Điều chỉnh kích thước biểu tượng */
+  transition: opacity 0.3s ease;
+}
+
+.heart-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0; /* Ẩn biểu tượng này mặc định */
+  animation: heartbeat 3.5s infinite;
+}
+
+.icon-container:hover .heart-outline {
+  opacity: 0; /* Ẩn biểu tượng outline khi hover */
+}
+
+.icon-container:hover .heart-filled {
+  opacity: 1; /* Hiển thị biểu tượng filled khi hover */
+}
+
+@keyframes heartbeat {
+  0%, 20%, 40%, 60%, 80%, 100% {
+    transform: scale(1);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: scale(1.3);
+  }
+}

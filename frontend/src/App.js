@@ -29,6 +29,7 @@ import PDUDetail from './pages/Products/PDUDetail'
 import HeadPhoneWirelessDetail from './pages/Products/HeadPhoneWirelessDetail'
 import HeadPhoneDetail from './pages/Products/HeadPhoneDetail'
 import Detail from './pages/Products/PhoneDetail'
+import WishLists from './pages/Accounts/WishLists'
 const App = () => {
     return (
         <BrowserRouter>
@@ -52,6 +53,7 @@ const App = () => {
                         <Route path='notification' element={<Notification />} />
                         <Route path='oder-list/detail/:id' element={<OrderDetail />} />
                         <Route path='change-password' element={<ChangePassword />} />
+                        <Route path='wishlist' element={<WishLists />} />
                     </Route>
                     <Route path='/dtdd/:productId' element={<Detail />} />
                     <Route path='/dtdd' element={<PhoneList />} />

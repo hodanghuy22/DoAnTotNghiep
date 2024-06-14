@@ -4,8 +4,8 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import formatNumber from '../utils/formatNumber';
 import { GetProduct, GetProductsActive } from '../features/products/productSlice';
+import FormatData from '../utils/FormatData';
 
 const Compare = () => {
     const dispatch = useDispatch();
@@ -84,7 +84,7 @@ const Compare = () => {
                                                 <div>{Phone1?.name}</div>
                                                 <p className='text-danger font-size-bold amount'>
                                                     {
-                                                        formatNumber(Phone1?.price)
+                                                        FormatData.formatNumber(Phone1?.price)
                                                     }
                                                 </p>
                                             </div>
@@ -119,7 +119,7 @@ const Compare = () => {
                                                 <div>{Phone2?.name}</div>
                                                 <p className='text-danger font-size-bold amount'>
                                                     {
-                                                        formatNumber(Phone2?.price)
+                                                        FormatData.formatNumber(Phone2?.price)
                                                     }
                                                 </p>
                                             </div>
@@ -251,7 +251,7 @@ const Compare = () => {
                                                         <p className='text-title'>{item.name}</p>
                                                         <div>
                                                             <p className='text-price  font-size-bold amount' >
-                                                                {formatNumber(item.price)}
+                                                                {FormatData.formatNumber(item.price)}
                                                             </p>
                                                         </div>
                                                     </div>

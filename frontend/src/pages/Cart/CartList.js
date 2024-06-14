@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import './../../assets/css/cart.css'
 import { GetCart, resetState } from '../../features/cart/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import formatNumber from '../../utils/formatNumber'
+import FormatData from '../../utils/FormatData'
 
 const CartList = () => {
     const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const CartList = () => {
                                         <input type='checkbox' style={{ top: '0' }} />
                                     </div>
                                     <div className=''>
-                                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='laptop' />
+                                        <img src={item?.productDetail?.product?.thumnailUrl} alt='laptop' width={'150px'} />
                                     </div>
                                     <div className='p-3'>
                                         <div className=''>
@@ -73,7 +73,7 @@ const CartList = () => {
                                             <i className='cart-iconFa'> <FaPlus /></i>
                                         </div>
                                     </div>
-                                    <p className='fs-5 text-danger fw-bold amount'>{formatNumber(item?.productDetail?.retailPrice)}</p>
+                                    <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(item?.productDetail?.retailPrice)}</p>
                                 </div>
                             </div>
                         )
@@ -84,7 +84,7 @@ const CartList = () => {
             <Row className='d-flex flex-row justify-content-around'>
                 <div className='col-6 d-flex'>
                     <p className='fs-4'>Tạm tính: </p>
-                    <p className='fs-4 text-danger fw-bold mx-3 amount'>{formatNumber(totalPrice) }</p>
+                    <p className='fs-4 text-danger fw-bold mx-3 amount'>{FormatData.formatNumber(totalPrice) }</p>
                 </div>
                 <div className='col-3'>
                     <Link to={'/payment'} className='text-decoration-none text-light bg-danger btn-pay rounded-pill fs-5 mt-4 px-5'>MUA NGAY</Link>

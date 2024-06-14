@@ -8,7 +8,7 @@
   text-decoration: none;
 }
 .bg-gray{
-  background-color: eeeeee;
+  background-color: #ffffff;
 }
 .text-price{
   color: #E83A45;
@@ -110,4 +110,7 @@
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s ease;
+}
+.breadcrumb-item{
+  text-decoration: none;
 }

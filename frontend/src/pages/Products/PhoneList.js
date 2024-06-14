@@ -4,7 +4,7 @@ import { BsStar } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { GetProductsActiveByCategory, resetState } from '../../features/products/productSlice'
-import formatNumber from '../../utils/formatNumber'
+import FormatData from '../../utils/FormatData'
 
 const PhoneList = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const PhoneList = () => {
                   <p className='fs-5 phone-name'>{item?.name}</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
                   <p>Tình trạng: còn hàng</p>
-                  <p className='phone-price amount'>{formatNumber(item?.price)}</p>
+                  <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                 </div>
               </Link>
             </Col>

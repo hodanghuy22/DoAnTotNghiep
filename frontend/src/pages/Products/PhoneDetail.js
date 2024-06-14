@@ -13,7 +13,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetCapacitiesByProductId } from '../../features/capacitites/capacitySlice';
 import { GetColorByProductId } from '../../features/colors/colorSlice';
 import { AddCart } from '../../features/cart/cartSlice';
-import formatNumber from '../../utils/formatNumber';
+import formatNumber from '../../utils/FormatData';
+import FormatData from '../../utils/FormatData';
+import { CreateWishList } from '../../features/wishlists/wishlistSlice';
+import { FcLike } from 'react-icons/fc';
+import { CiHeart } from 'react-icons/ci';
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -32,12 +36,19 @@ const Detail = () => {
 
   }, [dispatch, productId]);
 
-  
+
   const addCart = () => {
     dispatch(AddCart({
       userId: authState?.id,
-      productDetailId: productState?.id,
+      productDetailId: productState?.productDetails[0]?.id,
       quantity: 1
+    }))
+
+  }
+  const AddWishList = () => {
+    dispatch(CreateWishList({
+      userId: authState?.id,
+      phoneId: productState?.id,
     }))
   }
   return (
@@ -46,18 +57,23 @@ const Detail = () => {
         <Row>
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
-              <li className="breadcrumb-item"><Link to="/">Trang Chủ</Link></li>
-              <li className="breadcrumb-item"><Link href="#">Điện thoại</Link></li>
-              <li className="breadcrumb-item active" aria-current="page">{product?.name}</li>
+              <li className="breadcrumb-item "><Link className='text-decoration-none' to="/">Trang Chủ</Link></li>
+              <li className="breadcrumb-item "><Link className='text-decoration-none' to={'/dtdd'}>Điện thoại</Link></li>
+              <li className="breadcrumb-item  active" aria-current="page"><Link className='text-decoration-none'>{product?.name}</Link></li>
             </ol>
           </nav>
-
         </Row>
         <Row>
           <Col className='d-flex flex-row'>
             <h3>Điện thoại {product?.name} {product?.rom}</h3>
             <Link to="/so-sanh" className='ml-3 text-decoration-none ' >
               <p className='mx-4 mt-1 '><FaPlus /> So Sánh</p>
+            </Link>
+            <Link className='ml-3' onClick={AddWishList}>
+              <div className="icon-container">
+                <CiHeart className="icon heart-outline" />
+                <FcLike className="icon heart-filled" />
+              </div>
             </Link>
           </Col>
         </Row>
@@ -81,7 +97,7 @@ const Detail = () => {
               {
                 product?.images?.map((item, index) => (
                   <SwiperSlide key={index} className='d-flex justify-content-center align-items-center p-5'>
-                    <img className='border' src={item.imageUrl} alt='chuột' width={'100%'} height={'100%`'} />
+                    <img className='' src={item.imageUrl} alt='chuột' width={'100%'} height={'100%`'} style={{maxHeight:'500px'}}/>
                   </SwiperSlide>
                 ))
               }
@@ -116,7 +132,7 @@ const Detail = () => {
                 }
               </Col>
             </Row>
-            <p className='text-danger fw-bold fs-5 '> <span className='amount'>{ formatNumber( product?.productDetails[0]?.retailPrice )}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
+            <p className='text-danger fw-bold fs-5 '> <span className='amount'>{FormatData.formatNumber(product?.productDetails[0]?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
             <p>This Bluetooth speaker has various features such as water resistance, long battery life, built-in microphones for hands-free calling, and more.</p>
             <ul>
               <li>Model: UB7OM</li>
@@ -126,11 +142,11 @@ const Detail = () => {
               <li>Convenient Hands-Free Calling</li>
             </ul>
             <div className="d-flex justify-content-start">
-              <div className='p-2'>
+              {/* <div className='p-2'>
                 <Button variant="outline-light" className="bg-light text-dark"><FaMinus /></Button>
                 <Button variant="outline-light" className="bg-light text-dark">1</Button>
                 <Button variant="outline-light" className="bg-light text-dark"><FaPlus /></Button>
-              </div>
+              </div> */}
               <div className='p-2'>
                 {/* <Button variant='danger'>Thêm vào giỏ hàng</Button> */}
                 <Button onClick={(e) => addCart()} variant='danger'>Thêm vào giỏ hàng</Button>
@@ -138,13 +154,10 @@ const Detail = () => {
             </div>
           </Col>
         </Row>
-        <Row className='justify-content-center mt-5'>
-          <Col className='col-4'>
+        <Row className='mt-2'>
+          <Col className='col-12'>
             <p className='fs-3 text-center'>Sản phẩm tương tự</p>
           </Col>
-
-        </Row>
-        <Row className='mt-2'>
           <Col className='d-flex flex'>
             <Link to='/product/1' className='card text-decoration-none text-dark p-3 border-0'>
               <img className='border border-bottom-0' src='https://e-tech.monamedia.net/wp-content/uploads/2023/10/12.png' alt='chuột' width={'100%'} height={'100%'} />
@@ -251,8 +264,6 @@ const Detail = () => {
             </div>
           </Col>
         </Row>
-
-
       </Container>
     </div>
   )
