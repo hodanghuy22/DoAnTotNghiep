@@ -4,37 +4,37 @@ import { toast } from 'react-toastify';
 
 export const GetCart = createAsyncThunk("cart/get-carts", async (id, thunkAPI) => {
     try {
-        return await cartService.getCart(id);;
+        return await cartService.getCart(id);
     } catch (err) {
-        return thunkAPI.rejectWithValue(err);
+        return thunkAPI.rejectWithValue(err.message);  // Lưu trữ thông điệp lỗi thay vì toàn bộ đối tượng lỗi
     }
 });
 
 export const AddCart = createAsyncThunk("cart/add-cart", async (cartData, thunkAPI) => {
     try {
-        return await cartService.addCart(cartData);;
+        return await cartService.addCart(cartData);
     } catch (err) {
-        return thunkAPI.rejectWithValue(err);
+        return thunkAPI.rejectWithValue(err.message);
     }
 });
 
 export const UpdateCart = createAsyncThunk("cart/update-cart", async (cartData, thunkAPI) => {
     try {
-        return await cartService.updateCart(cartData);;
+        return await cartService.updateCart(cartData);
     } catch (err) {
-        return thunkAPI.rejectWithValue(err);
+        return thunkAPI.rejectWithValue(err.message);
     }
 });
 
 export const DeleteCart = createAsyncThunk("cart/delete-cart", async (id, thunkAPI) => {
     try {
-        return await cartService.deleteCart(id);;
+        return await cartService.deleteCart(id);
     } catch (err) {
-        return thunkAPI.rejectWithValue(err);
+        return thunkAPI.rejectWithValue(err.message);
     }
 });
 
-export const resetState = createAction('Reset_all')
+export const resetState = createAction('Reset_all');
 
 const initialState = {
     carts: [],
@@ -42,7 +42,8 @@ const initialState = {
     isSuccess: false,
     isLoading: false,
     message: ""
-}
+};
+
 export const cartSlice = createSlice({
     name: "cart",
     initialState: initialState,
@@ -62,7 +63,7 @@ export const cartSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
+                state.message = action.payload;  // Lưu trữ thông điệp lỗi
             })
             .addCase(AddCart.pending, (state) => {
                 state.isLoading = true;
@@ -72,18 +73,14 @@ export const cartSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.cart = action.payload;
-                if (state.isSuccess) {
-                    toast.success("Thêm vào giỏ hàng thành công")
-                }
+                toast.success("Thêm vào giỏ hàng thành công");
             })
             .addCase(AddCart.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
-                if (state.isError) {
-                    toast.error(action.error.message)
-                }
+                state.message = action.payload;
+                toast.error(action.payload);
             })
             .addCase(DeleteCart.pending, (state) => {
                 state.isLoading = true;
@@ -93,16 +90,16 @@ export const cartSlice = createSlice({
                 state.isError = false;
                 state.isSuccess = true;
                 state.deletedCart = action.payload;
+                toast.success("Xoá sản phẩm thành công");
             })
             .addCase(DeleteCart.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
-                if (state.isError) {
-                    toast.error(action.error.message)
-                }
-            }).addCase(UpdateCart.pending, (state) => {
+                state.message = action.payload;
+                toast.error(action.payload);
+            })
+            .addCase(UpdateCart.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(UpdateCart.fulfilled, (state, action) => {
@@ -111,19 +108,17 @@ export const cartSlice = createSlice({
                 state.isSuccess = true;
                 state.updatedCart = action.payload;
                 if (state.isSuccess) {
-                    toast.success("Update is successfully!!!")
+                    toast.success("Cập nhật thành công!");
                 }
             })
             .addCase(UpdateCart.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
-                state.message = action.error;
-                if (state.isError) {
-                    toast.error(action.error.message)
-                }
-            }).addCase(resetState, () => initialState);
-
+                state.message = action.payload;
+                toast.error(action.payload);
+            })
+            .addCase(resetState, () => initialState);
     }
 });
 

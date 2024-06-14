@@ -13,80 +13,79 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { GetSlidehow } from '../features/slideshows/slideshowSlice';
 import FormatData from '../utils/FormatData';
+import Loading from '../utils/Loading';
 const Home = () => {
   const dispatch = useDispatch();
   const slideshowState = useSelector(state => state?.slideshow?.slideshow);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    dispatch(resetState());
-    dispatch(GetSlidehow());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(resetState());
-    const categoryIdToVariableMap = {
-      1: "phonePopular",
-      2: "PDUPopular",
-      3: "headphonePopular",
-      4: "headphoneTWPopular"
-    };
-
-    const fetchData = async (id) => {
-      const response = await dispatch(
-        GetProductPopularByCategogy({
-          id: id,
-          data: {
-            top: 8,
-            startDate: '2024-01-01',
-            endDate: '2024-12-30'
+  const [isLoading, setLoading] = useState(true);
+  
+  const categoryIdToVariableMap = {
+    1: "phonePopular",
+    2: "PDUPopular",
+    3: "headphonePopular",
+    4: "headphoneTWPopular"
+  };
+  
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      // Fetch slideshow data
+      await dispatch(resetState());
+      await dispatch(GetSlidehow());
+  
+      // Fetch product data for different categories
+      await Promise.all(
+        Object.keys(categoryIdToVariableMap).map(async id => {
+          const response = await dispatch(
+            GetProductPopularByCategogy({
+              id: parseInt(id),
+              data: {
+                top: 8,
+                startDate: '2024-01-01',
+                endDate: '2024-12-30'
+              }
+            })
+          );
+          const data = response.payload;
+          const variableName = categoryIdToVariableMap[id];
+          if (variableName) {
+            switch (variableName) {
+              case "phonePopular":
+                setPhonePopular(data);
+                break;
+              case "PDUPopular":
+                setPDUPopular(data);
+                break;
+              case "headphonePopular":
+                setHeadphonePopular(data);
+                break;
+              case "headphoneTWPopular":
+                setHeadphoneTWPopular(data);
+                break;
+              default:
+                break;
+            }
           }
-        }),
-
+        })
       );
-      const data = response.payload;
-      const variableName = categoryIdToVariableMap[id];
-      if (variableName) {
-        setVariableByName(variableName, data);
-      }
-    };
-    [1, 2, 3, 4].forEach(id => fetchData(id));
-    setIsLoading(false);
-  }, [dispatch]);
-
-  const setVariableByName = (name, value) => {
-    switch (name) {
-      case "phonePopular":
-        setPhonePopular(value);
-        break;
-      case "PDUPopular":
-        setPDUPopular(value);
-        break;
-      case "headphonePopular":
-        setHeadphonePopular(value);
-        break;
-      case "headphoneTWPopular":
-        setHeadphoneTWPopular(value);
-        break;
-      default:
-        break;
+  
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
-  // Khai báo các biến state để lưu trữ dữ liệu
+  
+  useEffect(() => {
+    fetchData();
+  }, [dispatch]);
+  
   const [phonePopular, setPhonePopular] = useState([]);
   const [PDUPopular, setPDUPopular] = useState([]);
   const [headphonePopular, setHeadphonePopular] = useState([]);
   const [headphoneTWPopular, setHeadphoneTWPopular] = useState([]);
-
-  // const combinedArray = [...phonePopular, ...PDUPopular, ...headphonePopular, ...headphoneTWPopular];
-  // const fullArray = Array.from({ length: 24 }, (_, index) => combinedArray[index % combinedArray.length]);
-  // console.log(fullArray);
+  
   return (
     <>
-      {isLoading && (
-        <div className="loading-overlay">
-          <div className="loading-spinner"></div>
-        </div>
-      )}
       <Container>
         <Row>
           <Col className='col-12'>
@@ -111,18 +110,7 @@ const Home = () => {
               }
             </Swiper>
           </Col>
-
         </Row>
-        {/* Danh mục phổ biến */}
-        {/* <Row>
-          {fullArray.map((item, index) => (
-            <Col xl={1} className="" key={index}>
-              <Link></Link>
-              <img src={item?.imageUrl} alt={item?.name} width={'64px'} height={'64px'} />
-              <p style={{fontSize:'12px'}}>{item?.name}</p>
-            </Col>
-          ))}
-        </Row> */}
         {/* Sản phẩm nổi bật */}
         <Row>
           <Col className='d-flex align-items-center mt-5 mb-5'>
@@ -146,7 +134,7 @@ const Home = () => {
               phonePopular && phonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -182,7 +170,7 @@ const Home = () => {
               headphonePopular && headphonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/tai-nghe-khong-day/${item?.id}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -218,7 +206,7 @@ const Home = () => {
               headphoneTWPopular && headphoneTWPopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/tai-nghe-co-day/${item?.id}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -254,7 +242,7 @@ const Home = () => {
               PDUPopular && PDUPopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/product/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/sac-du-phong/${item?.id}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -271,6 +259,13 @@ const Home = () => {
             }
           </Swiper>
         </Row>
+         {/* Hiển thị Loading nếu đang tải dữ liệu */}
+         {isLoading && <Loading />}
+        {/* Nội dung chính của ứng dụng sau khi tải xong */}
+        {!isLoading && (
+          <div>
+          </div>
+        )}
       </Container>
     </>
   );

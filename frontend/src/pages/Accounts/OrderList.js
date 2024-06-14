@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetOrderStatusActive } from '../../features/orderStatus/orderStatusSlice';
 import InvoiceCard from '../../components/InvoiceCard';
+import Loading from '../../utils/Loading';
 
 
 const OrderList = () => {
@@ -10,11 +11,19 @@ const OrderList = () => {
   const orderStatusState = useSelector(state => state.orderStatus.orderStatuses)
   const [selectedTab, setSelectedTab] = useState(0);
   const [type, setType] = useState("all");
-
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    dispatch(GetOrderStatusActive())
-  }, [dispatch])
-
+      const fetchData = async () => {
+          setLoading(true);
+          try {
+              await  dispatch(GetOrderStatusActive())
+              setLoading(false);
+          } catch (error) {
+              console.error('Error fetching data:', error);
+          }
+      };
+      fetchData();
+  }, [dispatch]);
   const handleTabClick = (tabId) => {
     setSelectedTab(tabId);
     if (tabId === 0) {
@@ -41,6 +50,13 @@ const OrderList = () => {
           <InvoiceCard type={type} orderStatusId={selectedTab} />
         </div>
       </div>
+      {/* Hiển thị Loading nếu đang tải dữ liệu */}
+      {isLoading && <Loading />}
+        {/* Nội dung chính của ứng dụng sau khi tải xong */}
+        {!isLoading && (
+          <div>
+          </div>
+        )}
     </div>
   )
 }

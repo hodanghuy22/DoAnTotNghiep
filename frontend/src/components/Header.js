@@ -233,7 +233,7 @@ const Header = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Nhập từ khóa tìm kiếm"
-              className='border-0 w-100 d-block p-2'
+              className='border-0 w-100 d-block p-4 text-dark fs-5'
             />
           </form>
         </Modal.Body>

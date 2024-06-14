@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,6 +17,7 @@ import FormatData from '../../utils/FormatData';
 import { CreateWishList } from '../../features/wishlists/wishlistSlice';
 import { FcLike } from 'react-icons/fc';
 import { CiHeart } from 'react-icons/ci';
+import Loading from '../../utils/Loading';
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -27,12 +28,21 @@ const Detail = () => {
   const { productId } = useParams();
   const product = productState;
 
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    dispatch(resetState());
-    dispatch(GetCapacitiesByProductId(productId));
-    dispatch(GetProduct(productId));
-    dispatch(GetColorByProductId(productId));
-
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(resetState());
+        await dispatch(GetCapacitiesByProductId(productId));
+        await dispatch(GetProduct(productId));
+        await dispatch(GetColorByProductId(productId));
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
   }, [dispatch, productId]);
 
 
@@ -77,7 +87,6 @@ const Detail = () => {
           </Col>
         </Row>
         <Row>
-
           <Col className='col-8'>
             <Swiper
               spaceBetween={30}
@@ -96,7 +105,7 @@ const Detail = () => {
               {
                 product?.images?.map((item, index) => (
                   <SwiperSlide key={index} className='d-flex justify-content-center align-items-center p-5'>
-                    <img className='' src={item.imageUrl} alt='chuột' width={'100%'} height={'100%`'} style={{maxHeight:'500px'}}/>
+                    <img className='' src={item.imageUrl} alt='chuột' width={'100%'} height={'100%`'} style={{ maxHeight: '500px' }} />
                   </SwiperSlide>
                 ))
               }
@@ -263,6 +272,14 @@ const Detail = () => {
             </div>
           </Col>
         </Row>
+        {/* Hiển thị Loading nếu đang tải dữ liệu */}
+        {isLoading && <Loading />}
+        {/* Nội dung chính của ứng dụng sau khi tải xong */}
+        {!isLoading && (
+          <div>
+          </div>
+        )}
+
       </Container>
     </div>
   )

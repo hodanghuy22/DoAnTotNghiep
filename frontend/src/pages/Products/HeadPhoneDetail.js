@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,7 +6,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { FaMinus, FaPlus } from 'react-icons/fa6';
+import { FaPlus } from 'react-icons/fa6';
 import { BsStar } from 'react-icons/bs';
 import { GetProduct, resetState } from '../../features/products/productSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import FormatData from '../../utils/FormatData';
 import { CreateWishList } from '../../features/wishlists/wishlistSlice';
 import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
+import Loading from '../../utils/Loading';
 
 const HeadPhoneDetail = () => {
   const dispatch = useDispatch();
@@ -28,15 +29,25 @@ const HeadPhoneDetail = () => {
   const { productId } = useParams();
   const product = productState;
 
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    dispatch(resetState());
-    dispatch(GetCapacitiesByProductId(productId));
-    dispatch(GetProduct(productId));
-    dispatch(GetColorByProductId(productId));
-
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(resetState());
+        await dispatch(GetCapacitiesByProductId(productId));
+        await dispatch(GetProduct(productId));
+        await dispatch(GetColorByProductId(productId));
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
   }, [dispatch, productId]);
 
-  
+
+
   const addCart = () => {
     dispatch(AddCart({
       userId: authState?.id,
@@ -79,7 +90,7 @@ const HeadPhoneDetail = () => {
         <Row>
 
           <Col className='w-50 p-5'>
-          <Swiper
+            <Swiper
               spaceBetween={30}
               centeredSlides={true}
               autoplay={{
@@ -131,7 +142,7 @@ const HeadPhoneDetail = () => {
                 }
               </Col>
             </Row>
-            <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber( productState?.productDetails[0]?.retailPrice )}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
+            <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productState?.productDetails[0]?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
             <p>This Bluetooth speaker has various features such as water resistance, long battery life, built-in microphones for hands-free calling, and more.</p>
             <ul>
               <li>Model: UB7OM</li>
@@ -247,7 +258,13 @@ const HeadPhoneDetail = () => {
             </div>
           </Col>
         </Row>
-
+        {/* Hiển thị Loading nếu đang tải dữ liệu */}
+        {isLoading && <Loading />}
+        {/* Nội dung chính của ứng dụng sau khi tải xong */}
+        {!isLoading && (
+          <div>
+          </div>
+        )}
 
       </Container>
     </div>

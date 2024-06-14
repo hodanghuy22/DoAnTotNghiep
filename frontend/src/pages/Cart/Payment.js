@@ -13,6 +13,7 @@ import axios from 'axios'
 import { base_url, getConfig } from '../../utils/axiosConfig'
 import PayPalButton from '../../components/PayPalButton'
 import FormatData from '../../utils/FormatData'
+import Loading from '../../utils/Loading'
 
 const invoiceSchema = yup.object({
     recipientName: yup.string().required("Tên người nhận là bắt buộc!"),
@@ -40,12 +41,20 @@ const Payment = () => {
     const [quantityProduct, setQuantityProduct] = useState(0);
     const [isPaymentOnline, setIsPaymentOnline] = useState(false);
     const [activeButton, setActiveButton] = useState('online');
-
+    const [isLoading, setLoading] = useState(true);
     useEffect(() => {
-        dispatch(resetState());
-        dispatch(GetCart(authState?.id));
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                await dispatch(resetState());
+                await  dispatch(GetCart(authState?.id));
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData();
     }, [dispatch, authState?.id]);
-
     const formik = useFormik({
         initialValues: {
             userId: authState?.id,
@@ -326,6 +335,13 @@ const Payment = () => {
                     </Row>
                 </form>
             </Row>
+            {/* Hiển thị Loading nếu đang tải dữ liệu */}
+            {isLoading && <Loading />}
+            {/* Nội dung chính của ứng dụng sau khi tải xong */}
+            {!isLoading && (
+                <div>
+                </div>
+            )}
         </Container>
     )
 }
