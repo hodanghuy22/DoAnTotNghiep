@@ -8,17 +8,16 @@ import { PiSignOut } from "react-icons/pi";
 import { FaFileInvoiceDollar, FaFileInvoice } from "react-icons/fa6";
 import { useDispatch } from 'react-redux';
 import { useNavigate, Outlet } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Layout, Menu, Button, theme } from 'antd';
 import { Logout } from '../features/auths/authSlice';
-import { IoColorWandSharp } from 'react-icons/io5';
+import { IoColorWandSharp, IoNotifications } from 'react-icons/io5';
 import { ImPlus } from 'react-icons/im';
 import { RiSlideshowLine } from 'react-icons/ri';
 import { BiSolidCoupon } from 'react-icons/bi';
 import { FcStatistics } from 'react-icons/fc';
-import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FaListUl } from 'react-icons/fa';
 
 const { Header, Sider, Content } = Layout;
@@ -111,6 +110,18 @@ const MainLayout = () => {
                   key: 'invoice-list',
                   icon: <FaFileInvoice className='fs-5' />,
                   label: 'List Invoices',
+                },
+              ]
+            },
+            {
+              key: 'notification-cata',
+              icon: <IoNotifications  className='fs-5' />,
+              label: 'Notifications',
+              children: [
+                {
+                  key: 'notification-list',
+                  icon: <IoNotifications  className='fs-5' />,
+                  label: 'List Notifications',
                 },
               ]
             },

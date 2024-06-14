@@ -12,6 +12,7 @@ import couponReducer from '../features/coupons/couponSlice';
 import orderStatusReducer from '../features/orderStatus/orderStatusSlice';
 import invoiceReducer from '../features/invoices/invoiceSlice';
 import logReducer from '../features/logs/logSlice';
+import nofiticationReducer from '../features/notifications/nofiticationSlice';
 
 
 export const store = configureStore({
@@ -29,5 +30,6 @@ export const store = configureStore({
         orderStatus: orderStatusReducer,
         invoice: invoiceReducer,
         log: logReducer,
+        notification: nofiticationReducer,
     }
 })

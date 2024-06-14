@@ -29,6 +29,14 @@ namespace backend.Controllers
             var notification = await _uow.NotificationRepository.GetNotification(id);
             return Ok(notification);
         }
+        [HttpGet]
+        [Route("Admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetNotificationsForAdmin()
+        {
+            var notification = await _uow.NotificationRepository.GetNotificationsForAdmin();
+            return Ok(notification);
+        }
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateNotification(Notification notification)

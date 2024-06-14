@@ -2,7 +2,7 @@ import axios from "axios"
 import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const getNotifications = async(id) => {
-  const response = await axios.get(`${base_url}Notifications/${id}`);
+  const response = await axios.get(`${base_url}Notifications/Admin`, getConfig());
   if (response.data) {
     return response.data;
   }
