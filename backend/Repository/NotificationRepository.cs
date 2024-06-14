@@ -45,6 +45,15 @@ namespace backend.Repository
         {
             return await _context.Notifications.FindAsync(id);
         }
+
+        public async Task<IEnumerable<Notification>> GetNotificationsForAdmin()
+        {
+            return await _context.Notifications
+                .Where(n => n.IsAdminAccess == true)
+                .OrderByDescending(p => p.Id)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Notification>> GetNotificationsForUser(string userId)
         {
             return await _context.Notifications

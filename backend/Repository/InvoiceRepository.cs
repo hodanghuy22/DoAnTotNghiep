@@ -66,6 +66,15 @@ namespace backend.Repository
                 var productDetail = await _context.ProductDetails.FindAsync(item.ProductDetailId);
                 productDetail.Quantity -= item.Quantity;
             }
+            var notification = new Notification()
+            {
+                Title = "Đơn hàng đã được tạo thành công!",
+                Message = $"Đơn hàng #{invoice.Id} đã được tạo. " +
+                $"Tổng tiền: {invoice.TotalPriceAfterDiscount}",
+                IsAdminAccess = true,
+                CreatedAt = DateTime.Now,
+                UserId = invoice.UserId,
+            };
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -311,6 +320,16 @@ namespace backend.Repository
             }
 
             pt.OrderStatusId = orderStatusId;
+
+            var orderStatus = await _context.OrderStatuses.FindAsync(orderStatusId);
+            var notification = new Notification()
+            {
+                Title = $"Hóa đơn #{id} đã được {orderStatus.Title}!",
+                Message = $"Trạng thái hóa đơn #{id} đã được cập nhật thành {orderStatus.Title}",
+                UserId = pt.UserId,
+                IsAdminAccess = orderStatusId != 6 ? false : true,
+                CreatedAt = DateTime.Now,
+            };
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
