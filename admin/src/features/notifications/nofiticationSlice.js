@@ -26,7 +26,7 @@ export const CreateNotification = createAsyncThunk('notifications-create', async
   }
 })
 
-export const UpdateNotification = createAsyncThunk('notifications-create', async (data, thunkAPI) => {
+export const UpdateNotification = createAsyncThunk('notifications-update', async (data, thunkAPI) => {
   try {
     return await notificationService.updateNotification(data);
   } catch (err) {

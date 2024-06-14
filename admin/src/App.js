@@ -29,6 +29,7 @@ import Statistics from "./pages/Statistics";
 import LogList from "./pages/LogList";
 import TestNoti from "./pages/TestNoti";
 import InvoiceDetails from "./pages/InvoiceDetails";
+import NotificationList from "./pages/NotificationList";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
           <Route path='orderstatus' element={<AddOrderStatus />} />
           <Route path='orderstatus/:id' element={<AddOrderStatus />} />
           <Route path='testnoti' element={<TestNoti />} />
+          <Route path='notification-list' element={<NotificationList />} />
         </Route>
       
         <Route path="*" element={<NotFound />} />

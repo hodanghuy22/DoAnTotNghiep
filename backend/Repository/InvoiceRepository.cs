@@ -66,18 +66,20 @@ namespace backend.Repository
                 var productDetail = await _context.ProductDetails.FindAsync(item.ProductDetailId);
                 productDetail.Quantity -= item.Quantity;
             }
-            var notification = new Notification()
-            {
-                Title = "Đơn hàng đã được tạo thành công!",
-                Message = $"Đơn hàng #{invoice.Id} đã được tạo. " +
-                $"Tổng tiền: {invoice.TotalPriceAfterDiscount}",
-                IsAdminAccess = true,
-                CreatedAt = DateTime.Now,
-                UserId = invoice.UserId,
-            };
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                var notification = new Notification()
+                {
+                    Title = "Đơn hàng đã được tạo thành công!",
+                    Message = $"Đơn hàng #{invoice.Id} đã được tạo. " +
+                    $"Tổng tiền: {invoice.TotalPriceAfterDiscount}",
+                    IsAdminAccess = true,
+                    CreatedAt = DateTime.Now,
+                    UserId = invoice.UserId,
+                };
+                await _context.Notifications.AddAsync(notification);
+                await _context.SaveChangesAsync();
                 var user = await _context.Users.FindAsync(invoice.UserId);
                 var body = new EmailModel
                 {
@@ -330,6 +332,7 @@ namespace backend.Repository
                 IsAdminAccess = orderStatusId != 6 ? false : true,
                 CreatedAt = DateTime.Now,
             };
+            await _context.Notifications.AddAsync(notification);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {

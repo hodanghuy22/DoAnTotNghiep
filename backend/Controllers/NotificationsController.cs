@@ -32,7 +32,7 @@ namespace backend.Controllers
         [HttpGet]
         [Route("Admin")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetNotificationsForAdmin(int id)
+        public async Task<IActionResult> GetNotificationsForAdmin()
         {
             var notification = await _uow.NotificationRepository.GetNotificationsForAdmin();
             return Ok(notification);
