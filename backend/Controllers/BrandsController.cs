@@ -30,6 +30,13 @@ namespace backend.Controllers
             return Ok(brands);
         }
         [HttpGet]
+        [Route("GetBrandsByCategory/{categoryId}")]
+        public async Task<IActionResult> GetBrandsByCategory(int categoryId)
+        {
+            var brands = await _uow.BrandRepository.GetBrandsByCategory(categoryId);
+            return Ok(brands);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetBrand(int id)
         {

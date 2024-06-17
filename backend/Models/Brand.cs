@@ -1,4 +1,6 @@
-﻿namespace backend.Models
+﻿using Newtonsoft.Json;
+
+namespace backend.Models
 {
     public class Brand
     {
@@ -7,5 +9,7 @@
         public string ImagePublicId { get; set; }
         public string ImageUrl { get; set; }
         public bool Status { get; set; }
+        [JsonIgnore]
+        public List<Product> Products { get; set; }
     }
 }

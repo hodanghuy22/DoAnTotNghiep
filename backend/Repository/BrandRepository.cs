@@ -170,5 +170,13 @@ namespace backend.Repository
             }
             return true;
         }
+
+        public async Task<IEnumerable<Brand>> GetBrandsByCategory(int categoryId)
+        {
+            return await _context.Brands
+                    .Include(b => b.Products)
+                    .Where(b => b.Products.Any(p => p.CategoryId == categoryId))
+                    .ToListAsync();
+        }
     }
 }
