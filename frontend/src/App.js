@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Mainlayout from './layouts/Mainlayout'
 import Home from './pages/Home'
-import PhoneList from './pages/Products/PhoneList'
 import Login from './pages/Accounts/Login'
 import SignUp from './pages/Accounts/SignUp'
 import NotFound from './pages/NotFound'
@@ -15,23 +14,18 @@ import CartList from './pages/Cart/CartList'
 import ForgotPassword from './pages/Accounts/ForgotPassword'
 import ChangePassword from './pages/Accounts/ChangePassword'
 import ResetPassword from './pages/Accounts/ResetPassword'
-import PDUList from './pages/Products/PDUList'
-import HeadPhoneWireless from './pages/Products/HeadPhoneWireless'
-import HeadPhone from './pages/Products/HeadPhone'
 import Compare from './pages/Compare'
 import Agency from './pages/Agency'
 import ProductHot from './pages/Products/ProductHot'
 import PaymentSuccess from './pages/Cart/PaymentSuccess'
 import PaymentProcess from './pages/Cart/PaymentProcess'
 import PaymentFail from './pages/Cart/PaymentFail'
-import PDUDetail from './pages/Products/PDUDetail'
-import HeadPhoneWirelessDetail from './pages/Products/HeadPhoneWirelessDetail'
-import HeadPhoneDetail from './pages/Products/HeadPhoneDetail'
-import Detail from './pages/Products/PhoneDetail'
 import WishLists from './pages/Accounts/WishLists'
 import ProductByBrand from './pages/Products/ProductByBrand'
 import SearchResults from './pages/Products/SearchResults'
 import ListNotification from './pages/Accounts/ListNotification'
+import ProductDetail from './components/ProductDetail'
+import ProductList from './pages/Products/ProductList'
 const App = () => {
     return (
         <BrowserRouter>
@@ -59,14 +53,14 @@ const App = () => {
                         <Route path='wishlist' element={<WishLists />} />
                     </Route>
                     <Route path='/product/:brandId' element={<ProductByBrand />} />
-                    <Route path='/dtdd/:productId' element={<Detail />} />
-                    <Route path='/dtdd' element={<PhoneList />} />
-                    <Route path='/sac-du-phong' element={<PDUList />} />
-                    <Route path='/sac-du-phong/:productId' element={<PDUDetail />} />
-                    <Route path='/tai-nghe-co-day' element={<HeadPhone />} />
-                    <Route path='/tai-nghe-co-day/:productId' element={<HeadPhoneDetail />} />
-                    <Route path='/tai-nghe-khong-day' element={<HeadPhoneWireless />} />
-                    <Route path='/tai-nghe-khong-day/:productId' element={<HeadPhoneWirelessDetail />} />
+                    <Route path='/dtdd/:productId' element={<ProductDetail categoryId={1}  />} />
+                    <Route path='/dtdd' element={<ProductList categoryId={1} />} />
+                    <Route path='/sac-du-phong' element={<ProductList categoryId={2} />} />
+                    <Route path='/sac-du-phong/:productId' element={<ProductDetail categoryId={2} />} />
+                    <Route path='/tai-nghe-co-day' element={<ProductList  categoryId={4} />} />
+                    <Route path='/tai-nghe-co-day/:productId' element={<ProductDetail categoryId={4}  />} />
+                    <Route path='/tai-nghe-khong-day' element={<ProductList  categoryId={3} />} />
+                    <Route path='/tai-nghe-khong-day/:productId' element={<ProductDetail categoryId={3}  />} />
                     <Route path='/hot' element={<ProductHot />} />
                 </Route>
                 <Route path='*' element={<NotFound />} />

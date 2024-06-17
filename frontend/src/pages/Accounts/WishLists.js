@@ -15,7 +15,7 @@ const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
   useEffect(() => {
-    //dispatch(resetState());
+    // dispatch(resetState());
     dispatch(GetWishList());
   }, [dispatch]);
 
@@ -41,7 +41,7 @@ const WishLists = () => {
         </div>
         <div>
           <Swiper
-            slidesPerView={5}
+            slidesPerView={4}
             spaceBetween={10}
             freeMode={true}
             pagination={{
@@ -59,8 +59,7 @@ const WishLists = () => {
                         <img className='phone-image' src={item?.product?.thumnailUrl} alt='chuột' width={'100%'} />
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
-                        <p className='fs-6 phone-name d-flex'>{item?.product?.name}</p>
-                        <p className='phone-price amount'>{FormatData.formatNumber(1)}</p>
+                        <p className='fs-6 phone-name d-flex'>{item?.product?.name} {item?.product?.rom}</p>
                       </div>
                     </Link>
                   </SwiperSlide>

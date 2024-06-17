@@ -32,9 +32,9 @@ const InvoiceCard = ({ type, orderStatusId }) => {
         )
       }
       {
-        invoiceState && invoiceState?.map((item, index) => {
-          return (
-            <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
+       invoiceState && invoiceState.map((item, index) => {
+        return (
+          <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
               <div className='d-flex justify-content-between border-bottom'>
                 <p>Đơn hàng: <strong>#{item?.id}</strong></p>
                 <p className={`${item?.orderStatusId === 6 ? 'text-warning' : 'text-success'} fw-bold`}>{item?.orderStatus?.title}</p>
@@ -42,10 +42,9 @@ const InvoiceCard = ({ type, orderStatusId }) => {
               <div className='d-flex justify-content-between mt-3'>
                 <div className='d-flex flex-column'>
                   {
-                    item?.invoiceDetails?.map((y) => {
+                    item?.invoiceDetails?.map((y,i) => {
                       return (
-                        <>
-                          <div className='d-flex mb-2'>
+                          <div className='d-flex mb-2' key={i}>
                             <div className=''>
                               <img style={{ width: '60px' }} src={y?.productDetail?.product?.thumnailUrl} alt='hinh' />
                             </div>
@@ -53,7 +52,6 @@ const InvoiceCard = ({ type, orderStatusId }) => {
                               <p>{y?.productDetail?.product?.name}</p>
                             </div>
                           </div>
-                        </>
                       )
                     })
                   }

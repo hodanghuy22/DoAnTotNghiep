@@ -30,9 +30,12 @@ const SearchResults = () => {
   const productState = useSelector((state) => state?.product?.searchResults);
   const productCount = productState ? productState.length : 0;
   const [sortType, setSortType] = useState('default');
-  if (!productState) {
-    return <Loading />;
-  }
+
+  setTimeout(() => {
+        if (isLoading) {
+            return <Loading />;
+        }
+    }, 1000)
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
     sortedProducts.sort((a, b) => a.price - b.price);
@@ -76,9 +79,6 @@ const SearchResults = () => {
           ))
         }
       </Row>
-      {/* Hiển thị Loading nếu đang tải dữ liệu */}
-      {isLoading && <Loading />}
-      {/* Nội dung chính của ứng dụng sau khi tải xong */}
       {!isLoading && (
         <div>
         </div>

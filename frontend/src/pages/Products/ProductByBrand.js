@@ -11,7 +11,6 @@ const ProductByBrand = () => {
   const dispatch = useDispatch();
   const productState = useSelector((state) => state?.product?.productByBrand);
   const { brandId } = useParams();
-  console.log(brandId);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -27,9 +26,11 @@ const ProductByBrand = () => {
     fetchData();
   }, [dispatch, brandId]);
   const [sortType, setSortType] = useState('default');
-  if (!productState) {
-    return <Loading />;
-  }
+  setTimeout(() => {
+    if (isLoading) {
+        return <Loading />;
+    }
+}, 1000)
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
     sortedProducts.sort((a, b) => a.price - b.price);
@@ -40,7 +41,6 @@ const ProductByBrand = () => {
     setSortType(e.target.value);
   };
 
-  console.log(productState);
   return (
     <Container className='mb-5'>
       <Row className='justify-content-between mt-5'>
@@ -74,9 +74,6 @@ const ProductByBrand = () => {
           ))
         }
       </Row>
-      {/* Hiển thị Loading nếu đang tải dữ liệu */}
-      {isLoading && <Loading />}
-      {/* Nội dung chính của ứng dụng sau khi tải xong */}
       {!isLoading && (
         <div>
         </div>

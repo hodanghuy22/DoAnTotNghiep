@@ -22,6 +22,13 @@ const getABrand = async (id) => {
   }
 }
 
+const getBrandByCategory = async (id) => {
+  const response = await axios.get(`${base_url}Brands/GetBrandsByCategory/${id}`);
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const createBrand = async (BrandData) => {
   const response = await axios.post(`${base_url}Brands`, BrandData, getConfig());
   if (response.data) {
@@ -49,6 +56,7 @@ const brandService = {
   updateStatusBrand,
   updateBrand,
   getBrandsShow,
+  getBrandByCategory
 };
 
 export default brandService;

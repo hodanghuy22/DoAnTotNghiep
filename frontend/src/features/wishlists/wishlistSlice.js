@@ -11,6 +11,7 @@ export const GetWishList = createAsyncThunk("Wishlist/get", async (thunkAPI) => 
 })
 export const CreateWishList = createAsyncThunk("wishlist/post-wishlist", async (data, thunkAPI) => {
   try {
+    console.log(data);
     return await wishlistService.createWishlist(data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
