@@ -14,7 +14,7 @@ const ProductHot = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(resetState());
+        //await dispatch(resetState());
         await dispatch(GetProductPopular({
           top: 40,
           startDate: '2024-01-01',

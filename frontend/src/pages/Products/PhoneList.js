@@ -15,7 +15,7 @@ const PhoneList = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(resetState());
+        //await dispatch(resetState());
         await dispatch(GetProductsActiveByCategory(1));
         setLoading(false);
       } catch (error) {

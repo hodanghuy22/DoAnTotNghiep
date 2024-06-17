@@ -10,7 +10,6 @@ import Trangcanhan from './pages/Accounts/Trangcanhan'
 import InfoAccount from './pages/Accounts/InfoAccount'
 import OrderList from './pages/Accounts/OrderList'
 import OrderDetail from './pages/Accounts/OrderDetail'
-import Notification from './components/Notification'
 import Payment from './pages/Cart/Payment'
 import CartList from './pages/Cart/CartList'
 import ForgotPassword from './pages/Accounts/ForgotPassword'
@@ -32,6 +31,7 @@ import Detail from './pages/Products/PhoneDetail'
 import WishLists from './pages/Accounts/WishLists'
 import ProductByBrand from './pages/Products/ProductByBrand'
 import SearchResults from './pages/Products/SearchResults'
+import ListNotification from './pages/Accounts/ListNotification'
 const App = () => {
     return (
         <BrowserRouter>
@@ -53,7 +53,7 @@ const App = () => {
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
-                        <Route path='notification' element={<Notification />} />
+                        <Route path='notification' element={<ListNotification />} />
                         <Route path='oder-list/detail/:id' element={<OrderDetail />} />
                         <Route path='change-password' element={<ChangePassword />} />
                         <Route path='wishlist' element={<WishLists />} />

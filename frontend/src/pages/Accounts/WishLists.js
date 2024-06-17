@@ -15,7 +15,7 @@ const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
   useEffect(() => {
-    dispatch(resetState());
+    //dispatch(resetState());
     dispatch(GetWishList());
   }, [dispatch]);
 

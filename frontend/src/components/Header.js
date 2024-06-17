@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ButtonGroup, Col, Dropdown, DropdownButton, DropdownItem, Modal, Row } from 'react-bootstrap';
+import { ButtonGroup, Col, Dropdown, DropdownButton, Modal, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
 import { FaHotjar, FaRegUser } from 'react-icons/fa';
@@ -13,6 +13,7 @@ import '../assets/css/global.css';
 import '../assets/css/header.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Logout } from '../features/auths/authSlice';
+import Notification from './Notification';
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -108,61 +109,8 @@ const Header = () => {
                 style={{}}
               >
                 <div className='container'>
-                  <Dropdown.Item className='custom-dropdown-item'>
-                    <div className='d-flex mb-2' style={{ width: '400px' }}>
-                      <div className='p-2 mx-2'>
-                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
-                      </div>
-                      <div className='p-0' style={{ lineHeight: '1' }}>
-                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
-                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
-                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
-                        </p>
-                      </div>
-                    </div>
-                  </Dropdown.Item>
-                  <Dropdown.Item className='custom-dropdown-item'>
-                    <div className='d-flex mb-2' style={{ width: '400px' }}>
-                      <div className='p-2 mx-2'>
-                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
-                      </div>
-                      <div className='p-0' style={{ lineHeight: '1' }}>
-                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
-                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
-                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
-                        </p>
-                      </div>
-                    </div>
-                  </Dropdown.Item>
-                  <Dropdown.Item className='custom-dropdown-item'>
-                    <div className='d-flex mb-2' style={{ width: '400px' }}>
-                      <div className='p-2 mx-2'>
-                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
-                      </div>
-                      <div className='p-0' style={{ lineHeight: '1' }}>
-                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
-                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
-                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
-                        </p>
-                      </div>
-                    </div>
-                  </Dropdown.Item>
-                  <Dropdown.Item className='custom-dropdown-item'>
-                    <div className='d-flex mb-2' style={{ width: '400px' }}>
-                      <div className='p-2 mx-2'>
-                        <img src='https://cdn1.viettelstore.vn/images/Product/ProductImage/small/11334574261520023363.jpeg' alt='iphone' width={40} height={40} />
-                      </div>
-                      <div className='p-0' style={{ lineHeight: '1' }}>
-                        <p className='fw-bold fs-6'>Đang vận chuyển</p>
-                        <p className='text-wrap' style={{ maxHeight: '3em', overflow: 'hidden' }}>
-                          Đơn hàng #123123 đã được giao cho đơn vị vận chuyển
-                        </p>
-                      </div>
-                    </div>
-                  </Dropdown.Item>
-                  <DropdownItem className='text-center mt-2'>
-                    <Link to={'trang-ca-nhan/notification'} className='text-decoration-none'>Xem tất cả</Link>
-                  </DropdownItem>
+                  <Notification />
+                  
                 </div>
               </DropdownButton>
             </div>
@@ -175,9 +123,13 @@ const Header = () => {
                 variant='transparent'
                 style={{}}
               >
-                <Dropdown.Item className='custom-dropdown-item'>
-                  <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
-                </Dropdown.Item>
+                {
+                  authState.user !== null && (
+                    <Dropdown.Item className='custom-dropdown-item'>
+                      <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
+                    </Dropdown.Item>
+                  )
+                }
 
                 {
                   authState.user === null && (

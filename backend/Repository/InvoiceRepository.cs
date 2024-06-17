@@ -77,11 +77,12 @@ namespace backend.Repository
                 var notification = new Notification()
                 {
                     Title = "Đơn hàng đã được tạo thành công!",
-                    Message = $"Đơn hàng #{invoice.Id} đã được tạo. " +
+                    Message = $"Đơn hàng #{invoice.Id} đã được tạo. \n" +
                     $"Tổng tiền: {invoice.TotalPriceAfterDiscount}",
                     IsAdminAccess = true,
                     CreatedAt = DateTime.Now,
                     UserId = invoice.UserId,
+                    InvoiceId = invoice.Id,
                 };
                 await _context.Notifications.AddAsync(notification);
                 await _context.SaveChangesAsync();
@@ -342,6 +343,7 @@ namespace backend.Repository
                 UserId = pt.UserId,
                 IsAdminAccess = orderStatusId != 6 ? false : true,
                 CreatedAt = DateTime.Now,
+                InvoiceId = id,
             };
             await _context.Notifications.AddAsync(notification);
             if(orderStatusId == 6)

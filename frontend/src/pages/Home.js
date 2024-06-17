@@ -30,7 +30,7 @@ const Home = () => {
     setLoading(true);
     try {
       // Fetch slideshow data
-      await dispatch(resetState());
+      //await dispatch(resetState());
       await dispatch(GetSlidehow());
   
       // Fetch product data for different categories

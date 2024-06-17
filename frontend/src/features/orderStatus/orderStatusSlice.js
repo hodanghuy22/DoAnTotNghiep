@@ -20,7 +20,7 @@ const initialState = {
 }
 
 export const orderStatusSlice = createSlice({
-  name: "invoices",
+  name: "orderStatuses",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

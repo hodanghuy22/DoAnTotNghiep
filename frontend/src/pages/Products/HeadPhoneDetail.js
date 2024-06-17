@@ -34,7 +34,7 @@ const HeadPhoneDetail = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(resetState());
+        //await dispatch(resetState());
         await dispatch(GetCapacitiesByProductId(productId));
         await dispatch(GetProduct(productId));
         await dispatch(GetColorByProductId(productId));

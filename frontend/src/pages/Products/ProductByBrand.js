@@ -17,7 +17,7 @@ const ProductByBrand = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(resetState());
+        //await dispatch(resetState());
         await dispatch(GetProductByBrand(brandId));
         setLoading(false);
       } catch (error) {

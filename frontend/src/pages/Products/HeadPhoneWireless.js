@@ -14,7 +14,7 @@ const HeadPhoneWireless = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(resetState());
+        //await dispatch(resetState());
         await dispatch(GetProductsActiveByCategory(3));
         setLoading(false);
       } catch (error) {

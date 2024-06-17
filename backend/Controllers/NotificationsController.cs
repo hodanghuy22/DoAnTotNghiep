@@ -7,6 +7,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NotificationsController : ControllerBase
     {
         private readonly IUnitOfWork _uow;
@@ -23,6 +24,13 @@ namespace backend.Controllers
             return Ok(notifications);
         }
         [HttpGet]
+        [Route("GetTop5NotificationsForUser/{userId}")]
+        public async Task<IActionResult> GetTop5NotificationsForUser(string userId)
+        {
+            var notifications = await _uow.NotificationRepository.GetTop5NotificationsForUser(userId);
+            return Ok(notifications);
+        }
+        [HttpGet]
         [Route("GetNotification/{id}")]
         public async Task<IActionResult> GetNotification(int id)
         {
@@ -36,21 +44,6 @@ namespace backend.Controllers
         {
             var notification = await _uow.NotificationRepository.GetNotificationsForAdmin();
             return Ok(notification);
-        }
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateNotification(Notification notification)
-        {
-            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
-            return await _uow.NotificationRepository.CreateNotification(notification, userId);
-        }
-        [HttpPut]
-        [Route("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateNotification(int id, Notification notification)
-        {
-            string userId = HttpContext.Request.Headers["UserId"].FirstOrDefault();
-            return await _uow.NotificationRepository.UpdateNotification(id, notification, userId);
         }
     }
 }
