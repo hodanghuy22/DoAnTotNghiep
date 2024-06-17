@@ -2,9 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetInvoices, GetInvoicesByOrderType } from '../features/invoices/invoiceSlice'
 import { Link } from 'react-router-dom'
-import formatNumber from '../utils/formatNumber'
-import { BsCart } from 'react-icons/bs'
 import cartIcon from '../assets/images/shopping-trolley.png';
+import FormatData from '../utils/FormatData'
 
 const InvoiceCard = ({ type, orderStatusId }) => {
   const dispatch = useDispatch()
@@ -18,6 +17,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
         userId: userState.id,
         orderType: orderStatusId,
       }))
+      console.log(orderStatusId);
     }
   }, [dispatch, type, orderStatusId, userState.id])
   return (
@@ -25,7 +25,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
       {
         invoiceState.length <= 0 && (
           <div className='text-center p-5' style={{ display: "block" }}>
-            <div className='icon-cart'><img src={cartIcon} alt='gio hang' width={'50%'}/></div>
+            <div className='icon-cart'><img src={cartIcon} alt='gio hang' width={'50%'} /></div>
             <p>Rất tiếc, không tìm thấy đơn hàng nào phù hợp</p>
             <Link to="/" className='btn btn-outline-primary w-50 bg-light text-primary bold'>Về trang chủ</Link>
           </div>
@@ -49,7 +49,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
                             <div className=''>
                               <img style={{ width: '60px' }} src={y?.productDetail?.product?.thumnailUrl} alt='hinh' />
                             </div>
-                            <div className=''>
+                            <div className='px-4'>
                               <p>{y?.productDetail?.product?.name}</p>
                             </div>
                           </div>
@@ -60,7 +60,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
                 </div>
                 <div>
                   <div>
-                    <p>Tổng tiền: <strong className='amount text-danger'>{formatNumber(item?.totalPriceAfterDiscount)}</strong></p>
+                    <p>Tổng tiền: <strong className='amount text-danger'>{FormatData.formatNumber(item?.totalPriceAfterDiscount) }</strong></p>
                   </div>
                 </div>
               </div>

@@ -1,35 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Container, Row } from 'react-bootstrap'
-import { GetProductPopular, resetState } from '../../features/products/productSlice';
-import { Link } from 'react-router-dom';
+import { GetProductByBrand, resetState } from '../../features/products/productSlice';
+import { Link, useParams } from 'react-router-dom';
+import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 
-const ProductHot = () => {
+const ProductByBrand = () => {
   const dispatch = useDispatch();
+  const productState = useSelector((state) => state?.product?.productByBrand);
+  const { brandId } = useParams();
+  console.log(brandId);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         await dispatch(resetState());
-        await dispatch(GetProductPopular({
-          top: 40,
-          startDate: '2024-01-01',
-          endDate: '2024-12-30'
-        }));
+        await dispatch(GetProductByBrand(brandId));
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData();
-  }, [dispatch]);
-
-  const productState = useSelector((state) => state?.product?.productPopular);
-
+  }, [dispatch, brandId]);
   const [sortType, setSortType] = useState('default');
   if (!productState) {
     return <Loading />;
@@ -44,6 +40,7 @@ const ProductHot = () => {
     setSortType(e.target.value);
   };
 
+  console.log(productState);
   return (
     <Container className='mb-5'>
       <Row className='justify-content-between mt-5'>
@@ -60,7 +57,7 @@ const ProductHot = () => {
       </Row>
       <Row>
         {
-          sortedProducts && sortedProducts?.map((item, index) => (
+          sortedProducts && sortedProducts.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
               <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3'>
@@ -88,4 +85,4 @@ const ProductHot = () => {
   )
 }
 
-export default ProductHot
+export default ProductByBrand

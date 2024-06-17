@@ -93,6 +93,21 @@ export const GetProductsActiveByCategory = createAsyncThunk('products/get-catego
   }
 })
 
+export const GetProductByBrand = createAsyncThunk('products/get-by-brand', async (id, thunkAPI) => {
+  try {
+    return await productService.getProductByBrand(id);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+export const GetSearchProduct = createAsyncThunk('products/get-search-product', async (data, thunkAPI) => {
+  try {
+    return await productService.getSearchProduct(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const resetState = createAction('Reset_all')
 
 const initialState = {
@@ -234,37 +249,63 @@ export const productSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-    }).addCase(GetProductsBestSeller
-      .pending, (state) => {
-        state.isLoading = true;
+    }).addCase(GetProductByBrand.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetProductByBrand.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.productByBrand = action.payload;
+    }).addCase(GetProductByBrand.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetSearchProductByName.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetSearchProductByName.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.searchResults = action.payload;
+    }).addCase(GetSearchProductByName.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    }).addCase(GetSearchProduct.pending, (state) => {
+      state.isLoading = true;
+      state.isError = false;
+      state.isSuccess = false;
+      state.error = null;
+    })
+      .addCase(GetSearchProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.searchResults = action.payload;
+      })
+      .addCase(GetSearchProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.error = action.payload.message;
       }).addCase(GetProductsBestSeller
-        .fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          state.productsBestSeller = action.payload;
+        .pending, (state) => {
+          state.isLoading = true;
         }).addCase(GetProductsBestSeller
-          .rejected, (state, action) => {
+          .fulfilled, (state, action) => {
             state.isLoading = false;
-            state.isError = true;
-            state.isSuccess = false;
-            state.message = action.error;
-          }).addCase(GetSearchProductByName
-            .pending, (state) => {
-              state.isLoading = true;
-            }).addCase(GetSearchProductByName
-              .fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isError = false;
-                state.isSuccess = true;
-                state.SearhProduct = action.payload;
-              }).addCase(GetSearchProductByName
-                .rejected, (state, action) => {
-                  state.isLoading = false;
-                  state.isError = true;
-                  state.isSuccess = false;
-                  state.message = action.error;
-                }).addCase(resetState, () => initialState);
+            state.isError = false;
+            state.isSuccess = true;
+            state.productsBestSeller = action.payload;
+          }).addCase(GetProductsBestSeller
+            .rejected, (state, action) => {
+              state.isLoading = false;
+              state.isError = true;
+              state.isSuccess = false;
+              state.message = action.error;
+            }).addCase(resetState, () => initialState);
   }
 })
 

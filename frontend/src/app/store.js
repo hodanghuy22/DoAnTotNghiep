@@ -8,6 +8,7 @@ import couponReducer from '../features/coupons/couponSlice';
 import invoiceReducer from '../features/invoices/invoiceSlice';
 import orderStatusReducer from '../features/orderStatus/orderStatusSlice';
 import slideshowReducer from '../features/slideshows/slideshowSlice';
+import wishlistReducer from '../features/wishlists/wishlistSlice';
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
         invoice: invoiceReducer,
         orderStatus: orderStatusReducer,
         slideshow: slideshowReducer,
+        wishlist: wishlistReducer
     }
 })

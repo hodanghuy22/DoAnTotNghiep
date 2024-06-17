@@ -8,7 +8,7 @@ const Footer = () => {
     <Container className='mt-5'>
       <Row className='mb-5'>
         <Col xl={3}>
-          <img src={logo} alt='logo' width={'300px'} />
+          <Link to={'/'}><img src={logo} alt='logo' width={'300px'} /></Link>
           <p>Với chất lượng hàng đầu, chúng tôi cam kết mang đến cho khách hàng những trải nghiệm tuyệt vời và sự hài lòng tuyệt đối.</p>
           <h5>Theo dõi</h5>
           <Link className='p-2' >

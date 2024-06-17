@@ -80,3 +80,6 @@
 .toggleContent {
   transition: height 0.3s;
 }
+.breadcrumb-item .text-decoration-none{
+  text-decoration: none;
+}

@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Mainlayout = () => {
   return (
-    <div>
+    <div style={{backgroundColor:'#ffffff'}}>
       <header>
         <Header />
       </header>

@@ -19,7 +19,7 @@ const initialState = {
 }
 
 export const slideshowSlice = createSlice({
-  name: "coupons",
+  name: "slideshow",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {

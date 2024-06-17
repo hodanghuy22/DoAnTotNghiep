@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaAddressCard, FaLock, FaUser } from 'react-icons/fa'
+import { FaLock, FaUser } from 'react-icons/fa'
 import { MdOutlineNoteAlt } from 'react-icons/md'
 import { RiShutDownLine } from 'react-icons/ri'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
@@ -7,6 +7,7 @@ import './../../assets/css/global.css'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 import { Logout } from '../../features/auths/authSlice'
+import { FcLike } from 'react-icons/fc'
 const Trangcanhan = () => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -27,12 +28,13 @@ const Trangcanhan = () => {
                     <div className='fs-5 d-flex bg-warning p-2'>
                         <FaUser style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'gray', padding: '10px', marginRight: '10px',marginTop:'4px' }} />
                         <div>
-                            <p className='mt-2'>Xin chào, {userState?.name}</p>
+                            <p className='mt-2'>{userState?.name}</p>
                         </div>
                     </div>
                     <div>
                         <p className={`item-user p-3 mb-0 ${location.pathname === '/trang-ca-nhan' ? 'active-user' : ''}`}><Link to={'/trang-ca-nhan'} className='link'><i className='icon-user'><FaUser /></i>Thông tin tài khoản</Link></p>
                         <p className={`item-user p-3 mb-0 ${location.pathname === '/trang-ca-nhan/notification' ? 'active-user' : ''}`}><Link to={'notification'} className='link'><i className='icon-user'><IoIosNotificationsOutline /></i>Thông báo</Link></p>
+                        <p className={`item-user p-3 mb-0 ${location.pathname === '/trang-ca-nhan/wishlist' ? 'active-user' : ''}`}><Link to={'wishlist'} className='link'><i className='icon-user'><FcLike /></i>Yêu thích</Link></p>
                         <p className={`item-user p-3 mb-0 ${location.pathname === '/trang-ca-nhan/oder-list' ? 'active-user' : ''}`}><Link to={'oder-list'} className='link'><i className='icon-user'><MdOutlineNoteAlt /></i>Quản lý đơn hàng</Link></p>
                         <p className={`item-user p-3 mb-0 ${location.pathname === '/trang-ca-nhan/change-password' ? 'active-user' : ''}`}><Link to={'change-password'} className='link'><i className='icon-user'><FaLock /></i>Đổi mật khẩu</Link></p>
                         <button onClick={handleLogout} className='btn item-user p-3 mb-0'>

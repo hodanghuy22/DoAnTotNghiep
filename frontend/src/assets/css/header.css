@@ -2,3 +2,27 @@
     background-color: transparent; /* Thay đổi màu nền thành màu vàng khi được tập trung */
     color: black;
   }
+.d-flex {
+  display: flex;
+  flex-wrap: nowrap; /* Đảm bảo các cột không bao giờ xuống hàng */
+}
+
+.dropdown-column {
+  flex: 1; /* Mỗi cột sẽ chiếm một phần bằng nhau */
+  padding: 0 10px; /* Khoảng cách giữa các cột */
+}
+.phone-brand{
+  width: 400px;
+}
+.headphone-brand{
+  width: 400px;
+}
+.dropdown-column.phone-brand {
+  flex: 2; 
+}
+.dropdown-column.headphone-brand {
+  flex: 2; 
+}
+.custom-dropdown-item {
+  white-space: nowrap; /* Đảm bảo văn bản không bị xuống dòng */
+}
