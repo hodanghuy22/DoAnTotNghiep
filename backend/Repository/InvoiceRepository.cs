@@ -10,11 +10,16 @@ namespace backend.Repository
     {
         private readonly CSDLContext _context;
         private readonly IEmailService _emailService;
+        private readonly ITelegramService _telegramService;
 
-        public InvoiceRepository(CSDLContext context, IEmailService emailService)
+        public InvoiceRepository(
+            CSDLContext context,
+            IEmailService emailService,
+            ITelegramService telegramService)
         {
             _context = context;
             _emailService = emailService;
+            _telegramService = telegramService;
         }
 
         public async Task<int> CountCancelInvoicesByMonth(int month, int year)
@@ -40,9 +45,9 @@ namespace backend.Repository
 
             var invoices = await _context.Invoices.ToListAsync();
 
-            foreach(var item in invoices)
+            foreach (var item in invoices)
             {
-                if(item.IssueDate.Month == month && item.IssueDate.Year == year)
+                if (item.IssueDate.Month == month && item.IssueDate.Year == year)
                 {
                     count++;
                 }
@@ -61,7 +66,7 @@ namespace backend.Repository
             await _context.Invoices.AddAsync(invoice);
             var cartsToRemove = await _context.Carts.Where(c => c.UserId == invoice.UserId).ToListAsync();
             _context.Carts.RemoveRange(cartsToRemove);
-            foreach(var item in invoice.InvoiceDetails)
+            foreach (var item in invoice.InvoiceDetails)
             {
                 var productDetail = await _context.ProductDetails.FindAsync(item.ProductDetailId);
                 productDetail.Quantity -= item.Quantity;
@@ -91,6 +96,12 @@ namespace backend.Repository
                         $"<p>Ngày đặt hàng: {invoice.IssueDate}</p> \n",
                 };
                 await _emailService.SendEmail(body);
+                string mess = "🆘 CÓ HÓA ĐƠN MỚI! \n" +
+                              $"Mã hóa đơn: {invoice.Id} \n" +
+                              $"Khách hàng: {invoice.User.Name ?? invoice.User.Email}\n" +
+                              $"Tồng tiền: {invoice.TotalPriceAfterDiscount} \n" +
+                              $"Ngày đặt hàng: {invoice.IssueDate}\n";
+                await _telegramService.SendMessage(mess);
                 return Result<Invoice>.Success(invoice);
             }
             return Result<Invoice>.Failure("Lỗi không tạo được hóa đơn!");
@@ -268,7 +279,7 @@ namespace backend.Repository
             var invoice = await _context.Invoices
                 .FirstOrDefaultAsync(i => i.Id == transaction.TxnRef);
 
-            if(transaction.TransactionStatus != "00" && transaction.ResponseCode != "00")
+            if (transaction.TransactionStatus != "00" && transaction.ResponseCode != "00")
             {
                 invoice.Transaction = transaction;
                 _context.Entry(invoice).State = EntityState.Modified;
@@ -333,6 +344,15 @@ namespace backend.Repository
                 CreatedAt = DateTime.Now,
             };
             await _context.Notifications.AddAsync(notification);
+            if(orderStatusId == 6)
+            {
+                string mess = "🆘 CÓ HÓA ĐƠN BỊ HỦY! \n" +
+                              $"Mã hóa đơn: #{id} \n" +
+                              $"Khách hàng: {pt.User.Name??pt.User.Email}\n" +
+                              $"Tồng tiền: {pt.TotalPriceAfterDiscount} \n" +
+                              $"Ngày đặt hàng: {pt.IssueDate}\n";
+                await _telegramService.SendMessage(mess);
+            }
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {

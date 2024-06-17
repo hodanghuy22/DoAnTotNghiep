@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ITelegramService, TelegramService>();
 builder.Services.AddSingleton<PaypalService>(new PaypalService(
         builder.Configuration["PaypalSetting:Client_ID"],
         builder.Configuration["PaypalSetting:Secret_Key"],
@@ -27,7 +28,6 @@ builder.Services.AddSingleton<VnPayService>(new VnPayService(
         builder.Configuration["VnPaySetting:VNP_Url"],
         builder.Configuration["VnPaySetting:VNP_Returnurl"]
     ));
-
 
 builder.Services.AddDbContext<CSDLContext>(options =>
     options.

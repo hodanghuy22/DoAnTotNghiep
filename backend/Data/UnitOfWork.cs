@@ -13,6 +13,7 @@ namespace backend.Data
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly ITelegramService _telegramService;
         private readonly IConfiguration _configuration;
 
         public UnitOfWork
@@ -22,7 +23,8 @@ namespace backend.Data
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
             IMapper mapper,
-            IEmailService emailService
+            IEmailService emailService,
+            ITelegramService telegramService
         )
         {
             _context = context;
@@ -31,6 +33,7 @@ namespace backend.Data
             _configuration = configuration;
             _mapper = mapper;
             _emailService = emailService;
+            _telegramService = telegramService;
         }
 
         public IUserRepositoty UserRepositoty => 
@@ -59,7 +62,7 @@ namespace backend.Data
            new CouponRepository(_context);
 
         public IInvoiceRepository InvoiceRepository =>
-           new InvoiceRepository(_context, _emailService);
+           new InvoiceRepository(_context, _emailService, _telegramService);
 
         public IOrderStatusRepository OrderStatusRepository =>
            new OrderStatusRepository(_context);
