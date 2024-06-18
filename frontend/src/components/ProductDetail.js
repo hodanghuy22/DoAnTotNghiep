@@ -14,7 +14,7 @@ import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
 import Loading from '../utils/Loading';
 import { GetCapacitiesByProductId } from '../features/capacitites/capacitySlice';
-import { GetProduct } from '../features/products/productSlice';
+import { GetProduct, GetProductForUser } from '../features/products/productSlice';
 import { GetColorByProductId } from '../features/colors/colorSlice';
 import { AddCart } from '../features/cart/cartSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -38,9 +38,12 @@ const ratingSchema = yup.object({
 const ProductDetail = ({ categoryId }) => {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.Aproduct);
+    const productDetailState = useSelector(state => state?.product?.ProductDetail);
     const authState = useSelector(state => state?.auth?.user);
     const capacities = useSelector(state => state?.capacities?.capacities);
     const colors = useSelector(state => state?.color?.colors);
+    const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
+    const [activeButtonColor, setActiveButtonColor] = useState(null);
     const [modalShow, setModalShow] = useState(false);
     const sortedComments = productState?.comments?.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
     const { productId } = useParams();
@@ -100,6 +103,7 @@ const ProductDetail = ({ categoryId }) => {
             }, 300);
         },
     });
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -115,12 +119,75 @@ const ProductDetail = ({ categoryId }) => {
         };
         fetchData();
     }, [dispatch, productId]);
+
+    const [AProduct, setAProduct] = useState({
+        productId: productState?.id,
+        colorId: productState?.colorId,
+        capacityId: productState?.capacityId
+    });
+
+    // Cập nhật AProduct khi productState thay đổi
     useEffect(() => {
+        setAProduct({
+            productId: productState?.id,
+            colorId: productState?.colorId,
+            capacityId: productState?.capacityId
+        });
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
         formik3.setFieldValue("productId", productState?.id);
-    }, [dispatch, productState])
+    }, [productState]);
 
+    // Khởi tạo sản phẩm ban đầu
+
+    // Lấy sản phẩm mới sau khi chọn màu và rom
+    useEffect(() => {
+        const fetchData = async () => {
+            if (AProduct.productId && AProduct.colorId && AProduct.capacityId) {
+                setLoading(true);
+                try {
+                    await dispatch(GetProductForUser(AProduct));
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+        fetchData();
+    }, [dispatch, AProduct]);
+
+    useEffect(() => {
+        if (productState?.productDetails && productState.productDetails.length > 0) {
+            setAProduct(prevState => ({
+                ...prevState,
+                colorId: productState?.productDetails[0].colorId,
+                capacityId: productState?.productDetails[0].capacityId
+            }));
+        }
+        if (capacities && capacities.length > 0) {
+            setActiveButtonCapacity(capacities[0].id); // Set initial active capacity id
+        }
+        if (colors && colors.length > 0) {
+            setActiveButtonColor(colors[0].id); // Set initial active color id
+        }
+    }, [dispatch, productState, capacities, colors]);
+
+    const handleColorSelection = (colorId) => {
+        setAProduct(prevState => ({
+            ...prevState,
+            colorId: colorId
+        }));
+        setActiveButtonColor(colorId);
+    };
+
+    const handleCapacitySelection = (capacityId) => {
+        setAProduct(prevState => ({
+            ...prevState,
+            capacityId: capacityId
+        }));
+        setActiveButtonCapacity(capacityId);
+    };
     setTimeout(() => {
         if (isLoading) {
             return <Loading />;
@@ -129,7 +196,7 @@ const ProductDetail = ({ categoryId }) => {
     const addCart = () => {
         dispatch(AddCart({
             userId: authState?.id,
-            productDetailId: productState?.productDetails[0]?.id,
+            productDetailId: productDetailState?.id,
             quantity: 1
         }))
     }
@@ -156,6 +223,7 @@ const ProductDetail = ({ categoryId }) => {
             </ul>
         );
     };
+    console.log(productDetailState);
 
     let specifications = [];
     switch (categoryId) {
@@ -347,7 +415,12 @@ const ProductDetail = ({ categoryId }) => {
                         <Col>
                             {
                                 capacities?.map((item, index) => (
-                                    <Button variant="outline-light" className="bg-transparent text-dark border-dark" style={{ marginRight: '8px' }} key={index}>
+                                    <Button
+                                        className={`${activeButtonCapacity === item?.id ? 'bg-danger text-light' : 'bg-transparent text-dark border-dark'}`}
+                                        style={{ marginRight: '8px' }}
+                                        key={index}
+                                        onClick={() => handleCapacitySelection(item?.id)}
+                                    >
                                         {item.totalCapacity}GB
                                     </Button>
                                 ))
@@ -361,7 +434,9 @@ const ProductDetail = ({ categoryId }) => {
                                     return (
                                         <Button
                                             key={index}
-                                            className='bg-transparent text-dark border-dark' style={{ marginRight: '8px' }}
+                                            className={` ${activeButtonColor === item?.id ? 'bg-danger text-light' : 'bg-transparent text-dark border-dark'}`}
+                                            style={{ marginRight: '8px' }}
+                                            onClick={() => handleColorSelection(item?.id)}
                                         >
                                             {item.colorName}
                                         </Button>

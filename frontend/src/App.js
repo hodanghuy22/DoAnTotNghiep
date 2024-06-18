@@ -26,6 +26,7 @@ import SearchResults from './pages/Products/SearchResults'
 import ListNotification from './pages/Accounts/ListNotification'
 import ProductDetail from './components/ProductDetail'
 import ProductList from './pages/Products/ProductList'
+import ProductBrandList from './components/ProductBrandList'
 const App = () => {
     return (
         <BrowserRouter>
@@ -55,12 +56,16 @@ const App = () => {
                     <Route path='/product/:brandId' element={<ProductByBrand />} />
                     <Route path='/dien-thoai/:productId' element={<ProductDetail categoryId={1}  />} />
                     <Route path='/dien-thoai' element={<ProductList categoryId={1} />} />
+                    <Route path='/dien-thoai/brand/:brandId' element={<ProductBrandList categoryId={1} />} />
                     <Route path='/sac-du-phong' element={<ProductList categoryId={2} />} />
                     <Route path='/sac-du-phong/:productId' element={<ProductDetail categoryId={2} />} />
+                    <Route path='/sac-du-phong/brand/:brandId' element={<ProductBrandList categoryId={2} />} />
                     <Route path='/tai-nghe-co-day' element={<ProductList  categoryId={4} />} />
                     <Route path='/tai-nghe-co-day/:productId' element={<ProductDetail categoryId={4}  />} />
+                    <Route path='/tai-nghe-co-day/brand/:brandId' element={<ProductBrandList categoryId={4} />} />
                     <Route path='/tai-nghe-khong-day' element={<ProductList  categoryId={3} />} />
                     <Route path='/tai-nghe-khong-day/:productId' element={<ProductDetail categoryId={3}  />} />
+                    <Route path='/tai-nghe-khong-day/brand/:brandId' element={<ProductBrandList categoryId={3} />} />
                     <Route path='/hot' element={<ProductHot />} />
                 </Route>
                 <Route path='*' element={<NotFound />} />

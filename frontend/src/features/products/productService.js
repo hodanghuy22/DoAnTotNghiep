@@ -81,7 +81,12 @@ const updateStatusProduct = async (data) => {
     return response.data;
   }
 }
-
+const getProductByBrandCategory = async (data) => {
+  const response = await axios.get(`${base_url}Products/GetProductsActiveByCategoryAndBrand/${data.categoryId }/$${data.brandId}`);
+  if (response.data) {
+    return response.data;
+  }
+}
 const productService = {
   getProducts,
   createProduct,
@@ -94,7 +99,8 @@ const productService = {
   getProductPopularByCategogy,
   getProductPopular,
   getProductByBrand,
-  getSearchProduct
+  getSearchProduct,
+  getProductByBrandCategory
 };
 
 export default productService;

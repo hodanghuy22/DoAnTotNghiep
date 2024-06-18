@@ -69,7 +69,7 @@ const ProductList = ({ categoryId }) => {
                             brandState && brandState?.map((item, index) => {
                                 return (
                                     <div className='col-2 px-3 mb-3' key={index}>
-                                        <Link to={`/product/${item?.id}`} className='border p-2 rounded-pill d-block text-decoration-none'>{item?.title}</Link>
+                                        <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`} className='border p-2 rounded-pill d-block text-decoration-none'>{item?.title}</Link>
                                     </div>
                                 )
                             })
