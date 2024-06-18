@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dropdown, DropdownItem } from 'react-bootstrap'
+import { Container, Dropdown, DropdownItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import '../assets/css/notification.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ const Notification = () => {
         dispatch(GetTop5Noti(userState?.id))
     }, [dispatch, userState])
     return (
-        <>
+        <Container>
             {
                 notiState && notiState?.map((item, index) => {
                     return (
@@ -35,7 +35,7 @@ const Notification = () => {
             <DropdownItem className='text-center mt-2'>
                 <Link to={'trang-ca-nhan/notification'} className='text-decoration-none'>Xem tất cả</Link>
             </DropdownItem>
-        </>
+        </Container>
     )
 }
 

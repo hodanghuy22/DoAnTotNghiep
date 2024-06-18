@@ -108,10 +108,7 @@ const Header = () => {
                 variant='light'
                 style={{}}
               >
-                <div className='container'>
                   <Notification />
-                  
-                </div>
               </DropdownButton>
             </div>
             <div className='fs-3 p-3 btn mt-1 '>
@@ -159,7 +156,7 @@ const Header = () => {
               <Link to={'/hot'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar /></i><span className=''> Phổ biến</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <Link to={'/dtdd'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>
+              <Link to={'/dien-thoai'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
 

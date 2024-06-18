@@ -64,7 +64,7 @@ const ProductHot = () => {
         {
           sortedProducts && sortedProducts?.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
+              <Link to={`/dien-thoai/${item?.id}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                 </div>

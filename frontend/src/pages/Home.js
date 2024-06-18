@@ -116,7 +116,7 @@ const Home = () => {
           <Col className='d-flex align-items-center mt-5 mb-5'>
             <p className='text-danger'>KHUYẾN MÃI LỚN</p>
             <h1 className='text-center m-auto'>Điện Thoại Nổi Bật</h1>
-            <Link to={'/dtdd'} className='btn bg-gray p-2'>Xem tất cả</Link>
+            <Link to={'/dien-thoai'} className='btn bg-gray p-2'>Xem tất cả</Link>
           </Col>
         </Row>
         <Row>
@@ -134,7 +134,7 @@ const Home = () => {
               phonePopular && phonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/dien-thoai/${item?.id}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>

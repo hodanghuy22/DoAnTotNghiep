@@ -53,8 +53,8 @@ const App = () => {
                         <Route path='wishlist' element={<WishLists />} />
                     </Route>
                     <Route path='/product/:brandId' element={<ProductByBrand />} />
-                    <Route path='/dtdd/:productId' element={<ProductDetail categoryId={1}  />} />
-                    <Route path='/dtdd' element={<ProductList categoryId={1} />} />
+                    <Route path='/dien-thoai/:productId' element={<ProductDetail categoryId={1}  />} />
+                    <Route path='/dien-thoai' element={<ProductList categoryId={1} />} />
                     <Route path='/sac-du-phong' element={<ProductList categoryId={2} />} />
                     <Route path='/sac-du-phong/:productId' element={<ProductDetail categoryId={2} />} />
                     <Route path='/tai-nghe-co-day' element={<ProductList  categoryId={4} />} />
