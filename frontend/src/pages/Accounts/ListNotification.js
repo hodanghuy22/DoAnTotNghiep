@@ -18,7 +18,10 @@ const ListNotification = () => {
           notiState && notiState?.map((item, index) => {
             return (
               <>
-                <Link key={index} className='thong-bao-item d-flex text-decoration-none text-dark mb-4'>
+                <Link 
+                  key={index} 
+                  to={`/trang-ca-nhan/oder-list/detail/${item?.invoiceId}`}
+                  className='thong-bao-item d-flex text-decoration-none text-dark mb-4'>
                   <div className='col-1'>
                     <img src={item?.invoice?.invoiceDetails[0]?.productDetail?.product?.thumnailUrl} alt='mieng-dan' width={60} height={60} />
                   </div>
