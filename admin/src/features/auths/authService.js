@@ -4,7 +4,7 @@ import { base_url, getConfig } from "../../utils/axiosConfig";
 const login = async(userData)=>{
     const response = await axios.post(`${base_url}Users/login`, userData);
     if(response.data){
-        localStorage.setItem("customer", JSON.stringify(response.data));
+        localStorage.setItem("admin", JSON.stringify(response.data));
         return response.data;
     }
 }

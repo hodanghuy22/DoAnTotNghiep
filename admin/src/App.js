@@ -30,13 +30,15 @@ import LogList from "./pages/LogList";
 import TestNoti from "./pages/TestNoti";
 import InvoiceDetails from "./pages/InvoiceDetails";
 import NotificationList from "./pages/NotificationList";
+import { OpenRoutes } from "./routings/OpenRoutes";
+import { PrivateRoutes } from "./routings/PrivateRoutes";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/admin" element={<MainLayout />}>
+        <Route path="/" element={<OpenRoutes><Login /></OpenRoutes>}></Route>
+        <Route path="/admin" element={<PrivateRoutes><MainLayout /></PrivateRoutes>}>
           <Route index element={<Dashboard />}></Route>
           <Route path="statistics" element={<Statistics />}></Route>
           <Route path="logs" element={<LogList />}></Route>

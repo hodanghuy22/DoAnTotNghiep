@@ -1,8 +1,8 @@
 export const base_url = "https://localhost:7112/api/";
 
 export const getTokenFromLocalStorage = () => {
-  return localStorage.getItem("customer")
-    ? JSON.parse(localStorage.getItem("customer"))
+  return localStorage.getItem("admin")
+    ? JSON.parse(localStorage.getItem("admin"))
     : null;
 };
 

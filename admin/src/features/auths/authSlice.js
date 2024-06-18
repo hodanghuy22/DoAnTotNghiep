@@ -13,7 +13,7 @@ export const LoginAdmin = createAsyncThunk("auth/login", async(data, thunkAPI) =
 });
 
 export const Logout = createAsyncThunk('auth/logout', async () => {
-    localStorage.removeItem('customer');
+    localStorage.removeItem('admin');
     localStorage.removeItem('token');
 });
 
@@ -57,7 +57,7 @@ export const GetTopUser = createAsyncThunk("auth/get-top-user", async(data, thun
     }
 });
 
-const getCustomerfromLocalStorage = localStorage.getItem('customer')? JSON.parse(localStorage.getItem("customer")):null;
+const getCustomerfromLocalStorage = localStorage.getItem('admin')? JSON.parse(localStorage.getItem("admin")):null;
 
 const initialState = {
     user: getCustomerfromLocalStorage,
