@@ -44,7 +44,6 @@ const ProductDetail = ({ categoryId }) => {
     const colors = useSelector(state => state?.color?.colors);
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
-    const [modalShow, setModalShow] = useState(false);
     const sortedComments = productState?.comments?.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
     const { productId } = useParams();
     const product = productState;
@@ -103,7 +102,6 @@ const ProductDetail = ({ categoryId }) => {
             }, 300);
         },
     });
-
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -122,16 +120,16 @@ const ProductDetail = ({ categoryId }) => {
 
     const [AProduct, setAProduct] = useState({
         productId: productState?.id,
-        colorId: productState?.colorId,
-        capacityId: productState?.capacityId
+        colorId: colors[0]?.id,
+        capacityId: capacities[0]?.id
     });
 
     // Cập nhật AProduct khi productState thay đổi
     useEffect(() => {
         setAProduct({
             productId: productState?.id,
-            colorId: productState?.colorId,
-            capacityId: productState?.capacityId
+            colorId: colors?.id,
+            capacityId: productDetailState?.capacityId
         });
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
@@ -161,15 +159,15 @@ const ProductDetail = ({ categoryId }) => {
         if (productState?.productDetails && productState.productDetails.length > 0) {
             setAProduct(prevState => ({
                 ...prevState,
-                colorId: productState?.productDetails[0].colorId,
-                capacityId: productState?.productDetails[0].capacityId
+                colorId: colors[0]?.id,
+                capacityId: capacities[0]?.id
             }));
         }
         if (capacities && capacities.length > 0) {
-            setActiveButtonCapacity(capacities[0].id); // Set initial active capacity id
+            setActiveButtonCapacity(capacities[0].id);
         }
         if (colors && colors.length > 0) {
-            setActiveButtonColor(colors[0].id); // Set initial active color id
+            setActiveButtonColor(colors[0].id);
         }
     }, [dispatch, productState, capacities, colors]);
 
@@ -223,8 +221,6 @@ const ProductDetail = ({ categoryId }) => {
             </ul>
         );
     };
-    console.log(productDetailState);
-
     let specifications = [];
     switch (categoryId) {
         case 1:
@@ -281,78 +277,6 @@ const ProductDetail = ({ categoryId }) => {
             break;
         default:
             return null;
-    }
-    function MyVerticallyCenteredModal(props) {
-        return (
-            <Modal
-                {...props}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
-                        Đánh giá sản phẩm
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form onSubmit={formik2.handleSubmit}>
-                        <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
-                            <Col className="w-full h-full mb-3 md:mb-0">
-                                <div className='d-flex justify-content-center'>
-                                    <img src={productState?.thumnailUrl} alt={productState?.name} width={'100px'} />
-                                </div>
-                                <div className='d-flex justify-content-center'>
-                                    <p>{productState?.category?.title} {productState?.name} {productState?.rom}</p>
-                                </div>
-                                <div className='mb-3'>
-                                    <StarRating
-                                        value={formik2.values.star}
-                                        onChange={value => formik2.setFieldValue('star', value)}
-                                    />
-                                    <div className='error'>
-                                        {formik2.touched.star && formik2.errors.star}
-                                    </div>
-                                </div>
-                                <Form.Group className="">
-                                    <Form.Control
-                                        as="textarea"
-                                        className="rounded-lg "
-                                        id="mantine-r8"
-                                        placeholder="Mời bạn chia sẻ thêm về cảm nhận"
-                                        rows="6"
-                                        aria-invalid="false"
-                                        value={formik2.values.comment}
-                                        onChange={formik2.handleChange('comment')}
-                                        onBlur={formik2.handleBlur('comment')}
-                                        style={{ borderRadius: '30px' }}
-                                    />
-                                    <div className='error'>
-                                        {
-                                            formik2.touched.comment && formik2.errors.comment
-                                        }
-                                    </div>
-                                </Form.Group>
-
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Button
-                                variant="primary"
-                                type="submit"
-                                className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
-                                style={{ width: '100%', height: '44px' }}
-                            >
-                                Gửi đánh giá
-                            </Button>
-                        </Row>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-
-                </Modal.Footer>
-            </Modal>
-        );
     }
     const handleReplyClick = (commentId) => {
         setReplytVisiable(true);
@@ -446,7 +370,7 @@ const ProductDetail = ({ categoryId }) => {
                             }
                         </Col>
                     </Row>
-                    <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productState?.productDetails[0]?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
+                    <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productDetailState?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
                     <p>This Bluetooth speaker has various features such as water resistance, long battery life, built-in microphones for hands-free calling, and more.</p>
                     <ul>
                         <li>Model: UB7OM</li>
@@ -486,21 +410,50 @@ const ProductDetail = ({ categoryId }) => {
                                         )
                                     }</p>
                                     <div>
-
+                                        <Form onSubmit={formik2.handleSubmit}>
+                                            <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
+                                                <Col className="w-full h-full mb-3 md:mb-0">
+                                                    <div className='mb-3'>
+                                                        <StarRating
+                                                            value={formik2.values.star}
+                                                            onChange={value => formik2.setFieldValue('star', value)}
+                                                        />
+                                                        <div className='error'>
+                                                            {formik2.touched.star && formik2.errors.star}
+                                                        </div>
+                                                    </div>
+                                                    <Form.Group className="">
+                                                        <Form.Control
+                                                            as="textarea"
+                                                            className="rounded-lg"
+                                                            id="mantine-r8"
+                                                            placeholder="Mời bạn chia sẻ thêm về cảm nhận"
+                                                            rows="6"
+                                                            aria-invalid={formik2.touched.content && !!formik2.errors.content}
+                                                            value={formik2.values.review}
+                                                            onChange={(e) => formik2.setFieldValue('comment', e.target.value)}
+                                                            onBlur={formik2.handleBlur}
+                                                            style={{ borderRadius: '30px' }}
+                                                        />
+                                                        <div className='error'>
+                                                            {formik2.touched.content && formik2.errors.content}
+                                                        </div>
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Button
+                                                    variant="primary"
+                                                    type="submit"
+                                                    className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
+                                                    style={{ width: '100%', height: '44px' }}
+                                                >
+                                                    Gửi đánh giá
+                                                </Button>
+                                            </Row>
+                                        </Form>
                                     </div>
                                 </div>
-                                <>
-                                    <Button variant="primary" onClick={() => setModalShow(true)}>
-                                        Gửi
-                                    </Button>
-
-                                    <MyVerticallyCenteredModal
-                                        show={modalShow}
-                                        onHide={() => setModalShow(false)}
-                                    />
-                                </>
-
-
                                 {
                                     productState && productState?.ratings?.map((item, index) => {
                                         return (
@@ -692,7 +645,6 @@ const ProductDetail = ({ categoryId }) => {
                 <div>
                 </div>
             )}
-
         </Container>
     )
 }

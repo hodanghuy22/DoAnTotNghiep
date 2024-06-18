@@ -31,10 +31,10 @@ const SearchResults = () => {
   const [sortType, setSortType] = useState('default');
 
   setTimeout(() => {
-        if (isLoading) {
-            return <Loading />;
-        }
-    }, 1000)
+    if (isLoading) {
+      return <Loading />;
+    }
+  }, 1000)
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
     sortedProducts.sort((a, b) => a.price - b.price);
@@ -49,17 +49,17 @@ const SearchResults = () => {
     <Container className='mb-5'>
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
-          <p>Có {productCount} kết quả tìm kiếm</p>
-        </Col>
-        <Col className='d-flex flex-row-reverse mb-1'>
-          <select className='text-dark' onChange={handleSortChange}>
-            <option value="default">Thứ tự mặc định</option>
-            <option value="lowToHigh">Giá thấp đến cao</option>
-            <option value="highToLow">Giá cao đến thấp</option>
-          </select>
+          <p>Có {productCount} kết quả tìm kiếm cho từ khoá: "<i>{searchQuery}</i>"</p>
         </Col>
       </Row>
       <Row>
+          <Col className='d-flex flex-row-reverse mb-1'>
+            <select className='text-dark' onChange={handleSortChange}>
+              <option value="default">Thứ tự mặc định</option>
+              <option value="lowToHigh">Giá thấp đến cao</option>
+              <option value="highToLow">Giá cao đến thấp</option>
+            </select>
+          </Col>
         {
           sortedProducts && sortedProducts?.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
