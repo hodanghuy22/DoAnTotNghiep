@@ -83,3 +83,33 @@
 .breadcrumb-item .text-decoration-none{
   text-decoration: none;
 }
+.star-rating {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.star-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 5px;
+}
+
+.star-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 200ms;
+}
+
+.star-label-text {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #555;
+}
+

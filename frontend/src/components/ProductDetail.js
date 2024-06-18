@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -23,6 +23,7 @@ import * as yup from 'yup';
 import { CreateComment } from '../features/comment/commentSlice';
 import { CreateRating } from '../features/rating/ratingSlice';
 import { BsFillSendFill } from 'react-icons/bs';
+import StarRating from './StarRating ';
 
 const commentSchema = yup.object({
     content: yup.string().required("Content is required!"),
@@ -40,12 +41,13 @@ const ProductDetail = ({ categoryId }) => {
     const authState = useSelector(state => state?.auth?.user);
     const capacities = useSelector(state => state?.capacities?.capacities);
     const colors = useSelector(state => state?.color?.colors);
+    const [modalShow, setModalShow] = useState(false);
+    const sortedComments = productState?.comments?.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
     const { productId } = useParams();
     const product = productState;
     const [isLoading, setLoading] = useState(true);
     const [replytVisiable, setReplytVisiable] = useState(false);
     const [replyCommentId, setReplyCommentId] = useState(null);
-
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -65,11 +67,11 @@ const ProductDetail = ({ categoryId }) => {
     });
     const formik2 = useFormik({
         initialValues: {
-            comment: '',
-            star: '',
-            date: FormatData.formatDateVN(),
             userId: authState?.id || "",
             productId: productState?.id || "",
+            review: '',
+            star: '',
+            date: FormatData.formatDateVN(),
         },
         validationSchema: ratingSchema,
         onSubmit: values => {
@@ -118,6 +120,7 @@ const ProductDetail = ({ categoryId }) => {
         formik2.setFieldValue("productId", productState?.id);
         formik3.setFieldValue("productId", productState?.id);
     }, [dispatch, productState])
+
     setTimeout(() => {
         if (isLoading) {
             return <Loading />;
@@ -133,10 +136,10 @@ const ProductDetail = ({ categoryId }) => {
     // THêm yêu thích
     const AddWishList = () => {
         dispatch(CreateWishList({
-          userId: authState?.id,
-          phoneId: productState?.id,
+            userId: authState?.id,
+            productId: productState?.id,
         }))
-      }
+    }
     // Load bản thông tin kỹ thuật
     const renderSpecifications = (specifications) => {
         return (
@@ -211,7 +214,78 @@ const ProductDetail = ({ categoryId }) => {
         default:
             return null;
     }
-    
+    function MyVerticallyCenteredModal(props) {
+        return (
+            <Modal
+                {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Đánh giá sản phẩm
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={formik2.handleSubmit}>
+                        <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
+                            <Col className="w-full h-full mb-3 md:mb-0">
+                                <div className='d-flex justify-content-center'>
+                                    <img src={productState?.thumnailUrl} alt={productState?.name} width={'100px'} />
+                                </div>
+                                <div className='d-flex justify-content-center'>
+                                    <p>{productState?.category?.title} {productState?.name} {productState?.rom}</p>
+                                </div>
+                                <div className='mb-3'>
+                                    <StarRating
+                                        value={formik2.values.star}
+                                        onChange={value => formik2.setFieldValue('star', value)}
+                                    />
+                                    <div className='error'>
+                                        {formik2.touched.star && formik2.errors.star}
+                                    </div>
+                                </div>
+                                <Form.Group className="">
+                                    <Form.Control
+                                        as="textarea"
+                                        className="rounded-lg "
+                                        id="mantine-r8"
+                                        placeholder="Mời bạn chia sẻ thêm về cảm nhận"
+                                        rows="6"
+                                        aria-invalid="false"
+                                        value={formik2.values.comment}
+                                        onChange={formik2.handleChange('comment')}
+                                        onBlur={formik2.handleBlur('comment')}
+                                        style={{ borderRadius: '30px' }}
+                                    />
+                                    <div className='error'>
+                                        {
+                                            formik2.touched.comment && formik2.errors.comment
+                                        }
+                                    </div>
+                                </Form.Group>
+
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
+                                style={{ width: '100%', height: '44px' }}
+                            >
+                                Gửi đánh giá
+                            </Button>
+                        </Row>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+
+                </Modal.Footer>
+            </Modal>
+        );
+    }
     const handleReplyClick = (commentId) => {
         setReplytVisiable(true);
         setReplyCommentId(commentId);
@@ -340,69 +414,17 @@ const ProductDetail = ({ categoryId }) => {
 
                                     </div>
                                 </div>
-                                <div className=''>
-                                    <p className='mt-1'>Lọc đánh giá theo</p>
-                                    <div>
-                                        <Button className='bg-light text-info ' style={{ marginRight: '1rem' }}>Tất cả</Button>
-                                        <Button className='bg-light text-info ' style={{ marginRight: '1rem' }}>5 sao</Button>
-                                        <Button className='bg-light text-info ' style={{ marginRight: '1rem' }}>4 sao</Button>
-                                        <Button className='bg-light text-info ' style={{ marginRight: '1rem' }}>3 sao</Button>
-                                        <Button className='bg-light text-info ' style={{ marginRight: '1rem' }}>2 sao</Button>
-                                        <Button className='bg-light text-info ' style={{ marginRight: '1rem' }}>1 sao</Button>
-                                    </div>
-                                </div>
+                                <>
+                                    <Button variant="primary" onClick={() => setModalShow(true)}>
+                                        Gửi
+                                    </Button>
 
-                                {/* <Form onSubmit={formik2.handleSubmit}>
-                                    <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
-                                        <Col md={10} className="w-full h-full mb-3 md:mb-0">
-                                            <div className='mb-3'>
-                                                <input
-                                                    type="number"
-                                                    name="star"
-                                                    className="form-control"
-                                                    placeholder="Star"
-                                                    value={formik2.values.star}
-                                                    onChange={formik2.handleChange('star')}
-                                                    onBlur={formik2.handleBlur('star')}
-                                                />
-                                                <div className='error'>
-                                                    {
-                                                        formik2.touched.star && formik2.errors.star
-                                                    }
-                                                </div>
-                                            </div>
-                                            <Form.Group className="mantine-InputWrapper-root mantine-Textarea-root mantine-1m3pqry">
-                                                <Form.Control
-                                                    as="textarea"
-                                                    className="rounded-lg border-neutral-300 mantine-Input-input mantine-Textarea-input mantine-1jx8v2y"
-                                                    id="mantine-r8"
-                                                    placeholder="Đánh giá sản phẩm"
-                                                    rows="6"
-                                                    aria-invalid="false"
-                                                    value={formik2.values.comment}
-                                                    onChange={formik2.handleChange('comment')}
-                                                    onBlur={formik2.handleBlur('comment')}
-                                                />
-                                                <div className='error'>
-                                                    {
-                                                        formik2.touched.comment && formik2.errors.comment
-                                                    }
-                                                </div>
-                                            </Form.Group>
+                                    <MyVerticallyCenteredModal
+                                        show={modalShow}
+                                        onHide={() => setModalShow(false)}
+                                    />
+                                </>
 
-                                        </Col>
-                                        <Col md={2} className="w-full flex flex-col md:px-2">
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
-                                                style={{ width: '100%', height: '44px' }}
-                                            >
-                                                Gửi
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Form> */}
 
                                 {
                                     productState && productState?.ratings?.map((item, index) => {
@@ -489,7 +511,7 @@ const ProductDetail = ({ categoryId }) => {
                                             </Form>
                                         </div>
                                         {
-                                            productState && productState?.comments?.map((item, index) => {
+                                            sortedComments && sortedComments?.map((item, index) => {
                                                 if (item?.commentId === null) {
                                                     return (
                                                         <div className='pt-4 w-100 border-bottom' key={index}>
@@ -590,6 +612,7 @@ const ProductDetail = ({ categoryId }) => {
                 </Col>
 
             </Row>
+
             {!isLoading && (
                 <div>
                 </div>

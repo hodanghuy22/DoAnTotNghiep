@@ -22,7 +22,7 @@ const WishLists = () => {
   const getCategoryLink = (categoryID,productID) => {
     switch (categoryID) {
       case 1:
-        return `/dtdd/${productID}`;
+        return `/dien-thoai/${productID}`;
       case 2:
         return `/sac-du-phong/${productID}`;
       case 3:

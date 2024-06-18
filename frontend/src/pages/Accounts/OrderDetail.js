@@ -8,12 +8,6 @@ import Loading from '../../utils/Loading';
 
 const OrderDetail = () => {
     const dispatch = useDispatch();
-    const changeDateFormat = (date) => {
-        const newDate = new Date(date).toLocaleDateString();
-        const [month, day, year] = newDate.split("/");
-        const formattedMonth = month.padStart(2, '0');
-        return [year, formattedMonth, day].join("-");
-    };
     const location = useLocation();
     const getInvoiceId = location.pathname.split("/")[4];
     const invoiceState = useSelector(state => state.invoice.invoice)
@@ -46,7 +40,9 @@ const OrderDetail = () => {
                             <div className=''>
                                 <p>Người nhận: <strong>{invoiceState?.recipientName} - {invoiceState?.recipientPhoneNumber}</strong></p>
                                 <p>Địa chỉ: <strong>{invoiceState?.shippingInfo}</strong></p>
-                                <p>Giao lúc: <strong>{FormatData.formatDateTime(invoiceState?.deliveryDate ?? "Chưa giao")}</strong></p>
+                                <p>Đăt lúc: <strong>{FormatData.formatDateTime(invoiceState?.issueDate)}</strong></p>
+                                <p>Giao lúc: <strong>{invoiceState?.deliveryDate ? FormatData.formatDateTime(invoiceState.deliveryDate) : "Chưa giao"}
+                                </strong></p>
                             </div>
                         </div>
                     </div>

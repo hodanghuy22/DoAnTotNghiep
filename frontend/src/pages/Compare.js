@@ -244,7 +244,7 @@ const Compare = () => {
                                 productState && productList?.map((item, index) => {
                                     return (
                                         <Col xl={3} md={4} sm={6} className='' key={index}>
-                                            <div to={`/dtdd/${item.productId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <div to={`/dien-thoai/${item.productId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                                                 <div className='p-3'>
                                                     <img className='card-image' width={"200px"} height={'200px'} src={item?.imageUrl} alt={item.name} />
                                                     <div className='mt-4'>

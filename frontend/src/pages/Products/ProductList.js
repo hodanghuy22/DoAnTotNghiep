@@ -50,7 +50,7 @@ const ProductList = ({ categoryId }) => {
     const getCategoryPath = (categoryId) => {
         switch (categoryId) {
             case 1:
-                return '/dtdd';
+                return '/dien-thoai';
             case 2:
                 return '/sac-du-phong';
             case 3:

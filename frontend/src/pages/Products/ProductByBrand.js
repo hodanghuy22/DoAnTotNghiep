@@ -10,6 +10,7 @@ import Loading from '../../utils/Loading';
 const ProductByBrand = () => {
   const dispatch = useDispatch();
   const productState = useSelector((state) => state?.product?.productByBrand);
+  const firstProduct = productState?.[0] ?? 'No product available';
   const { brandId } = useParams();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
@@ -28,9 +29,9 @@ const ProductByBrand = () => {
   const [sortType, setSortType] = useState('default');
   setTimeout(() => {
     if (isLoading) {
-        return <Loading />;
+      return <Loading />;
     }
-}, 1000)
+  }, 1000)
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
     sortedProducts.sort((a, b) => a.price - b.price);
@@ -43,6 +44,15 @@ const ProductByBrand = () => {
 
   return (
     <Container className='mb-5'>
+      <Row>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item "><Link className='text-decoration-none' to="/">Trang Chủ</Link></li>
+            <li className="breadcrumb-item "><Link className='text-decoration-none' to={`/${FormatData.removeVietnameseTones(firstProduct?.categoryTitle)}`}>{firstProduct?.categoryTitle}</Link></li>
+            <li className="breadcrumb-item  active" aria-current="page"><Link className='text-decoration-none'>{firstProduct?.brandTitle}</Link></li>
+          </ol>
+        </nav>
+      </Row>
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
           <p>Hiển thị tổng số sản phẩm</p>
@@ -59,7 +69,7 @@ const ProductByBrand = () => {
         {
           sortedProducts && sortedProducts.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link to={`/dtdd/${item?.id}`} className='card text-decoration-none phone-item'>
+              <Link to={`/dien-thoai/${item?.id}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                 </div>

@@ -62,7 +62,7 @@ const Payment = () => {
             recipientPhoneNumber: authState?.phoneNumber || "",
             shippingInfo: authState?.address || "",
             desc: '',
-            issueDate: new Date().toISOString().substr(0, 10),
+            issueDate: FormatData.formatDateVN(),
             deliveryDate: '',
             totalPrice: totalPrice,
             totalPriceAfterDiscount: totalPrice,
@@ -78,13 +78,14 @@ const Payment = () => {
             setTimeout(() => {
                 navigate('/trang-ca-nhan/oder-list');
             }, 300)
+            console.log(values);
         },
     });
     const formik2 = useFormik({
         initialValues: {
             code: "",
             money: totalPrice,
-            date: new Date().toISOString().substr(0, 10),
+            date: FormatData.formatDateVN(),
         },
         validationSchema: checkCouponSchema,
         onSubmit: values => {
@@ -173,7 +174,7 @@ const Payment = () => {
                         <div className='col-8'>
                             <input type='text'
                                 placeholder='Nhập mã giảm giá (chỉ ap dụng 1 lần)'
-                                className='w-100 py-2'
+                                className='w-100 py-2 text-dark'
                                 value={formik2.values.code}
                                 onChange={formik2.handleChange('code')}
                                 onBlur={formik2.handleBlur('code')} />
@@ -196,13 +197,13 @@ const Payment = () => {
             </Row>
             <Row>
                 <form onSubmit={formik.handleSubmit}>
-                    <Row className='d-flex'>
+                    <Row className=''>
                         <p>THÔNG TIN NGƯỜI NHẬN</p>
                         <div className='col-6 d-flex flex-column'>
                             <div className='d-flex flex-column mt-3'>
                                 <label className='mt-2 mb-2'>Họ và tên</label>
                                 <input
-                                    className='p-2 rounded-3'
+                                    className='p-2 rounded-3 text-dark'
                                     type='text'
                                     name="recipientName"
                                     value={formik.values.recipientName}
@@ -218,7 +219,7 @@ const Payment = () => {
                             <div className='d-flex flex-column mt-3'>
                                 <label className='mt-2 mb-2'>Số điện thoại</label>
                                 <input
-                                    className='p-2 rounded-3'
+                                    className='p-2 rounded-3 text-dark'
                                     type='text'
                                     name="recipientPhoneNumber"
                                     value={formik.values.recipientPhoneNumber}
@@ -251,7 +252,7 @@ const Payment = () => {
                         <div className='col-6 d-flex flex-column p-4'>
                             <label>Lời nhắn</label>
                             <textarea
-                                className='rounded-3'
+                                className='rounded-3 text-dark'
                                 rows={10}
                                 cols={10}
                                 name="desc"
