@@ -355,5 +355,28 @@ namespace backend.Repository
                 .Take(fillterModel.Top)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<ProductDisplayModel>> GetProductsActiveByCategoryAndBrand(int categoryId, int brandId)
+        {
+            return await _context.Products
+                   .Include(p => p.Brand)
+                   .Include(p => p.Category)
+                   .Include(p => p.ProductDetails)
+                   .Include(p => p.Images)
+                   .Where(p => p.CategoryId == categoryId && p.BrandId == brandId && p.Status == true)
+                   .Select(p => new ProductDisplayModel
+                   {
+                       Id = p.Id,
+                       Name = p.Name,
+                       AverageRating = p.AverageRating,
+                       BrandTitle = p.Brand != null ? p.Brand.Title : "",
+                       CategoryTitle = p.Category != null ? p.Category.Title : "",
+                       ImagePublicId = p.ThumnailId,
+                       ImageUrl = p.ThumnailUrl,
+                       Price = p.ProductDetails.DefaultIfEmpty().Min(pd => pd != null ? pd.RetailPrice : 0),
+                       Quantity = p.ProductDetails.DefaultIfEmpty().Sum(pd => pd != null ? pd.Quantity : 0)
+                   })
+                   .ToListAsync();
+        }
     }
 }

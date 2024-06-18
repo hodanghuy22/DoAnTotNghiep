@@ -7,7 +7,7 @@ const Loading = () => {
         <div className="overlay__inner">
             <div className="overlay__content">
                 <div className="spinner">
-                    <img src={logo} alt=''style={{borderRadius:'30%', width:'75px'}} />
+                    {/* <img src={logo} alt=''style={{borderRadius:'30%', width:'75px'}} /> */}
                 </div>
             </div>
         </div>

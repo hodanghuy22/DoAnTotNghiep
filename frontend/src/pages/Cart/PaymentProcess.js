@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { base_url, getConfig } from '../../utils/axiosConfig'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../../utils/Loading'
 
 const PaymentProcess = () => {
   const navigate = useNavigate()
+  const [isLoading, setLoading] = useState(true);
+
   const convertDateString = dateString => {
     if (typeof dateString !== 'string' || dateString.length !== 14) {
       return ''; // Trả về chuỗi rỗng nếu đầu vào không hợp lệ
@@ -17,6 +20,7 @@ const PaymentProcess = () => {
     return `${year}-${month}-${day}`;
   };
   useEffect(() => {
+    setLoading(true);
     const urlParams = new URLSearchParams(window.location.search);
     const data = {
       "bankCode" : urlParams.get('vnp_BankCode'),
@@ -30,11 +34,9 @@ const PaymentProcess = () => {
       "date" : convertDateString(urlParams.get('vnp_PayDate')),
       "paymentMethod" : "VNPAY"
     }
-    console.log("data", data);
     const makeApiCall = async () => {
       try {
         const response = await axios.post(`${base_url}Invoices/HookPayment`, data, getConfig());
-        console.log(response.data);
         const rs = response.data;
         if(rs?.isSuccess === true){
           navigate('/payment-success')
@@ -47,9 +49,19 @@ const PaymentProcess = () => {
     }
 
     makeApiCall();
+    setLoading(false);
   }, []);
   return (
+    <>
     <div>PaymentProcess</div>
+    {/* Hiển thị Loading nếu đang tải dữ liệu */}
+    {isLoading && <Loading />}
+                {/* Nội dung chính của ứng dụng sau khi tải xong */}
+                {!isLoading && (
+                    <div>
+                    </div>
+                )}
+    </>
   )
 }
 

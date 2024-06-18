@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { GetProductsActiveByCategory, resetState } from '../../features/products/productSlice';
+import { GetProductsActiveByCategory } from '../../features/products/productSlice';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 import { GetBrandByCategory } from '../../features/brands/brandSlice';
@@ -16,7 +16,6 @@ const ProductList = ({ categoryId }) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                await dispatch(resetState());
                 await dispatch(GetProductsActiveByCategory(categoryId));
                 await dispatch(GetBrandByCategory(categoryId));
                 setLoading(false);

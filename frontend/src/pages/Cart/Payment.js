@@ -3,7 +3,7 @@ import { Container, Row } from 'react-bootstrap'
 import { CiCreditCard1, CiDeliveryTruck } from 'react-icons/ci'
 import { FaMoneyBill } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetCart, resetState } from '../../features/cart/cartSlice'
+import { GetCart } from '../../features/cart/cartSlice'
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { CheckCoupon } from '../../features/coupons/couponSlice'
@@ -46,7 +46,6 @@ const Payment = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                await dispatch(resetState());
                 await  dispatch(GetCart(authState?.id));
                 setLoading(false);
             } catch (error) {
@@ -152,6 +151,7 @@ const Payment = () => {
 
     const createVnPay = async () => {
         try {
+            setLoading(true);
             const taoHD = await axios.post(`${base_url}Invoices`, formik.values, getConfig());
             const response = await axios.post(`${base_url}VnPays/create-payment`,
                 {
@@ -160,6 +160,7 @@ const Payment = () => {
                 }, getConfig());
             const paymentUrl = response.data;
             setTimeout(() => {
+                setLoading(false);
                 window.location.replace(paymentUrl);
             }, [300])
         } catch (error) {

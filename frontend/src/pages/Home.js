@@ -4,7 +4,7 @@ import { BsStar } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetProductPopularByCategogy, resetState } from '../features/products/productSlice';
+import { GetProductPopularByCategogy } from '../features/products/productSlice';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { FreeMode, Pagination } from 'swiper/modules';

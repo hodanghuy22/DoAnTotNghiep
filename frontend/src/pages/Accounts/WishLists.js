@@ -1,5 +1,5 @@
 import { Container, Row } from 'react-bootstrap'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper/modules';
@@ -7,15 +7,13 @@ import { FreeMode, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
-import { GetWishList, resetState } from '../../features/wishlists/wishlistSlice';
+import { GetWishList } from '../../features/wishlists/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import FormatData from '../../utils/FormatData';
 const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
   useEffect(() => {
-    // dispatch(resetState());
     dispatch(GetWishList());
   }, [dispatch]);
 

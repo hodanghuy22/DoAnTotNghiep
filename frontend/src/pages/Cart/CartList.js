@@ -4,7 +4,7 @@ import { FaMinus, FaPlus } from 'react-icons/fa'
 import { MdDeleteForever } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import './../../assets/css/cart.css'
-import { DeleteCart, GetCart, UpdateCart, resetState } from '../../features/cart/cartSlice'
+import { DeleteCart, GetCart, UpdateCart } from '../../features/cart/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading'
@@ -22,7 +22,6 @@ const CartList = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                await dispatch(resetState());
                 await dispatch(GetCart(authState?.id));
                 setLoading(false);
             } catch (error) {

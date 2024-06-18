@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { GetProductByBrand, resetState } from '../../features/products/productSlice';
+import { GetProductByBrand } from '../../features/products/productSlice';
 import { Link, useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
@@ -17,7 +17,6 @@ const ProductByBrand = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        //await dispatch(resetState());
         await dispatch(GetProductByBrand(brandId));
         setLoading(false);
       } catch (error) {

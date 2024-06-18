@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetSearchProduct, resetState } from '../../features/products/productSlice';
+import { GetSearchProduct } from '../../features/products/productSlice';
 import { Link, useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
@@ -15,7 +15,6 @@ const SearchResults = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        //await dispatch(resetState());
         await dispatch(GetSearchProduct({
           searchQuery: searchQuery
         }));

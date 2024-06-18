@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap'
-import { GetProductPopular, resetState } from '../../features/products/productSlice';
+import { GetProductPopular } from '../../features/products/productSlice';
 import { Link } from 'react-router-dom';
 import { BsStar } from 'react-icons/bs';
 import FormatData from '../../utils/FormatData';
@@ -14,7 +14,6 @@ const ProductHot = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        //await dispatch(resetState());
         await dispatch(GetProductPopular({
           top: 40,
           startDate: '2024-01-01',

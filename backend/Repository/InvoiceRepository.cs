@@ -278,6 +278,7 @@ namespace backend.Repository
         public async Task<Result<Invoice>> HookPayment(Transaction transaction)
         {
             var invoice = await _context.Invoices
+                .Include(i => i.User)
                 .FirstOrDefaultAsync(i => i.Id == transaction.TxnRef);
 
             if (transaction.TransactionStatus != "00" && transaction.ResponseCode != "00")
@@ -303,6 +304,13 @@ namespace backend.Repository
             {
                 return Result<Invoice>.Failure("Lỗi số tiền thanh toán hóa đơn không đủ!");
             }
+            string mess = "🆘 CÓ HÓA ĐƠN VỪA THANH TOÁN! \n" +
+                              $"Mã hóa đơn: #{invoice.Id} \n" +
+                              "Tình trạng: Đã thanh toán \n" +
+                              $"Khách hàng: {invoice.User.Name ?? invoice.User.Email}\n" +
+                              $"Tồng tiền: {invoice.TotalPriceAfterDiscount} \n" +
+                              $"Ngày đặt hàng: {invoice.IssueDate}\n";
+            await _telegramService.SendMessage(mess);
             invoice.OrderStatusId = 2;
             invoice.IsPaid = true;
             invoice.Transaction = transaction;
