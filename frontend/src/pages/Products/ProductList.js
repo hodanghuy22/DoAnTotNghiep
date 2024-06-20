@@ -11,13 +11,14 @@ import { GetBrandByCategory } from '../../features/brands/brandSlice';
 const ProductList = ({ categoryId }) => {
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
-
+    const [selectedIndex, setSelectedIndex] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
                 await dispatch(GetProductsActiveByCategory(categoryId));
                 await dispatch(GetBrandByCategory(categoryId));
+                
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -35,7 +36,10 @@ const ProductList = ({ categoryId }) => {
         }
     }, 1000)
 
-
+    const handleClick = (index) => {
+        console.log(index)
+        setSelectedIndex(index)
+    }
     const sortedProducts = Array.isArray(productState) ? [...productState] : [];
     if (sortType === 'lowToHigh') {
         sortedProducts.sort((a, b) => a.price - b.price);
@@ -69,7 +73,13 @@ const ProductList = ({ categoryId }) => {
                             brandState && brandState?.map((item, index) => {
                                 return (
                                     <div className='col-2 px-3 mb-3' key={index}>
-                                        <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`} className='border p-2 rounded-pill d-block text-decoration-none'>{item?.title}</Link>
+                                        <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`}
+                                            className={`${selectedIndex === item?.id ? 'bg-danger text-light border p-2 rounded-pill d-block text-decoration-none' : 'bg-transparent border p-2 rounded-pill d-block text-decoration-none'}`}
+
+                                            onClick={() => handleClick(item?.id)}
+                                        >
+                                            {item?.title}
+                                        </Link>
                                     </div>
                                 )
                             })

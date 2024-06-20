@@ -94,16 +94,10 @@ const CartList = () => {
                                         </div>
                                         <div className='p-3'>
                                             <div className=''>
-                                                <p className='fs-45 fw-bold'>{item?.productDetail?.product?.name}</p>
-                                                <select className='text-dark '>
-                                                    <option>{item?.productDetail?.color?.colorName}</option>
-                                                </select>
+                                                <p className='fs-45 fw-bold'>{item?.productDetail?.product?.name} {item?.productDetail?.product?.ram}/{item?.productDetail?.capacity?.totalCapacity}</p>
+                                                <p>Màu {item?.productDetail?.color?.colorName}</p>
                                             </div>
                                             <div style={{ overflowWrap: 'break-word' }} className='uu-dai mt-4'>
-                                                <p >- Ưu đãi sinh nhật, cơ hội trúng đồng hồ Apple Watch hoặc tai nghe AirPods 2</p>
-                                                <p >- Giảm thêm 500,000đ (Đã trừ vào giá) cho khách hàng đổi 5,000 điểm Viettel++ trên ứng dụng My Viettel</p>
-                                                <p >TRẢ GÓP/THANH TOÁN (Khách hàng chọn 01 trong các hình thức trả góp/thanh toán sau):</p>
-                                                <p >- Trả góp 0% trên giá 29,990,000đ qua Công ty Tài chính (từ 1,610,000đ/tháng)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -117,7 +111,6 @@ const CartList = () => {
                                             <div className='d-flex'>
                                                 <i className="cart-iconFa"
                                                     // dispatch(UpdateCart({ id: productUpdateDetails?.id, userId: productUpdateDetails?.userId, productId: productUpdateDetails?.productId, quantity: productUpdateDetails?.quantity }))
-
                                                     onClick={(e) => setProductUpdateDetails({ id: item?.id, userId: item?.userId, productId: item?.productDetailId, quantity: item.quantity - 1 })}
                                                 ><FaMinus />
                                                 </i>

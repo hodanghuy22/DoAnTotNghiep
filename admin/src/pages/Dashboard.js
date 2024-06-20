@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CountCancelInvoicesByMonth, CountInvoicesByMonth, GetRevenueAfterDiscountByMonth, GetRevenueByMonth, GetRevenueOfYear } from '../features/invoices/invoiceSlice'
 import { CountUser } from '../features/auths/authSlice'
 import ColumnRevenueChart from '../components/ColumnRevenueChart'
+import FormatData from '../utils/FormatData'
 
 const Dashboard = () => {
   const currentDate = new Date();
@@ -94,7 +95,7 @@ const Dashboard = () => {
             }}
           />}
           title={"Doanh thu"}
-          value={revenueByMonth} />
+          value={FormatData.formatNumber(revenueByMonth) } />
         <DasboardCard
           icon={<RiMoneyDollarCircleLine
             style={{
@@ -106,7 +107,7 @@ const Dashboard = () => {
             }}
           />}
           title={"Doanh thu sau chiết khấu"}
-          value={revenueAfterDiscountByMonth} />
+          value={FormatData.formatNumber(revenueAfterDiscountByMonth)} />
       </div>
       <div className='mt-5 container-fuild'>
         <h3 className='mb-3'>Doanh số theo tháng trong năm {currentYear}</h3>

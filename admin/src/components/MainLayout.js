@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import logo from '../assets/images/logo-nobg.png';
 import { Layout, Menu, Button, theme } from 'antd';
 import { Logout } from '../features/auths/authSlice';
 import { IoColorWandSharp, IoNotifications } from 'react-icons/io5';
@@ -32,7 +32,9 @@ const MainLayout = () => {
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo"></div>
+        <div className="logo">
+          <img src={logo} alt='logo' width={'68%'} className=''/>
+        </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -49,7 +51,7 @@ const MainLayout = () => {
           items={[
             {
               key: '',
-              icon: <MdDashboard className='fs-5' />,
+              icon: '',
               label: 'Dashboard',
             },
             {
@@ -115,12 +117,12 @@ const MainLayout = () => {
             },
             {
               key: 'notification-cata',
-              icon: <IoNotifications  className='fs-5' />,
+              icon: <IoNotifications className='fs-5' />,
               label: 'Notifications',
               children: [
                 {
                   key: 'notification-list',
-                  icon: <IoNotifications  className='fs-5' />,
+                  icon: <IoNotifications className='fs-5' />,
                   label: 'List Notifications',
                 },
               ]

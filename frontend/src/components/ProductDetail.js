@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { Link, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
@@ -7,7 +7,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { FaPlus, FaUser } from 'react-icons/fa6';
-import logo from '../assets/images/logo-nobg.png';
 import { useDispatch, useSelector } from 'react-redux';
 import FormatData from '../utils/FormatData';
 import { CiHeart } from 'react-icons/ci';
@@ -358,7 +357,7 @@ const ProductDetail = ({ categoryId }) => {
                                     return (
                                         <Button
                                             key={index}
-                                            className={` ${activeButtonColor === item?.id ? 'bg-danger text-light' : 'bg-transparent text-dark border-dark'}`}
+                                            className={`${activeButtonColor === item?.id ? 'bg-danger text-light' : 'bg-transparent text-dark border-dark'}`}
                                             style={{ marginRight: '8px' }}
                                             onClick={() => handleColorSelection(item?.id)}
                                         >

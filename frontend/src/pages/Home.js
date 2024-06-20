@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
@@ -14,25 +14,27 @@ import 'swiper/css/navigation';
 import { GetSlidehow } from '../features/slideshows/slideshowSlice';
 import FormatData from '../utils/FormatData';
 import Loading from '../utils/Loading';
+import { GetCoupon } from '../features/coupons/couponSlice';
 const Home = () => {
   const dispatch = useDispatch();
   const slideshowState = useSelector(state => state?.slideshow?.slideshow);
+  const couponState = useSelector((state) => state?.coupon?.coupon);
   const [isLoading, setLoading] = useState(true);
-  
+
   const categoryIdToVariableMap = {
     1: "phonePopular",
     2: "PDUPopular",
     3: "headphonePopular",
     4: "headphoneTWPopular"
   };
-  
+
   const fetchData = async () => {
     setLoading(true);
     try {
       // Fetch slideshow data
       //await dispatch(resetState());
       await dispatch(GetSlidehow());
-  
+      await dispatch(GetCoupon())
       // Fetch product data for different categories
       await Promise.all(
         Object.keys(categoryIdToVariableMap).map(async id => {
@@ -68,22 +70,22 @@ const Home = () => {
           }
         })
       );
-  
+
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, [dispatch]);
-  
+
   const [phonePopular, setPhonePopular] = useState([]);
   const [PDUPopular, setPDUPopular] = useState([]);
   const [headphonePopular, setHeadphonePopular] = useState([]);
   const [headphoneTWPopular, setHeadphoneTWPopular] = useState([]);
-  
+
   return (
     <>
       <Container>
@@ -111,14 +113,24 @@ const Home = () => {
             </Swiper>
           </Col>
         </Row>
-        {/* Sản phẩm nổi bật */}
         <Row>
-          <Col className='d-flex align-items-center mt-5 mb-5'>
-            <p className='text-danger'>KHUYẾN MÃI LỚN</p>
-            <h1 className='text-center m-auto'>Điện Thoại Nổi Bật</h1>
-            <Link to={'/dien-thoai'} className='btn bg-gray p-2'>Xem tất cả</Link>
-          </Col>
+          {
+            couponState && couponState?.map((item, index) => {
+              return (
+                <p key={index} className='p-5 fs-2 text-center bg-danger '>{item?.title}</p>
+              )
+            })
+          }
         </Row>
+        {phonePopular &&
+          <Row>
+            <Col className='d-flex align-items-center mt-5 mb-5'>
+              <p className='text-danger'>KHUYẾN MÃI LỚN</p>
+              <h1 className='text-center m-auto'>Điện Thoại Nổi Bật</h1>
+              <Link to={'/dien-thoai'} className='btn bg-gray p-2'>Xem tất cả</Link>
+            </Col>
+          </Row>
+        }
         <Row>
           <Swiper
             slidesPerView={4}
@@ -151,10 +163,14 @@ const Home = () => {
             }
           </Swiper>
         </Row>
-        <Col className='d-flex align-items-center mt-5 mb-5'>
-          <h1 className='text-center m-auto'>Tai Nghe Không Dây Nổi Bật</h1>
-          <Link to={'/tai-nghe-khong-day'} className='btn bg-gray p-2'>Xem tất cả</Link>
-        </Col>
+        {headphonePopular.length !== 0 && (
+          <div>
+            <Col className='d-flex align-items-center mt-5 mb-5'>
+              <h1 className='text-center m-auto'>Tai Nghe Không Dây Nổi Bật</h1>
+              <Link to={'/tai-nghe-khong-day'} className='btn bg-gray p-2'>Xem tất cả</Link>
+            </Col>
+          </div>
+        )}
         <Row>
           <Swiper
             slidesPerView={4}
@@ -187,10 +203,15 @@ const Home = () => {
             }
           </Swiper>
         </Row>
-        <Col className='d-flex align-items-center mt-5 mb-5'>
-          <h1 className='text-center m-auto'>Tai Nghe Nổi Bật</h1>
-          <Link to={'/tai-nghe-co-day'} className='btn bg-gray p-2'>Xem tất cả</Link>
-        </Col>
+        {headphoneTWPopular.length !== 0 && (
+          <div>
+            <Col className='d-flex align-items-center mt-5 mb-5'>
+              <h1 className='text-center m-auto'>Tai Nghe Nổi Bật</h1>
+              <Link to={'/tai-nghe-co-day'} className='btn bg-gray p-2'>Xem tất cả</Link>
+            </Col>
+          </div>
+        )}
+
         <Row>
           <Swiper
             slidesPerView={4}
@@ -223,10 +244,15 @@ const Home = () => {
             }
           </Swiper>
         </Row>
-        <Col className='d-flex align-items-center mt-5 mb-5'>
+        {PDUPopular.length !== 0 && (
+          <div>
+             <Col className='d-flex align-items-center mt-5 mb-5'>
           <h1 className='text-center m-auto'>Sạc Dự Phòng Nổi Bật</h1>
           <Link to={'/sac-du-phong'} className='btn bg-gray p-2'>Xem tất cả</Link>
         </Col>
+          </div>
+        )}
+       
         <Row>
           <Swiper
             slidesPerView={4}
@@ -259,8 +285,8 @@ const Home = () => {
             }
           </Swiper>
         </Row>
-         {/* Hiển thị Loading nếu đang tải dữ liệu */}
-         {isLoading && <Loading />}
+        {/* Hiển thị Loading nếu đang tải dữ liệu */}
+        {isLoading && <Loading />}
         {/* Nội dung chính của ứng dụng sau khi tải xong */}
         {!isLoading && (
           <div>

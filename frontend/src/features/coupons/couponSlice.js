@@ -10,7 +10,13 @@ export const CheckCoupon = createAsyncThunk("coupons/check", async (data, thunkA
     return thunkAPI.rejectWithValue(err);
   }
 })
-
+export const GetCoupon = createAsyncThunk("coupons/get", async (thunkAPI) => {
+  try {
+    return await couponService.getCoupon();
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
 export const resetState = createAction('Reset_all')
 
 const initialState = {
@@ -40,6 +46,25 @@ export const couponSlice = createSlice({
         }
       })
       .addCase(CheckCoupon.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.coupon = null;
+        state.message = action.payload.response.data.error;
+        if(state.isError){
+          toast.error(state.message)
+        }
+      })
+      .addCase(GetCoupon.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetCoupon.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.coupon = action.payload;
+      })
+      .addCase(GetCoupon.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

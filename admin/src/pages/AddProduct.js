@@ -690,7 +690,7 @@ const AddProduct = () => {
               </div>
               <br />
               <br />
-              <div className='bg-white border-1 p-5 text-center'>
+              <div className='bg-white border-1 p-5 text-center border-top'>
                 <p className='fw-bold'>List images</p>
                 <Dropzone onDrop={acceptedFiles => upLoadHinh(acceptedFiles)}>
                   {({ getRootProps, getInputProps }) => (
@@ -702,7 +702,7 @@ const AddProduct = () => {
                     </section>
                   )}
                 </Dropzone>
-                <div className='d-flex flex-row'>
+                <div className='d-flex flex-wrap'>
                   {formik.values.images.length > 0 && formik.values.images.map((item, index) => {
                     return (
                       <div key={index} className='showImages d-flex flex-wrap gap-3 mb-3 ms-3'>

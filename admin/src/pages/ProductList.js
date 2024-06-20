@@ -54,7 +54,7 @@ const ProductList = () => {
       name: productState[i].name,
       brand: productState[i].brand?.title,
       category: productState[i].category?.title,
-      hinh: (<img className='img-fluid w-25' src={productState[i].images[0]?.imageUrl} />),
+      hinh: (<img className='img-fluid w-50' src={productState[i].thumnailUrl} />),
       status: (<>
         <select defaultValue={productState[i]?.status}
           onChange={(e) => updateStatus(productState[i]?.id, e.target.value)}
@@ -76,10 +76,12 @@ const ProductList = () => {
     }, 300)
   }
   return (
-    <div className='container'>
+    <div className=' '>
       <h1 className='mb-4 fw-bold'>List of products</h1>
       <div>
-        <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }} /></div>
+        <div>
+          <Table columns={columns} dataSource={data1} scroll={{ y: '68vh' }} />
+          </div>
       </div>
     </div>
   );

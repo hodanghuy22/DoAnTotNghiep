@@ -12,8 +12,9 @@ const ProductBrandList = ({ categoryId }) => {
   const dispatch = useDispatch();
   const productState = useSelector((state) => state?.product?.productByBrandCategory);
   const brandState = useSelector(state => state?.brand?.BrandByCategory);
-
   const firstProduct = productState?.[0] ?? 'No product available';
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  
   const { brandId } = useParams();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
@@ -31,7 +32,7 @@ const ProductBrandList = ({ categoryId }) => {
       }
     };
     fetchData();
-  }, [dispatch, categoryId,brandId]);
+  }, [dispatch, categoryId, brandId]);
   const [sortType, setSortType] = useState('default');
   setTimeout(() => {
     if (isLoading) {
@@ -50,18 +51,21 @@ const ProductBrandList = ({ categoryId }) => {
   };
   const getCategoryPath = (categoryId) => {
     switch (categoryId) {
-        case 1:
-            return '/dien-thoai';
-        case 2:
-            return '/sac-du-phong';
-        case 3:
-            return '/tai-nghe-khong-day';
-        case 4:
-            return '/tai-nghe-co-day';
-        default:
-            return '/';
+      case 1:
+        return '/dien-thoai';
+      case 2:
+        return '/sac-du-phong';
+      case 3:
+        return '/tai-nghe-khong-day';
+      case 4:
+        return '/tai-nghe-co-day';
+      default:
+        return '/';
     }
-};
+  };
+  const handleClick = (index) => {
+    setSelectedIndex(index)
+  }
   return (
     <Container className='mb-5'>
       <Row>
@@ -79,7 +83,12 @@ const ProductBrandList = ({ categoryId }) => {
             brandState && brandState?.map((item, index) => {
               return (
                 <div className='col-2 px-3 mb-3' key={index}>
-                  <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`} className='border p-2 rounded-pill d-block text-decoration-none'>{item?.title}</Link>
+                  <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`}
+                    className={`${selectedIndex === item?.id ? 'bg-danger text-light border p-2 rounded-pill d-block text-decoration-none' : 'bg-transparent border p-2 rounded-pill d-block text-decoration-none'}`}
+                    onClick={() => handleClick(item?.id)}
+                  >
+                    {item?.title}
+                  </Link>
                 </div>
               )
             })
