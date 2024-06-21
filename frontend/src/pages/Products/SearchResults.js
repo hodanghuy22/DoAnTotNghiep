@@ -51,8 +51,6 @@ const SearchResults = () => {
         <Col className='fs-5'>
           <p>Có {productCount} kết quả tìm kiếm cho từ khoá: "<i>{searchQuery}</i>"</p>
         </Col>
-      </Row>
-      <Row>
           <Col className='d-flex flex-row-reverse mb-1'>
             <select className='text-dark' onChange={handleSortChange}>
               <option value="default">Thứ tự mặc định</option>
@@ -60,6 +58,8 @@ const SearchResults = () => {
               <option value="highToLow">Giá cao đến thấp</option>
             </select>
           </Col>
+      </Row>
+      <Row>
         {
           sortedProducts && sortedProducts?.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
@@ -70,7 +70,7 @@ const SearchResults = () => {
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                  <p>Tình trạng: còn hàng</p>
+                  <p>Số lượng: {item?.productDetails[0]?.quantity}</p>
                   <p className='phone-price amount'>{FormatData.formatNumber(item?.productDetails[0]?.retailPrice)}</p>
                 </div>
               </Link>

@@ -7,6 +7,7 @@ import { GetProductsActiveByCategory } from '../../features/products/productSlic
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 import { GetBrandByCategory } from '../../features/brands/brandSlice';
+import './../../assets/css/global.css'
 
 const ProductList = ({ categoryId }) => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const ProductList = ({ categoryId }) => {
             try {
                 await dispatch(GetProductsActiveByCategory(categoryId));
                 await dispatch(GetBrandByCategory(categoryId));
-                
+
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -30,6 +31,8 @@ const ProductList = ({ categoryId }) => {
     const [sortType, setSortType] = useState('default');
     const productState = useSelector(state => state?.product?.productByCategory);
     const brandState = useSelector(state => state?.brand?.BrandByCategory);
+  const firstProduct = productState?.[0] ?? 'No product available';
+
     setTimeout(() => {
         if (isLoading) {
             return <Loading />;
@@ -64,17 +67,27 @@ const ProductList = ({ categoryId }) => {
                 return '/';
         }
     };
+    const productCount = productState ? productState.length : 0;
+
     return (
         <div>
             <Container className='mb-5'>
+                <Row className='mt-3'>
+                    <nav aria-label="breadcrumb">
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item "><Link className='text-decoration-none' to="/">Trang Chủ</Link></li>
+                            <li className="breadcrumb-item "><Link className='text-decoration-none' to={`/${FormatData.removeVietnameseTones(firstProduct?.categoryTitle)}`}>{firstProduct?.categoryTitle}</Link></li>
+                        </ol>
+                    </nav>
+                </Row>
                 <Row>
-                    <div className='d-flex text-center mt-3 flex-wrap'>
+                    <div className='d-flex text-center flex-wrap'>
                         {
                             brandState && brandState?.map((item, index) => {
                                 return (
                                     <div className='col-2 px-3 mb-3' key={index}>
                                         <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`}
-                                            className={`${selectedIndex === item?.id ? 'bg-danger text-light border p-2 rounded-pill d-block text-decoration-none' : 'bg-transparent border p-2 rounded-pill d-block text-decoration-none'}`}
+                                            className={`hover-item-brand ${selectedIndex === item?.id ? 'bg-danger text-light border p-2 rounded-pill d-block text-decoration-none' : 'bg-transparent border p-2 rounded-pill d-block text-decoration-none'}`}
 
                                             onClick={() => handleClick(item?.id)}
                                         >
@@ -88,7 +101,7 @@ const ProductList = ({ categoryId }) => {
                 </Row>
                 <Row className='justify-content-between mt-5'>
                     <Col className='fs-5'>
-                        <p>Hiển thị tổng số sản phẩm</p>
+                        <p>Có {productCount} sản phẩm</p>
                     </Col>
                     <Col className='d-flex flex-row-reverse mb-1'>
                         <select className='text-dark' onChange={handleSortChange}>
@@ -109,7 +122,7 @@ const ProductList = ({ categoryId }) => {
                                     <div className='phone-info p-3 border border-top-0'>
                                         <p className='fs-5 phone-name'>{item?.name}</p>
                                         <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                                        <p>Tình trạng: còn hàng</p>
+                                        <p>Số lượng: {item?.quantity}</p>
                                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                                     </div>
                                 </Link>

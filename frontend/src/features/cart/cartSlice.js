@@ -80,7 +80,7 @@ export const cartSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.payload;
-                toast.error(action.payload);
+                // toast.error(action.payload);
             })
             .addCase(DeleteCart.pending, (state) => {
                 state.isLoading = true;

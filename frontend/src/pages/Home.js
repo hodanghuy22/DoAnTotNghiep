@@ -125,7 +125,6 @@ const Home = () => {
         {phonePopular &&
           <Row>
             <Col className='d-flex align-items-center mt-5 mb-5'>
-              <p className='text-danger'>KHUYẾN MÃI LỚN</p>
               <h1 className='text-center m-auto'>Điện Thoại Nổi Bật</h1>
               <Link to={'/dien-thoai'} className='btn bg-gray p-2'>Xem tất cả</Link>
             </Col>

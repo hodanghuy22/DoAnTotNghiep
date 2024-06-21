@@ -44,12 +44,13 @@ const ProductHot = () => {
   const handleSortChange = (e) => {
     setSortType(e.target.value);
   };
+  const productCount = productState ? productState.length : 0;
 
   return (
     <Container className='mb-5'>
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
-          <p>Hiển thị tổng số sản phẩm</p>
+          <p>Có {productCount} sản phẩm</p>
         </Col>
         <Col className='d-flex flex-row-reverse mb-1'>
           <select className='text-dark' onChange={handleSortChange}>
@@ -70,7 +71,7 @@ const ProductHot = () => {
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                  <p>Tình trạng: còn hàng</p>
+                  <p>Số lượng: {item?.quantity}</p>
                   <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                 </div>
               </Link>

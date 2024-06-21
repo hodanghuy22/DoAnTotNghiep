@@ -61,7 +61,7 @@ const SignUp = () => {
                 value={formik.values.name}
                 onChange={formik.handleChange('name')}
                 onBlur={formik.handleBlur('name')}
-                className='w-100 shadow p-3 bg-body rounded' 
+                className='w-100 shadow p-3 bg-body rounded text-dark' 
               />
               <div className='error'>
                 {
@@ -77,7 +77,7 @@ const SignUp = () => {
                 value={formik.values.email}
                 onChange={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
-                className='w-100 shadow p-3 bg-body rounded' 
+                className='w-100 shadow p-3 bg-body rounded  text-dark' 
               />
               <div className='error'>
                 {
@@ -89,7 +89,7 @@ const SignUp = () => {
               <input 
                 type='text' 
                 placeholder='Username' 
-                className='w-100 shadow p-3 bg-body rounded'
+                className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="username"
                 value={formik.values.username}
                 onChange={formik.handleChange('username')}
@@ -105,7 +105,7 @@ const SignUp = () => {
               <input 
                 type='password' 
                 placeholder='Password' 
-                className='w-100 shadow p-3 bg-body rounded'
+                className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange('password')}
@@ -121,7 +121,7 @@ const SignUp = () => {
               <input 
                 type='password' 
                 placeholder='Repassword' 
-                className='w-100 shadow p-3 bg-body rounded'
+                className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="repassword"
                 value={formik.values.repassword}
                 onChange={formik.handleChange('repassword')}

@@ -8,7 +8,7 @@ import logo from '../assets/images/logo-nobg.png';
 import { LuSmartphone } from 'react-icons/lu';
 import { CiHeadphones } from 'react-icons/ci';
 import { IoIosNotificationsOutline, IoMdBatteryCharging } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../assets/css/global.css';
 import '../assets/css/header.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +17,15 @@ import Notification from './Notification';
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const location = useLocation();
   const authState = useSelector(state => state.auth);
+
   const [searchQuery, setSearchQuery] = useState('');
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleUserClick = () => {
+    setShow(true);
+  }
 
   const handleLogout = () => {
     dispatch(Logout());
@@ -108,11 +115,20 @@ const Header = () => {
                 variant='light'
                 style={{}}
               >
-                  <Notification />
+                <Notification />
               </DropdownButton>
             </div>
             <div className='fs-3 p-3 btn mt-1 '>
-              <DropdownButton
+              {
+                (authState.user === null) ? (
+                  <FaRegUser className='fs-4 text-dark'  onClick={handleUserClick} />
+                ) : (
+                  <Link to={'/trang-ca-nhan'}>
+                    <FaRegUser className='fs-4 text-dark'  />
+                  </Link>
+                )
+              }
+              {/* <DropdownButton
                 as={ButtonGroup}
                 align={{ lg: 'end' }}
                 id="dropdown-menu-align-responsive-1"
@@ -145,7 +161,7 @@ const Header = () => {
                 <Dropdown.Item className='custom-dropdown-item'>
                   <button className='w-100 btn btn-link text-decoration-none text-start p-0' onClick={handleLogout}>Đăng xuất</button>
                 </Dropdown.Item>
-              </DropdownButton>
+              </DropdownButton> */}
             </div>
           </Col>
         </Row>
@@ -153,7 +169,7 @@ const Header = () => {
           <Col className='d-flex flex-row mt-3'>
             <div className='btn text-nowrap'>
 
-              <Link to={'/hot'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar /></i><span className=''> Phổ biến</span></p></Link>
+              <Link to={'/hot'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar className='text-danger'/></i><span className=''> Phổ biến</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
               <Link to={'/dien-thoai'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>
@@ -186,6 +202,37 @@ const Header = () => {
             />
           </form>
         </Modal.Body>
+      </Modal>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton >
+        </Modal.Header>
+        <Modal.Body>
+          <div className='d-flex justify-content-center mb-4'>
+            <h3 >E-HUBI</h3>
+          </div>
+          <h6 className='text-center'>Vui lòng đăng nhập tài khoản để tiếp tục</h6>
+        </Modal.Body>
+        <div className='d-flex flex-row p-4 m-0'>
+          <Link to={'/signup'}
+            className='text-decoration-none btn w-50 p-2 m-2 bg-light text-danger border-danger fw-bold rounded-3'
+            onClick={() => { setShow(false) }}
+            state={{ from: location }}
+          >
+            Đăng Ký
+          </Link>
+          <Link to={'/login'}
+            className='text-decoration-none btn w-50 p-2 m-2 bg-danger border-light fw-bold rounded-3 text-light'
+            onClick={() => { setShow(false) }}
+            state={{ from: location }}
+          >
+            Đăng Nhập
+          </Link>
+        </div>
       </Modal>
     </div>
   )

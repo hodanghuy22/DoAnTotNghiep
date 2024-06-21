@@ -7,6 +7,7 @@ import Loading from '../utils/Loading';
 import { GetProductByBrandCategory } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
 import { GetBrandByCategory } from '../features/brands/brandSlice';
+import '../assets/css/global.css';
 
 const ProductBrandList = ({ categoryId }) => {
   const dispatch = useDispatch();
@@ -66,9 +67,10 @@ const ProductBrandList = ({ categoryId }) => {
   const handleClick = (index) => {
     setSelectedIndex(index)
   }
+  const productCount = productState ? productState.length : 0;
   return (
     <Container className='mb-5'>
-      <Row>
+      <Row className='mt-3'>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             <li className="breadcrumb-item "><Link className='text-decoration-none' to="/">Trang Chủ</Link></li>
@@ -78,13 +80,13 @@ const ProductBrandList = ({ categoryId }) => {
         </nav>
       </Row>
       <Row>
-        <div className='d-flex text-center mt-3 flex-wrap'>
+        <div className='d-flex text-center flex-wrap'>
           {
             brandState && brandState?.map((item, index) => {
               return (
                 <div className='col-2 px-3 mb-3' key={index}>
                   <Link to={`${getCategoryPath(categoryId)}/brand/${item?.id}`}
-                    className={`${selectedIndex === item?.id ? 'bg-danger text-light border p-2 rounded-pill d-block text-decoration-none' : 'bg-transparent border p-2 rounded-pill d-block text-decoration-none'}`}
+                    className={` hover-item-brand ${selectedIndex === item?.id ? 'bg-danger text-light border p-2 rounded-pill d-block text-decoration-none' : 'bg-transparent border p-2 rounded-pill d-block text-decoration-none'}`}
                     onClick={() => handleClick(item?.id)}
                   >
                     {item?.title}
@@ -97,7 +99,7 @@ const ProductBrandList = ({ categoryId }) => {
       </Row>
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
-          <p>Hiển thị tổng số sản phẩm</p>
+          <p>Có {productCount} sản phẩm</p>
         </Col>
         <Col className='d-flex flex-row-reverse mb-1'>
           <select className='text-dark' onChange={handleSortChange}>
@@ -118,7 +120,7 @@ const ProductBrandList = ({ categoryId }) => {
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                  <p>Tình trạng: còn hàng</p>
+                  <p>Số Lượng: {item?.quantity}</p>
                   <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                 </div>
               </Link>

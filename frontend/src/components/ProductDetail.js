@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
-import { Link, useParams } from 'react-router-dom'
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -49,6 +49,11 @@ const ProductDetail = ({ categoryId }) => {
     const [isLoading, setLoading] = useState(true);
     const [replytVisiable, setReplytVisiable] = useState(false);
     const [replyCommentId, setReplyCommentId] = useState(null);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const location = useLocation();
+
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -60,10 +65,16 @@ const ProductDetail = ({ categoryId }) => {
         validationSchema: commentSchema,
         onSubmit: values => {
             console.log(values);
-            dispatch(CreateComment(values));
-            setTimeout(() => {
-                dispatch(GetProduct(productId));
-            }, 300);
+            if (authState === null) {
+                setShow(true);
+            }
+            if (authState !== null) {
+                dispatch(CreateComment(values));
+                setTimeout(() => {
+                    dispatch(GetProduct(productId));
+                }, 300);
+            }
+
         },
     });
     const formik2 = useFormik({
@@ -94,11 +105,17 @@ const ProductDetail = ({ categoryId }) => {
         validationSchema: commentSchema,
         onSubmit: values => {
             console.log(values);
-            setReplytVisiable(false);
-            dispatch(CreateComment(values));
-            setTimeout(() => {
-                dispatch(GetProduct(productId));
-            }, 300);
+            if (authState === null) {
+                setShow(true);
+            }
+            if (authState !== null) {
+                setReplytVisiable(false);
+                dispatch(CreateComment(values));
+                setTimeout(() => {
+                    dispatch(GetProduct(productId));
+                }, 300);
+            }
+
         },
     });
     useEffect(() => {
@@ -191,14 +208,22 @@ const ProductDetail = ({ categoryId }) => {
         }
     }, 1000)
     const addCart = () => {
-        dispatch(AddCart({
-            userId: authState?.id,
-            productDetailId: productDetailState?.id,
-            quantity: 1
-        }))
+        if (authState === null) {
+            setShow(true);
+        }
+        return (
+            dispatch(AddCart({
+                userId: authState?.id,
+                productDetailId: productDetailState?.id,
+                quantity: 1
+            }))
+        )
     }
     // THêm yêu thích
     const AddWishList = () => {
+        if (authState === null) {
+            setShow(true);
+        }
         dispatch(CreateWishList({
             userId: authState?.id,
             productId: productState?.id,
@@ -282,6 +307,9 @@ const ProductDetail = ({ categoryId }) => {
         setReplyCommentId(commentId);
         formik3.setFieldValue("commentId", commentId)
     };
+
+
+
     return (
         <Container>
             <Row>
@@ -296,10 +324,11 @@ const ProductDetail = ({ categoryId }) => {
             <Row>
                 <Col className='d-flex flex-row'>
                     <h3>{product?.category?.title} {product?.name} {product?.rom}</h3>
+                    <h5 className='mt-2 mx-2'>Số lượng: {product?.productDetails[0]?.quantity}</h5>
                     <Link to="/so-sanh" className='ml-3 text-decoration-none ' >
-                        <p className='mx-4 mt-1 '><FaPlus /> So Sánh</p>
+                        <p className='mx-4 mt-2 '><FaPlus /> So Sánh</p>
                     </Link>
-                    <Link className='ml-3' onClick={AddWishList}>
+                    <Link className='ml-2' onClick={AddWishList}>
                         <div className="icon-container">
                             <CiHeart className="icon heart-outline" />
                             <FcLike className="icon heart-filled" />
@@ -644,6 +673,36 @@ const ProductDetail = ({ categoryId }) => {
                 <div>
                 </div>
             )}
+            <Modal
+                show={show}
+                onHide={handleClose}
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header closeButton >
+                </Modal.Header>
+                <Modal.Body>
+                    <div className='d-flex justify-content-center mb-4'>
+                        <h3 >E-HUBI</h3>
+                    </div>
+                    <h6 className='text-center'>Vui lòng đăng nhập tài khoản để tiếp tục</h6>
+                </Modal.Body>
+                <div className='d-flex flex-row p-4 m-0'>
+                    <Link
+                        to={'/signup'}
+                        state={{ from: location }}
+                        className='text-decoration-none btn w-50 p-2 m-2 bg-light text-danger border-danger fw-bold rounded-3'>
+                        Đăng Ký
+                    </Link>
+                    <Link
+                        to={'/login'}
+                        state={{ from: location }}
+                        className='text-decoration-none btn w-50 p-2 m-2 bg-danger border-light fw-bold rounded-3 text-light'
+                    >
+                        Đăng Nhập
+                    </Link>
+                </div>
+            </Modal>
         </Container>
     )
 }

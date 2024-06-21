@@ -112,4 +112,8 @@
   font-size: 14px;
   color: #555;
 }
+.hover-item-brand:hover{
+  background-color: red;
+  color: red;
+}
 
