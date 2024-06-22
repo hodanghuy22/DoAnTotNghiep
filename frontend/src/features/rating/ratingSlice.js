@@ -55,9 +55,10 @@ export const ratingSlice = createSlice({
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.rating = action.payload;
-                if(state.isSuccess){
-                    toast.success("Rating is successfully!!!")
+                if (action.payload.message) {
+                    toast.error(action.payload.message);
+                } else {
+                    state.rating = action.payload.data;
                 }
             })
             .addCase(CreateRating.rejected, (state, action) => {
@@ -65,7 +66,7 @@ export const ratingSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 state.message = action.error;
-                if(state.isError){
+                if (state.isError) {
                     toast.error(action.error.message)
                 }
             })

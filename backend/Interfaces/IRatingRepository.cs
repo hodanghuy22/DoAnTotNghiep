@@ -5,7 +5,7 @@ namespace backend.Interfaces
 {
     public interface IRatingRepository
     {
-        Task<IActionResult> CreateRating(Rating rating);
+        Task<Result<Rating>> CreateRating(Rating rating);
         Task<IEnumerable<Rating>> GetRatings(int productId);
         Task<Rating> GetRating(int id);
         Task<bool> RatingExist(int id);

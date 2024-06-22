@@ -32,7 +32,8 @@ namespace backend.Controllers
         [Authorize]
         public async Task<IActionResult> CreateRating(Rating rating)
         {
-            return await _uow.RatingRepository.CreateRating(rating);
+            var result = await _uow.RatingRepository.CreateRating(rating);
+            return Ok(result);
         }
         [HttpPut]
         [Route("{id}")]

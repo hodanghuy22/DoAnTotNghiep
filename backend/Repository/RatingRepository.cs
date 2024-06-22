@@ -15,27 +15,21 @@ namespace backend.Repository
             _context = context;
         }
 
-        public async Task<IActionResult> CreateRating(Rating rating)
+        public async Task<Result<Rating>> CreateRating(Rating rating)
         {
             var kt = await _context.InvoiceDetails
                 .AnyAsync(c => c.Invoice.UserId == rating.UserId 
                 && c.ProductDetail.ProductId == rating.ProductId);
             if (kt == false)
             {
-                return new BadRequestObjectResult(new
-                {
-                    mess = "To evaluate the product, you need to make a purchase."
-                });
+                return Result<Rating>.Failure("Cần mua hàng để đánh giá!");
             }
             var check = await _context.Ratings
                 .FirstOrDefaultAsync(r => r.UserId == rating.UserId 
                 && r.ProductId == rating.ProductId);
             if (check != null)
             {
-                return new BadRequestObjectResult(new
-                {
-                    mess = "You will be evaluated only once."
-                });
+                return Result<Rating>.Failure("Chỉ được đánh giá 1 lần!");
             }
             var product = await _context.Products.FindAsync(rating.ProductId);
             product.AverageRating = (int)(product.AverageRating + rating.Star) / 2;
@@ -43,15 +37,10 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return new OkObjectResult(new
-                {
-                    mess = "Successfully created!"
-                });
+                return Result<Rating>.Success(rating);
+
             }
-            return new BadRequestObjectResult(new
-            {
-                mess = "Something went wrong!!!"
-            });
+            return Result<Rating>.Failure("Lỗi! Không thể đánh giá!");
         }
 
         public async Task<IActionResult> DeleteRating(int id)

@@ -515,7 +515,7 @@ const ProductDetail = ({ categoryId }) => {
                                                         </div>
                                                         <div className="d-flex items-center">
                                                             <p className="text-ddv font-bold text-16">
-                                                                <span className="text-16 mx-2 text-black font-normal">{item?.comment}</span>
+                                                                <span className="text-16 mx-2 text-black font-normal">{item?.review}</span>
                                                             </p>
                                                         </div>
                                                     </div>
