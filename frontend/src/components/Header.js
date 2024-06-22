@@ -112,8 +112,7 @@ const Header = () => {
                 align={{ lg: 'end' }}
                 id="dropdown-menu-align-responsive-1"
                 title={<><IoIosNotificationsOutline style={{ fontSize: '24px', margin: '' }} /></>}
-                variant='light'
-                style={{}}
+                variant='transparent'
               >
                 <Notification />
               </DropdownButton>
@@ -191,7 +190,7 @@ const Header = () => {
         <Modal.Body>
           <form onSubmit={handleSubmit} method='get' className='d-flex flex-row'>
             <div>
-              <IoSearchOutline className='fs-4 mx-4 mt-2' />
+              <IoSearchOutline className='fs-4 mx-4 mt-4' />
             </div>
             <input
               type="text"

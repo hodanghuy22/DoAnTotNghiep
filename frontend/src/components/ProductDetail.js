@@ -30,7 +30,7 @@ const commentSchema = yup.object({
     fileHinh: yup.string(),
 });
 const ratingSchema = yup.object({
-    comment: yup.string().required("Content is required!"),
+    review: yup.string().required("Content is required!"),
     star: yup.number().required("Rating star is required!").min(1).max(5),
 });
 
@@ -51,7 +51,6 @@ const ProductDetail = ({ categoryId }) => {
     const [replyCommentId, setReplyCommentId] = useState(null);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
     const location = useLocation();
 
     const formik = useFormik({
@@ -67,14 +66,13 @@ const ProductDetail = ({ categoryId }) => {
             console.log(values);
             if (authState === null) {
                 setShow(true);
-            }
-            if (authState !== null) {
+            } else {
+                setReplytVisiable(false);
                 dispatch(CreateComment(values));
                 setTimeout(() => {
                     dispatch(GetProduct(productId));
                 }, 300);
             }
-
         },
     });
     const formik2 = useFormik({
@@ -137,15 +135,14 @@ const ProductDetail = ({ categoryId }) => {
     const [AProduct, setAProduct] = useState({
         productId: productState?.id,
         colorId: colors[0]?.id,
-        capacityId: capacities[0]?.id
+        capacityId: (capacities.length !== 0) ? (capacities[0]?.id) : (0)
     });
-
     // Cập nhật AProduct khi productState thay đổi
     useEffect(() => {
         setAProduct({
             productId: productState?.id,
             colorId: colors?.id,
-            capacityId: productDetailState?.capacityId
+            capacityId: (capacities.length !== 0) ? (productDetailState?.capacityId) : (0)
         });
         formik.setFieldValue("productId", productState?.id);
         formik2.setFieldValue("productId", productState?.id);
@@ -167,16 +164,26 @@ const ProductDetail = ({ categoryId }) => {
                     setLoading(false);
                 }
             }
+            if (AProduct.productId && AProduct.colorId && capacities.length === 0) {
+                setLoading(true);
+                try {
+                    await dispatch(GetProductForUser(AProduct));
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
+                }
+            }
         };
         fetchData();
-    }, [dispatch, AProduct]);
+    }, [dispatch, AProduct, capacities.length]);
 
     useEffect(() => {
         if (productState?.productDetails && productState.productDetails.length > 0) {
             setAProduct(prevState => ({
                 ...prevState,
                 colorId: colors[0]?.id,
-                capacityId: capacities[0]?.id
+                capacityId: (capacities.length !== 0) ? (capacities[0]?.id) : (0)
             }));
         }
         if (capacities && capacities.length > 0) {
@@ -198,7 +205,7 @@ const ProductDetail = ({ categoryId }) => {
     const handleCapacitySelection = (capacityId) => {
         setAProduct(prevState => ({
             ...prevState,
-            capacityId: capacityId
+            capacityId: (capacities.length !== 0) ? (capacityId) : (0)
         }));
         setActiveButtonCapacity(capacityId);
     };
@@ -324,7 +331,8 @@ const ProductDetail = ({ categoryId }) => {
             <Row>
                 <Col className='d-flex flex-row'>
                     <h3>{product?.category?.title} {product?.name} {product?.rom}</h3>
-                    <h5 className='mt-2 mx-2'>Số lượng: {product?.productDetails[0]?.quantity}</h5>
+                    <h5 className='mt-2 mx-2'>Đã bán: {product?.soldQuantity}</h5>
+                    <h5 className='mt-2 mx-2'>SL kho: {productDetailState?.quantity}</h5>
                     <Link to="/so-sanh" className='ml-3 text-decoration-none ' >
                         <p className='mx-4 mt-2 '><FaPlus /> So Sánh</p>
                     </Link>
@@ -455,12 +463,12 @@ const ProductDetail = ({ categoryId }) => {
                                                             as="textarea"
                                                             className="rounded-lg"
                                                             id="mantine-r8"
-                                                            placeholder="Mời bạn chia sẻ thêm về cảm nhận"
+                                                            placeholder="Nhận xét về sản phẩm"
                                                             rows="6"
-                                                            aria-invalid={formik2.touched.content && !!formik2.errors.content}
+                                                            aria-invalid="false"
                                                             value={formik2.values.review}
-                                                            onChange={(e) => formik2.setFieldValue('comment', e.target.value)}
-                                                            onBlur={formik2.handleBlur}
+                                                            onChange={formik2.handleChange('review')}
+                                                            onBlur={formik2.handleBlur('review')}
                                                             style={{ borderRadius: '30px' }}
                                                         />
                                                         <div className='error'>
@@ -468,12 +476,10 @@ const ProductDetail = ({ categoryId }) => {
                                                         </div>
                                                     </Form.Group>
                                                 </Col>
-                                            </Row>
-                                            <Row>
                                                 <Button
                                                     variant="primary"
                                                     type="submit"
-                                                    className="mantine-UnstyledButton-root mantine-Button-root bg-ddv hover:bg-ddv text-white rounded-lg cursor-pointer mt-2 mantine-ijj40k"
+                                                    className="text-white cursor-pointer mt-2 "
                                                     style={{ width: '100%', height: '44px' }}
                                                 >
                                                     Gửi đánh giá
@@ -531,9 +537,9 @@ const ProductDetail = ({ categoryId }) => {
                                     <div className='flex-column'>
                                         <h4 className='text-danger font-weight-bold p-0'>Bình luận</h4>
                                         <div className='mb-5'>
-                                            <Form onClick={formik.handleSubmit}>
+                                            <Form onSubmit={formik.handleSubmit}>
                                                 <Row className="flex flex-wrap my-2">
-                                                    <Col md={10} className=" mb-3">
+                                                    <Col md={10} className="mb-3">
                                                         <Form.Group className="">
                                                             <Form.Control
                                                                 as="textarea"
@@ -544,7 +550,7 @@ const ProductDetail = ({ categoryId }) => {
                                                                 aria-invalid="false"
                                                                 value={formik.values.content}
                                                                 onChange={formik.handleChange('content')}
-                                                                onBlur={formik.handleBlur('content')}
+                                                            onBlur={formik.handleBlur('content')}
                                                             />
                                                             <div className='error'>
                                                                 {
@@ -557,14 +563,16 @@ const ProductDetail = ({ categoryId }) => {
                                                         <Button
                                                             variant="primary"
                                                             type="submit"
-                                                            className="text-white cursor-pointer mt-2 "
+                                                            className="text-white cursor-pointer mt-2"
                                                             style={{ width: '100%', height: '44px' }}
+                                                            onClick={formik.handleSubmit} // Ensure handleSubmit is called on button click
                                                         >
                                                             Gửi
                                                         </Button>
                                                     </Col>
                                                 </Row>
                                             </Form>
+
                                         </div>
                                         {
                                             sortedComments && sortedComments?.map((item, index) => {

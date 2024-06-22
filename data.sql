@@ -27,7 +27,7 @@ GO
 DELETE FROM InvoiceDetails;
 DBCC CHECKIDENT ('DoAnTotNghiep.dbo.InvoiceDetails', RESEED, 0);
 GO
-DELETE FROM Images;FrontCamera
+DELETE FROM Images;
 DBCC CHECKIDENT ('DoAnTotNghiep.dbo.Images', RESEED, 0);
 GO
 DELETE FROM Slideshows;
@@ -458,13 +458,27 @@ INSERT INTO Products (Name,[Desc],Size,Weight,ChargingTime,ChargingEfficiency,Ac
 INSERT INTO Products (Name,[Desc],Size,Weight,ChargingTime,ChargingEfficiency,Accessibility,Battery,BatteryCore,Controls,Input,Output,Features,BrandId,CategoryId,Status,ThumnailId,ThumnailUrl) VALUES (N'Anker A1256',N'Siêu mỏng, tích hợp cáp sạc', 'Dày 2.6 cm - Rộng 5.2 cm - Dài 9.8 cm', '220 g', '3 giờ 30 phút (dùng Adapter 3A)', '0.55', 'Không', '10000 mAh', 'Li-Ion', '1 nút nguồn', 'Type C: 5V - 3A, 9V - 2A, 12V - 1.5A', 'USB: 5V - 3A, 9V - 2A, 10V - 2.25A, 12V - 1.5AType C: 5V - 3A, 9V - 3A, 12V - 2.5A, 10V - 2.25A, 15V - 2A, 20V - 1.5A', 'Quick Charge 3.0 PowerIQPower Delivery Màn hình LED báo hiệu', 9, 2, 1, 'guoymggq3svnyevq8lln', 'https://res.cloudinary.com/dht1ypbn2/image/upload/v1718203274/guoymggq3svnyevq8lln.jpg')
 
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,720000,39,648000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,720000,39,648000,3,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,110000,40,99000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,110000,40,99000,7,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,110000,40,99000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,110000,40,99000,6,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,850000,41,765000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,850000,41,765000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1050000,42,945000,2,1)
-INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,665000,43,598500,2,1)
-INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,920000,44,828000,2,1)
-INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1130000,45,1017000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1050000,42,945000,7,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,665000,43,598500,7,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,920000,44,828000,1,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1130000,45,1017000,1,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,800000,46,720000,2,1)
+
 
 Go
 
@@ -486,17 +500,52 @@ INSERT INTO Products (Name,[Desc],Size,Weight,Battery,ChargingTime,Accessibility
 
 
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,890000,47,801000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,890000,47,801000,7,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,690000,48,621000,4,1)
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,690000,48,621000,2,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,990000,49,891000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,990000,49,891000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,990000,49,891000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,790000,50,711000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,790000,50,711000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,260000,51,234000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,260000,51,234000,7,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,260000,51,234000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,260000,51,234000,6,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2290000,52,2061000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2290000,52,2061000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2290000,52,2061000,6,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2290000,52,2061000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1290000,53,1161000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1290000,53,1161000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1290000,53,1161000,1,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1290000,53,1161000,4,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2790000,54,2511000,1,1)
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2790000,54,2511000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2790000,54,2511000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2790000,54,2511000,5,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1790000,55,1611000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1790000,55,1611000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1390000,56,1251000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1390000,56,1251000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2277000,57,2049300,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,2277000,57,2049300,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,290000,58,261000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,290000,58,261000,6,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,290000,58,261000,7,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,290000,58,261000,2,1)
+
 
 Go
 
@@ -516,17 +565,35 @@ INSERT INTO Products(Name,[Desc],Accessibility,Controls,Input,Connectivity,Brand
 INSERT INTO Products(Name,[Desc],Accessibility,Controls,Input,Connectivity,BrandId,CategoryId,Status,ThumnailId,ThumnailUrl) VALUES (N'Samsung Galaxy Buds Live',N'Thiết kế độc đáo, chất lượng âm thanh tốt',N'Dễ sử dụng',N'Nút điều khiển',N'USB-C',N'Bluetooth',5,4,1,'sym6afeax8bfkvtntzes','https://res.cloudinary.com/dht1ypbn2/image/upload/v1718203683/sym6afeax8bfkvtntzes.jpg')
 
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,430000,59,387000,2,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,320000,60,288000,2,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,190000,61,171000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,190000,61,171000,3,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,150000,62,135000,2,1)
-INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,135000,63,121500,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,150000,62,135000,1,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,150000,62,135000,3,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,150000,62,135000,5,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,135000,63,121500,3,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,90000,64,81000,2,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,150000,65,135000,2,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,100000,66,90000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,100000,66,90000,7,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,135000,67,121500,2,1)
-INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1200000,68,1080000,2,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1200000,68,1080000,3,1)
+
 INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1800000,69,1620000,2,1)
-INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1100000,70,1000000,2,1)
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1800000,69,1620000,7,1)
+
+INSERT INTO ProductDetails(Quantity,RetailPrice,ProductId,CostPrice,ColorId,Status) VALUES(12,1100000,70,1000000,4,1)
+
 
 Go
 --IMAGES
@@ -1125,31 +1192,31 @@ INSERT INTO InvoiceDetails VALUES (1,23,3,4690000)
 INSERT INTO InvoiceDetails VALUES (1,45,3,4690000)
 INSERT INTO InvoiceDetails VALUES (1,100,3,4690000)
 
-INSERT INTO InvoiceDetails VALUES (2,124,1,1150000)
-INSERT INTO InvoiceDetails VALUES (2,125,1,690000)
-INSERT INTO InvoiceDetails VALUES (2,126,1,5727000)
-INSERT INTO InvoiceDetails VALUES (2,127,1,2300000)
-INSERT INTO InvoiceDetails VALUES (2,128,1,6417000)
-INSERT INTO InvoiceDetails VALUES (2,129,1,4577000)
-INSERT INTO InvoiceDetails VALUES (2,130,1,2277000)
-INSERT INTO InvoiceDetails VALUES (2,131,1,1587000)
+INSERT INTO InvoiceDetails VALUES (2,138,1,1150000)
+INSERT INTO InvoiceDetails VALUES (2,139,1,690000)
+INSERT INTO InvoiceDetails VALUES (2,140,1,5727000)
+INSERT INTO InvoiceDetails VALUES (2,141,1,2300000)
+INSERT INTO InvoiceDetails VALUES (2,142,1,6417000)
+INSERT INTO InvoiceDetails VALUES (2,143,1,4577000)
+INSERT INTO InvoiceDetails VALUES (2,144,1,2277000)
+INSERT INTO InvoiceDetails VALUES (2,145 ,1,1587000)
 
-INSERT INTO InvoiceDetails VALUES (2,124,1,1150000)
-INSERT INTO InvoiceDetails VALUES (2,125,1,690000)
-INSERT INTO InvoiceDetails VALUES (2,126,1,5727000)
-INSERT INTO InvoiceDetails VALUES (2,127,1,2300000)
-INSERT INTO InvoiceDetails VALUES (2,128,1,6417000)
-INSERT INTO InvoiceDetails VALUES (2,129,1,4577000)
-INSERT INTO InvoiceDetails VALUES (2,130,1,2277000)
-INSERT INTO InvoiceDetails VALUES (2,131,1,1587000)
+INSERT INTO InvoiceDetails VALUES (2,149,1,1150000)
+INSERT INTO InvoiceDetails VALUES (2,152,1,690000)
+INSERT INTO InvoiceDetails VALUES (2,154,1,5727000)
+INSERT INTO InvoiceDetails VALUES (2,156,1,2300000)
+INSERT INTO InvoiceDetails VALUES (2,157,1,6417000)
+INSERT INTO InvoiceDetails VALUES (2,159,1,4577000)
+INSERT INTO InvoiceDetails VALUES (2,170,1,2277000)
+INSERT INTO InvoiceDetails VALUES (2,180,1,1587000)
 
 
-INSERT INTO InvoiceDetails VALUES (3,140,1,350000)
-INSERT INTO InvoiceDetails VALUES (3,141,1,250000)
-INSERT INTO InvoiceDetails VALUES (3,142,1,300000)
-INSERT INTO InvoiceDetails VALUES (3,143,1,200000)
-INSERT INTO InvoiceDetails VALUES (3,136,1,400000)
-INSERT INTO InvoiceDetails VALUES (3,137,1,300000)
-INSERT INTO InvoiceDetails VALUES (3,138,1,150000)
-INSERT INTO InvoiceDetails VALUES (3,139,1,100000)
+INSERT INTO InvoiceDetails VALUES (3,184,1,350000)
+INSERT INTO InvoiceDetails VALUES (3,187,1,250000)
+INSERT INTO InvoiceDetails VALUES (3,190,1,300000)
+INSERT INTO InvoiceDetails VALUES (3,195,1,200000)
+INSERT INTO InvoiceDetails VALUES (3,194,1,400000)
+INSERT INTO InvoiceDetails VALUES (3,199,1,300000)
+INSERT INTO InvoiceDetails VALUES (3,200,1,150000)
+INSERT INTO InvoiceDetails VALUES (3,197,1,100000)
 GO

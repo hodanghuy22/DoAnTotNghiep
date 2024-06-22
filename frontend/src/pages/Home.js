@@ -152,7 +152,7 @@ const Home = () => {
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
                         <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: còn hàng</p>
+                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>
@@ -192,7 +192,7 @@ const Home = () => {
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
                         <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: còn hàng</p>
+                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>
@@ -233,7 +233,7 @@ const Home = () => {
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
                         <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: còn hàng</p>
+                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>
@@ -274,7 +274,7 @@ const Home = () => {
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
                         <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: còn hàng</p>
+                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>

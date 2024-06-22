@@ -24,7 +24,6 @@ const Compare = () => {
         dispatch(GetProduct(e))
         handleClose()
     };
-
     useEffect(() => {
         if (Phone1 === undefined) {
             setPhone1(APhone);
@@ -78,13 +77,13 @@ const Compare = () => {
                                 <div className='  bg-transparent' border='1' >
                                     <Link className="card-link" style={{ textDecoration: 'none', divor: 'inherit' }}>
                                         <div className='border-0 '>
-                                        <img className='card-image mb-3' variant="top" src={Phone1?.images[0]?.imageUrl} alt='zxczxc' width={'200px'} height={'200px'} />
+                                        <img className='card-image mb-3' variant="top" src={Phone1?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
 
                                             <div>
                                                 <div>{Phone1?.name}</div>
                                                 <p className='text-danger font-size-bold amount'>
                                                     {
-                                                        FormatData.formatNumber(Phone1?.price)
+                                                       FormatData.formatNumber(Phone1?.productDetails[0].retailPrice)
                                                     }
                                                 </p>
                                             </div>
@@ -114,12 +113,12 @@ const Compare = () => {
                                 <div className='  bg-transparent' border='1' >
                                     <Link className="card-link" style={{ textDecoration: 'none', divor: 'inherit' }}>
                                         <div className='border-0 '>
-                                            <img className='card-image mb-3' variant="top" src={Phone2?.images[0]?.imageUrl} alt='zxczxc' width={'200px'} height={'200px'} />
+                                            <img className='card-image mb-3' variant="top" src={Phone2?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
                                             <div>
                                                 <div>{Phone2?.name}</div>
                                                 <p className='text-danger font-size-bold amount'>
                                                     {
-                                                        FormatData.formatNumber(Phone2?.price)
+                                                        FormatData.formatNumber(Phone2?.productDetails[0].retailPrice)
                                                     }
                                                 </p>
                                             </div>

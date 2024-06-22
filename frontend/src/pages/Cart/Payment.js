@@ -311,7 +311,7 @@ const Payment = () => {
                             </div>
                             <div className='d-flex align-items-center'>
                                 <p className='fs-5 text-dark fw-bold me-3'>Chiết khấu:</p>
-                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(tienChietKhau)}</p>
+                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(tienChietKhau?(tienChietKhau):0)}</p>
                             </div>
                         </div>
                     </Row>

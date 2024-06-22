@@ -37,40 +37,53 @@ const SearchResults = () => {
   }, 1000)
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
-    sortedProducts.sort((a, b) => a.price - b.price);
+    sortedProducts.sort((a, b) => a.productDetails[0].retailPrice - b.productDetails[0].retailPrice);
   } else if (sortType === 'highToLow') {
-    sortedProducts.sort((a, b) => b.price - a.price);
+    sortedProducts.sort((a, b) => b.productDetails[0].retailPrice - a.productDetails[0].retailPrice);
   }
   const handleSortChange = (e) => {
     setSortType(e.target.value);
   };
-
+  const getCategoryPath = (categoryId) => {
+    switch (categoryId) {
+      case 1:
+        return '/dien-thoai';
+      case 2:
+        return '/sac-du-phong';
+      case 3:
+        return '/tai-nghe-khong-day';
+      case 4:
+        return '/tai-nghe-co-day';
+      default:
+        return '/';
+    }
+  };
   return (
-    <Container className='mb-5'>
+    <Container className='mb-5' style={{ minHeight: '500px' }}>
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
           <p>Có {productCount} kết quả tìm kiếm cho từ khoá: "<i>{searchQuery}</i>"</p>
         </Col>
-          <Col className='d-flex flex-row-reverse mb-1'>
-            <select className='text-dark' onChange={handleSortChange}>
-              <option value="default">Thứ tự mặc định</option>
-              <option value="lowToHigh">Giá thấp đến cao</option>
-              <option value="highToLow">Giá cao đến thấp</option>
-            </select>
-          </Col>
+        <Col className='d-flex flex-row-reverse mb-1'>
+          <select className='text-dark' onChange={handleSortChange}>
+            <option value="default">Thứ tự mặc định</option>
+            <option value="lowToHigh">Giá thấp đến cao</option>
+            <option value="highToLow">Giá cao đến thấp</option>
+          </select>
+        </Col>
       </Row>
       <Row>
         {
-          sortedProducts && sortedProducts?.map((item, index) => (
+          sortedProducts.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link to={`/dien-thoai/${item?.id}`} className='card text-decoration-none phone-item'>
+              <Link to={`${getCategoryPath(item?.categoryId)}/${item?.id}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3'>
                   <img className='phone-image' src={item?.thumnailUrl} alt='chuột' width={'250px'} height={'250px'} />
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
                   <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                  <p>Số lượng: {item?.productDetails[0]?.quantity}</p>
+                  <p>Số lượng: {item?.quantity}</p>
                   <p className='phone-price amount'>{FormatData.formatNumber(item?.productDetails[0]?.retailPrice)}</p>
                 </div>
               </Link>
