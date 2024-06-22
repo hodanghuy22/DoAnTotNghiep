@@ -34,6 +34,14 @@ export const GetInvoicesByOrderType = createAsyncThunk('invoices-get-type', asyn
   }
 })
 
+export const CancelInvoice = createAsyncThunk('invoices-cancel', async (id,thunkAPI) => {
+  try {
+    return await invoiceService.cancelInvoice(id);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const resetState = createAction('Reset_all')
 
 const initialState = {
@@ -101,6 +109,23 @@ export const invoiceSlice = createSlice({
       state.isSuccess = true;
       state.invoice = action.payload;
     }).addCase(GetAInvoice.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    })
+    .addCase(CancelInvoice.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(CancelInvoice.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      if(action.payload.message){
+        toast.error(action.payload.message);
+      }else{
+        state.invoice = action.payload.data
+      }
+    }).addCase(CancelInvoice.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

@@ -29,11 +29,19 @@ const getInvoicesByOrderType = async(data) => {
   }
 }
 
+const cancelInvoice = async(id) => {
+  const response = await axios.put(`${base_url}Invoices/CancelInvoiceForUser/${id}`,"", getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
+
 const invoiceService = {
   createInvoice,
   getInvoices,
   getInvoicesByOrderType,
   getInvoice,
+  cancelInvoice,
 };
 
 export default invoiceService;

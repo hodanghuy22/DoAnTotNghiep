@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom'
-import { GetAInvoice } from '../../features/invoices/invoiceSlice';
+import { CancelInvoice, GetAInvoice } from '../../features/invoices/invoiceSlice';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 
@@ -27,12 +27,23 @@ const OrderDetail = () => {
         fetchData();
     }, [dispatch, getInvoiceId]);
 
+    const cancelInvoiceForUser = async (id) => {
+        setLoading(true);
+        await dispatch(CancelInvoice(id));
+        setLoading(false);
+    }
+
     return (
         <Container>
-            <div>
-                <p className='fs-5'>Chi tiết đơn hàng <strong>#{invoiceState?.id}</strong> - <strong className='text-success fw-bold'>{invoiceState?.orderStatus?.title}</strong></p>
+            <div className='d-flex justify-content-between'>
+                <p className='fs-5'>Chi tiết đơn hàng <strong>#{invoiceState?.id}</strong> - <strong className={`${invoiceState?.orderStatusId !== 6 ? "text-success" : "text-danger"} fw-bold`}>{invoiceState?.orderStatus?.title}</strong></p>
+                {
+                    invoiceState && invoiceState?.orderStatusId !== 6 && (
+                        <button onClick={()=>cancelInvoiceForUser(invoiceState?.id)} className='btn btn-danger'>Hủy đơn</button>
+                    )
+                }
             </div>
-            <div className='d-flex w-100'>
+            <div className='d-flex w-100 mt-3'>
                 <div className='col-7' style={{ paddingRight: '20px' }} >
                     <div className='shadow mb-2 bg-body rounded p-3 '>
                         <p>THÔNG TIN NHẬN HÀNG</p>

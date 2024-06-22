@@ -62,7 +62,8 @@ namespace backend.Repository
                             $"<p>Ngày đặt hàng: {invoice.IssueDate}</p> \n",
                 };
                 await _emailService.SendEmail(body);
-                return Result<Invoice>.Success(invoice);
+                var newInvoice = await GetInvoice(id);
+                return Result<Invoice>.Success(newInvoice);
             }
             return Result<Invoice>.Failure("Lỗi không thể hủy hóa đơn!");
         }

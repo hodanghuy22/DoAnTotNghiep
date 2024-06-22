@@ -37,7 +37,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
           <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
               <div className='d-flex justify-content-between border-bottom'>
                 <p>Đơn hàng: <strong>#{item?.id}</strong></p>
-                <p className={`${item?.orderStatusId === 6 ? 'text-warning' : 'text-success'} fw-bold`}>{item?.orderStatus?.title}</p>
+                <p className={`${item?.orderStatusId === 6 ? 'text-danger' : 'text-success'} fw-bold`}>{item?.orderStatus?.title}</p>
               </div>
               <div className='d-flex justify-content-between mt-3'>
                 <div className='d-flex flex-column'>
