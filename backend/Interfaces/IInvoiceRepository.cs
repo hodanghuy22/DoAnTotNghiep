@@ -17,6 +17,7 @@ namespace backend.Interfaces
         Task<IEnumerable<RevenueOfYearModel>> GetRevenueOfYear(int year);
         Task<IEnumerable<StatisticInvoiceOfYearModel>> GetTotalInvoiceOfYear(int year);
         Task<IActionResult> UpdateStatusInvoice(int id, int orderStatusId);
+        Task<Result<Invoice>> CancelInvoiceForUser(int id);
         Task<Result<Invoice>> HookPayment(Transaction transaction);
 
     }

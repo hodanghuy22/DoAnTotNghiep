@@ -22,6 +22,51 @@ namespace backend.Repository
             _telegramService = telegramService;
         }
 
+        public async Task<Result<Invoice>> CancelInvoiceForUser(int id)
+        {
+            var invoice = await GetInvoice(id);
+            if(invoice == null)
+            {
+                return Result<Invoice>.Failure("Lỗi không tìm thấy hóa đơn!");
+            }
+            if (invoice.OrderStatusId != 1)
+            {
+                return Result<Invoice>.Failure("Hóa đơn không được phép hủy!");
+            }
+            invoice.OrderStatusId = 6;
+            foreach (var item in invoice.InvoiceDetails)
+            {
+                var productDetails = await _context.ProductDetails
+                        .FindAsync(item.ProductDetailId);
+                productDetails.Quantity += item.Quantity;
+                var product = await _context.Products.FindAsync(productDetails.ProductId);
+                product.SoldQuantity -= item.Quantity;
+            }
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                string mess = "🆘 CÓ HÓA ĐƠN BỊ HỦY! \n" +
+                              $"Mã hóa đơn: #{id} \n" +
+                              $"Khách hàng: {invoice.User.Name ?? invoice.User.Email}\n" +
+                              $"Tồng tiền: {invoice.TotalPriceAfterDiscount} \n" +
+                              $"Ngày đặt hàng: {invoice.IssueDate}\n";
+                await _telegramService.SendMessage(mess);
+
+                var body = new EmailModel
+                {
+                    To = invoice.User.Email,
+                    Subject = "Hủy Đơn hàng thành công!",
+                    Body = $"Đơn hàng đã được hủy thành công!. Trân trọng!\n" +
+                            $"<p>Mã hóa đơn: {invoice.Id}</p> \n" +
+                            $"<p>Tồng tiền: {invoice.TotalPriceAfterDiscount}</p> \n" +
+                            $"<p>Ngày đặt hàng: {invoice.IssueDate}</p> \n",
+                };
+                await _emailService.SendEmail(body);
+                return Result<Invoice>.Success(invoice);
+            }
+            return Result<Invoice>.Failure("Lỗi không thể hủy hóa đơn!");
+        }
+
         public async Task<int> CountCancelInvoicesByMonth(int month, int year)
         {
             int count = 0;
@@ -70,6 +115,9 @@ namespace backend.Repository
             {
                 var productDetail = await _context.ProductDetails.FindAsync(item.ProductDetailId);
                 productDetail.Quantity -= item.Quantity;
+                var product = await _context.Products
+                        .FirstOrDefaultAsync(p => p.Id == productDetail.ProductId);
+                product.SoldQuantity += item.Quantity;
             }
             var result = await _context.SaveChangesAsync();
             if (result > 0)
@@ -356,6 +404,14 @@ namespace backend.Repository
             await _context.Notifications.AddAsync(notification);
             if(orderStatusId == 6)
             {
+                foreach(var item in pt.InvoiceDetails)
+                {
+                    var productDetails = await _context.ProductDetails
+                            .FindAsync(item.ProductDetailId);
+                    productDetails.Quantity += item.Quantity;
+                    var product = await _context.Products.FindAsync(productDetails.ProductId);
+                    product.SoldQuantity -= item.Quantity;
+                }
                 string mess = "🆘 CÓ HÓA ĐƠN BỊ HỦY! \n" +
                               $"Mã hóa đơn: #{id} \n" +
                               $"Khách hàng: {pt.User.Name??pt.User.Email}\n" +
@@ -366,6 +422,16 @@ namespace backend.Repository
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
+                var body = new EmailModel
+                {
+                    To = pt.User.Email,
+                    Subject = "Hủy Đơn hàng thành công!",
+                    Body = $"Đơn hàng đã được hủy thành công!. Trân trọng!\n" +
+                            $"<p>Mã hóa đơn: {pt.Id}</p> \n" +
+                            $"<p>Tồng tiền: {pt.TotalPriceAfterDiscount}</p> \n" +
+                            $"<p>Ngày đặt hàng: {pt.IssueDate}</p> \n",
+                };
+                await _emailService.SendEmail(body);
                 return new OkObjectResult(new
                 {
                     mess = "Successfully updated!"

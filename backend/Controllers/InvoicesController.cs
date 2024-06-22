@@ -129,6 +129,12 @@ namespace backend.Controllers
         {
             return await _uow.InvoiceRepository.UpdateStatusInvoice(id, orderStatusId);
         }
-
+        [HttpPut]
+        [Route("CancelInvoiceForUser/{id}")]
+        public async Task<IActionResult> CancelInvoiceForUser(int id)
+        {
+            var result = await _uow.InvoiceRepository.CancelInvoiceForUser(id);
+            return Ok(result);
+        }
     }
 }

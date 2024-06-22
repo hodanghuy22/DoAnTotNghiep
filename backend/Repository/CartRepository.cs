@@ -42,7 +42,6 @@ namespace backend.Repository
             {
                 await _context.Carts.AddAsync(cart);
             }
-            productDetail.Quantity -= cart.Quantity;
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
@@ -67,8 +66,6 @@ namespace backend.Repository
                     mess = "Something went wrong!!!"
                 });
             }
-            var productDetail = await _context.ProductDetails.FindAsync(cart.ProductDetailId);
-            productDetail.Quantity += cart.Quantity;
             _context.Carts.Remove(cart);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
@@ -130,14 +127,6 @@ namespace backend.Repository
                     {
                         mess = "The quantity exceeds the allowable limit!"
                     });
-                }
-                if (pt.Quantity < cart.Quantity)
-                {
-                    productDetail.Quantity -= cart.Quantity - pt.Quantity;
-                }
-                else
-                {
-                    productDetail.Quantity += pt.Quantity - cart.Quantity;
                 }
                 _context.Entry(pt).CurrentValues.SetValues(cart);
                 await _context.SaveChangesAsync();
