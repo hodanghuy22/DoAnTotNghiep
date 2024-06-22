@@ -35,10 +35,10 @@ namespace backend.Controllers
             return Ok(product);
         }
         [HttpGet]
-        [Route("GetAProductDetailForUser/{phoneId}/{colorId}/{capacityId}")]
-        public async Task<IActionResult> GetAProductDetailForUser(int phoneId, int colorId, int capacityId)
+        [Route("GetAProductDetailForUser/{productId}/{colorId}/{capacityId}")]
+        public async Task<IActionResult> GetAProductDetailForUser(int productId, int colorId, int capacityId)
         {
-            var product = await _uow.ProductDetailRepository.GetAProductDetailForUser(phoneId, colorId, capacityId);
+            var product = await _uow.ProductDetailRepository.GetAProductDetailForUser(productId, colorId, capacityId);
             return Ok(product);
         }
         [HttpPost]

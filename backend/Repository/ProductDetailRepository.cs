@@ -73,6 +73,17 @@ namespace backend.Repository
 
         public async Task<ProductDetail> GetAProductDetailForUser(int productId, int colorId, int capacityId)
         {
+            if(capacityId == 0)
+            {
+                return await _context.ProductDetails
+                .Include(p => p.Product)
+                .ThenInclude(p => p.Category)
+                .Include(p => p.Color)
+                .Include(p => p.Capacity)
+                .FirstOrDefaultAsync(p => p.ProductId == productId
+                                    && p.ColorId == colorId
+                                    && p.Status == true);
+            }
             return await _context.ProductDetails
                 .Include(p => p.Product)
                 .ThenInclude(p => p.Category)
