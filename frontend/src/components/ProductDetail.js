@@ -13,7 +13,7 @@ import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
 import Loading from '../utils/Loading';
 import { GetCapacitiesByProductId } from '../features/capacitites/capacitySlice';
-import { GetProduct, GetProductForUser } from '../features/products/productSlice';
+import { GetProduct, GetProductForUser, GetProductPopularByCategogy } from '../features/products/productSlice';
 import { GetColorByProductId } from '../features/colors/colorSlice';
 import { AddCart } from '../features/cart/cartSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -38,6 +38,8 @@ const ProductDetail = ({ categoryId }) => {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.Aproduct);
     const productDetailState = useSelector(state => state?.product?.ProductDetail);
+    const productPopular = useSelector(state => state?.product?.productByCategory);
+
     const authState = useSelector(state => state?.auth?.user);
     const capacities = useSelector(state => state?.capacities?.capacities);
     const colors = useSelector(state => state?.color?.colors);
@@ -49,6 +51,8 @@ const ProductDetail = ({ categoryId }) => {
     const [isLoading, setLoading] = useState(true);
     const [replytVisiable, setReplytVisiable] = useState(false);
     const [replyCommentId, setReplyCommentId] = useState(null);
+    const [averageRating, setaverageRating] = useState(0);
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const location = useLocation();
@@ -116,6 +120,7 @@ const ProductDetail = ({ categoryId }) => {
 
         },
     });
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -127,6 +132,8 @@ const ProductDetail = ({ categoryId }) => {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
+            } finally {
+
             }
         };
         fetchData();
@@ -158,20 +165,46 @@ const ProductDetail = ({ categoryId }) => {
                 setLoading(true);
                 try {
                     await dispatch(GetProductForUser(AProduct));
+                    dispatch(
+                        GetProductPopularByCategogy({
+                            id: productState?.categoryId,
+                            data: {
+                                top: 4,
+                                startDate: '2024-01-01',
+                                endDate: '2024-12-30'
+                            }
+                        })
+                    );
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
                     setLoading(false);
+                    const ratings = productState?.ratings;
+                    const totalStars = ratings.reduce((sum, item) => sum + item.star, 0);
+                    setaverageRating(totalStars / ratings.length);
                 }
             }
             if (AProduct.productId && AProduct.colorId && capacities.length === 0) {
                 setLoading(true);
                 try {
                     await dispatch(GetProductForUser(AProduct));
+                    dispatch(
+                        GetProductPopularByCategogy({
+                            id: productState?.categoryId,
+                            data: {
+                                top: 4,
+                                startDate: '2024-01-01',
+                                endDate: '2024-12-30'
+                            }
+                        })
+                    );
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
                     setLoading(false);
+                    const ratings = productState?.ratings;
+                    const totalStars = ratings.reduce((sum, item) => sum + item.star, 0);
+                    setaverageRating(totalStars / ratings.length);
                 }
             }
         };
@@ -297,7 +330,7 @@ const ProductDetail = ({ categoryId }) => {
             break;
         case 4:
             specifications = [
-                { label: 'Công nghệ âm thanh', value: product?.audioTechnology },
+                // { label: 'Công nghệ âm thanh', value: product?.audioTechnology },
                 { label: 'Tương thích', value: product?.accessibility },
                 { label: 'Jack cắm', value: product?.input },
                 { label: 'Điều khiển bằng', value: product?.controls },
@@ -314,9 +347,20 @@ const ProductDetail = ({ categoryId }) => {
         setReplyCommentId(commentId);
         formik3.setFieldValue("commentId", commentId)
     };
-
-
-
+    const getCategoryPath = (categoryId) => {
+        switch (categoryId) {
+            case 1:
+                return '/dien-thoai';
+            case 2:
+                return '/sac-du-phong';
+            case 3:
+                return '/tai-nghe-khong-day';
+            case 4:
+                return '/tai-nghe-co-day';
+            default:
+                return '/';
+        }
+    };
     return (
         <Container>
             <Row>
@@ -407,26 +451,40 @@ const ProductDetail = ({ categoryId }) => {
                         </Col>
                     </Row>
                     <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productDetailState?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
-                    <p>This Bluetooth speaker has various features such as water resistance, long battery life, built-in microphones for hands-free calling, and more.</p>
-                    <ul>
-                        <li>Model: UB7OM</li>
-                        <li>Dynamic Bass Boost Drivers and Dual Passive Radiators</li>
-                        <li>2 x 14W Output Power</li>
-                        <li>IP67 Dustproof & Waterproof</li>
-                        <li>Convenient Hands-Free Calling</li>
-                    </ul>
+                    <div>
+                        {productState?.desc}
+                    </div>
                     <div className="d-flex justify-content-start">
-                        {/* <div className='p-2'>
-                <Button variant="outline-light" className="bg-light text-dark"><FaMinus /></Button>
-                <Button variant="outline-light" className="bg-light text-dark">1</Button>
-                <Button variant="outline-light" className="bg-light text-dark"><FaPlus /></Button>
-              </div> */}
                         <div className='p-2'>
-                            {/* <Button variant='danger'>Thêm vào giỏ hàng</Button> */}
                             <Button onClick={(e) => addCart()} variant='danger'>Thêm vào giỏ hàng</Button>
                         </div>
                     </div>
+
                 </Col>
+            </Row>
+            {/* Sản phẩm tương tự */}
+            <Row className='mt-5 mb-5'>
+                <Col className='col-12 text-center'>
+                    <p className='fs-3'>Sản phẩm tương tự</p>
+                </Col>
+                {
+                    productPopular && productPopular?.map((item, index) => {
+                        return (
+                            <Col className='col-3'>
+                                <Link to={`${getCategoryPath(categoryId)}/${item?.id}`} className='card text-decoration-none phone-item'>
+                                    <div className='phone-container p-3'>
+                                        <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                                    </div>
+                                    <div className='phone-info p-3 border border-top-0'>
+                                        <p className='fs-5 phone-name'>{item?.name}</p>
+                                        <p>Tình trạng: {(item?.quantity > 0) ? ('Còn hàng') : ('Tạm hết')}</p>
+                                        <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
+                                    </div>
+                                </Link>
+                            </Col>
+                        )
+                    })
+                }
             </Row>
             <Row>
                 <Col className='col-7'>
@@ -434,21 +492,13 @@ const ProductDetail = ({ categoryId }) => {
                     <Container className='bg-light shadow p-3 mb-5 bg-white rounded  mt-3'>
                         <Row>
                             <Col>
-                                <div>
+                                <div className=' my-2 rounded-lg py-3 px-3'>
                                     <h2 className='text-danger'>Đánh giá sản phẩm</h2>
-                                    <p>Điểm đánh giá: {
-                                        productState?.averageRating && typeof productState?.averageRating === 'number' && productState?.averageRating > 0 && (
-                                            Array.from({ length: productState?.averageRating }).map((_, index) => (
-                                                <span key={index} style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>
-                                                    &#9733;
-                                                </span>
-                                            ))
-                                        )
-                                    }</p>
+                                    <p>Điểm đánh giá: {(averageRating) ? (averageRating) : 0} <span className='text-warning fs-5'>&#9733;</span></p>
                                     <div>
                                         <Form onSubmit={formik2.handleSubmit}>
-                                            <Row className="flex flex-wrap md:flex-nowrap w-full items-start h-full justify-between my-2">
-                                                <Col className="w-full h-full mb-3 md:mb-0">
+                                            <Row className="flex flex-wrap">
+                                                <Col className="mb-3 ">
                                                     <div className='mb-3'>
                                                         <StarRating
                                                             value={formik2.values.star}
@@ -492,30 +542,34 @@ const ProductDetail = ({ categoryId }) => {
                                     productState && productState?.ratings?.map((item, index) => {
                                         return (
                                             <div key={index} className='mt-4'>
-                                                <div className='d-flex items-start justify-start '>
+                                                <div className='d-flex  '>
                                                     <div className='avatar overflow-hidden'>
                                                         <FaUser style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'gray', padding: '10px', marginRight: '10px', marginTop: '4px' }} />
                                                     </div>
-                                                    <div className='flex-column items-start justify-start pl-2 w-11/12'>
-                                                        <div className='d-flex items-center'>
-                                                            <span style={{ display: 'inline-block', direction: '1tr' }}>
+                                                    <div className='flex-column pl-2 '>
+                                                        <div className='d-flex '>
+                                                            <p className=''>{item?.name}</p>
+                                                            <span style={{ display: 'inline-block', direction: '1tr' }} className='mx-2'>
                                                                 {
                                                                     item && typeof item.star === 'number' && item.star > 0 && (
-                                                                        Array.from({ length: item.star }).map((_, index) => (
-                                                                            <span key={index} style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}>
+                                                                        Array.from({ length: 5 }).map((_, index) => (
+                                                                            <span
+                                                                                key={index}
+                                                                                style={{ cursor: 'inherit', display: 'inline-block', position: 'relative' }}
+                                                                                className={index < item.star ? 'text-warning' : 'text-muted'}>
                                                                                 &#9733;
                                                                             </span>
                                                                         ))
                                                                     )
-
                                                                 }
 
+
                                                             </span>
-                                                            <p className="text-brow text-sm mx-2">{FormatData.formatDateTime(item?.date)}</p>
+                                                            <p className="text-brow mx-2">{FormatData.formatDateTime(item?.date)}</p>
                                                         </div>
-                                                        <div className="d-flex items-center">
-                                                            <p className="text-ddv font-bold text-16">
-                                                                <span className="text-16 mx-2 text-black font-normal">{item?.review}</span>
+                                                        <div className="d-flex ">
+                                                            <p className="">
+                                                                <span className=" mx-2">{item?.review}</span>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -533,9 +587,9 @@ const ProductDetail = ({ categoryId }) => {
                     <Container className='bg-light shadow p-3 mb-5 bg-white rounded '>
                         <Row>
                             <Col>
-                                <div className=' my-2 rounded-lg  bg-white py-3 px-3'>
+                                <div className=' my-2 rounded-lg py-3 px-3'>
                                     <div className='flex-column'>
-                                        <h4 className='text-danger font-weight-bold p-0'>Bình luận</h4>
+                                        <h4 className='text-danger p-0'>Bình luận</h4>
                                         <div className='mb-5'>
                                             <Form onSubmit={formik.handleSubmit}>
                                                 <Row className="flex flex-wrap my-2">
@@ -550,7 +604,7 @@ const ProductDetail = ({ categoryId }) => {
                                                                 aria-invalid="false"
                                                                 value={formik.values.content}
                                                                 onChange={formik.handleChange('content')}
-                                                            onBlur={formik.handleBlur('content')}
+                                                                onBlur={formik.handleBlur('content')}
                                                             />
                                                             <div className='error'>
                                                                 {
@@ -559,11 +613,11 @@ const ProductDetail = ({ categoryId }) => {
                                                             </div>
                                                         </Form.Group>
                                                     </Col>
-                                                    <Col md={2} className="w-full flex flex-col md:px-2">
+                                                    <Col md={2} className="flex flex-col">
                                                         <Button
                                                             variant="primary"
                                                             type="submit"
-                                                            className="text-white cursor-pointer mt-2"
+                                                            className="cursor-pointer mt-2"
                                                             style={{ width: '100%', height: '44px' }}
                                                             onClick={formik.handleSubmit} // Ensure handleSubmit is called on button click
                                                         >
@@ -579,11 +633,11 @@ const ProductDetail = ({ categoryId }) => {
                                                 if (item?.commentId === null) {
                                                     return (
                                                         <div className='pt-4 w-100 border-bottom' key={index}>
-                                                            <div className='d-flex items-start justify-start '>
-                                                                <div className='flex-column items-start justify-start w-100'>
-                                                                    <div className='d-flex items-center ml-4'>
+                                                            <div className='d-flex'>
+                                                                <div className='flex-column w-100'>
+                                                                    <div className='d-flex ml-4'>
                                                                         <h5>{authState?.name}</h5>
-                                                                        <p className="text-brow text-sm mx-2">{FormatData.formatDateTime(item?.date)}</p>
+                                                                        <p className="mx-2">{FormatData.formatDateTime(item?.date)}</p>
                                                                     </div>
                                                                     <div className=" shadow-lg ml-4 p-3  mb-2 bg-white">
                                                                         <p className="fw-bold">
@@ -619,7 +673,7 @@ const ProductDetail = ({ categoryId }) => {
                                                                                         </div>
                                                                                     </Form.Group>
                                                                                 </Col>
-                                                                                <Col md={2} className="w-full flex flex-col md:px-2">
+                                                                                <Col md={2} className="flex flex-col">
                                                                                     <Button
                                                                                         variant="primary"
                                                                                         type="submit"
@@ -639,13 +693,13 @@ const ProductDetail = ({ categoryId }) => {
                                                                     return (
                                                                         <div className='' key={i.id} style={{ marginLeft: '3rem' }}>
                                                                             <div className='d-flex'>
-                                                                                <p>{authState?.name}g</p>
+                                                                                <p>{authState?.name}</p>
                                                                                 <p className="text-brow text-sm mx-2">{FormatData.formatDateTime(i?.date)}</p>
                                                                             </div>
-                                                                            <div className='flex-column items-start justify-start w-100'>
-                                                                                <div className="d-flex items-center  bg-light shadow mb-5 bg-white  rounded">
-                                                                                    <p className="text-ddv font-bold text-16">
-                                                                                        <span className="text-16 mx-2 text-black font-normal">{i?.content}</span>
+                                                                            <div className='flex-column w-100'>
+                                                                                <div className="d-flex shadow mb-5 bg-white  rounded">
+                                                                                    <p className="">
+                                                                                        <span className="mx-2">{i?.content}</span>
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
@@ -666,10 +720,10 @@ const ProductDetail = ({ categoryId }) => {
                         </Row>
                     </Container>
                 </Col>
-                <Col className='col-5'>
+                <Col className='col-5 mt-3'>
                     <div className='shadow p-3 mb-5 bg-body rounded-3'>
-                        <div className="is-flex is-justify-content-space-between is-align-items-center">
-                            <h2 className="title is-6 mb-3">Thông số kỹ thuật</h2>
+                        <div className=" ">
+                            <h2 className="mb-3">Thông số kỹ thuật</h2>
                         </div>
                         {renderSpecifications(specifications)}
                     </div>
