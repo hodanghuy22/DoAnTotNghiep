@@ -377,7 +377,7 @@ const ProductDetail = ({ categoryId }) => {
                     <h3>{product?.category?.title} {product?.name} {product?.rom}</h3>
                     <h5 className='mt-2 mx-2'>Đã bán: {product?.soldQuantity}</h5>
                     <h5 className='mt-2 mx-2'>SL kho: {productDetailState?.quantity}</h5>
-                    <Link to="/so-sanh" className='ml-3 text-decoration-none ' >
+                    <Link to={`/so-sanh/${FormatData.removeVietnameseTones(product?.name)}`} className='ml-3 text-decoration-none ' >
                         <p className='mx-4 mt-2 '><FaPlus /> So Sánh</p>
                     </Link>
                     <Link className='ml-2' onClick={AddWishList}>
@@ -494,7 +494,7 @@ const ProductDetail = ({ categoryId }) => {
                             <Col>
                                 <div className=' my-2 rounded-lg py-3 px-3'>
                                     <h2 className='text-danger'>Đánh giá sản phẩm</h2>
-                                    <p>Điểm đánh giá: {(averageRating) ? (averageRating) : 0} <span className='text-warning fs-5'>&#9733;</span></p>
+                                    <p>Điểm đánh giá: {productState?.averageRating} <span className='text-warning fs-5'>&#9733;</span></p>
                                     <div>
                                         <Form onSubmit={formik2.handleSubmit}>
                                             <Row className="flex flex-wrap">

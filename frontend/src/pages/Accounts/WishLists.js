@@ -1,5 +1,5 @@
 import { Container, Row } from 'react-bootstrap'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Pagination } from 'swiper/modules';
@@ -10,14 +10,39 @@ import 'swiper/css/pagination';
 import { GetWishList } from '../../features/wishlists/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Loading from '../../utils/Loading';
 const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
+  const [isLoading, setLoading] = useState(false);
+  const [reverseWishList, setreverseWishList] = useState([]);
   useEffect(() => {
-    dispatch(GetWishList());
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(GetWishList());
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
   }, [dispatch]);
 
-  const getCategoryLink = (categoryID,productID) => {
+  setTimeout(() => {
+    if (isLoading) {
+      return <Loading />;
+    }
+    if (wishlistState && wishlistState.length > 0) {
+      const reversedWishlist = wishlistState.slice().reverse();
+      setreverseWishList(reversedWishlist);
+    } else {
+      setreverseWishList([]);
+    }
+
+  }, 1000)
+
+  const getCategoryLink = (categoryID, productID) => {
     switch (categoryID) {
       case 1:
         return `/dien-thoai/${productID}`;
@@ -49,10 +74,10 @@ const WishLists = () => {
             className="mySwiper"
           >
             {
-              wishlistState && wishlistState?.map((item, index) => {
+              reverseWishList && reverseWishList?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={getCategoryLink(item?.product?.categoryId,item?.product?.id)} className='card text-decoration-none phone-item'>
+                    <Link to={getCategoryLink(item?.product?.categoryId, item?.product?.id)} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.product?.thumnailUrl} alt='chuột' width={'100%'} />
                       </div>
@@ -66,8 +91,16 @@ const WishLists = () => {
             }
 
           </Swiper>
+          {/* Hiển thị Loading nếu đang tải dữ liệu */}
+          {isLoading && <Loading />}
+          {/* Nội dung chính của ứng dụng sau khi tải xong */}
+          {!isLoading && (
+            <div>
+            </div>
+          )}
         </div>
       </Row>
+
     </Container>
   )
 }

@@ -31,7 +31,7 @@ const ProductList = ({ categoryId }) => {
     const [sortType, setSortType] = useState('default');
     const productState = useSelector(state => state?.product?.productByCategory);
     const brandState = useSelector(state => state?.brand?.BrandByCategory);
-  const firstProduct = productState?.[0] ?? 'No product available';
+    const firstProduct = productState?.[0] ?? 'No product available';
 
     setTimeout(() => {
         if (isLoading) {
@@ -130,9 +130,11 @@ const ProductList = ({ categoryId }) => {
                         ))
                     }
                 </Row>
+                {/* Hiển thị Loading nếu đang tải dữ liệu */}
+                {isLoading && <Loading />}
+                {/* Nội dung chính của ứng dụng sau khi tải xong */}
                 {!isLoading && (
                     <div>
-                        {/* Nội dung bạn muốn hiển thị sau khi tải xong */}
                     </div>
                 )}
             </Container>

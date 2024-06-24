@@ -1,55 +1,83 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Button, Container, Row, Modal, Col, FormControl } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Button, Container, Row, Modal, Col } from 'react-bootstrap'
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
-import { GetProduct, GetProductsActive } from '../features/products/productSlice';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { GetProduct, GetSearchProduct } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
 
 const Compare = () => {
     const dispatch = useDispatch();
-    const productState = useSelector(state => state?.product?.products);
-    const productList  = useSelector(state => state?.product?.products);
+
+    const [Product1, setProduct1] = useState(null);
+    const [Product2, setProduct2] = useState(null);
+    const [ProductSearch, setProductSearch] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const searchBoxRef = useRef(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const currentUrl = location.pathname;
+    let { phones } = useParams();
     useEffect(() => {
-        dispatch(GetProductsActive());
-    }, [dispatch]);
-    const APhone = useSelector(state => state?.product?.Aproduct);
-    const [Phone1, setPhone1] = useState();
-    const [Phone2, setPhone2] = useState();
+        let ProductName1, ProductName2;
+        if (phones.includes('-vs-')) {
+            [ProductName1, ProductName2] = phones.split('-vs-');
+        } else {
+            ProductName1 = phones;
+            ProductName2 = '';
+        }
+        if (ProductName1) {
+            dispatch(GetSearchProduct({
+                searchQuery: FormatData.replaceHyphensWithSpaces(ProductName1)
+            })).then(response => {
+                setProduct1(response.payload[0]);
+            });
+        }
+
+        if (ProductName2) {
+            dispatch(GetSearchProduct({
+                searchQuery: FormatData.replaceHyphensWithSpaces(ProductName2)
+            })).then(response => {
+                setProduct2(response.payload[0]);
+            });
+        }
+    }, [dispatch, currentUrl]);
 
     const handleAddPhone = (e) => {
         dispatch(GetProduct(e))
         handleClose()
     };
-    useEffect(() => {
-        if (Phone1 === undefined) {
-            setPhone1(APhone);
-        }
-        if (Phone1 !== undefined) {
-            setPhone2(APhone);
-        }
-    }, [APhone]);
     const handleDeletePhone = (e) => {
         if (e === 1) {
-            setPhone1(Phone2)
-            setPhone2(undefined)
+            setProduct1(Product2)
+            setProduct2(null)
+            navigate(`/so-sanh/${FormatData.removeVietnameseTones(Product2?.name)}`)
         }
-        else if (e === 2)
-            setPhone2(undefined)
+        else if (e === 2) {
+            setProduct2(null)
+            navigate(`/so-sanh/${FormatData.removeVietnameseTones(Product1?.name)}`)
+        }
     }
     //Hiên thị modal danh sách sp
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-     
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Submit search with term:', searchTerm);
+
+        dispatch(GetSearchProduct({
+            searchQuery: FormatData.replaceHyphensWithSpaces(searchTerm)
+        })).then(response => {
+            setProductSearch(response.payload);
+        });
+        setSearchTerm('');
     };
 
-
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
     return (
         <div>
             <Container>
@@ -59,7 +87,7 @@ const Compare = () => {
                     </div>
                     <div className='col-8 d-flex justify-content-center mt-5'>
                         <h6 className='' style={{ textTransform: 'uppercase' }}>
-                            So sánh {Phone1?.name} {Phone2?.name ? ('và') : ('')} {Phone2?.name}
+                            So sánh {Product1?.name} {Product2?.name ? ('và') : ('')} {Product2?.name}
                         </h6>
 
                     </div>
@@ -69,7 +97,7 @@ const Compare = () => {
 
                     </div>
                     <div className='col-4 d-flex justify-content-center'>
-                        {Phone1 ? (
+                        {Product1 ? (
                             <div className='p-3 text-center' style={{ marginBottom: '10px' }}>
                                 <div className='d-flex justify-content-end'>
                                     <TiDelete style={{ fontSize: '20px' }} onClick={() => { handleDeletePhone(1) }} />
@@ -77,13 +105,13 @@ const Compare = () => {
                                 <div className='  bg-transparent' border='1' >
                                     <Link className="card-link" style={{ textDecoration: 'none', divor: 'inherit' }}>
                                         <div className='border-0 '>
-                                        <img className='card-image mb-3' variant="top" src={Phone1?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
+                                            <img className='card-image mb-3' variant="top" src={Product1?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
 
                                             <div>
-                                                <div>{Phone1?.name}</div>
+                                                <div>{Product1?.name}</div>
                                                 <p className='text-danger font-size-bold amount'>
                                                     {
-                                                       FormatData.formatNumber(Phone1?.productDetails[0].retailPrice)
+                                                        FormatData.formatNumber(Product1?.productDetails[0].retailPrice)
                                                     }
                                                 </p>
                                             </div>
@@ -105,7 +133,7 @@ const Compare = () => {
                         )}
                     </div>
                     <div className='col-4 d-flex justify-content-center'>
-                        {Phone2 ? (
+                        {Product2 ? (
                             <div className='p-3 text-center' style={{ marginBottom: '10px' }}>
                                 <div className='d-flex justify-content-end'>
                                     <TiDelete style={{ fontSize: '20px' }} onClick={() => { handleDeletePhone(2) }} />
@@ -113,12 +141,12 @@ const Compare = () => {
                                 <div className='  bg-transparent' border='1' >
                                     <Link className="card-link" style={{ textDecoration: 'none', divor: 'inherit' }}>
                                         <div className='border-0 '>
-                                            <img className='card-image mb-3' variant="top" src={Phone2?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
+                                            <img className='card-image mb-3' variant="top" src={Product2?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
                                             <div>
-                                                <div>{Phone2?.name}</div>
+                                                <div>{Product2?.name}</div>
                                                 <p className='text-danger font-size-bold amount'>
                                                     {
-                                                        FormatData.formatNumber(Phone2?.productDetails[0].retailPrice)
+                                                        FormatData.formatNumber(Product2?.productDetails[0].retailPrice)
                                                     }
                                                 </p>
                                             </div>
@@ -152,58 +180,58 @@ const Compare = () => {
                         <ul className="technical-content rounded-3">
                             <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                                 <div className='col-4'>Kích thước màn hình</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.size} inch` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.size} inch` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.size} inch` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.size} inch` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2">
                                 <div className='col-4'>Công nghệ màn hình</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.screen}` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.screen} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.screen}` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.screen} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                                 <div className='col-4'>Camera sau</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.rearCamera} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.rearCamera} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.rearCamera} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.rearCamera} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2">
                                 <div className='col-4'>Camera trước</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.frontCamera} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.frontCamera} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.frontCamera} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.frontCamera} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                                 <div className='col-4'>Chipset</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.chip} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.chip} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.chip} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.chip} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2">
                                 <div className='col-4'>Dung lượng RAM</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.ram} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.ram} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.ram} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.ram} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                                 <div className='col-4'>Bộ nhớ trong</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.rom} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.rom} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.rom} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.rom} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2">
                                 <div className='col-4'>Pin</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.battery} ${Phone1?.chargingEfficiency}` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.battery} ${Phone1?.chargingEfficiency}` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.battery} ${Product1?.chargingEfficiency}` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.battery} ${Product1?.chargingEfficiency}` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                                 <div className='col-4'>Hệ điều hành</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.os} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.os} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.os} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.os} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2">
                                 <div className='col-4'>Trọng lượng</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.weight} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.weight} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.weight} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.weight} ` : null}</div>
                             </li>
                             <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
                                 <div className='col-4'>Hãng</div>
-                                <div className='col-4 mx-5'>{Phone1?.size ? `${Phone1?.brand.title} ` : null}</div>
-                                <div className='col-4 mx-5'>{Phone2?.size ? `${Phone2?.brand.title} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.brand.title} ` : null}</div>
+                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.brand.title} ` : null}</div>
                             </li>
                         </ul>
                     </div>
@@ -221,36 +249,37 @@ const Compare = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Container style={{ height: '75vh', overflow: 'scroll' }}>
-                        <Row>
-                            <div className="searchBox w-100 mr-3" ref={searchBoxRef}>
-                                <div className="d-flex ml-2 mr-2 w-25 mb-2" role="search">
-                                    <div className="d-flex bg-light" style={{ width: '100%' }}>
-                                        <FaSearch className='mt-1 mr-2' style={{ fontSize: '28px' }} />
-                                        <FormControl
+                        <Row >
+                            <Col className='col-4 mb-4'>
+                                <form onSubmit={handleSubmit} className='w-100'>
+                                    <div className='d-flex w-100'>
+                                        <input
+                                            type="text"
+                                            value={searchTerm}
+                                            onChange={handleChange}
                                             id="text-search"
-                                            type="search"
                                             placeholder="Bạn tìm gì"
                                             aria-label="Bạn tìm gì"
-                                            value={searchTerm}
-                                            onChange={handleSearch}
+                                            className='w-100 p-2'
                                         />
+                                        <button type="submit" className='px-2'><FaSearch /></button>
                                     </div>
-                                </div>
-                            </div>
+                                </form>
+                            </Col>
                         </Row>
                         <Row>
                             {
-                                productState && productList?.map((item, index) => {
+                                ProductSearch && ProductSearch?.map((item, index) => {
                                     return (
                                         <Col xl={3} md={4} sm={6} className='' key={index}>
-                                            <div to={`/dien-thoai/${item.productId}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <Link to={`${currentUrl}-vs-${FormatData.removeVietnameseTones(item?.name)}`} className="card-link" style={{ textDecoration: 'none', color: 'inherit' }}>
                                                 <div className='p-3'>
-                                                    <img className='card-image' width={"200px"} height={'200px'} src={item?.imageUrl} alt={item.name} />
+                                                    <img className='card-image' width={"200px"} height={'200px'} src={item?.thumnailUrl} alt={item.name} />
                                                     <div className='mt-4'>
                                                         <p className='text-title'>{item.name}</p>
                                                         <div>
                                                             <p className='text-price  font-size-bold amount' >
-                                                                {FormatData.formatNumber(item.price)}
+                                                                {FormatData.formatNumber(item.productDetails[0].retailPrice)}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -258,7 +287,7 @@ const Compare = () => {
                                                         <FaPlus /> So sánh ngay
                                                     </Button>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </Col>
                                     )
                                 })
@@ -280,3 +309,4 @@ const Compare = () => {
 }
 
 export default Compare
+

@@ -43,12 +43,17 @@ const formatDateVN = () => {
     return format(currentDate, 'yyyy-MM-dd\'T\'HH:mm:ss', { timeZone: 'Asia/Ho_Chi_Minh' });
 
 }
+function replaceHyphensWithSpaces(input) {
+    // Thay thế dấu gạch ngang bằng khoảng trắng
+    return input.replace(/-/g, ' ');
+  }
 const FormatData = {
     formatNumber,
     formatDate,
     formatDateTime,
     removeVietnameseTones,
-    formatDateVN
+    formatDateVN,
+    replaceHyphensWithSpaces
 
 
 };

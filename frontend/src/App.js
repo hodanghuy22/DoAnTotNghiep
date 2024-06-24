@@ -42,7 +42,7 @@ const App = () => {
                     <Route path='/reset-password/:token' element={<ResetPassword />} />
                     <Route path='/cart' element={<CartList />} />
                     <Route path='/payment' element={<Payment />} />
-                    <Route path="so-sanh" element={<Compare />} />
+                    <Route path="so-sanh/:phones" element={<Compare />} />
                     <Route path="/gioi-thieu" element={<Agency />} />
                     <Route path="/tim-kiem/:searchQuery" element={<SearchResults />} />
                     <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
