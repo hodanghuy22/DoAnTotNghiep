@@ -32,7 +32,14 @@ namespace backend.Repository
                 return Result<Rating>.Failure("Chỉ được đánh giá 1 lần!");
             }
             var product = await _context.Products.FindAsync(rating.ProductId);
-            product.AverageRating = (int)(product.AverageRating + rating.Star) / 2;
+            if(product.AverageRating == 0)
+            {
+                product.AverageRating = rating.Star;
+            }
+            else
+            {
+                product.AverageRating = (int)(product.AverageRating + rating.Star) / 2; 
+            }
             await _context.Ratings.AddAsync(rating);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
@@ -98,7 +105,18 @@ namespace backend.Repository
             }
             try
             {
+                var soluong = await _context.Ratings
+                    .CountAsync(r => r.ProductId == rating.ProductId);
                 var pt = await GetRating(id);
+                var product = await _context.Products.FindAsync(rating.ProductId);
+                if (soluong == 1)
+                {
+                    product.AverageRating = rating.Star;
+                }
+                else
+                {
+                    product.AverageRating = (product.AverageRating * 2 - pt.Star + rating.Star) + 2;
+                }
                 _context.Entry(pt).CurrentValues.SetValues(rating);
                 await _context.SaveChangesAsync();
             }
