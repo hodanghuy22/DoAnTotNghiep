@@ -18,7 +18,7 @@ const Trangcanhan = () => {
     const handleLogout = () => {
         dispatch(Logout());
         setTimeout(() => {
-            navigate('/login');
+            navigate('/');
         }, 300)
       };
     return (
