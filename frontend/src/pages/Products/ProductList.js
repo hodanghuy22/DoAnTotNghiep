@@ -115,7 +115,7 @@ const ProductList = ({ categoryId }) => {
                     {
                         sortedProducts.map((item, index) => (
                             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-                                <Link to={`${getCategoryPath(categoryId)}/${item?.id}`} className='card text-decoration-none phone-item'>
+                                <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                                     <div className='phone-container p-3'>
                                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                                     </div>

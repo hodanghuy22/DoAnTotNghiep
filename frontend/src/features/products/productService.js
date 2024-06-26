@@ -74,6 +74,12 @@ const getSearchProduct = async (data) => {
     return response.data;
   }
 }
+const getSearchProductByNameAndCategory = async (data) => {
+  const response = await axios.get(`${base_url}Products/SearchProductByNameAndCategory/${data.searchQuery}/${data.categoryId}`,data, getConfig());
+  if (response.data) {
+    return response.data;
+  }
+}
 
 const updateStatusProduct = async (data) => {
   const response = await axios.put(`${base_url}Products/UpdateStatusProduct/${data.id}/${data.status}`,"", getConfig());
@@ -107,7 +113,8 @@ const productService = {
   getProductByBrand,
   getSearchProduct,
   getProductByBrandCategory,
-  getProductForUser
+  getProductForUser,
+  getSearchProductByNameAndCategory
 };
 
 export default productService;

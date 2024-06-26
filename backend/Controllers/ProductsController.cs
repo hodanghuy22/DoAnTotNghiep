@@ -57,6 +57,13 @@ namespace backend.Controllers
             return Ok(products);
         }
         [HttpGet]
+        [Route("SearchProductByNameAndCategory/{name}/{categoryId}")]
+        public async Task<IActionResult> SearchProductByNameAndCategory(string name, int categoryId)
+        {
+            var products = await _uow.ProductRepository.SearchProductByNameAndCategory(name, categoryId);
+            return Ok(products);
+        }
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {

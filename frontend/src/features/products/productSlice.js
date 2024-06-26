@@ -61,6 +61,14 @@ export const GetSearchProductByName = createAsyncThunk('products/get-searhproduc
   }
 })
 
+export const GetSearchProductByNameAndCategory = createAsyncThunk('products/get-searhproductByNameAndCategory', async (data, thunkAPI) => {
+  try {
+    return await productService.getSearchProductByNameAndCategory(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+
 export const CreateProduct = createAsyncThunk('products/create', async (data, thunkAPI) => {
   try {
     return await productService.createProduct(data);
@@ -288,6 +296,19 @@ export const productSlice = createSlice({
       state.isSuccess = true;
       state.searchResults = action.payload;
     }).addCase(GetSearchProductByName.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.error;
+    })
+    .addCase(GetSearchProductByNameAndCategory.pending, (state) => {
+      state.isLoading = true;
+    }).addCase(GetSearchProductByNameAndCategory.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.searchResultByCategory = action.payload;
+    }).addCase(GetSearchProductByNameAndCategory.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;

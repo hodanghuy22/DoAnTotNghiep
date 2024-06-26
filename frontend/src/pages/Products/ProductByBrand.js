@@ -40,7 +40,6 @@ const ProductByBrand = () => {
   const handleSortChange = (e) => {
     setSortType(e.target.value);
   };
-
   return (
     <Container className='mb-5'>
       <Row>
@@ -68,7 +67,7 @@ const ProductByBrand = () => {
         {
           sortedProducts && sortedProducts.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link to={`/dien-thoai/${item?.id}`} className='card text-decoration-none phone-item'>
+              <Link to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`}  className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                 </div>

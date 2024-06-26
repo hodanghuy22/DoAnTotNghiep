@@ -145,7 +145,7 @@ const Home = () => {
               phonePopular && phonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/dien-thoai/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/dien-thoai/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -185,7 +185,7 @@ const Home = () => {
               headphonePopular && headphonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/tai-nghe-khong-day/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/tai-nghe-khong-day/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -226,7 +226,7 @@ const Home = () => {
               headphoneTWPopular && headphoneTWPopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/tai-nghe-co-day/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/tai-nghe-co-day/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>
@@ -267,7 +267,7 @@ const Home = () => {
               PDUPopular && PDUPopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={`/sac-du-phong/${item?.id}`} className='card text-decoration-none phone-item'>
+                    <Link to={`/sac-du-phong/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                       </div>

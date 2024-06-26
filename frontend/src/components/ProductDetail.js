@@ -13,7 +13,7 @@ import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
 import Loading from '../utils/Loading';
 import { GetCapacitiesByProductId } from '../features/capacitites/capacitySlice';
-import { GetProduct, GetProductForUser, GetProductPopularByCategogy } from '../features/products/productSlice';
+import { GetProduct, GetProductForUser, GetProductPopularByCategogy, GetSearchProduct } from '../features/products/productSlice';
 import { GetColorByProductId } from '../features/colors/colorSlice';
 import { AddCart } from '../features/cart/cartSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -39,6 +39,8 @@ const ProductDetail = ({ categoryId }) => {
     const productState = useSelector(state => state?.product?.Aproduct);
     const productDetailState = useSelector(state => state?.product?.ProductDetail);
     const productPopular = useSelector(state => state?.product?.productByCategory);
+    const { ProductNameUrl } = useParams();
+    const [productId, setproductId] = useState(null);
 
     const authState = useSelector(state => state?.auth?.user);
     const capacities = useSelector(state => state?.capacities?.capacities);
@@ -46,17 +48,13 @@ const ProductDetail = ({ categoryId }) => {
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
     const sortedComments = productState?.comments?.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
-    const { productId } = useParams();
     const product = productState;
     const [isLoading, setLoading] = useState(true);
     const [replytVisiable, setReplytVisiable] = useState(false);
     const [replyCommentId, setReplyCommentId] = useState(null);
-    const [averageRating, setaverageRating] = useState(0);
-
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const location = useLocation();
-
     const formik = useFormik({
         initialValues: {
             content: '',
@@ -120,24 +118,50 @@ const ProductDetail = ({ categoryId }) => {
 
         },
     });
-
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                //await dispatch(resetState());
-                await dispatch(GetCapacitiesByProductId(productId));
-                await dispatch(GetProduct(productId));
-                await dispatch(GetColorByProductId(productId));
-                setLoading(false);
+                console.log(FormatData.replaceHyphensWithSpaces(ProductNameUrl))
+                await dispatch(GetSearchProduct({
+                    searchQuery: FormatData.replaceHyphensWithSpaces(ProductNameUrl)
+                })).then(response => {
+                    if (ProductNameUrl) {
+                        for (let item of response.payload) {
+                            if (item.name.length === ProductNameUrl.length) {
+                                setproductId(item.id);
+                                break;
+                            }
+                        }
+                    }
+                });
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
-
+                setLoading(false);
             }
         };
         fetchData();
+    }, [dispatch, ProductNameUrl]);
+    
+    useEffect(() => {
+        if (productId) { // Chỉ chạy nếu productId đã được thiết lập
+            const fetchData = async () => {
+                setLoading(true);
+                try {
+                    await dispatch(GetCapacitiesByProductId(productId));
+                    await dispatch(GetProduct(productId));
+                    await dispatch(GetColorByProductId(productId));
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchData();
+        }
     }, [dispatch, productId]);
+    
 
     const [AProduct, setAProduct] = useState({
         productId: productState?.id,
@@ -179,9 +203,6 @@ const ProductDetail = ({ categoryId }) => {
                     console.error('Error fetching data:', error);
                 } finally {
                     setLoading(false);
-                    const ratings = productState?.ratings;
-                    const totalStars = ratings.reduce((sum, item) => sum + item.star, 0);
-                    setaverageRating(totalStars / ratings.length);
                 }
             }
             if (AProduct.productId && AProduct.colorId && capacities.length === 0) {
@@ -202,9 +223,7 @@ const ProductDetail = ({ categoryId }) => {
                     console.error('Error fetching data:', error);
                 } finally {
                     setLoading(false);
-                    const ratings = productState?.ratings;
-                    const totalStars = ratings.reduce((sum, item) => sum + item.star, 0);
-                    setaverageRating(totalStars / ratings.length);
+                  
                 }
             }
         };
@@ -377,7 +396,7 @@ const ProductDetail = ({ categoryId }) => {
                     <h3>{product?.category?.title} {product?.name} {product?.rom}</h3>
                     <h5 className='mt-2 mx-2'>Đã bán: {product?.soldQuantity}</h5>
                     <h5 className='mt-2 mx-2'>SL kho: {productDetailState?.quantity}</h5>
-                    <Link to={`/so-sanh/${FormatData.removeVietnameseTones(product?.name)}`} className='ml-3 text-decoration-none ' >
+                    <Link to={`/so-sanh${getCategoryPath(product?.categoryId)}/${FormatData.removeVietnameseTones(product?.name)}`} className='ml-3 text-decoration-none ' >
                         <p className='mx-4 mt-2 '><FaPlus /> So Sánh</p>
                     </Link>
                     <Link className='ml-2' onClick={AddWishList}>
@@ -470,8 +489,8 @@ const ProductDetail = ({ categoryId }) => {
                 {
                     productPopular && productPopular?.map((item, index) => {
                         return (
-                            <Col className='col-3'>
-                                <Link to={`${getCategoryPath(categoryId)}/${item?.id}`} className='card text-decoration-none phone-item'>
+                            <Col className='col-3' key={index}>
+                                <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                                     <div className='phone-container p-3'>
                                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
                                     </div>

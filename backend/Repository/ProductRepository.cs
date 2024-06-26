@@ -135,6 +135,17 @@ namespace backend.Repository
                    .ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> SearchProductByNameAndCategory(string name, int categoryId)
+        {
+            return await _context.Products
+                   .Include(p => p.Brand)
+                   .Include(p => p.Category)
+                   .Include(p => p.ProductDetails)
+                   .Include(p => p.Images)
+                   .Where(p => p.Name.ToLower().Contains(name.ToLower()) && p.CategoryId == categoryId)
+                   .ToListAsync();
+        }
+
         public async Task<IEnumerable<ProductDisplayModel>> GetProductsActive()
         {
             return await _context.Products

@@ -4,14 +4,15 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { GetProduct, GetSearchProduct } from '../features/products/productSlice';
+import { GetProduct, GetSearchProduct, GetSearchProductByNameAndCategory } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
 
-const Compare = () => {
+const Compare = ({ categoryId }) => {
     const dispatch = useDispatch();
-
+    console.log(categoryId);
     const [Product1, setProduct1] = useState(null);
     const [Product2, setProduct2] = useState(null);
+    const [Product3, setProduct3] = useState(null);
     const [ProductSearch, setProductSearch] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const location = useLocation();
@@ -19,18 +20,31 @@ const Compare = () => {
     const currentUrl = location.pathname;
     let { phones } = useParams();
     useEffect(() => {
-        let ProductName1, ProductName2;
+        let ProductName1, ProductName2, ProductName3;
+
         if (phones.includes('-vs-')) {
-            [ProductName1, ProductName2] = phones.split('-vs-');
+            const parts = phones.split('-vs-');
+            ProductName1 = parts[0].trim(); // Lấy phần tử đầu tiên và loại bỏ khoảng trắng
+            if (parts.length === 2) {
+                ProductName2 = parts[1].trim(); // Lấy phần tử thứ hai nếu có và loại bỏ khoảng trắng
+                ProductName3 = ''; // Đặt ProductName3 là rỗng nếu chỉ có 2 phần tử
+            } else if (parts.length === 3) {
+                ProductName2 = parts[1].trim(); // Lấy phần tử thứ hai
+                ProductName3 = parts[2].trim(); // Lấy phần tử thứ ba và loại bỏ khoảng trắng
+            }
         } else {
-            ProductName1 = phones;
+            ProductName1 = phones.trim(); // Nếu không có -vs-, đặt ProductName1 và loại bỏ khoảng trắng
             ProductName2 = '';
+            ProductName3 = '';
         }
+
         if (ProductName1) {
             dispatch(GetSearchProduct({
                 searchQuery: FormatData.replaceHyphensWithSpaces(ProductName1)
             })).then(response => {
                 setProduct1(response.payload[0]);
+                console.log(ProductName1);
+                console.log(response.payload[0]);
             });
         }
 
@@ -39,8 +53,20 @@ const Compare = () => {
                 searchQuery: FormatData.replaceHyphensWithSpaces(ProductName2)
             })).then(response => {
                 setProduct2(response.payload[0]);
+                console.log(ProductName2);
+                console.log(response.payload[0]);
             });
         }
+        if (ProductName3) {
+            dispatch(GetSearchProduct({
+                searchQuery: FormatData.replaceHyphensWithSpaces(ProductName3)
+            })).then(response => {
+                setProduct3(response.payload[0]);
+                console.log(ProductName3);
+                console.log(response.payload[0]);
+            });
+        }
+        console.log(currentUrl);
     }, [dispatch, currentUrl]);
 
     const handleAddPhone = (e) => {
@@ -49,13 +75,19 @@ const Compare = () => {
     };
     const handleDeletePhone = (e) => {
         if (e === 1) {
-            setProduct1(Product2)
-            setProduct2(null)
-            navigate(`/so-sanh/${FormatData.removeVietnameseTones(Product2?.name)}`)
-        }
-        else if (e === 2) {
-            setProduct2(null)
-            navigate(`/so-sanh/${FormatData.removeVietnameseTones(Product1?.name)}`)
+            if (Product3 == null) {
+                window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product2?.name)}`;
+            } else {
+                window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product2?.name)}-vs-${FormatData.removeVietnameseTones(Product3?.name)}`;
+            }
+        } else if (e === 2) {
+            if (Product3 == null) {
+                window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product1?.name)}`;
+            } else {
+                window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product1?.name)}-vs-${FormatData.removeVietnameseTones(Product3?.name)}`;
+            }
+        } else if (e === 3) {
+            window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product1?.name)}-vs-${FormatData.removeVietnameseTones(Product3?.name)}`;
         }
     }
     //Hiên thị modal danh sách sp
@@ -66,41 +98,762 @@ const Compare = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Submit search with term:', searchTerm);
+        if (searchTerm === '') {
+            setProductSearch([])
+        }
+        else {
 
-        dispatch(GetSearchProduct({
-            searchQuery: FormatData.replaceHyphensWithSpaces(searchTerm)
-        })).then(response => {
-            setProductSearch(response.payload);
-        });
+            dispatch(GetSearchProductByNameAndCategory({
+                searchQuery: FormatData.replaceHyphensWithSpaces(searchTerm),
+                categoryId: categoryId
+            })).then(response => {
+                console.log({
+                    searchQuery: FormatData.replaceHyphensWithSpaces(searchTerm),
+                    categoryId: categoryId
+                });
+                setProductSearch(response?.payload);
+            });
+        }
         setSearchTerm('');
     };
 
     const handleChange = (e) => {
         setSearchTerm(e.target.value);
     };
+
+    const renderSpecifications = (specifications) => {
+        return (
+            <ul className="technical-content rounded-3 border">
+                {specifications.map((spec, index) => (
+                    <li key={index} className="d-flex align-items-center justify-content-between p-2 border-bottom">
+                        <div className='col-3 border-right'>{spec.label}:</div>
+                        <div className='col-9'>
+                            {spec.value}
+                        </div>
+                    </li>
+                ))}
+            </ul>
+
+        );
+    };
+    let specifications = [];
+    switch (categoryId) {
+        case 1:
+            specifications = [
+                {
+                    label: 'Kích thước màn hình',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.size}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.size}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product3?.size}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Công nghệ màn hình', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.screen}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.screen}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.screen}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Camera sau', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.rearCamera}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.rearCamera}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.rearCamera}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Camera trước', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.frontCamera}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.frontCamera}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.frontCamera}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Chipset', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.chip}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.chip}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.chip}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Dung lượng RAM', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.ram}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.ram}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.ram}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Bộ nhớ trong', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.rom}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.rom}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.rom}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Pin', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.battery} {Product1?.chargingEfficiency}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.battery} {Product2?.chargingEfficiency}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.battery} {Product3?.chargingEfficiency}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Hệ điều hành', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.os}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.os}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.os}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Trọng lượng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.weight}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.weight}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.weight}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Hãng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.brand?.title}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.brand?.title}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.brand?.title}
+                            </div>
+                        </div>
+                    )
+                },
+            ];
+            break;
+        case 2:
+            specifications = [
+                {
+                    label: 'Dung lượng pin', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.battery}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.battery}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.battery}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Hiệu suất sạc', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {(Product1) ? (`${(Product1?.chargingEfficiency * 100)?.toFixed(0)}%`) : ('')}
+                            </div>
+
+                            <div className='col-4'>
+                                {(Product2) ? (`${(Product2?.chargingEfficiency * 100)?.toFixed(0)}%`) : ('')}
+                            </div>
+                            <div className='col-4'>
+                                {(Product3) ? (`${(Product3?.chargingEfficiency * 100)?.toFixed(0)}%`) : ('')}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Lõi pin', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.batteryCore}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.batteryCore}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.batteryCore}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Công nghệ/Tiện ích', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4' style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>
+                                {Product1?.features}
+                            </div>
+                            <div className='col-4' style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>
+                                {Product2?.features}
+                            </div>
+                            <div className='col-4' style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>
+                                {Product3?.features}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Thời gian sạc đầy pin', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.chargingTime}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.chargingTime}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.chargingTime}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Nguồn vào', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.input}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.input}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.input}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Nguồn ra', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product1?.output?.split(', ').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product2?.output?.split(', ').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product3?.output?.split(', ').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Kích thước', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.size}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.size}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.size}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Trọng lượng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.weight}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.weight}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.weight}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Hãng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.brand?.title}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.brand?.title}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.brand?.title}
+                            </div>
+                        </div>
+                    )
+                },
+            ];
+            break;
+        case 3:
+            specifications = [
+                {
+                    label: 'Thời lượng pin tai nghe',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {`${Product1?.battery} ${Product1?.chargingTime}`}
+                            </div>
+
+                            <div className='col-4'>
+                                {`${Product2?.battery} ${Product2?.chargingTime}`}
+                            </div>
+                            <div className='col-4'>
+                                {`${Product3?.battery} ${Product3?.chargingTime}`}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Thời lượng pin hộp sạc',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.chargingCase}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.chargingCase}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.chargingCase}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Tương thích',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product1?.accessibility?.split(',').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+
+                            </div>
+
+                            <div className='col-4'>
+                                <ul>
+                                    {Product2?.accessibility?.split(',').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product3?.accessibility?.split(',').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Cổng sạc',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.input}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.input}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.input}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Công nghệ âm thanh',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product1?.audioTechnology?.split('|').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div className='col-4'>
+                                <ul>
+                                    {Product2?.audioTechnology?.split('|').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product3?.audioTechnology?.split('|').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Kích thước',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.size}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.size}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.size}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Công nghệ kết nối',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.connectivity}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.connectivity}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.connectivity}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Hãng',
+                    value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.brand?.title}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.brand?.title}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.brand?.title}
+                            </div>
+                        </div>
+                    )
+                },
+            ];
+            break;
+        case 4:
+            specifications = [
+                // { label: 'Công nghệ âm thanh', value: product?.audioTechnology },
+                {
+                    label: 'Tương thích', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product1?.accessibility?.split('|').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div className='col-4'>
+                                <ul>
+                                    {Product2?.accessibility?.split('|').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product3?.accessibility?.split('|').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Jack cắm', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {Product1?.input}
+                            </div>
+
+                            <div className='col-4'>
+                                {Product2?.input}
+                            </div>
+                            <div className='col-4'>
+                                {Product3?.input}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Điều khiển bằng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product1?.controls?.split('/').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <div className='col-4'>
+                                <ul>
+                                    {Product2?.controls?.split('/').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <ul>
+                                    {Product3?.controls?.split('/').map((tech, index) => (
+                                        <li key={index}>
+                                            {tech}
+                                            <br />
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Kết nối cùng lúc', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {(Product1?.connectivity) ? (Product1?.connectivity) : ('Chưa cập nhật')}
+                            </div>
+
+                            <div className='col-4'>
+                                {(Product2?.connectivity) ? (Product2?.connectivity) : ('Chưa cập nhật')}
+                            </div>
+
+                            <div className='col-4'>
+                                {(Product3?.connectivity) ? (Product3?.connectivity) : ('Chưa cập nhật')}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Trọng lượng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {(Product1?.weight) ? (Product1?.weight) : ('Chưa cập nhật')}
+                            </div>
+                            <div className='col-4'>
+                                {(Product2?.weight) ? (Product2?.weight) : ('Chưa cập nhật')}
+                            </div>
+                            <div className='col-4'>
+                                {(Product3?.weight) ? (Product3?.weight) : ('Chưa cập nhật')}
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    label: 'Hãng', value: (
+                        <div className='d-flex w-100 px-4'>
+                            <div className='col-4'>
+                                {(Product1?.brand?.title) ? (Product1?.brand?.title) : ('Chưa cập nhật')}
+                            </div>
+
+                            <div className='col-4'>
+                                {(Product2?.brand?.title) ? (Product2?.brand?.title) : ('Chưa cập nhật')}
+                            </div>
+
+                            <div className='col-4'>
+                                {(Product3?.brand?.title) ? (Product3?.brand?.title) : ('Chưa cập nhật')}
+                            </div>
+                        </div>
+                    )
+                },
+            ];
+            break;
+        default:
+            return null;
+    }
     return (
         <div>
             <Container>
-                <Row className=''>
-                    <div className='col-4'>
-
-                    </div>
-                    <div className='col-8 d-flex justify-content-center mt-5'>
-                        <h6 className='' style={{ textTransform: 'uppercase' }}>
-                            So sánh {Product1?.name} {Product2?.name ? ('và') : ('')} {Product2?.name}
-                        </h6>
-
-                    </div>
-                </Row>
                 <Row className='d-flex justify-content-end w-100'>
-                    <div className='col-4'>
-
+                    <div className='col-3'>
+                        <div className=' mt-5'>
+                            <h6 className='' style={{ textTransform: 'uppercase' }}>
+                                So sánh
+                            </h6>
+                            <p>{Product1?.name}</p>
+                            <p> {Product2?.name ? ('&') : ('')} </p>
+                            <p>{Product2?.name}</p>
+                            <p> {Product3?.name ? ('&') : ('')} </p>
+                            <p>{Product3?.name}</p>
+                        </div>
                     </div>
-                    <div className='col-4 d-flex justify-content-center'>
+                    <div className='col-3 d-flex justify-content-center'>
                         {Product1 ? (
                             <div className='p-3 text-center' style={{ marginBottom: '10px' }}>
                                 <div className='d-flex justify-content-end'>
-                                    <TiDelete style={{ fontSize: '20px' }} onClick={() => { handleDeletePhone(1) }} />
+                                    <TiDelete style={{ fontSize: '20px' }} className={(Product2 == null) ? ('d-none') : ('d-block')} onClick={() => { handleDeletePhone(1) }} />
                                 </div>
                                 <div className='  bg-transparent' border='1' >
                                     <Link className="card-link" style={{ textDecoration: 'none', divor: 'inherit' }}>
@@ -132,7 +885,7 @@ const Compare = () => {
                             </div>
                         )}
                     </div>
-                    <div className='col-4 d-flex justify-content-center'>
+                    <div className='col-3 d-flex justify-content-center'>
                         {Product2 ? (
                             <div className='p-3 text-center' style={{ marginBottom: '10px' }}>
                                 <div className='d-flex justify-content-end'>
@@ -167,7 +920,41 @@ const Compare = () => {
                             </div>
                         )}
                     </div>
-
+                    <div className='col-3 d-flex justify-content-center'>
+                        {Product3 ? (
+                            <div className='p-3 text-center' style={{ marginBottom: '10px' }}>
+                                <div className='d-flex justify-content-end'>
+                                    <TiDelete style={{ fontSize: '20px' }} onClick={() => { handleDeletePhone(3) }} />
+                                </div>
+                                <div className='  bg-transparent' border='1' >
+                                    <Link className="card-link" style={{ textDecoration: 'none', divor: 'inherit' }}>
+                                        <div className='border-0 '>
+                                            <img className='card-image mb-3' variant="top" src={Product3?.thumnailUrl} alt='zxczxc' width={'200px'} height={'200px'} />
+                                            <div>
+                                                <div>{Product3?.name}</div>
+                                                <p className='text-danger font-size-bold amount'>
+                                                    {
+                                                        FormatData.formatNumber(Product3?.productDetails[0].retailPrice)
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <div style={{ marginBottom: '10px' }} className=' p-3 text-center d-flex justify-content-center align-items-center '>
+                                <Button
+                                    className='bg-transparent text-info p-3'
+                                    style={{ borderStyle: 'dashed' }}
+                                    onClick={handleShow}
+                                >
+                                    <FaPlus style={{ fontSize: '30px' }} />
+                                    <p>Thêm sản phẩm</p>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 </Row>
 
                 <Row>
@@ -177,63 +964,7 @@ const Compare = () => {
                     <div className='shadow p-3 mb-5 bg-body rounded-3-'>
                         <div className="is-flex is-justify-content-space-between is-align-items-center"><h2 className="title is-6 mb-3">Thông số kỹ thuật</h2>
                         </div>
-                        <ul className="technical-content rounded-3">
-                            <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                                <div className='col-4'>Kích thước màn hình</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.size} inch` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.size} inch` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2">
-                                <div className='col-4'>Công nghệ màn hình</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.screen}` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.screen} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                                <div className='col-4'>Camera sau</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.rearCamera} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.rearCamera} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2">
-                                <div className='col-4'>Camera trước</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.frontCamera} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.frontCamera} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                                <div className='col-4'>Chipset</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.chip} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.chip} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2">
-                                <div className='col-4'>Dung lượng RAM</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.ram} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.ram} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                                <div className='col-4'>Bộ nhớ trong</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.rom} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.rom} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2">
-                                <div className='col-4'>Pin</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.battery} ${Product1?.chargingEfficiency}` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.battery} ${Product1?.chargingEfficiency}` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                                <div className='col-4'>Hệ điều hành</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.os} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.os} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2">
-                                <div className='col-4'>Trọng lượng</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.weight} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.weight} ` : null}</div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between p-2 " style={{ backgroundColor: '#f2f2f2' }}>
-                                <div className='col-4'>Hãng</div>
-                                <div className='col-4 mx-5'>{Product1?.size ? `${Product1?.brand.title} ` : null}</div>
-                                <div className='col-4 mx-5'>{Product2?.size ? `${Product2?.brand.title} ` : null}</div>
-                            </li>
-                        </ul>
+                        {renderSpecifications(specifications)}
                     </div>
                 </Row>
             </Container>
@@ -248,11 +979,11 @@ const Compare = () => {
                     <Modal.Title>Tìm sản phẩm để so sánh</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Container style={{ height: '75vh', overflow: 'scroll' }}>
+                    <Container style={{ height: '60vh', overflow: 'scroll' }}>
                         <Row >
                             <Col className='col-4 mb-4'>
                                 <form onSubmit={handleSubmit} className='w-100'>
-                                    <div className='d-flex w-100'>
+                                    <div className='d-flex w-100 px-4'>
                                         <input
                                             type="text"
                                             value={searchTerm}

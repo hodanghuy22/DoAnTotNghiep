@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import logo from '../assets/images/logo-nobg.png';
-import { BsFacebook, BsInstagram, BsPhone, BsPinterest, BsTwitter } from 'react-icons/bs';
+import { BsPhone } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
@@ -10,19 +10,6 @@ const Footer = () => {
         <Col xl={3}>
           <Link to={'/'}><img src={logo} alt='logo' width={'300px'} /></Link>
           <p>Với chất lượng hàng đầu, chúng tôi cam kết mang đến cho khách hàng những trải nghiệm tuyệt vời và sự hài lòng tuyệt đối.</p>
-          <h5>Theo dõi</h5>
-          <Link className='p-2' >
-            <BsFacebook className='fs-3' />
-          </Link>
-          <Link className='p-2'>
-            <BsTwitter className='fs-3' />
-          </Link>
-          <Link className='p-2'>
-            <BsInstagram className='fs-3' />
-          </Link>
-          <Link className='p-2'>
-            <BsPinterest className='fs-3' />
-          </Link>
         </Col>
         <Col xl={2}>
           <h5>Thông tin</h5>
@@ -40,7 +27,6 @@ const Footer = () => {
             <p>Trang Chủ</p>
             <p>Giới Thiệu</p>
             <p>Sản Phẩm</p>
-            <p>Tin Tức</p>
             <p>Liên Hệ</p>
           </div>
         </Col>

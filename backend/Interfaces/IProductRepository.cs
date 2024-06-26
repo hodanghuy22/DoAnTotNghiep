@@ -12,6 +12,7 @@ namespace backend.Interfaces
         Task<IEnumerable<ProductDisplayModel>> GetProductsActiveByCategory(int categoryId);
         Task<IEnumerable<ProductDisplayModel>> GetProductsActiveByCategoryAndBrand(int categoryId, int brandId);
         Task<IEnumerable<Product>> SearchProductByName(string name);
+        Task<IEnumerable<Product>> SearchProductByNameAndCategory(string name, int categoryId);
         Task<IEnumerable<ProductBestSellerModel>> GetProductsBestSeller(FillterModel fillterModel);
         Task<IEnumerable<ProductDisplayModel>> GetPopularProducts(FillterModel fillterModel);
         Task<IEnumerable<ProductDisplayModel>> GetPopularProductsByCategory(int categoryId, FillterModel fillterModel);

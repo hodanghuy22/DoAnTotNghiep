@@ -29,7 +29,7 @@ const CartList = () => {
             }
         };
         fetchData();
-    }, [dispatch]);
+    }, [dispatch,authState?.id]);
 
     useEffect(() => {
         let total = 0;
@@ -68,8 +68,22 @@ const CartList = () => {
                 dispatch(GetCart(authState?.id))
             }, 300);
         }
-    }, [productUpdateDetails])
+    }, [dispatch,productUpdateDetails,authState?.id])
 
+    const getCategoryLink = (categoryID, productName) => {
+        switch (categoryID) {
+          case 1:
+            return `/dien-thoai/${FormatData.removeVietnameseTones(productName)}`;
+          case 2:
+            return `/sac-du-phong/${FormatData.removeVietnameseTones(productName)}`;
+          case 3:
+            return `/tai-nghe-khong-day/${FormatData.removeVietnameseTones(productName)}`;
+          case 4:
+            return `/tai-nghe-co-day/${FormatData.removeVietnameseTones(productName)}`;
+          default:
+            return `/`;
+        }
+      };
 
     return (
         <>
@@ -94,7 +108,7 @@ const CartList = () => {
                                         </div>
                                         <div className='p-3'>
                                             <div className=''>
-                                                <p className='fs-45 fw-bold'>{item?.productDetail?.product?.name} {item?.productDetail?.product?.ram}/{item?.productDetail?.capacity?.totalCapacity}</p>
+                                                <Link to={getCategoryLink(item?.productDetail.product?.categoryId, item?.productDetail.product?.name)}  className='fs-45 fw-bold text-decoration-none '>{item?.productDetail?.product?.name} {item?.productDetail?.product?.ram}/{item?.productDetail?.capacity?.totalCapacity}</Link>
                                                 <p>Màu {item?.productDetail?.color?.colorName}</p>
                                             </div>
                                             <div style={{ overflowWrap: 'break-word' }} className='uu-dai mt-4'>
