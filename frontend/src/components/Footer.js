@@ -8,36 +8,35 @@ const Footer = () => {
     <Container className='mt-5'>
       <Row className='mb-5'>
         <Col xl={3}>
-          <Link to={'/'}><img src={logo} alt='logo' width={'300px'} /></Link>
+          <Link className='text-decoration-none' to={'/'}><img src={logo} alt='logo' width={'300px'} /></Link>
           <p>Với chất lượng hàng đầu, chúng tôi cam kết mang đến cho khách hàng những trải nghiệm tuyệt vời và sự hài lòng tuyệt đối.</p>
         </Col>
         <Col xl={2}>
           <h5>Thông tin</h5>
           <div className='d-flex flex-column'>
-            <p>Xu Hướng</p>
-            <p>Bán Chạy</p>
-            <p>Giảm Giá</p>
-            <p>Sản Phẩm Mới</p>
-            <p>Còn Hàng</p>
+            <Link className='text-decoration-none' to={'/hot'}>Xu Hướng</Link>
+            <Link className='text-decoration-none' to={'hot'}>Bán Chạy</Link>
+           <Link className='text-decoration-none' to={'dien-thoai'}>Điện thoại</Link>
+           <Link className='text-decoration-none' to={'tai-nghe-co-day'}>Tai nghe có dây</Link>
+           <Link className='text-decoration-none' to={'tai-nghe-khong-day'}>Tai nghe không dây</Link>
+           <Link className='text-decoration-none' to={'sac-du-phong'}>Sạc dự phòng</Link>
           </div>
         </Col>
         <Col xl={2}>
           <h5>Danh Mục</h5>
           <div className='d-flex flex-column'>
-            <p>Trang Chủ</p>
-            <p>Giới Thiệu</p>
-            <p>Sản Phẩm</p>
+            <Link className='text-decoration-none' to={'/'}>Trang Chủ</Link>
+            <Link className='text-decoration-none' to={'/gioi-thieu'}>Giới Thiệu</Link>
+            <Link className='text-decoration-none' to={'/hot'}>Sản Phẩm</Link>
             <p>Liên Hệ</p>
           </div>
         </Col>
         <Col xl={2}>
           <h5>Liên kết</h5>
           <div className='d-flex flex-column'>
-            <p>Tài Khoản</p>
-            <p>Đơn Hàng</p>
-            <p>Mục Yêu Thích</p>
-            <p>Hoàn Trả</p>
-            <p>Chính Sách</p>
+            <Link className='text-decoration-none' to={'/trang-ca-nhan'}>Tài Khoản</Link>
+            <Link className='text-decoration-none' to={'/trang-ca-nhan/oder-list'}>Đơn Hàng</Link>
+            <Link className='text-decoration-none' to={'/trang-ca-nhan/wishlist'}>Mục Yêu Thích</Link>
           </div>
         </Col>
         <Col xl={3}>

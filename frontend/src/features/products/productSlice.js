@@ -108,7 +108,7 @@ export const GetSearchProduct = createAsyncThunk('products/get-search-product', 
 })
 export const GetSearchAProduct = createAsyncThunk('products/get-search-aproduct', async (data, thunkAPI) => {
   try {
-    return await productService.getSearchProduct(data);
+    return await productService.getSearchAProduct(data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }

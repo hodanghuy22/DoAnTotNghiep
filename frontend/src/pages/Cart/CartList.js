@@ -40,7 +40,7 @@ const CartList = () => {
         setTotalPrice(total);
     }, [cartState]);
 
-    const deleteAProductCart = (e) => {
+    const deleteAProductCart = (e,quantity) => {
         dispatch(DeleteCart(e))
         let currentQuantity = localStorage.getItem('cartQuantity');
         if (currentQuantity === null) {
@@ -48,7 +48,7 @@ const CartList = () => {
         } else {
             currentQuantity = Number(currentQuantity);
         }
-        let newQuantity = currentQuantity - 1;
+        let newQuantity = currentQuantity - quantity;
         localStorage.setItem('cartQuantity', newQuantity);
         console.log(`Cart quantity updated to ${newQuantity}`);
         setTimeout(() => {
@@ -182,7 +182,7 @@ const CartList = () => {
                                         <div className='d-flex text-end'>
                                             <i className='fs-3 cart-iconFa bg-transparent p-0 mx-3'>
                                                 <MdDeleteForever
-                                                    onClick={() => deleteAProductCart(item?.id)}
+                                                    onClick={() => deleteAProductCart(item?.id,item?.quantity)}
                                                 />
                                             </i>
                                         </div>

@@ -75,15 +75,14 @@ const SearchResults = () => {
         {
           sortedProducts.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link to={`${getCategoryPath(item?.categoryId)}/${item?.id}`} className='card text-decoration-none phone-item'>
+              <Link to={`${getCategoryPath(item?.categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3 d-flex'>
-                  <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                  <img className='phone-image' src={item?.thumnailUrl} alt='chuột' width={'250px'} height={'250px'} />
                   <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
-                  <p>Số lượng: {item?.quantity}</p>
-                  <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
+                  <p className='phone-price amount'>{FormatData.formatNumber(item?.productDetails[0]?.retailPrice)}</p>
                 </div>
               </Link>
             </Col>

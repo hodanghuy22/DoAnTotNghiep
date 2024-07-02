@@ -19,7 +19,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const location = useLocation();
-  const authState = useSelector((state) => state?.auth?.user);
+  const authState = useSelector((state) => state?.auth);
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);

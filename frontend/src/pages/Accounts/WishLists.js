@@ -11,6 +11,7 @@ import { GetWishList } from '../../features/wishlists/wishlistSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../../utils/Loading';
+import FormatData from '../../utils/FormatData';
 const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
@@ -42,16 +43,16 @@ const WishLists = () => {
 
   }, 1000)
 
-  const getCategoryLink = (categoryID, productID) => {
+  const getCategoryLink = (categoryID, name) => {
     switch (categoryID) {
       case 1:
-        return `/dien-thoai/${productID}`;
+        return `/dien-thoai/${FormatData.removeVietnameseTones(name)}`;
       case 2:
-        return `/sac-du-phong/${productID}`;
+        return `/sac-du-phong/${FormatData.removeVietnameseTones(name)}`;
       case 3:
-        return `/tai-nghe-khong-day/${productID}`;
+        return `/tai-nghe-khong-day/${FormatData.removeVietnameseTones(name)}`;
       case 4:
-        return `/tai-nghe-co-day/${productID}`;
+        return `/tai-nghe-co-day/${FormatData.removeVietnameseTones(name)}`;
       default:
         return `/`;
     }
@@ -77,7 +78,7 @@ const WishLists = () => {
               reverseWishList && reverseWishList?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
-                    <Link to={getCategoryLink(item?.product?.categoryId, item?.product?.id)} className='card text-decoration-none phone-item'>
+                    <Link to={getCategoryLink(item?.product?.categoryId, item?.product?.name)} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3'>
                         <img className='phone-image' src={item?.product?.thumnailUrl} alt='chuột' width={'100%'} />
                       </div>

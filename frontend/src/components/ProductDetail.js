@@ -13,7 +13,7 @@ import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
 import Loading from '../utils/Loading';
 import { GetCapacitiesByProductId } from '../features/capacitites/capacitySlice';
-import { GetProduct, GetProductByBrandCategory, GetProductForUser, GetProductPopularByCategogy, GetSearchProduct } from '../features/products/productSlice';
+import { GetProduct, GetProductByBrandCategory, GetProductForUser, GetProductPopularByCategogy, GetSearchAProduct, GetSearchProduct } from '../features/products/productSlice';
 import { GetColorByProductId } from '../features/colors/colorSlice';
 import { AddCart } from '../features/cart/cartSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -41,7 +41,6 @@ const ProductDetail = ({ categoryId }) => {
     const productPopular = useSelector(state => state?.product?.productByBrandCategory);
     const { ProductNameUrl } = useParams();
     const [productId, setproductId] = useState(null);
-
     const authState = useSelector(state => state?.auth?.user);
     const capacities = useSelector(state => state?.capacities?.capacities);
     const colors = useSelector(state => state?.color?.colors);
@@ -123,10 +122,10 @@ const ProductDetail = ({ categoryId }) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                await dispatch(GetSearchProduct({
+                await dispatch(GetSearchAProduct({
                     searchQuery: FormatData.replaceHyphensWithSpaces(ProductNameUrl)
                 })).then(response => {
-                    if (Array.isArray(response.payload) && response.payload.length === 0) {
+                    if (Array.isArray(response.payload) && response.payload.length > 1 || response.payload.length==0) {
                         navigate('/404');
                     }
                     else{

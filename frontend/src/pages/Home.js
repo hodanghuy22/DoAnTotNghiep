@@ -117,7 +117,7 @@ const Home = () => {
           {
             couponState && couponState?.map((item, index) => {
               return (
-                <p key={index} className='p-5 fs-2 text-center bg-danger '>{item?.title}</p>
+                <p key={index} className='p-5 fs-2 text-center ' style={{backgroundColor:'#FAFFAF',color:'#96C9F4'}}>{item?.title}</p>
               )
             })
           }

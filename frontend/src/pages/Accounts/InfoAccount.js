@@ -32,6 +32,7 @@ const InfoAccount = () => {
         onSubmit: values => {
             const data = { id: userState.id, data: values }
             dispatch(UpdateUser(data))
+            localStorage.setItem('customer', JSON.stringify(values));
         },
     });
     return (
