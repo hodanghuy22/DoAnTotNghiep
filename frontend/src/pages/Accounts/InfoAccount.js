@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { UpdateUser } from '../../features/auths/authSlice';
 
 const infoSchema = yup.object({
-    name: yup.string().required('Name is Required'),
+    name: yup.string().required('Chưa nhập tên'),
     age: yup.number()
     .moreThan(0, 'Giá trị phải lớn hơn 0'),
     phoneNumber: yup.string()
@@ -15,7 +15,7 @@ const infoSchema = yup.object({
 
 const InfoAccount = () => {
     const dispatch = useDispatch()
-    const userState = useSelector(state => state.auth.user);
+    const userState = useSelector(state => state?.auth?.user);
     const formik = useFormik({
         initialValues: {
             id: userState?.id,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BsStar } from 'react-icons/bs';
 import Loading from '../utils/Loading';
@@ -11,11 +11,12 @@ import '../assets/css/global.css';
 
 const ProductBrandList = ({ categoryId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const productState = useSelector((state) => state?.product?.productByBrandCategory);
   const brandState = useSelector(state => state?.brand?.BrandByCategory);
   const firstProduct = productState?.[0] ?? 'No product available';
   const [selectedIndex, setSelectedIndex] = useState(null);
-  
+
   const { brandId } = useParams();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
@@ -25,7 +26,11 @@ const ProductBrandList = ({ categoryId }) => {
         await dispatch(GetProductByBrandCategory({
           categoryId: categoryId,
           brandId: brandId
-        }));
+        })).then(response => {
+          if (Array.isArray(response.payload) && response.payload.length === 0) {
+            navigate('/404');
+          }
+        });
         await dispatch(GetBrandByCategory(categoryId));
         setLoading(false);
       } catch (error) {

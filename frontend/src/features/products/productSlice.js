@@ -52,15 +52,6 @@ export const GetProductsBestSeller = createAsyncThunk('products/get-bestSeller',
     return thunkAPI.rejectWithValue(err);
   }
 })
-
-export const GetSearchProductByName = createAsyncThunk('products/get-searhproduct', async (data, thunkAPI) => {
-  try {
-    return await productService.searchProductByName(data);
-  } catch (err) {
-    return thunkAPI.rejectWithValue(err);
-  }
-})
-
 export const GetSearchProductByNameAndCategory = createAsyncThunk('products/get-searhproductByNameAndCategory', async (data, thunkAPI) => {
   try {
     return await productService.getSearchProductByNameAndCategory(data);
@@ -109,6 +100,13 @@ export const GetProductByBrand = createAsyncThunk('products/get-by-brand', async
   }
 })
 export const GetSearchProduct = createAsyncThunk('products/get-search-product', async (data, thunkAPI) => {
+  try {
+    return await productService.getSearchProduct(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+})
+export const GetSearchAProduct = createAsyncThunk('products/get-search-aproduct', async (data, thunkAPI) => {
   try {
     return await productService.getSearchProduct(data);
   } catch (err) {
@@ -288,18 +286,6 @@ export const productSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-    }).addCase(GetSearchProductByName.pending, (state) => {
-      state.isLoading = true;
-    }).addCase(GetSearchProductByName.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      state.searchResults = action.payload;
-    }).addCase(GetSearchProductByName.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
     })
     .addCase(GetSearchProductByNameAndCategory.pending, (state) => {
       state.isLoading = true;
@@ -358,7 +344,26 @@ export const productSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.error = action.payload.message;
-      }).addCase(GetProductsBestSeller
+      })
+      .addCase(GetSearchAProduct.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(GetSearchAProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.searchResults = action.payload;
+      })
+      .addCase(GetSearchAProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.error = action.payload.message;
+      })
+      .addCase(GetProductsBestSeller
         .pending, (state) => {
           state.isLoading = true;
         }).addCase(GetProductsBestSeller

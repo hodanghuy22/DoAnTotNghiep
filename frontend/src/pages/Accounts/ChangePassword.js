@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ChangeUserPassword } from '../../features/auths/authSlice';
 
 const changePasswordSchema = yup.object({
-  currentPassword: yup.string().required('CurrentPassword is Required'),
-  newPassword: yup.string().required("Password is Required")
-    .min(6, 'Password must be at least 6 characters')
-    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
-    .matches(/[0-9]/, 'Password must contain at least one digit'),
+  currentPassword: yup.string().required('Chưa nhập mật khẩu hiện tại'),
+  newPassword: yup.string().required("Chưa nhập mật khẩu mới")
+    .min(6, 'Mật khẩu chứa ít nhất 6 ký tự')
+    .matches(/[A-Z]/, 'Mật khẩu phải chứa ít nhất một chữ cái viết hoa')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt')
+    .matches(/[0-9]/, 'Mật khẩu phải chứa ít nhất một chữ số'),
 });
 
 const ChangePassword = () => {

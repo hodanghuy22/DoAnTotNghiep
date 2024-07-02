@@ -269,3 +269,6 @@ D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\System.Ne
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\Telegram.Bot.dll
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.csproj.AssemblyReference.cache
 D:\BAI_TAP\Luu_Tru_Do_An_Tu_Lam\DoAnTotNghiep\backend\bin\Debug\net6.0\appsettings.json
+F:\DoAn\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.dll
+F:\DoAn\DoAnTotNghiep\backend\obj\Debug\net6.0\refint\backend.dll
+F:\DoAn\DoAnTotNghiep\backend\obj\Debug\net6.0\backend.pdb

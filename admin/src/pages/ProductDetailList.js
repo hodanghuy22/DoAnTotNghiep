@@ -15,11 +15,11 @@ const columns = [
     title: <h5 className='fw-bold'>Name</h5>,
     dataIndex: 'name',
     sorter: (a, b) => a.name.length - b.name.length,
-  },
+  }, 
   {
-    title: <h5 className='fw-bold'>Category</h5>,
-    dataIndex: 'category',
-    sorter: (a, b) => a.category.length - b.category.length,
+    title: <h5 className='fw-bold'>Quantity</h5>,
+    dataIndex: 'quantity',
+    sorter: (a, b) => a.quantity - b.quantity,
   },
   {
     title: <h5 className='fw-bold'>Capacity</h5>,
@@ -30,6 +30,11 @@ const columns = [
     title: <h5 className='fw-bold'>Color</h5>,
     dataIndex: 'color',
     sorter: (a, b) => a.color.length - b.color.length,
+  },
+  {
+    title: <h5 className='fw-bold'>Category</h5>,
+    dataIndex: 'category',
+    sorter: (a, b) => a.category.length - b.category.length,
   },
   {
     title: <h5 className='fw-bold'>Status</h5>,
@@ -57,6 +62,7 @@ const ProductDetailList = () => {
       category: productDetailState[i].product?.category?.title,
       capacity: productDetailState[i].capacity?.totalCapacity,
       color: productDetailState[i].color?.colorName,
+      quantity: productDetailState[i].quantity,
       status: (<>
         <select defaultValue={productDetailState[i]?.status}
           onChange={(e) => updateStatus(productDetailState[i]?.id, e.target.value)}
@@ -81,7 +87,7 @@ const ProductDetailList = () => {
     <div>
       <h1 className='mb-4 fw-bold'>List of product details</h1>
       <div>
-        <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }} /></div>
+        <div><Table columns={columns} dataSource={data1} scroll={{ y: '68vh' }} /></div>
       </div>
     </div>
   );

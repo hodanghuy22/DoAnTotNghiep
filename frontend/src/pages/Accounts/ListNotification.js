@@ -8,7 +8,7 @@ const ListNotification = () => {
   const dispatch = useDispatch()
   const userState = useSelector(state => state.auth?.user);
   const notiState = useSelector(state => state.notification?.notifications);
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(GetAllNoti(userState?.id))
   }, [dispatch, userState])
   return (
@@ -17,9 +17,8 @@ const ListNotification = () => {
         {
           notiState && notiState?.map((item, index) => {
             return (
-              <>
-                <Link 
-                  key={index} 
+                <Link
+                  key={index}
                   to={`/trang-ca-nhan/oder-list/detail/${item?.invoiceId}`}
                   className='thong-bao-item d-flex text-decoration-none text-dark mb-4'>
                   <div className='col-1'>
@@ -30,10 +29,9 @@ const ListNotification = () => {
                     <p>{item?.message}</p>
                   </div>
                   <div className='col-2'>
-                    <Link className='btn border text-dark'>Xem chi tiết</Link>
+                    <p className='btn border text-dark'>Xem chi tiết</p>
                   </div>
                 </Link>
-              </>
             )
           })
         }

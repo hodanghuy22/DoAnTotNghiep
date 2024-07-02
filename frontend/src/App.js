@@ -5,7 +5,6 @@ import Home from './pages/Home'
 import Login from './pages/Accounts/Login'
 import SignUp from './pages/Accounts/SignUp'
 import NotFound from './pages/NotFound'
-import Trangcanhan from './pages/Accounts/Trangcanhan'
 import InfoAccount from './pages/Accounts/InfoAccount'
 import OrderList from './pages/Accounts/OrderList'
 import OrderDetail from './pages/Accounts/OrderDetail'
@@ -27,6 +26,7 @@ import ListNotification from './pages/Accounts/ListNotification'
 import ProductDetail from './components/ProductDetail'
 import ProductList from './pages/Products/ProductList'
 import ProductBrandList from './components/ProductBrandList'
+import MyProfile from './pages/Accounts/MyProfile'
 const App = () => {
     return (
         <BrowserRouter>
@@ -51,7 +51,7 @@ const App = () => {
                     </Route>
                     <Route path="/gioi-thieu" element={<Agency />} />
                     <Route path="/tim-kiem/:searchQuery" element={<SearchResults />} />
-                    <Route path='/trang-ca-nhan' element={<Trangcanhan />}>
+                    <Route path='/trang-ca-nhan' element={<MyProfile />}>
                         <Route index element={<InfoAccount />} />
                         <Route path='oder-list' element={<OrderList />} />
                         <Route path='notification' element={<ListNotification />} />

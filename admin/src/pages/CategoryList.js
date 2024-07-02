@@ -62,7 +62,7 @@ const CategoryList = () => {
     <div>
       <h1 className='mb-4 fw-bold'>List of categories</h1>
       <div>
-        <div><Table columns={columns} dataSource={data1} scroll={{ y: 500 }} /></div>
+        <div><Table columns={columns} dataSource={data1}scroll={{ y: '68vh' }}/></div>
       </div>
     </div>
   );

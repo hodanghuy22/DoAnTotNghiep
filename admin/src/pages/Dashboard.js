@@ -1,53 +1,60 @@
-import React, { useEffect } from 'react'
-import DasboardCard from '../components/DasboardCard'
-import { RiMoneyDollarCircleLine } from 'react-icons/ri'
-import { MdOutlineShoppingCart } from 'react-icons/md'
-import { FiUser } from 'react-icons/fi'
-import { useDispatch, useSelector } from 'react-redux'
-import { CountCancelInvoicesByMonth, CountInvoicesByMonth, GetRevenueAfterDiscountByMonth, GetRevenueByMonth, GetRevenueOfYear } from '../features/invoices/invoiceSlice'
-import { CountUser } from '../features/auths/authSlice'
-import ColumnRevenueChart from '../components/ColumnRevenueChart'
-import FormatData from '../utils/FormatData'
+import React, { useEffect } from 'react';
+import DasboardCard from '../components/DasboardCard';
+import { RiMoneyDollarCircleLine } from 'react-icons/ri';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import { FiUser } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
+import { CountCancelInvoicesByMonth, CountInvoicesByMonth, GetRevenueAfterDiscountByMonth, GetRevenueByMonth, GetRevenueOfYear } from '../features/invoices/invoiceSlice';
+import { CountUser } from '../features/auths/authSlice';
+import ColumnRevenueChart from '../components/ColumnRevenueChart';
+import FormatData from '../utils/FormatData';
 
 const Dashboard = () => {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  // Mảng tên các tháng tiếng Việt
+  const monthNames = [
+    "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+    "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+  ];
+
   useEffect(() => {
     dispatch(CountInvoicesByMonth({
       month: currentMonth,
       year: currentYear
-    }))
+    }));
     dispatch(CountCancelInvoicesByMonth({
       month: currentMonth,
       year: currentYear
-    }))
+    }));
     dispatch(GetRevenueByMonth({
       month: currentMonth,
       year: currentYear
-    }))
+    }));
     dispatch(GetRevenueAfterDiscountByMonth({
       month: currentMonth,
       year: currentYear
-    }))
+    }));
     dispatch(GetRevenueOfYear({
       year: currentYear
-    }))
-    dispatch(CountUser())
-  }, [])
+    }));
+    dispatch(CountUser());
+  }, []);
 
-  const countInvoicesByMonth = useSelector(state => state?.invoice?.countInvoicesByMonth)
-  const countCancelInvoicesByMonth = useSelector(state => state?.invoice?.countCancelInvoicesByMonth)
-  const revenueByMonth = useSelector(state => state?.invoice?.revenueByMonth)
-  const revenueAfterDiscountByMonth = useSelector(state => state?.invoice?.revenueAfterDiscountByMonth)
-  const revenueOfYearState = useSelector(state => state?.invoice?.revenueOfYear)
-  const countUser = useSelector(state => state?.auth?.countUser)
+  const countInvoicesByMonth = useSelector(state => state?.invoice?.countInvoicesByMonth);
+  const countCancelInvoicesByMonth = useSelector(state => state?.invoice?.countCancelInvoicesByMonth);
+  const revenueByMonth = useSelector(state => state?.invoice?.revenueByMonth);
+  const revenueAfterDiscountByMonth = useSelector(state => state?.invoice?.revenueAfterDiscountByMonth);
+  const revenueOfYearState = useSelector(state => state?.invoice?.revenueOfYear);
+  const countUser = useSelector(state => state?.auth?.countUser);
 
   return (
     <>
-      <h1>Thống kê nhanh tháng {currentMonth}</h1>
-      <div className='mt-3 container-fuild d-flex  justify-content-between'>
+      <h1>Thống kê nhanh tháng {monthNames[currentMonth - 1]}</h1> {/* Hiển thị tên tháng tiếng Việt */}
+      <div className='mt-3 container-fuild d-flex justify-content-between'>
         <DasboardCard
           icon={<MdOutlineShoppingCart
             style={{
@@ -95,7 +102,7 @@ const Dashboard = () => {
             }}
           />}
           title={"Doanh thu"}
-          value={FormatData.formatNumber(revenueByMonth) } />
+          value={FormatData.formatNumber(revenueByMonth)} />
         <DasboardCard
           icon={<RiMoneyDollarCircleLine
             style={{
@@ -116,7 +123,7 @@ const Dashboard = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -118,7 +118,7 @@ const InvoiceDetails = () => {
           )
         }
         <div className='row border rounded-3 bg-white p-3 mb-3'>
-          <Table columns={columns} dataSource={data1} scroll={{ y: 500 }} />
+          <Table columns={columns} dataSource={data1} scroll={{ y: '68vh' }} />
         </div>
       </div>
     </>

@@ -8,7 +8,7 @@ import { IoIosNotificationsOutline } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
 import { Logout } from '../../features/auths/authSlice'
 import { FcLike } from 'react-icons/fc'
-const Trangcanhan = () => {
+const MyProfile = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -50,4 +50,4 @@ const Trangcanhan = () => {
     )
 }
 
-export default Trangcanhan
+export default MyProfile

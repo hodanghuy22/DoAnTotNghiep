@@ -46,7 +46,7 @@ const Payment = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                await  dispatch(GetCart(authState?.id));
+                await dispatch(GetCart(authState?.id));
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -296,24 +296,28 @@ const Payment = () => {
                         </div>
                     </Row>
                     <Row className='mt-5'>
-                        <div className='d-flex flex-column align-items-end'>
-                            <div className='d-flex align-items-center mb-2'>
-                                <p className='fs-5 text-dark fw-bold me-3'>Số lượng sản phẩm:</p>
-                                <p className='fs-5 text-danger fw-bold'>{quantityProduct}</p>
-                            </div>
-                            <div className='d-flex align-items-center mb-2'>
-                                <p className='fs-5 text-dark fw-bold me-3'>Tổng tiền:</p>
-                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(totalPrice)}</p>
-                            </div>
-                            <div className='d-flex align-items-center mb-2'>
-                                <p className='fs-5 text-dark fw-bold me-3'>Tổng tiền sau chiết khấu:</p>
-                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(tongTienCuoi)}</p>
-                            </div>
-                            <div className='d-flex align-items-center'>
-                                <p className='fs-5 text-dark fw-bold me-3'>Chiết khấu:</p>
-                                <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(tienChietKhau?(tienChietKhau):0)}</p>
+                        <div className='d-flex'>
+                            <div className='col-6'></div>
+                            <div className='col-6'>
+                                <div className='d-flex justify-content-end  mb-2'>
+                                    <p className='text-end fs-5 text-dark fw-bold me-3 col-6'>Số lượng sản phẩm:</p>
+                                    <p className='fs-5 text-danger fw-bold col-3'>{quantityProduct}</p>
+                                </div>
+                                <div className='d-flex justify-content-end  mb-2'>
+                                    <p className='text-end fs-5 text-dark fw-bold me-3 col-6'>Tổng tiền:</p>
+                                    <p className='fs-5 text-danger fw-bold col-3 amount'>{FormatData.formatNumber(totalPrice)}</p>
+                                </div>
+                                <div className='d-flex justify-content-end'>
+                                    <p className='text-end fs-5 text-dark fw-bold me-3 col-6'>Chiết khấu:</p>
+                                    <p className='fs-5 text-danger fw-bold col-3 amount'>{FormatData.formatNumber(tienChietKhau ? (tienChietKhau) : 0)}</p>
+                                </div>
+                                <div className='d-flex justify-content-end  mb-2'>
+                                    <p className='text-end fs-5 text-dark fw-bold me-3 col-6'>Tổng tiền sau chiết khấu:</p>
+                                    <p className='fs-5 text-danger fw-bold col-3 amount'>{FormatData.formatNumber(tongTienCuoi)}</p>
+                                </div>
                             </div>
                         </div>
+
                     </Row>
                     <Row className=''>
                         {

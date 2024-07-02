@@ -139,20 +139,20 @@ const Home = () => {
               clickable: true,
             }}
             modules={[FreeMode, Pagination]}
-            className="mySwiper"
+            className="mySwiper pb-5"
           >
             {
               phonePopular && phonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <Link to={`/dien-thoai/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
-                      <div className='phone-container p-3'>
+                      <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                        <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
-                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
+                        <p>Số lượng: {item?.quantity}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>
@@ -179,20 +179,20 @@ const Home = () => {
               clickable: true,
             }}
             modules={[FreeMode, Pagination]}
-            className="mySwiper"
+            className="mySwiper pb-5"
           >
             {
               headphonePopular && headphonePopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <Link to={`/tai-nghe-khong-day/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
-                      <div className='phone-container p-3'>
+                      <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                        <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
-                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
+                        <p>Số lượng: {item?.quantity}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>
@@ -220,20 +220,20 @@ const Home = () => {
               clickable: true,
             }}
             modules={[FreeMode, Pagination]}
-            className="mySwiper"
+            className="mySwiper pb-5"
           >
             {
               headphoneTWPopular && headphoneTWPopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <Link to={`/tai-nghe-co-day/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
-                      <div className='phone-container p-3'>
+                      <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                        <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
-                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
+                        <p>Số lượng: {item?.quantity}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>
@@ -245,13 +245,13 @@ const Home = () => {
         </Row>
         {PDUPopular.length !== 0 && (
           <div>
-             <Col className='d-flex align-items-center mt-5 mb-5'>
-          <h1 className='text-center m-auto'>Sạc Dự Phòng Nổi Bật</h1>
-          <Link to={'/sac-du-phong'} className='btn bg-gray p-2'>Xem tất cả</Link>
-        </Col>
+            <Col className='d-flex align-items-center mt-5 mb-5'>
+              <h1 className='text-center m-auto'>Sạc Dự Phòng Nổi Bật</h1>
+              <Link to={'/sac-du-phong'} className='btn bg-gray p-2'>Xem tất cả</Link>
+            </Col>
           </div>
         )}
-       
+
         <Row>
           <Swiper
             slidesPerView={4}
@@ -261,20 +261,20 @@ const Home = () => {
               clickable: true,
             }}
             modules={[FreeMode, Pagination]}
-            className="mySwiper"
+            className="mySwiper pb-5"
           >
             {
               PDUPopular && PDUPopular?.map((item, index) => {
                 return (
                   <SwiperSlide key={index}>
                     <Link to={`/sac-du-phong/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
-                      <div className='phone-container p-3'>
+                      <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                        <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
-                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
-                        <p>Tình trạng: {(item?.quantity>0)?('Còn hàng'):('Tạm hết')}</p>
+                        <p>Số lượng: {item?.quantity}</p>
                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                       </div>
                     </Link>

@@ -6,6 +6,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { GetCoupons, UpdateStatusCoupon, resetState } from '../features/coupons/couponSlice';
+import FormatData from '../utils/FormatData';
 
 const columns = [
   {
@@ -76,8 +77,8 @@ const CouponList = () => {
       title: couponState[i].title,
       code: couponState[i].code,
       discountPercent: couponState[i].discountPercent,
-      discountMoney: couponState[i].discountMoney,
-      requiredTotal: couponState[i].requiredTotal,
+      discountMoney: FormatData.formatNumber(couponState[i].discountMoney),
+      requiredTotal: FormatData.formatNumber(couponState[i].requiredTotal),
       startDate: changeDateFormat(couponState[i].startDate),
       endDate: changeDateFormat(couponState[i].endDate),
       quantity: couponState[i].quantity,

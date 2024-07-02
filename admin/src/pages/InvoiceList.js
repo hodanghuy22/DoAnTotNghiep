@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'antd';
+import { Form, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { BiEdit } from 'react-icons/bi';
 import { GetInvoices, UpdateStatusInvoice, resetState } from '../features/invoices/invoiceSlice';
 import { GetOrderStatusesActive } from '../features/orderStatus/orderStatusSlice';
+import FormatData from '../utils/FormatData';
 
 const columns = [
   {
@@ -74,8 +75,8 @@ const InvoiceList = () => {
       user: invoiceState[i].user?.name,
       issueDate: changeDateFormat(invoiceState[i].issueDate),
       deliveryDate: changeDateFormat(invoiceState[i].deliveryDate),
-      totalPrice: invoiceState[i].totalPrice,
-      totalPriceAfterDiscount: invoiceState[i].totalPriceAfterDiscount,
+      totalPrice: FormatData.formatNumber(invoiceState[i].totalPrice),
+      totalPriceAfterDiscount: FormatData.formatNumber(invoiceState[i].totalPriceAfterDiscount),
       coupon: invoiceState[i].coupon?.title,
       orderStatus: (<>
         <select defaultValue={invoiceState[i]?.orderStatusId}
@@ -107,7 +108,7 @@ const InvoiceList = () => {
     <div>
       <h1 className='mb-4 fw-bold'>List of invoices</h1>
       <div>
-        <div><Table columns={columns} dataSource={data1} scroll={{ x: 2000, y: 500 }} /></div>
+        <div><Table columns={columns} dataSource={data1} scroll={{ y: '68vh' }}/></div>
       </div>
     </div>
   );

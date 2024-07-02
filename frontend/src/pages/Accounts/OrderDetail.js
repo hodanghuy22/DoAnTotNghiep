@@ -10,6 +10,8 @@ const OrderDetail = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const getInvoiceId = location.pathname.split("/")[4];
+    const queryParams = new URLSearchParams(location.search);
+    const status = queryParams.get('status');
     const invoiceState = useSelector(state => state.invoice.invoice)
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
@@ -35,11 +37,14 @@ const OrderDetail = () => {
 
     return (
         <Container>
+            <div>
+                {status && <p className='text-success fs-4'>Thanh toán {status}</p>}
+            </div>
             <div className='d-flex justify-content-between'>
                 <p className='fs-5'>Chi tiết đơn hàng <strong>#{invoiceState?.id}</strong> - <strong className={`${invoiceState?.orderStatusId !== 6 ? "text-success" : "text-danger"} fw-bold`}>{invoiceState?.orderStatus?.title}</strong></p>
                 {
                     invoiceState && invoiceState?.orderStatusId !== 6 && (
-                        <button onClick={()=>cancelInvoiceForUser(invoiceState?.id)} className='btn btn-danger'>Hủy đơn</button>
+                        <button onClick={() => cancelInvoiceForUser(invoiceState?.id)} className='btn btn-danger'>Hủy đơn</button>
                     )
                 }
             </div>
@@ -71,7 +76,6 @@ const OrderDetail = () => {
                 {
                     invoiceState?.invoiceDetails?.map((item, index) => {
                         return (
-                            <>
                                 <div className='d-flex justify-content-between mt-3' key={index}>
                                     <div className='d-flex'>
                                         <img style={{ width: '90px' }} src={item?.productDetail?.product?.thumnailUrl} alt='hinh' />
@@ -82,7 +86,6 @@ const OrderDetail = () => {
                                         <p>Đơn giá: <strong className='amount'>{FormatData.formatNumber(item?.price)}</strong></p>
                                     </div>
                                 </div>
-                            </>
                         )
                     })
                 }

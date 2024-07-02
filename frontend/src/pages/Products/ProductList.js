@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { BsStar } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GetProductsActiveByCategory } from '../../features/products/productSlice';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
@@ -11,13 +10,18 @@ import './../../assets/css/global.css'
 
 const ProductList = ({ categoryId }) => {
     const dispatch = useDispatch();
+  const navigate = useNavigate()
     const [isLoading, setLoading] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                await dispatch(GetProductsActiveByCategory(categoryId));
+                await dispatch(GetProductsActiveByCategory(categoryId)).then(response => {
+                    if (Array.isArray(response.payload) && response.payload.length === 0) {
+                      navigate('/404');
+                    }
+                  });
                 await dispatch(GetBrandByCategory(categoryId));
 
                 setLoading(false);
@@ -116,12 +120,12 @@ const ProductList = ({ categoryId }) => {
                         sortedProducts.map((item, index) => (
                             <Col xl={3} className='p-2 m-0 border-0' key={index}>
                                 <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
-                                    <div className='phone-container p-3'>
+                                    <div className='phone-container p-3 d-flex'>
                                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                                        <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                                     </div>
                                     <div className='phone-info p-3 border border-top-0'>
                                         <p className='fs-5 phone-name'>{item?.name}</p>
-                                        <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
                                         <p>Số lượng: {item?.quantity}</p>
                                         <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                                     </div>

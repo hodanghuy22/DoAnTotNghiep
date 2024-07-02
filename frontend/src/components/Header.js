@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonGroup, Col, Dropdown, DropdownButton, Modal, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { BsCart3 } from 'react-icons/bs';
@@ -14,25 +14,28 @@ import '../assets/css/header.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Logout } from '../features/auths/authSlice';
 import Notification from './Notification';
+import { GetCart } from '../features/cart/cartSlice';
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const location = useLocation();
-  const authState = useSelector(state => state.auth);
-
+  const authState = useSelector((state) => state?.auth?.user);
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
+  const [cartQuantity, setCartQuantity] = useState(0);
   const handleClose = () => setShow(false);
+  const quantity = localStorage.getItem('cartQuantity');
+  useEffect(() => {
+    setCartQuantity(quantity)
+  }, [quantity])
   const handleUserClick = () => {
     setShow(true);
   }
-
   const handleLogout = () => {
     dispatch(Logout());
     setTimeout(() => {
       navigate('/login');
     }, 300)
-
   };
   const [showModal, setShowModal] = useState(false);
 
@@ -48,6 +51,7 @@ const Header = () => {
     navigate(`/tim-kiem/${encodeURIComponent(searchQuery)}`);
     setShowModal(false);
   }
+
   return (
     <div>
       <Container className='p-0 m-0 m-auto '>
@@ -102,8 +106,11 @@ const Header = () => {
               </p>
             </div>
             <div className='fs-3 p-3'>
-              <Link to={'cart'} className='bg-transparent btn fs-4 '>
-                <BsCart3 />
+              <Link to={'cart'} className='cart-link bg-transparent btn fs-4 '>
+                <div className='cart-icon'>
+                  <BsCart3 className='cart-icon-svg' />
+                  <p className={`cart-quantity ${cartQuantity == 0 ? 'd-none' : ''}`}>{cartQuantity}</p>
+                </div>
               </Link>
             </div>
             <div className='fs-3 p-3 btn mt-1 '>
@@ -120,47 +127,13 @@ const Header = () => {
             <div className='fs-3 p-3 btn mt-1 '>
               {
                 (authState.user === null) ? (
-                  <FaRegUser className='fs-4 text-dark'  onClick={handleUserClick} />
+                  <FaRegUser className='fs-4 text-dark' onClick={handleUserClick} />
                 ) : (
                   <Link to={'/trang-ca-nhan'}>
-                    <FaRegUser className='fs-4 text-dark'  />
+                    <FaRegUser className='fs-4 text-dark' />
                   </Link>
                 )
               }
-              {/* <DropdownButton
-                as={ButtonGroup}
-                align={{ lg: 'end' }}
-                id="dropdown-menu-align-responsive-1"
-                title={<><FaRegUser /></>}
-                variant='transparent'
-                style={{}}
-              >
-                {
-                  authState.user !== null && (
-                    <Dropdown.Item className='custom-dropdown-item'>
-                      <Link to={'/trang-ca-nhan'} className='text-decoration-none'>Trang cá nhân</Link>
-                    </Dropdown.Item>
-                  )
-                }
-
-                {
-                  authState.user === null && (
-                    <Dropdown.Item className='custom-dropdown-item'>
-                      <Link to={'/signup'} className='text-decoration-none'>Đăng ký</Link>
-                    </Dropdown.Item>
-                  )
-                }
-                {
-                  authState.user === null && (
-                    <Dropdown.Item className='custom-dropdown-item'>
-                      <Link to={'/login'} className='text-decoration-none'>Đăng nhập</Link>
-                    </Dropdown.Item>
-                  )
-                }
-                <Dropdown.Item className='custom-dropdown-item'>
-                  <button className='w-100 btn btn-link text-decoration-none text-start p-0' onClick={handleLogout}>Đăng xuất</button>
-                </Dropdown.Item>
-              </DropdownButton> */}
             </div>
           </Col>
         </Row>
@@ -168,7 +141,7 @@ const Header = () => {
           <Col className='d-flex flex-row mt-3'>
             <div className='btn text-nowrap'>
 
-              <Link to={'/hot'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar className='text-danger'/></i><span className=''> Phổ biến</span></p></Link>
+              <Link to={'/hot'} className='text-decoration-none text-dark'><p className='pt-1'><i className='mr-3 fs-6'><FaHotjar className='text-danger' /></i><span className=''> Phổ biến</span></p></Link>
             </div>
             <div className='btn text-nowrap'>
               <Link to={'/dien-thoai'} className='text-decoration-none text-dark'><p className='p-1 '><i className='mr-3 fs-6'><LuSmartphone /></i><span className=''> Điện thoại</span></p></Link>

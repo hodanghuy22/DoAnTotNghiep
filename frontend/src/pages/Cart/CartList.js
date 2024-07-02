@@ -29,7 +29,7 @@ const CartList = () => {
             }
         };
         fetchData();
-    }, [dispatch,authState?.id]);
+    }, [dispatch, authState?.id]);
 
     useEffect(() => {
         let total = 0;
@@ -42,12 +42,60 @@ const CartList = () => {
 
     const deleteAProductCart = (e) => {
         dispatch(DeleteCart(e))
+        let currentQuantity = localStorage.getItem('cartQuantity');
+        if (currentQuantity === null) {
+            currentQuantity = 0;
+        } else {
+            currentQuantity = Number(currentQuantity);
+        }
+        let newQuantity = currentQuantity - 1;
+        localStorage.setItem('cartQuantity', newQuantity);
+        console.log(`Cart quantity updated to ${newQuantity}`);
         setTimeout(() => {
             dispatch(GetCart(authState?.id))
+            window.location.reload(false);
+
         }, 300)
     }
+    const handleDecrease = (item) => {
+        setProductUpdateDetails(
+            { 
+                id: item?.id, 
+                userId: item?.userId, 
+                productId: item?.productDetailId, 
+                quantity: item.quantity - 1 }
+        )
+        let currentQuantity = localStorage.getItem('cartQuantity');
+        if (currentQuantity === null) {
+            currentQuantity = 0;
+        } else {
+            currentQuantity = Number(currentQuantity);
+        }
+        let newQuantity = currentQuantity - 1;
+        localStorage.setItem('cartQuantity', newQuantity);
+        window.location.reload(false);
 
+    }
+    const handleIncrease = (item) => {
+        setProductUpdateDetails(
+            { 
+                id: item?.id, 
+                userId: item?.userId, 
+                productId: item?.productDetailId, 
+                quantity: item.quantity + 1 }
+        )
+        let currentQuantity = localStorage.getItem('cartQuantity');
+        if (currentQuantity === null) {
+            currentQuantity = 0;
+        } else {
+            currentQuantity = Number(currentQuantity);
+        }
+        let newQuantity = currentQuantity + 1;
+        localStorage.setItem('cartQuantity', newQuantity);
+        window.location.reload(false);
 
+    }
+    
     useEffect(() => {
         if (productUpdateDetails !== null) {
             console.log(productUpdateDetails);
@@ -68,22 +116,22 @@ const CartList = () => {
                 dispatch(GetCart(authState?.id))
             }, 300);
         }
-    }, [dispatch,productUpdateDetails,authState?.id])
+    }, [dispatch, productUpdateDetails, authState?.id])
 
     const getCategoryLink = (categoryID, productName) => {
         switch (categoryID) {
-          case 1:
-            return `/dien-thoai/${FormatData.removeVietnameseTones(productName)}`;
-          case 2:
-            return `/sac-du-phong/${FormatData.removeVietnameseTones(productName)}`;
-          case 3:
-            return `/tai-nghe-khong-day/${FormatData.removeVietnameseTones(productName)}`;
-          case 4:
-            return `/tai-nghe-co-day/${FormatData.removeVietnameseTones(productName)}`;
-          default:
-            return `/`;
+            case 1:
+                return `/dien-thoai/${FormatData.removeVietnameseTones(productName)}`;
+            case 2:
+                return `/sac-du-phong/${FormatData.removeVietnameseTones(productName)}`;
+            case 3:
+                return `/tai-nghe-khong-day/${FormatData.removeVietnameseTones(productName)}`;
+            case 4:
+                return `/tai-nghe-co-day/${FormatData.removeVietnameseTones(productName)}`;
+            default:
+                return `/`;
         }
-      };
+    };
 
     return (
         <>
@@ -108,7 +156,7 @@ const CartList = () => {
                                         </div>
                                         <div className='p-3'>
                                             <div className=''>
-                                                <Link to={getCategoryLink(item?.productDetail.product?.categoryId, item?.productDetail.product?.name)}  className='fs-45 fw-bold text-decoration-none '>{item?.productDetail?.product?.name} {item?.productDetail?.product?.ram}/{item?.productDetail?.capacity?.totalCapacity}</Link>
+                                                <Link to={getCategoryLink(item?.productDetail.product?.categoryId, item?.productDetail.product?.name)} className='fs-45 fw-bold text-decoration-none '>{item?.productDetail?.product?.name} {item?.productDetail?.product?.ram}/{item?.productDetail?.capacity?.totalCapacity}</Link>
                                                 <p>Màu {item?.productDetail?.color?.colorName}</p>
                                             </div>
                                             <div style={{ overflowWrap: 'break-word' }} className='uu-dai mt-4'>
@@ -117,25 +165,27 @@ const CartList = () => {
                                     </div>
                                     <div className='col-4 justify-content-end d-flex' style={{ maxHeight: '40px' }}>
                                         <div className='d-flex text-end'>
-                                            <i className='fs-3 cart-iconFa bg-transparent p-0 mx-0'>
-                                                <MdDeleteForever
-                                                    onClick={() => deleteAProductCart(item?.id)}
-                                                />
-                                            </i>
                                             <div className='d-flex'>
                                                 <i className="cart-iconFa"
                                                     // dispatch(UpdateCart({ id: productUpdateDetails?.id, userId: productUpdateDetails?.userId, productId: productUpdateDetails?.productId, quantity: productUpdateDetails?.quantity }))
-                                                    onClick={(e) => setProductUpdateDetails({ id: item?.id, userId: item?.userId, productId: item?.productDetailId, quantity: item.quantity - 1 })}
+                                                    onClick={(e) => handleDecrease(item)}
                                                 ><FaMinus />
                                                 </i>
                                                 <p className="mt-2">{item?.quantity}</p>
                                                 <i className="cart-iconFa"
-                                                    onClick={(e) => setProductUpdateDetails({ id: item?.id, userId: item?.userId, productId: item?.productDetailId, quantity: item.quantity + 1 })}
+                                                    onClick={(e) => handleIncrease(item)}
                                                 ><FaPlus />
                                                 </i>
                                             </div>
                                         </div>
-                                        <p className='fs-5 text-danger fw-bold amount'>{FormatData.formatNumber(item?.productDetail?.retailPrice)}</p>
+                                        <p className='fs-5 text-danger fw-bold amount mt-2'>{FormatData.formatNumber(item?.productDetail?.retailPrice)}</p>
+                                        <div className='d-flex text-end'>
+                                            <i className='fs-3 cart-iconFa bg-transparent p-0 mx-3'>
+                                                <MdDeleteForever
+                                                    onClick={() => deleteAProductCart(item?.id)}
+                                                />
+                                            </i>
+                                        </div>
                                     </div>
                                 </div>
                             )

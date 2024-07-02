@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -13,7 +13,7 @@ import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
 import Loading from '../utils/Loading';
 import { GetCapacitiesByProductId } from '../features/capacitites/capacitySlice';
-import { GetProduct, GetProductForUser, GetProductPopularByCategogy, GetSearchProduct } from '../features/products/productSlice';
+import { GetProduct, GetProductByBrandCategory, GetProductForUser, GetProductPopularByCategogy, GetSearchProduct } from '../features/products/productSlice';
 import { GetColorByProductId } from '../features/colors/colorSlice';
 import { AddCart } from '../features/cart/cartSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -25,20 +25,20 @@ import { BsFillSendFill } from 'react-icons/bs';
 import StarRating from './StarRating ';
 
 const commentSchema = yup.object({
-    content: yup.string().required("Content is required!"),
+    content: yup.string().required("Chưa nhập nội dung!"),
     hinhPublicId: yup.string(),
     fileHinh: yup.string(),
 });
 const ratingSchema = yup.object({
-    review: yup.string().required("Content is required!"),
-    star: yup.number().required("Rating star is required!").min(1).max(5),
+    review: yup.string().required("Chưa nhập nội dung!"),
+    star: yup.number().required("Chưa đánh giá sản phẩm!").min(1).max(5),
 });
 
 const ProductDetail = ({ categoryId }) => {
     const dispatch = useDispatch();
     const productState = useSelector(state => state?.product?.Aproduct);
     const productDetailState = useSelector(state => state?.product?.ProductDetail);
-    const productPopular = useSelector(state => state?.product?.productByCategory);
+    const productPopular = useSelector(state => state?.product?.productByBrandCategory);
     const { ProductNameUrl } = useParams();
     const [productId, setproductId] = useState(null);
 
@@ -54,6 +54,7 @@ const ProductDetail = ({ categoryId }) => {
     const [replyCommentId, setReplyCommentId] = useState(null);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+    const navigate = useNavigate()
     const location = useLocation();
     const formik = useFormik({
         initialValues: {
@@ -122,18 +123,16 @@ const ProductDetail = ({ categoryId }) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                console.log(FormatData.replaceHyphensWithSpaces(ProductNameUrl))
                 await dispatch(GetSearchProduct({
                     searchQuery: FormatData.replaceHyphensWithSpaces(ProductNameUrl)
                 })).then(response => {
-                    if (ProductNameUrl) {
-                        for (let item of response.payload) {
-                            if (item.name.length === ProductNameUrl.length) {
-                                setproductId(item.id);
-                                break;
-                            }
-                        }
+                    if (Array.isArray(response.payload) && response.payload.length === 0) {
+                        navigate('/404');
                     }
+                    else{
+                        setproductId(response.payload[0]?.id)
+                    }
+                    console.log(response.payload);
                 });
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -143,7 +142,7 @@ const ProductDetail = ({ categoryId }) => {
         };
         fetchData();
     }, [dispatch, ProductNameUrl]);
-    
+
     useEffect(() => {
         if (productId) { // Chỉ chạy nếu productId đã được thiết lập
             const fetchData = async () => {
@@ -161,7 +160,7 @@ const ProductDetail = ({ categoryId }) => {
             fetchData();
         }
     }, [dispatch, productId]);
-    
+
 
     const [AProduct, setAProduct] = useState({
         productId: productState?.id,
@@ -189,16 +188,10 @@ const ProductDetail = ({ categoryId }) => {
                 setLoading(true);
                 try {
                     await dispatch(GetProductForUser(AProduct));
-                    dispatch(
-                        GetProductPopularByCategogy({
-                            id: productState?.categoryId,
-                            data: {
-                                top: 4,
-                                startDate: '2024-01-01',
-                                endDate: '2024-12-30'
-                            }
-                        })
-                    );
+                    await dispatch(GetProductByBrandCategory({
+                        categoryId: productState?.categoryId,
+                        brandId: productState?.brandId
+                      }));
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
@@ -209,21 +202,15 @@ const ProductDetail = ({ categoryId }) => {
                 setLoading(true);
                 try {
                     await dispatch(GetProductForUser(AProduct));
-                    dispatch(
-                        GetProductPopularByCategogy({
-                            id: productState?.categoryId,
-                            data: {
-                                top: 4,
-                                startDate: '2024-01-01',
-                                endDate: '2024-12-30'
-                            }
-                        })
-                    );
+                    await dispatch(GetProductByBrandCategory({
+                        categoryId: productState?.categoryId,
+                        brandId: productState?.brandId
+                      }));
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
                     setLoading(false);
-                  
+
                 }
             }
         };
@@ -269,15 +256,25 @@ const ProductDetail = ({ categoryId }) => {
     const addCart = () => {
         if (authState === null) {
             setShow(true);
-        }
-        return (
+        } else {
+            let currentQuantity = localStorage.getItem('cartQuantity');
+            if (currentQuantity === null) {
+                currentQuantity = 0;
+            } else {
+                currentQuantity = Number(currentQuantity);
+            }
+            let newQuantity = currentQuantity + 1;
+            localStorage.setItem('cartQuantity', newQuantity);
+            console.log(`Cart quantity updated to ${newQuantity}`);
             dispatch(AddCart({
                 userId: authState?.id,
                 productDetailId: productDetailState?.id,
                 quantity: 1
-            }))
-        )
+            }));
+            window.location.reload(false);
+        }
     }
+    
     // THêm yêu thích
     const AddWishList = () => {
         if (authState === null) {
@@ -487,7 +484,7 @@ const ProductDetail = ({ categoryId }) => {
                     <p className='fs-3'>Sản phẩm tương tự</p>
                 </Col>
                 {
-                    productPopular && productPopular?.map((item, index) => {
+                    productPopular && productPopular?.filter(item => item.name !== productState.name).map((item, index) => {
                         return (
                             <Col className='col-3' key={index}>
                                 <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>

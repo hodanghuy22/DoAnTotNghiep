@@ -134,6 +134,16 @@ namespace backend.Repository
                    .Where(p => p.Name.ToLower().Contains(name.ToLower()))
                    .ToListAsync();
         }
+        public async Task<IEnumerable<Product>> SearchAProductByName(string name)
+        {
+            return await _context.Products
+                   .Include(p => p.Brand)
+                   .Include(p => p.Category)
+                   .Include(p => p.ProductDetails)
+                   .Include(p => p.Images)
+                   .Where(p => p.Name.ToLower() == name.ToLower())
+                   .ToListAsync();
+        }
 
         public async Task<IEnumerable<Product>> SearchProductByNameAndCategory(string name, int categoryId)
         {

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap'
 import { GetProductPopular } from '../../features/products/productSlice';
 import { Link } from 'react-router-dom';
-import { BsStar } from 'react-icons/bs';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 
@@ -32,9 +31,9 @@ const ProductHot = () => {
   const [sortType, setSortType] = useState('default');
   setTimeout(() => {
     if (isLoading) {
-        return <Loading />;
+      return <Loading />;
     }
-}, 1000)
+  }, 1000)
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
     sortedProducts.sort((a, b) => a.price - b.price);
@@ -64,13 +63,13 @@ const ProductHot = () => {
         {
           sortedProducts && sortedProducts?.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
-              <Link  to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
-                <div className='phone-container p-3'>
+              <Link to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
+                <div className='phone-container p-3 d-flex'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                  <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
-                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
                   <p>Số lượng: {item?.quantity}</p>
                   <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                 </div>
@@ -79,7 +78,7 @@ const ProductHot = () => {
           ))
         }
       </Row>
-      
+
       {!isLoading && (
         <div>
         </div>

@@ -26,3 +26,20 @@
 .custom-dropdown-item {
   white-space: nowrap; /* Đảm bảo văn bản không bị xuống dòng */
 }
+/* Trong file CSS module */
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-quantity {
+    position: absolute;
+    bottom: 2px; /* Điều chỉnh vị trí số lượng nằm dưới chân biểu tượng */
+    left: 55%; /* Đưa số lượng về giữa */
+    transform: translateX(-50%); /* Dịch chuyển để căn giữa */
+    background-color: red; /* Màu nền của số lượng */
+    color: #fff; /* Màu chữ của số lượng */
+    padding: 0.3px 4px; /* Khoảng cách giữa số lượng và biểu tượng */
+    border-radius: 50%; /* Để số lượng là hình tròn */
+    font-size: 0.7rem; /* Kích thước chữ của số lượng */
+}

@@ -6,10 +6,6 @@ import { GetAllUsers } from '../features/auths/authSlice';
 
 const columns = [
   {
-    title: 'Id',
-    dataIndex: 'id',
-  },
-  {
     title: 'Name',
     dataIndex: 'name',
   },
@@ -45,7 +41,6 @@ const UserList = () => {
   for (let i = 0; i < userState?.length; i++) {
     data1.push({
       key: i,
-      id: userState[i].id,
       name: userState[i].name,
       age: userState[i].age,
       address: userState[i].address,

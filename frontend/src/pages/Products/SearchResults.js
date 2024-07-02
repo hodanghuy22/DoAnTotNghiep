@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetSearchProduct } from '../../features/products/productSlice';
 import { Link, useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
-import { BsStar } from 'react-icons/bs';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 
@@ -77,14 +76,14 @@ const SearchResults = () => {
           sortedProducts.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
               <Link to={`${getCategoryPath(item?.categoryId)}/${item?.id}`} className='card text-decoration-none phone-item'>
-                <div className='phone-container p-3'>
-                  <img className='phone-image' src={item?.thumnailUrl} alt='chuột' width={'250px'} height={'250px'} />
+                <div className='phone-container p-3 d-flex'>
+                  <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
+                  <p className='rounded-circle border-dark'>{item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>
-                  <i>Đánh giá: <BsStar /><BsStar /><BsStar /><BsStar /><BsStar /></i>
                   <p>Số lượng: {item?.quantity}</p>
-                  <p className='phone-price amount'>{FormatData.formatNumber(item?.productDetails[0]?.retailPrice)}</p>
+                  <p className='phone-price amount'>{FormatData.formatNumber(item?.price)}</p>
                 </div>
               </Link>
             </Col>
