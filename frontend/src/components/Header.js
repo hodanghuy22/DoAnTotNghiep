@@ -154,7 +154,7 @@ const Header = () => {
               <Link to={'/tai-nghe-khong-day'} className='text-decoration-none text-dark'> <p className='p-1'><i className='mr-3 fs-6'><CiHeadphones /></i><span className=''>Tai nghe BlueTooth </span></p></Link>
             </div>
             <div className='btn text-nowrap'>
-              <Link to={'/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Pin dự phòng</span></p></Link>
+              <Link to={'/sac-du-phong'} className='text-decoration-none text-dark'><p className='p-1'><i className='mr-3 fs-6'><IoMdBatteryCharging /></i><span className=''> Sạc dự phòng</span></p></Link>
             </div>
           </Col>
         </Row>

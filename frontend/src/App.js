@@ -53,9 +53,9 @@ const App = () => {
                     <Route path="/tim-kiem/:searchQuery" element={<SearchResults />} />
                     <Route path='/trang-ca-nhan' element={<MyProfile />}>
                         <Route index element={<InfoAccount />} />
-                        <Route path='oder-list' element={<OrderList />} />
+                        <Route path='order-list' element={<OrderList />} />
                         <Route path='notification' element={<ListNotification />} />
-                        <Route path='oder-list/detail/:id' element={<OrderDetail />} />
+                        <Route path='order-list/detail/:id' element={<OrderDetail />} />
                         <Route path='change-password' element={<ChangePassword />} />
                         <Route path='wishlist' element={<WishLists />} />
                     </Route>

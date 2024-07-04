@@ -53,7 +53,7 @@ const Login = () => {
           <form onSubmit={formik.handleSubmit} className='d-flex flex-column'>
             <input
               type='text'
-              placeholder='Username'
+              placeholder='Tên đăng nhập'
               name='username'
               value={formik.values.username}
               onChange={formik.handleChange('username')}
@@ -62,7 +62,7 @@ const Login = () => {
             />
             <input
               type='password'
-              placeholder='Password'
+              placeholder='Mật khẩu'
               name='password'
               value={formik.values.password}
               onChange={formik.handleChange('password')}

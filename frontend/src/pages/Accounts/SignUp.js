@@ -56,7 +56,7 @@ const SignUp = () => {
             <div className='w-100 mb-4'>
               <input 
                 type='text' 
-                placeholder='Name' 
+                placeholder='Tên người dùng' 
                 name="name"
                 value={formik.values.name}
                 onChange={formik.handleChange('name')}
@@ -88,7 +88,7 @@ const SignUp = () => {
             <div className='w-100 mb-4'>
               <input 
                 type='text' 
-                placeholder='Username' 
+                placeholder='Tên tài khoản' 
                 className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="username"
                 value={formik.values.username}
@@ -104,7 +104,7 @@ const SignUp = () => {
             <div className='w-100 mb-4'>
               <input 
                 type='password' 
-                placeholder='Password' 
+                placeholder='Mật khẩu' 
                 className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="password"
                 value={formik.values.password}
@@ -120,7 +120,7 @@ const SignUp = () => {
             <div className='w-100 mb-4'>
               <input 
                 type='password' 
-                placeholder='Repassword' 
+                placeholder='Nhập lại mật khẩu' 
                 className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="repassword"
                 value={formik.values.repassword}

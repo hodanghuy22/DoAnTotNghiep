@@ -8,7 +8,7 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('/trang-ca-nhan/oder-list'); // Chuyển trang đến trang chỉ định
+      navigate('/trang-ca-nhan/order-list'); // Chuyển trang đến trang chỉ định
     }, 5000);
 
     const countdown = setInterval(() => {

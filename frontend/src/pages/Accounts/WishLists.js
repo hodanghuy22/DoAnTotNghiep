@@ -72,7 +72,7 @@ const WishLists = () => {
               clickable: true,
             }}
             modules={[FreeMode, Pagination]}
-            className="mySwiper"
+            className="mySwiper pb-5"
           >
             {
               reverseWishList && reverseWishList?.map((item, index) => {

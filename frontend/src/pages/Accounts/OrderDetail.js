@@ -90,7 +90,7 @@ const OrderDetail = () => {
                     })
                 }
                 <Row className='d-flex justify-content-center mt-3'>
-                    <Link to={'/trang-ca-nhan/oder-list'} className='w-50 p-3 fw-bold text-danger border border-danger rounded-pill bg-transparent  text-decoration-none text-center'>VỀ TRANG DANH SÁCH ĐƠN HÀNG</Link>
+                    <Link to={'/trang-ca-nhan/order-list'} className='w-50 p-3 fw-bold text-danger border border-danger rounded-pill bg-transparent  text-decoration-none text-center'>VỀ TRANG DANH SÁCH ĐƠN HÀNG</Link>
                 </Row>
             </div>
             {/* Hiển thị Loading nếu đang tải dữ liệu */}

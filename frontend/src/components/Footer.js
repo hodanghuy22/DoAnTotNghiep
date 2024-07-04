@@ -35,7 +35,7 @@ const Footer = () => {
           <h5>Liên kết</h5>
           <div className='d-flex flex-column'>
             <Link className='text-decoration-none' to={'/trang-ca-nhan'}>Tài Khoản</Link>
-            <Link className='text-decoration-none' to={'/trang-ca-nhan/oder-list'}>Đơn Hàng</Link>
+            <Link className='text-decoration-none' to={'/trang-ca-nhan/order-list'}>Đơn Hàng</Link>
             <Link className='text-decoration-none' to={'/trang-ca-nhan/wishlist'}>Mục Yêu Thích</Link>
           </div>
         </Col>

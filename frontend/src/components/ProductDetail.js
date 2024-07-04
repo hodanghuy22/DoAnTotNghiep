@@ -126,7 +126,7 @@ const ProductDetail = ({ categoryId }) => {
                     searchQuery: FormatData.replaceHyphensWithSpaces(ProductNameUrl)
                 })).then(response => {
                     if (Array.isArray(response.payload) && response.payload.length > 1 || response.payload.length==0) {
-                        navigate('/404');
+                        navigate(`${location.pathname}/404`);
                     }
                     else{
                         setproductId(response.payload[0]?.id)

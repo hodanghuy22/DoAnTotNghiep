@@ -75,7 +75,7 @@ const Payment = () => {
         onSubmit: values => {
             dispatch(CreateInvoice(values))
             setTimeout(() => {
-                navigate('/trang-ca-nhan/oder-list');
+                navigate('/trang-ca-nhan/order-list');
             }, 300)
             console.log(values);
         },
