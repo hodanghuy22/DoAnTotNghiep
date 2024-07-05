@@ -32,9 +32,9 @@ const InvoiceCard = ({ type, orderStatusId }) => {
         )
       }
       {
-       invoiceState && invoiceState.map((item, index) => {
-        return (
-          <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
+        invoiceState && invoiceState.map((item, index) => {
+          return (
+            <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
               <div className='d-flex justify-content-between border-bottom'>
                 <p>Đơn hàng: <strong>#{item?.id}</strong></p>
                 <p className={`${item?.orderStatusId === 6 ? 'text-danger' : 'text-success'} fw-bold`}>{item?.orderStatus?.title}</p>
@@ -42,23 +42,32 @@ const InvoiceCard = ({ type, orderStatusId }) => {
               <div className='d-flex justify-content-between mt-3'>
                 <div className='d-flex flex-column'>
                   {
-                    item?.invoiceDetails?.map((y,i) => {
-                      return (
+                    item?.invoiceDetails?.map((y, i) => {
+                      if (i === 0) {
+                        return (
                           <div className='d-flex mb-2' key={i}>
-                            <div className=''>
+                            <div>
                               <img style={{ width: '60px' }} src={y?.productDetail?.product?.thumnailUrl} alt='hinh' />
                             </div>
                             <div className='px-4'>
-                              <p>{y?.productDetail?.product?.name}</p>
+                              <p>
+                                {y?.productDetail?.product?.name}   {y?.productDetail?.product?.categoryId === 1 && (<span> ({y?.productDetail?.product?.ram} + {y?.productDetail?.product?.rom})</span>)}
+                                {item.invoiceDetails.length > 1 && (
+                                  <span> và <strong>{item.invoiceDetails.length - 1} sản phẩm </strong>khác</span>
+                                )}
+                              </p>
                             </div>
                           </div>
-                      )
+                        );
+                      }
+                      return null;
                     })
                   }
+
                 </div>
                 <div>
                   <div>
-                    <p>Tổng tiền: <strong className='amount text-danger'>{FormatData.formatNumber(item?.totalPriceAfterDiscount) }</strong></p>
+                    <p>Tổng tiền: <strong className='amount text-danger'>{FormatData.formatNumber(item?.totalPriceAfterDiscount)}</strong></p>
                   </div>
                 </div>
               </div>

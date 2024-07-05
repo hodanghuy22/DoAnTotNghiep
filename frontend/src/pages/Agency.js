@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Collapse, Container, Row } from 'react-bootstrap'
+import { Helmet } from 'react-helmet'
 import { FaAngleDown, FaArrowRight } from 'react-icons/fa'
 import { MdOutlineLocalShipping } from 'react-icons/md'
 import { Link } from 'react-router-dom'
@@ -26,6 +27,9 @@ const Agency = () => {
   };
   return (
     <Container>
+       <Helmet>
+          <title>Giới thiệu | HUBI</title>
+        </Helmet>
       <Row className='pt-5 pb-5 '>
         <div className='col-6'>
           <h6>Giới thiệu</h6>

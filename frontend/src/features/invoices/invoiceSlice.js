@@ -10,7 +10,7 @@ export const CreateInvoice = createAsyncThunk('invoices-create', async (data, th
   }
 })
 
-export const GetAInvoice = createAsyncThunk('invoices-get-a', async (id,thunkAPI) => {
+export const GetAInvoice = createAsyncThunk('invoices-get-a', async (id, thunkAPI) => {
   try {
     return await invoiceService.getInvoice(id);
   } catch (err) {
@@ -18,7 +18,7 @@ export const GetAInvoice = createAsyncThunk('invoices-get-a', async (id,thunkAPI
   }
 })
 
-export const GetInvoices = createAsyncThunk('invoices-get', async (id,thunkAPI) => {
+export const GetInvoices = createAsyncThunk('invoices-get', async (id, thunkAPI) => {
   try {
     return await invoiceService.getInvoices(id);
   } catch (err) {
@@ -26,7 +26,7 @@ export const GetInvoices = createAsyncThunk('invoices-get', async (id,thunkAPI) 
   }
 })
 
-export const GetInvoicesByOrderType = createAsyncThunk('invoices-get-type', async (data,thunkAPI) => {
+export const GetInvoicesByOrderType = createAsyncThunk('invoices-get-type', async (data, thunkAPI) => {
   try {
     return await invoiceService.getInvoicesByOrderType(data);
   } catch (err) {
@@ -34,7 +34,7 @@ export const GetInvoicesByOrderType = createAsyncThunk('invoices-get-type', asyn
   }
 })
 
-export const CancelInvoice = createAsyncThunk('invoices-cancel', async (id,thunkAPI) => {
+export const CancelInvoice = createAsyncThunk('invoices-cancel', async (id, thunkAPI) => {
   try {
     return await invoiceService.cancelInvoice(id);
   } catch (err) {
@@ -88,50 +88,50 @@ export const invoiceSlice = createSlice({
       state.isSuccess = false;
       state.message = action.error;
     })
-    .addCase(GetInvoicesByOrderType.pending, (state) => {
-      state.isLoading = true;
-    }).addCase(GetInvoicesByOrderType.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      state.invoices = action.payload;
-    }).addCase(GetInvoicesByOrderType.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
-    })
-    .addCase(GetAInvoice.pending, (state) => {
-      state.isLoading = true;
-    }).addCase(GetAInvoice.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      state.invoice = action.payload;
-    }).addCase(GetAInvoice.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
-    })
-    .addCase(CancelInvoice.pending, (state) => {
-      state.isLoading = true;
-    }).addCase(CancelInvoice.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      if(action.payload.message){
-        toast.error(action.payload.message);
-      }else{
-        state.invoice = action.payload.data
-      }
-    }).addCase(CancelInvoice.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
-    })
-    .addCase(resetState, () => initialState);
+      .addCase(GetInvoicesByOrderType.pending, (state) => {
+        state.isLoading = true;
+      }).addCase(GetInvoicesByOrderType.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.invoices = action.payload;
+      }).addCase(GetInvoicesByOrderType.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(GetAInvoice.pending, (state) => {
+        state.isLoading = true;
+      }).addCase(GetAInvoice.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.invoice = action.payload;
+      }).addCase(GetAInvoice.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(CancelInvoice.pending, (state) => {
+        state.isLoading = true;
+      }).addCase(CancelInvoice.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (action.payload.message) {
+          toast.error(action.payload.message);
+        } else {
+          state.invoice = action.payload.data
+        }
+      }).addCase(CancelInvoice.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(resetState, () => initialState);
   }
 })
 

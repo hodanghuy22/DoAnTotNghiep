@@ -1,15 +1,15 @@
 .custom-dropdown-item:focus {
-    background-color: transparent; /* Thay đổi màu nền thành màu vàng khi được tập trung */
+    background-color: transparent;
     color: black;
   }
 .d-flex {
   display: flex;
-  flex-wrap: nowrap; /* Đảm bảo các cột không bao giờ xuống hàng */
+  flex-wrap: nowrap;
 }
 
 .dropdown-column {
-  flex: 1; /* Mỗi cột sẽ chiếm một phần bằng nhau */
-  padding: 0 10px; /* Khoảng cách giữa các cột */
+  flex: 1;
+  padding: 0 10px;
 }
 .phone-brand{
   width: 400px;
@@ -24,22 +24,21 @@
   flex: 2; 
 }
 .custom-dropdown-item {
-  white-space: nowrap; /* Đảm bảo văn bản không bị xuống dòng */
+  white-space: nowrap;
 }
 /* Trong file CSS module */
-
 .cart-icon {
     position: relative;
 }
 
 .cart-quantity {
     position: absolute;
-    bottom: 2px; /* Điều chỉnh vị trí số lượng nằm dưới chân biểu tượng */
-    left: 55%; /* Đưa số lượng về giữa */
-    transform: translateX(-50%); /* Dịch chuyển để căn giữa */
-    background-color: red; /* Màu nền của số lượng */
-    color: #fff; /* Màu chữ của số lượng */
-    padding: 0.3px 4px; /* Khoảng cách giữa số lượng và biểu tượng */
-    border-radius: 50%; /* Để số lượng là hình tròn */
-    font-size: 0.7rem; /* Kích thước chữ của số lượng */
+    bottom: 2px; 
+    left: 55%;
+    transform: translateX(-50%); 
+    background-color: red;
+    color: #fff; 
+    padding: 0.3px 4px; 
+    border-radius: 50%; 
+    font-size: 0.7rem;
 }

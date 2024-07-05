@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../../utils/Loading';
 import FormatData from '../../utils/FormatData';
+import { Helmet } from 'react-helmet';
 const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
@@ -59,6 +60,9 @@ const WishLists = () => {
   };
   return (
     <Container>
+      <Helmet>
+        <title>Sản phẩm yêu thích | HUBI</title>
+      </Helmet>
       <Row>
         <div className='col-12'>
           <p>Sản phẩm bạn yêu thích</p>

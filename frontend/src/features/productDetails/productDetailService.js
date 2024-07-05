@@ -2,7 +2,7 @@ import axios from "axios"
 import { base_url } from "../../utils/axiosConfig";
 
 const createProductDetail = async (data) => {
-  const response = await axios.post(`${base_url}ProductDetails`,data, getConfig());
+  const response = await axios.post(`${base_url}ProductDetails`, data, getConfig());
   if (response.data) {
     return response.data;
   }

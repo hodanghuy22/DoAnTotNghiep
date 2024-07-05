@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
+import { Helmet } from 'react-helmet';
 
 const SearchResults = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,14 @@ const SearchResults = () => {
   };
   return (
     <Container className='mb-5' style={{ minHeight: '500px' }}>
+      {
+        searchQuery && (
+          <Helmet>
+            <title>Thông tin mới nhất về "{searchQuery}" | HUBI</title>
+          </Helmet>
+        )
+      }
+
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
           <p>Có {productCount} kết quả tìm kiếm cho từ khoá: "<i>{searchQuery}</i>"</p>

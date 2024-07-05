@@ -58,7 +58,7 @@ export const wishlistSlice = createSlice({
         state.isSuccess = true;
         state.wishlist = action.payload;
         if (state.isSuccess) {
-            toast.success("Thêm vào danh sách yêu thích thành công")
+          toast.success("Thêm vào danh sách yêu thích thành công")
         }
       })
       .addCase(CreateWishList.rejected, (state, action) => {

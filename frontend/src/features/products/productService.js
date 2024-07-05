@@ -35,28 +35,28 @@ const getProductPopularByCategogy = async (data) => {
   }
 }
 const getProductPopular = async (data) => {
-  const response = await axios.post(`${base_url}Products/GetPopularProducts`,data, getConfig());
+  const response = await axios.post(`${base_url}Products/GetPopularProducts`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const getProductsBestSeller = async (data) => {
-  const response = await axios.post(`${base_url}Products/GetProductsBestSeller`,data, getConfig());
+  const response = await axios.post(`${base_url}Products/GetProductsBestSeller`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const createProduct = async (data) => {
-  const response = await axios.post(`${base_url}Products`,data, getConfig());
+  const response = await axios.post(`${base_url}Products`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const updateProduct = async (data) => {
-  const response = await axios.put(`${base_url}Products/${data.id}`,data.data, getConfig());
+  const response = await axios.put(`${base_url}Products/${data.id}`, data.data, getConfig());
   if (response.data) {
     return response.data;
   }
@@ -69,38 +69,38 @@ const getProductByBrand = async (id) => {
   }
 }
 const getSearchProduct = async (data) => {
-  const response = await axios.get(`${base_url}Products/SearchProductByName/${data.searchQuery}`,data, getConfig());
+  const response = await axios.get(`${base_url}Products/SearchProductByName/${data.searchQuery}`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 const getSearchAProduct = async (data) => {
-  const response = await axios.get(`${base_url}Products/SearchAProductByName/${data.searchQuery}`,data, getConfig());
+  const response = await axios.get(`${base_url}Products/SearchAProductByName/${data.searchQuery}`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 const getSearchProductByNameAndCategory = async (data) => {
-  const response = await axios.get(`${base_url}Products/SearchProductByNameAndCategory/${data.searchQuery}/${data.categoryId}`,data, getConfig());
+  const response = await axios.get(`${base_url}Products/SearchProductByNameAndCategory/${data.searchQuery}/${data.categoryId}`, data, getConfig());
   if (response.data) {
     return response.data;
   }
 }
 
 const updateStatusProduct = async (data) => {
-  const response = await axios.put(`${base_url}Products/UpdateStatusProduct/${data.id}/${data.status}`,"", getConfig());
+  const response = await axios.put(`${base_url}Products/UpdateStatusProduct/${data.id}/${data.status}`, "", getConfig());
   if (response.data) {
     return response.data;
   }
 }
 const getProductByBrandCategory = async (data) => {
-  const response = await axios.get(`${base_url}Products/GetProductsActiveByCategoryAndBrand/${data.categoryId }/$${data.brandId}`);
+  const response = await axios.get(`${base_url}Products/GetProductsActiveByCategoryAndBrand/${data.categoryId}/$${data.brandId}`);
   if (response.data) {
     return response.data;
   }
 }
 const getProductForUser = async (data) => {
-  const response = await axios.get(`${base_url}ProductDetails/GetAProductDetailForUser/${data.productId }/${data.colorId}/${data.capacityId}`);
+  const response = await axios.get(`${base_url}ProductDetails/GetAProductDetailForUser/${data.productId}/${data.colorId}/${data.capacityId}`);
   if (response.data) {
     return response.data;
   }

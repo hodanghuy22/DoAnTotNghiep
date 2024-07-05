@@ -125,10 +125,10 @@ const ProductDetail = ({ categoryId }) => {
                 await dispatch(GetSearchAProduct({
                     searchQuery: FormatData.replaceHyphensWithSpaces(ProductNameUrl)
                 })).then(response => {
-                    if (Array.isArray(response.payload) && response.payload.length > 1 || response.payload.length==0) {
+                    if (Array.isArray(response.payload) && response.payload.length > 1 || response.payload.length == 0) {
                         navigate(`${location.pathname}/404`);
                     }
-                    else{
+                    else {
                         setproductId(response.payload[0]?.id)
                     }
                     console.log(response.payload);
@@ -190,7 +190,7 @@ const ProductDetail = ({ categoryId }) => {
                     await dispatch(GetProductByBrandCategory({
                         categoryId: productState?.categoryId,
                         brandId: productState?.brandId
-                      }));
+                    }));
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
@@ -204,7 +204,7 @@ const ProductDetail = ({ categoryId }) => {
                     await dispatch(GetProductByBrandCategory({
                         categoryId: productState?.categoryId,
                         brandId: productState?.brandId
-                      }));
+                    }));
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 } finally {
@@ -273,7 +273,7 @@ const ProductDetail = ({ categoryId }) => {
             window.location.reload(false);
         }
     }
-    
+
     // THêm yêu thích
     const AddWishList = () => {
         if (authState === null) {

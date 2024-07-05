@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginUser } from '../../features/auths/authSlice';
+import { Helmet } from 'react-helmet';
 
 const loginSchema = yup.object({
   username: yup.string().required('Username is Required'),
@@ -35,6 +36,9 @@ const Login = () => {
 
   return (
     <div className='container w-100 m-auto shadow p-3 mb-5 bg-body rounded p-5'>
+      <Helmet>
+        <title>Đăng nhập | HUBI</title>
+      </Helmet>
       <div className='d-flex w-75 m-auto shadow p-3 mb-5 bg-body rounded'>
         <div className='' style={{ backgroundColor: '#eeeeee' }}>
           <img src='/log.svg' alt='Logo' />

@@ -7,6 +7,7 @@ import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 import { GetBrandByCategory } from '../../features/brands/brandSlice';
 import './../../assets/css/global.css'
+import { Helmet } from 'react-helmet';
 
 const ProductList = ({ categoryId }) => {
     const dispatch = useDispatch();
@@ -75,6 +76,11 @@ const ProductList = ({ categoryId }) => {
 
     return (
         <div>
+             {firstProduct && (
+        <Helmet>
+          <title>{`${firstProduct.categoryTitle} | HUBI`}</title>
+        </Helmet>
+      )}
             <Container className='mb-5'>
                 <Row className='mt-3'>
                     <nav aria-label="breadcrumb">

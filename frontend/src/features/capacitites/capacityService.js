@@ -30,7 +30,7 @@ const createCapacity = async (data) => {
 }
 
 const updateStatusCapacity = async (capacityData) => {
-  const response = await axios.put(`${base_url}Capacities/UpdateStatusCapacity/${capacityData.id}/${capacityData.status}`,"", getConfig());
+  const response = await axios.put(`${base_url}Capacities/UpdateStatusCapacity/${capacityData.id}/${capacityData.status}`, "", getConfig());
   if (response.data) {
     return response.data;
   }

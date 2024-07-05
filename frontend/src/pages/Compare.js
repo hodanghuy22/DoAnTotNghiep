@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { GetProduct, GetSearchProduct, GetSearchProductByNameAndCategory } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
+import { Helmet } from 'react-helmet';
 
 const Compare = ({ categoryId }) => {
     const dispatch = useDispatch();
@@ -836,6 +837,9 @@ const Compare = ({ categoryId }) => {
     return (
         <div>
             <Container>
+                <Helmet>
+                    <title>So sánh| HUBI</title>
+                </Helmet>
                 <Row className='d-flex justify-content-end w-100'>
                     <div className='col-3'>
                         <div className=' mt-5'>

@@ -5,6 +5,7 @@ import { GetProductPopular } from '../../features/products/productSlice';
 import { Link } from 'react-router-dom';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
+import { Helmet } from 'react-helmet';
 
 const ProductHot = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,9 @@ const ProductHot = () => {
 
   return (
     <Container className='mb-5'>
+      <Helmet>
+        <title>Sản phẩm hot | HUBI</title>
+      </Helmet>
       <Row className='justify-content-between mt-5'>
         <Col className='fs-5'>
           <p>Có {productCount} sản phẩm</p>

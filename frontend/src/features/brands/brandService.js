@@ -37,7 +37,7 @@ const createBrand = async (BrandData) => {
 }
 
 const updateStatusBrand = async (data) => {
-  const response = await axios.put(`${base_url}Brands/UpdateStatusBrand/${data.id}/${data.status}`,"",getConfig());
+  const response = await axios.put(`${base_url}Brands/UpdateStatusBrand/${data.id}/${data.status}`, "", getConfig());
   if (response.data) {
     return response.data;
   }

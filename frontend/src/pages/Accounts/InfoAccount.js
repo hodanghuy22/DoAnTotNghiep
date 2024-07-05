@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { UpdateUser } from '../../features/auths/authSlice';
+import { Helmet } from 'react-helmet';
 
 const infoSchema = yup.object({
     name: yup.string().required('Chưa nhập tên'),
     age: yup.number()
-    .moreThan(0, 'Giá trị phải lớn hơn 0'),
+        .moreThan(0, 'Giá trị phải lớn hơn 0'),
     phoneNumber: yup.string()
-    .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ'),
+        .matches(/^(0\d{9})$/, 'Số điện thoại không hợp lệ'),
     address: yup.string(),
 });
 
@@ -38,6 +39,9 @@ const InfoAccount = () => {
     return (
         <div className='p-5'>
             <div className=''>
+                <Helmet>
+                    <title>Thông tin tài khoản | HUBI</title>
+                </Helmet>
                 <div>
                     <p>THÔNG TIN TẢI KHOẢN</p>
                 </div>
@@ -124,11 +128,11 @@ const InfoAccount = () => {
                             </div>
                         </div>
                         <div className='d-flex p-2'>
-                        <div className='col-3 mt-1'>
-                        </div>
-                        <div className='col-8 '>
-                            <button type='submit' className='w-100 btn bg-danger p-2 text-light fw-bold mb-2'>Lưu thay đổi</button>
-                        </div>
+                            <div className='col-3 mt-1'>
+                            </div>
+                            <div className='col-8 '>
+                                <button type='submit' className='w-100 btn bg-danger p-2 text-light fw-bold mb-2'>Lưu thay đổi</button>
+                            </div>
                         </div>
                     </form>
                 </div>

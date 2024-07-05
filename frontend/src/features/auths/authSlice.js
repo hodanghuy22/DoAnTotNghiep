@@ -118,122 +118,122 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
       })
-      .addCase(RegisterUser.pending, (state)=>{
+      .addCase(RegisterUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(RegisterUser.fulfilled, (state, action)=>{
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          if(state.isSuccess){
-            toast.success("Register is successfully");
-          }
+      .addCase(RegisterUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess) {
+          toast.success("Register is successfully");
+        }
       })
-      .addCase(RegisterUser.rejected, (state, action)=>{
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
-          if(state.isError){
-              toast.error("Something went wrong!");
-          }
+      .addCase(RegisterUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error("Something went wrong!");
+        }
       })
-      .addCase(UpdateUser.pending, (state)=>{
+      .addCase(UpdateUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(UpdateUser.fulfilled, (state, action)=>{
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          state.user = action.payload;
-          if(state.isSuccess){
-            toast.success("Updated is successfully");
-          }
+      .addCase(UpdateUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        if (state.isSuccess) {
+          toast.success("Updated is successfully");
+        }
       })
-      .addCase(UpdateUser.rejected, (state, action)=>{
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
-          if(state.isError){
-              toast.error("Something went wrong!");
-          }
+      .addCase(UpdateUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error("Something went wrong!");
+        }
       })
-      .addCase(GetAUser.pending, (state)=>{
+      .addCase(GetAUser.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(GetAUser.fulfilled, (state, action)=>{
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          state.user = action.payload;
+      .addCase(GetAUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.user = action.payload;
       })
-      .addCase(GetAUser.rejected, (state, action)=>{
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
+      .addCase(GetAUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
       })
-      .addCase(ChangeUserPassword.pending, (state)=>{
+      .addCase(ChangeUserPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(ChangeUserPassword.fulfilled, (state, action)=>{
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          state.user = action.payload;
-          if(state.isSuccess){
-            toast.success("Change Password is successfully");
-          }
+      .addCase(ChangeUserPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        if (state.isSuccess) {
+          toast.success("Change Password is successfully");
+        }
       })
-      .addCase(ChangeUserPassword.rejected, (state, action)=>{
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
-          if(state.isError){
-              toast.error("Something went wrong!");
-          }
+      .addCase(ChangeUserPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error("Something went wrong!");
+        }
       })
-      .addCase(ForgotUserPassword.pending, (state)=>{
+      .addCase(ForgotUserPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(ForgotUserPassword.fulfilled, (state, action)=>{
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          if(state.isSuccess){
-            toast.success("Email was sent!");
-          }
+      .addCase(ForgotUserPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess) {
+          toast.success("Email was sent!");
+        }
       })
-      .addCase(ForgotUserPassword.rejected, (state, action)=>{
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
-          if(state.isError){
-              toast.error("Something went wrong!");
-          }
+      .addCase(ForgotUserPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error("Something went wrong!");
+        }
       })
-      .addCase(ResetUserPassword.pending, (state)=>{
+      .addCase(ResetUserPassword.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(ResetUserPassword.fulfilled, (state, action)=>{
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          if(state.isSuccess){
-            toast.success("Reset password is successfully!");
-          }
+      .addCase(ResetUserPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        if (state.isSuccess) {
+          toast.success("Reset password is successfully!");
+        }
       })
-      .addCase(ResetUserPassword.rejected, (state, action)=>{
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
-          if(state.isError){
-              toast.error("Something went wrong!");
-          }
+      .addCase(ResetUserPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error("Something went wrong!");
+        }
       })
   }
 })

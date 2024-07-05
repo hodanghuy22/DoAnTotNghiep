@@ -51,14 +51,14 @@ const ResetPassword = () => {
           </div>
           <form onSubmit={formik.handleSubmit} className='d-flex flex-column'>
             <div className='w-100 mb-4'>
-              <input 
-                type='email' 
-                placeholder='Email' 
+              <input
+                type='email'
+                placeholder='Email'
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
-                className='w-100 shadow p-3 bg-body rounded' 
+                className='w-100 shadow p-3 bg-body rounded'
               />
               <div className='error'>
                 {
@@ -67,14 +67,14 @@ const ResetPassword = () => {
               </div>
             </div>
             <div className='w-100 mb-4'>
-              <input 
-                type='password' 
-                placeholder='New Password' 
+              <input
+                type='password'
+                placeholder='New Password'
                 name="newPassword"
                 value={formik.values.newPassword}
                 onChange={formik.handleChange('newPassword')}
                 onBlur={formik.handleBlur('newPassword')}
-                className='w-100 shadow p-3 bg-body rounded' 
+                className='w-100 shadow p-3 bg-body rounded'
               />
               <div className='error'>
                 {
@@ -83,14 +83,14 @@ const ResetPassword = () => {
               </div>
             </div>
             <div className='w-100 mb-4'>
-              <input 
-                type='password' 
-                placeholder='Confirm Password' 
+              <input
+                type='password'
+                placeholder='Confirm Password'
                 name="confirmPassword"
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange('confirmPassword')}
                 onBlur={formik.handleBlur('confirmPassword')}
-                className='w-100 shadow p-3 bg-body rounded' 
+                className='w-100 shadow p-3 bg-body rounded'
               />
               <div className='error'>
                 {

@@ -13,16 +13,16 @@ const OrderList = () => {
   const [type, setType] = useState("all");
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-      const fetchData = async () => {
-          setLoading(true);
-          try {
-              await  dispatch(GetOrderStatusActive())
-              setLoading(false);
-          } catch (error) {
-              console.error('Error fetching data:', error);
-          }
-      };
-      fetchData();
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        await dispatch(GetOrderStatusActive())
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
   }, [dispatch]);
   const handleTabClick = (tabId) => {
     setSelectedTab(tabId);
@@ -52,11 +52,11 @@ const OrderList = () => {
       </div>
       {/* Hiển thị Loading nếu đang tải dữ liệu */}
       {isLoading && <Loading />}
-        {/* Nội dung chính của ứng dụng sau khi tải xong */}
-        {!isLoading && (
-          <div>
-          </div>
-        )}
+      {/* Nội dung chính của ứng dụng sau khi tải xong */}
+      {!isLoading && (
+        <div>
+        </div>
+      )}
     </div>
   )
 }

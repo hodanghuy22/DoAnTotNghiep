@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { ForgotUserPassword } from '../../features/auths/authSlice';
+import { Helmet } from 'react-helmet';
 
 const forgotPasswordSchema = yup.object({
   email: yup.string().email("Email Should be valid").required('Email is Required'),
@@ -21,6 +22,9 @@ const ForgotPassword = () => {
   });
   return (
     <div className='container w-100 m-auto shadow p-3 mb-5 bg-body rounded p-5'>
+      <Helmet>
+        <title>Quên mật khẩu | HUBI</title>
+      </Helmet>
       <div className='d-flex w-75 m-auto shadow p-3 mb-5 bg-body rounded'>
         <div className='' style={{ backgroundColor: '#eeeeee' }}>
           <img src='/log.svg' alt='Logo' />
@@ -37,14 +41,14 @@ const ForgotPassword = () => {
           </div>
           <form onSubmit={formik.handleSubmit} className='d-flex flex-column'>
             <div className='w-100 mb-4'>
-              <input 
-                type='email' 
-                placeholder='Email' 
+              <input
+                type='email'
+                placeholder='Email'
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
-                className='w-100 shadow p-3 bg-body rounded' 
+                className='w-100 shadow p-3 bg-body rounded'
               />
               <div className='error'>
                 {

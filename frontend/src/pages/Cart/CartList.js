@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading'
 import cartIcon from './../../assets/images/shopping-trolley.png'
+import { Helmet } from 'react-helmet'
 
 const CartList = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const CartList = () => {
         setTotalPrice(total);
     }, [cartState]);
 
-    const deleteAProductCart = (e,quantity) => {
+    const deleteAProductCart = (e, quantity) => {
         dispatch(DeleteCart(e))
         let currentQuantity = localStorage.getItem('cartQuantity');
         if (currentQuantity === null) {
@@ -59,11 +60,12 @@ const CartList = () => {
     }
     const handleDecrease = (item) => {
         setProductUpdateDetails(
-            { 
-                id: item?.id, 
-                userId: item?.userId, 
-                productId: item?.productDetailId, 
-                quantity: item.quantity - 1 }
+            {
+                id: item?.id,
+                userId: item?.userId,
+                productId: item?.productDetailId,
+                quantity: item.quantity - 1
+            }
         )
         let currentQuantity = localStorage.getItem('cartQuantity');
         if (currentQuantity === null) {
@@ -78,11 +80,12 @@ const CartList = () => {
     }
     const handleIncrease = (item) => {
         setProductUpdateDetails(
-            { 
-                id: item?.id, 
-                userId: item?.userId, 
-                productId: item?.productDetailId, 
-                quantity: item.quantity + 1 }
+            {
+                id: item?.id,
+                userId: item?.userId,
+                productId: item?.productDetailId,
+                quantity: item.quantity + 1
+            }
         )
         let currentQuantity = localStorage.getItem('cartQuantity');
         if (currentQuantity === null) {
@@ -95,7 +98,7 @@ const CartList = () => {
         window.location.reload(false);
 
     }
-    
+
     useEffect(() => {
         if (productUpdateDetails !== null) {
             console.log(productUpdateDetails);
@@ -145,6 +148,9 @@ const CartList = () => {
                 )
             }
             <Container className='p-5 w-75 border'>
+                <Helmet>
+                    <title>Giỏ hàng | HUBI</title>
+                </Helmet>
                 <Row>
                     {
                         cartState && cartState?.map((item, index) => {
@@ -182,7 +188,7 @@ const CartList = () => {
                                         <div className='d-flex text-end'>
                                             <i className='fs-3 cart-iconFa bg-transparent p-0 mx-3'>
                                                 <MdDeleteForever
-                                                    onClick={() => deleteAProductCart(item?.id,item?.quantity)}
+                                                    onClick={() => deleteAProductCart(item?.id, item?.quantity)}
                                                 />
                                             </i>
                                         </div>

@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChangeUserPassword } from '../../features/auths/authSlice';
+import { Helmet } from 'react-helmet';
 
 const changePasswordSchema = yup.object({
   currentPassword: yup.string().required('Chưa nhập mật khẩu hiện tại'),
@@ -30,10 +31,12 @@ const ChangePassword = () => {
   return (
     <div className='p-5'>
       <div className='w-100 '>
+        <Helmet>
+          <title>Đổi mật khẩu | HUBI</title>
+        </Helmet>
         <div>
           <p>ĐỔI MẬT KHẨU</p>
         </div>
-
         <div className=''>
           <form onSubmit={formik.handleSubmit}>
             <div className='d-flex w-100  p-2'>

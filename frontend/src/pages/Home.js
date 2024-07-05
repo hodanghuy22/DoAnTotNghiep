@@ -15,6 +15,7 @@ import { GetSlidehow } from '../features/slideshows/slideshowSlice';
 import FormatData from '../utils/FormatData';
 import Loading from '../utils/Loading';
 import { GetCoupon } from '../features/coupons/couponSlice';
+import { Helmet } from 'react-helmet';
 const Home = () => {
   const dispatch = useDispatch();
   const slideshowState = useSelector(state => state?.slideshow?.slideshow);
@@ -89,6 +90,9 @@ const Home = () => {
   return (
     <>
       <Container>
+        <Helmet>
+          <title>Hubishop.com | HUBI</title>
+        </Helmet>
         <Row>
           <Col className='col-12'>
             <Swiper
@@ -117,7 +121,7 @@ const Home = () => {
           {
             couponState && couponState?.map((item, index) => {
               return (
-                <p key={index} className='p-5 fs-2 text-center ' style={{backgroundColor:'#FAFFAF',color:'#96C9F4'}}>{item?.title}</p>
+                <p key={index} className='p-5 fs-2 text-center ' style={{ backgroundColor: '#FAFFAF', color: '#96C9F4' }}>{item?.title}</p>
               )
             })
           }

@@ -10,7 +10,7 @@ const getRangtingsForProduct = async (id) => {
 }
 
 const createRating = async (data) => {
-    const response = await axios.post(`${base_url}Ratings`,data, getConfig())
+    const response = await axios.post(`${base_url}Ratings`, data, getConfig())
     if (response.data) {
         return response.data;
     }

@@ -73,7 +73,7 @@ export const productDetailSlice = createSlice({
       state.isError = false;
       state.isSuccess = true;
       state.productDetails = action.payload;
-      if(state.isSuccess) {
+      if (state.isSuccess) {
         toast.success("The creation of the product detail was successful!");
       }
     }).addCase(CreateProductDetail.rejected, (state, action) => {
@@ -81,7 +81,7 @@ export const productDetailSlice = createSlice({
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-      if(state.isError) {
+      if (state.isError) {
         toast.error("The creation of the product detail was not successful!");
       }
     }).addCase(GetProductDetails.pending, (state) => {
@@ -103,17 +103,17 @@ export const productDetailSlice = createSlice({
       state.isError = false;
       state.isSuccess = true;
       state.updated = action.payload;
-      if(state.isSuccess) {
+      if (state.isSuccess) {
         toast.success("The product detail update was successful!");
-      } 
+      }
     }).addCase(UpdateStatusProductDetail.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-      if(state.isError) {
+      if (state.isError) {
         toast.success("The product detail update was not successful!");
-      } 
+      }
     }).addCase(GetProductDetail.pending, (state) => {
       state.isLoading = true;
     }).addCase(GetProductDetail.fulfilled, (state, action) => {
@@ -133,17 +133,17 @@ export const productDetailSlice = createSlice({
       state.isError = false;
       state.isSuccess = true;
       state.updated = action.payload;
-      if(state.isSuccess) {
+      if (state.isSuccess) {
         toast.success("The product detail update was successful!");
-      } 
+      }
     }).addCase(UpdateProductDetail.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
       state.message = action.error;
-      if(state.isError) {
+      if (state.isError) {
         toast.success("The product detail update was not successful!");
-      } 
+      }
     }).addCase(GetProductDetailsActive.pending, (state) => {
       state.isLoading = true;
     }).addCase(GetProductDetailsActive.fulfilled, (state, action) => {

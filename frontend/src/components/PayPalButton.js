@@ -44,26 +44,26 @@ const PayPalButton = ({ invoice }) => {
     try {
       const { orderID } = data;
       const mess = await axios.post(`${base_url}Paypals/capture-order`, { orderId: orderID });
-      if(mess.status === 200){
+      if (mess.status === 200) {
         const response = await axios.get(`${base_url}Paypals/GetOrderDetails/${orderID}`);
         const createdOrder = response.data;
-        console.log("invoice ",invoice);
+        console.log("invoice ", invoice);
         console.log("createdOrder", createdOrder);
         const transaction = {
-          bankCode : "",
-          bankTranNo : "",
-          transactionNo : createdOrder?.purchase_units[0]?.payments?.captures[0]?.id,
-          payPalOrderId : orderID,
-          transactionStatus : "",
-          responseCode : "",
-          orderInfo : "",
-          txnRef : "",
-          amount : convertUsdToVnd(createdOrder?.purchase_units[0]?.amount?.value),
-          date : changeDateFormat(createdOrder.create_time),
-          paymentMethod : "PAYPAL"
+          bankCode: "",
+          bankTranNo: "",
+          transactionNo: createdOrder?.purchase_units[0]?.payments?.captures[0]?.id,
+          payPalOrderId: orderID,
+          transactionStatus: "",
+          responseCode: "",
+          orderInfo: "",
+          txnRef: "",
+          amount: convertUsdToVnd(createdOrder?.purchase_units[0]?.amount?.value),
+          date: changeDateFormat(createdOrder.create_time),
+          paymentMethod: "PAYPAL"
         }
         console.log("transaction ", transaction);
-        const newInvoice = { ...invoice, transaction, isPaid:true };
+        const newInvoice = { ...invoice, transaction, isPaid: true };
         console.log("new Invoice ", newInvoice);
         await dispatch(CreateInvoice(newInvoice))
         navigate('/payment-success')
@@ -82,7 +82,7 @@ const PayPalButton = ({ invoice }) => {
             shape: 'pill',
             tagline: false,
             height: 51,
-            
+
           }}
           forceReRender={[invoice]}
           createOrder={(data, actions) => {

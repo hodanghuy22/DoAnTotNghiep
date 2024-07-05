@@ -17,24 +17,24 @@ const Mainlayout = () => {
     }
   }, [storedQuantity]);
   return (
-    <div style={{backgroundColor:'#ffffff'}}>
+    <div style={{ backgroundColor: '#ffffff' }}>
       <header>
         <Header />
       </header>
-      <ScrollToTop/>
+      <ScrollToTop />
       <main>
         <Outlet />
         <ToastContainer
-            position="top-right"
-            autoClose={250}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            theme="light"
-          />
+          position="top-right"
+          autoClose={250}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          theme="light"
+        />
       </main>
       <footer>
         <Footer />

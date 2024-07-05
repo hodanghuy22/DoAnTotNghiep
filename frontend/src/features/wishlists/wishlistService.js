@@ -8,7 +8,7 @@ const getWishlist = async () => {
     }
 }
 const createWishlist = async (data) => {
-    const response = await axios.post(`${base_url}Wishlists`,data,getConfig());
+    const response = await axios.post(`${base_url}Wishlists`, data, getConfig());
     if (response.data) {
         return response.data;
     }

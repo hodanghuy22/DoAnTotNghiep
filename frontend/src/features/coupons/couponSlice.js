@@ -41,7 +41,7 @@ export const couponSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.coupon = action.payload;
-        if(state.isSuccess){
+        if (state.isSuccess) {
           toast.success("Thêm mã giảm giá thành công!")
         }
       })
@@ -51,7 +51,7 @@ export const couponSlice = createSlice({
         state.isSuccess = false;
         state.coupon = null;
         state.message = action.payload.response.data.error;
-        if(state.isError){
+        if (state.isError) {
           toast.error(state.message)
         }
       })
@@ -70,7 +70,7 @@ export const couponSlice = createSlice({
         state.isSuccess = false;
         state.coupon = null;
         state.message = action.payload.response.data.error;
-        if(state.isError){
+        if (state.isError) {
           toast.error(state.message)
         }
       })

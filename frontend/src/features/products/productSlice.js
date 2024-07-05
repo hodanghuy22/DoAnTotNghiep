@@ -287,21 +287,21 @@ export const productSlice = createSlice({
       state.isSuccess = false;
       state.message = action.error;
     })
-    .addCase(GetSearchProductByNameAndCategory.pending, (state) => {
-      state.isLoading = true;
-    }).addCase(GetSearchProductByNameAndCategory.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      state.searchResultByCategory = action.payload;
-    }).addCase(GetSearchProductByNameAndCategory.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
-    }).addCase(GetProductForUser.pending, (state) => {
-      state.isLoading = true;
-    })
+      .addCase(GetSearchProductByNameAndCategory.pending, (state) => {
+        state.isLoading = true;
+      }).addCase(GetSearchProductByNameAndCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.searchResultByCategory = action.payload;
+      }).addCase(GetSearchProductByNameAndCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      }).addCase(GetProductForUser.pending, (state) => {
+        state.isLoading = true;
+      })
       .addCase(GetProductForUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
@@ -316,18 +316,18 @@ export const productSlice = createSlice({
       }).addCase(GetProductByBrandCategory.pending, (state) => {
         state.isLoading = true;
       })
-        .addCase(GetProductByBrandCategory.fulfilled, (state, action) => {
-          state.isLoading = false;
-          state.isError = false;
-          state.isSuccess = true;
-          state.productByBrandCategory = action.payload;
-        })
-        .addCase(GetProductByBrandCategory.rejected, (state, action) => {
-          state.isLoading = false;
-          state.isError = true;
-          state.isSuccess = false;
-          state.message = action.error;
-        }).addCase(GetSearchProduct.pending, (state) => {
+      .addCase(GetProductByBrandCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.productByBrandCategory = action.payload;
+      })
+      .addCase(GetProductByBrandCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      }).addCase(GetSearchProduct.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.isSuccess = false;

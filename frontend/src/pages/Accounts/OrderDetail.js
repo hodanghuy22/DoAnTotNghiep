@@ -76,16 +76,16 @@ const OrderDetail = () => {
                 {
                     invoiceState?.invoiceDetails?.map((item, index) => {
                         return (
-                                <div className='d-flex justify-content-between mt-3' key={index}>
-                                    <div className='d-flex'>
-                                        <img style={{ width: '90px' }} src={item?.productDetail?.product?.thumnailUrl} alt='hinh' />
-                                        <p className='fw-bold mt- px-4'>{item?.productDetail?.product?.name}</p>
-                                    </div>
-                                    <div className='text-end'>
-                                        <p>Số lượng: <strong>{item?.quantity}</strong></p>
-                                        <p>Đơn giá: <strong className='amount'>{FormatData.formatNumber(item?.price)}</strong></p>
-                                    </div>
+                            <div className='d-flex justify-content-between mt-3' key={index}>
+                                <div className='d-flex'>
+                                    <img style={{ width: '90px' }} src={item?.productDetail?.product?.thumnailUrl} alt='hinh' />
+                                    <p className='fw-bold mt- px-4'>{item?.productDetail?.product?.name}</p>
                                 </div>
+                                <div className='text-end'>
+                                    <p>Số lượng: <strong>{item?.quantity}</strong></p>
+                                    <p>Đơn giá: <strong className='amount'>{FormatData.formatNumber(item?.price)}</strong></p>
+                                </div>
+                            </div>
                         )
                     })
                 }

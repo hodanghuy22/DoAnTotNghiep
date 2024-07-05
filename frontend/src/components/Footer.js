@@ -16,10 +16,10 @@ const Footer = () => {
           <div className='d-flex flex-column'>
             <Link className='text-decoration-none' to={'/hot'}>Xu Hướng</Link>
             <Link className='text-decoration-none' to={'hot'}>Bán Chạy</Link>
-           <Link className='text-decoration-none' to={'dien-thoai'}>Điện thoại</Link>
-           <Link className='text-decoration-none' to={'tai-nghe-co-day'}>Tai nghe có dây</Link>
-           <Link className='text-decoration-none' to={'tai-nghe-khong-day'}>Tai nghe không dây</Link>
-           <Link className='text-decoration-none' to={'sac-du-phong'}>Sạc dự phòng</Link>
+            <Link className='text-decoration-none' to={'dien-thoai'}>Điện thoại</Link>
+            <Link className='text-decoration-none' to={'tai-nghe-co-day'}>Tai nghe có dây</Link>
+            <Link className='text-decoration-none' to={'tai-nghe-khong-day'}>Tai nghe không dây</Link>
+            <Link className='text-decoration-none' to={'sac-du-phong'}>Sạc dự phòng</Link>
           </div>
         </Col>
         <Col xl={2}>
@@ -28,7 +28,6 @@ const Footer = () => {
             <Link className='text-decoration-none' to={'/'}>Trang Chủ</Link>
             <Link className='text-decoration-none' to={'/gioi-thieu'}>Giới Thiệu</Link>
             <Link className='text-decoration-none' to={'/hot'}>Sản Phẩm</Link>
-            <p>Liên Hệ</p>
           </div>
         </Col>
         <Col xl={2}>
@@ -42,15 +41,15 @@ const Footer = () => {
         <Col xl={3}>
           <h5>Thông tin cửa hàng</h5>
           <div className='d-flex flex-column'>
-            <p>Bạn cần trợ giúp ? 
-            <br/><BsPhone className='fs-4'/><a href="tel:0329155867">   0329155867 </a></p>
+            <p>Bạn cần trợ giúp ?
+              <br /><BsPhone className='fs-4' /><a href="tel:0329155867">   0329155867 </a></p>
             <p>Địa Chỉ: CĐ TH21WEBC</p>
             <p>Email:0306211331@caothang.edu.vn</p>
           </div>
         </Col>
       </Row>
       <Row className='border-top mt-5'>
-    @ Thiết kế bởi và lập trình bởi Phạm Quảng Bình và Hồ Đăng Huy
+        @ Thiết kế bởi và lập trình bởi Phạm Quảng Bình và Hồ Đăng Huy
       </Row>
     </Container>
   )

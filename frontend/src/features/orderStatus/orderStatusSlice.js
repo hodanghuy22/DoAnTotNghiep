@@ -25,22 +25,22 @@ export const orderStatusSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    .addCase(GetOrderStatusActive.pending, (state) => {
-      state.isLoading = true;
-    })
-    .addCase(GetOrderStatusActive.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isError = false;
-      state.isSuccess = true;
-      state.orderStatuses = action.payload;
-    })
-    .addCase(GetOrderStatusActive.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isError = true;
-      state.isSuccess = false;
-      state.message = action.error;
-    })
-    .addCase(resetState, () => initialState);
+      .addCase(GetOrderStatusActive.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(GetOrderStatusActive.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.orderStatuses = action.payload;
+      })
+      .addCase(GetOrderStatusActive.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(resetState, () => initialState);
   }
 })
 

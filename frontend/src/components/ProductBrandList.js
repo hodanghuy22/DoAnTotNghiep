@@ -8,6 +8,7 @@ import { GetProductByBrandCategory } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
 import { GetBrandByCategory } from '../features/brands/brandSlice';
 import '../assets/css/global.css';
+import { Helmet } from 'react-helmet';
 
 const ProductBrandList = ({ categoryId }) => {
   const dispatch = useDispatch();
@@ -75,6 +76,11 @@ const ProductBrandList = ({ categoryId }) => {
   const productCount = productState ? productState.length : 0;
   return (
     <Container className='mb-5'>
+      {firstProduct && (
+        <Helmet>
+          <title>{`${firstProduct.categoryTitle} ${firstProduct.brandTitle}  | HUBI`}</title>
+        </Helmet>
+      )}
       <Row className='mt-3'>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">

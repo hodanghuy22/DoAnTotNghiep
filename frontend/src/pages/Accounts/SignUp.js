@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RegisterUser } from '../../features/auths/authSlice';
+import { Helmet } from 'react-helmet';
 
 const signUpSchema = yup.object({
   name: yup.string().required('Name is Required'),
@@ -37,6 +38,9 @@ const SignUp = () => {
   });
   return (
     <div className='container w-100 m-auto shadow p-3 mb-5 bg-body rounded p-5'>
+      <Helmet>
+        <title>Đăng ký | HUBI</title>
+      </Helmet>
       <div className='d-flex w-75 m-auto shadow p-3 mb-5 bg-body rounded'>
         <div className='' style={{ backgroundColor: '#eeeeee' }}>
           <img src='/log.svg' alt='Logo' />
@@ -54,14 +58,14 @@ const SignUp = () => {
           </div>
           <form onSubmit={formik.handleSubmit} className='d-flex flex-column'>
             <div className='w-100 mb-4'>
-              <input 
-                type='text' 
-                placeholder='Tên người dùng' 
+              <input
+                type='text'
+                placeholder='Tên người dùng'
                 name="name"
                 value={formik.values.name}
                 onChange={formik.handleChange('name')}
                 onBlur={formik.handleBlur('name')}
-                className='w-100 shadow p-3 bg-body rounded text-dark' 
+                className='w-100 shadow p-3 bg-body rounded text-dark'
               />
               <div className='error'>
                 {
@@ -70,14 +74,14 @@ const SignUp = () => {
               </div>
             </div>
             <div className='w-100 mb-4'>
-              <input 
-                type='email' 
-                placeholder='Email' 
+              <input
+                type='email'
+                placeholder='Email'
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange('email')}
                 onBlur={formik.handleBlur('email')}
-                className='w-100 shadow p-3 bg-body rounded  text-dark' 
+                className='w-100 shadow p-3 bg-body rounded  text-dark'
               />
               <div className='error'>
                 {
@@ -86,9 +90,9 @@ const SignUp = () => {
               </div>
             </div>
             <div className='w-100 mb-4'>
-              <input 
-                type='text' 
-                placeholder='Tên tài khoản' 
+              <input
+                type='text'
+                placeholder='Tên tài khoản'
                 className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="username"
                 value={formik.values.username}
@@ -102,9 +106,9 @@ const SignUp = () => {
               </div>
             </div>
             <div className='w-100 mb-4'>
-              <input 
-                type='password' 
-                placeholder='Mật khẩu' 
+              <input
+                type='password'
+                placeholder='Mật khẩu'
                 className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="password"
                 value={formik.values.password}
@@ -118,9 +122,9 @@ const SignUp = () => {
               </div>
             </div>
             <div className='w-100 mb-4'>
-              <input 
-                type='password' 
-                placeholder='Nhập lại mật khẩu' 
+              <input
+                type='password'
+                placeholder='Nhập lại mật khẩu'
                 className='w-100 shadow p-3 bg-body rounded  text-dark'
                 name="repassword"
                 value={formik.values.repassword}
