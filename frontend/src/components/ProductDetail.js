@@ -483,7 +483,7 @@ const ProductDetail = ({ categoryId }) => {
                     <p className='fs-3'>Sản phẩm tương tự</p>
                 </Col>
                 {
-                    productPopular && productPopular?.filter(item => item.name !== productState.name).map((item, index) => {
+                    productPopular && productPopular?.filter(item => item.name !== productState.name).slice(0, 4).map((item, index) => {
                         return (
                             <Col className='col-3' key={index}>
                                 <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>

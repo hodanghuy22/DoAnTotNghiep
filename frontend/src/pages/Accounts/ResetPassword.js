@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { ResetUserPassword } from '../../features/auths/authSlice';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const resetPasswordSchema = yup.object({
   email: yup.string().email("Email Should be valid").required('Email is Required'),
@@ -19,6 +19,7 @@ const resetPasswordSchema = yup.object({
 
 const ResetPassword = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const location = useLocation();
   const getToken = location.pathname.split("/")[2];
   const formik = useFormik({
@@ -29,8 +30,11 @@ const ResetPassword = () => {
       confirmPassword: '',
     },
     validationSchema: resetPasswordSchema,
-    onSubmit: values => {
-      dispatch(ResetUserPassword(values));
+    onSubmit: async (values) => {
+      const result = await dispatch(ResetUserPassword(values));
+      if (result) {
+        navigate('/login');
+      }
     },
   });
   return (

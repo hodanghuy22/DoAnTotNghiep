@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RegisterUser } from '../../features/auths/authSlice';
 import { Helmet } from 'react-helmet';
 
@@ -23,6 +23,7 @@ const signUpSchema = yup.object({
 
 const SignUp = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -32,8 +33,11 @@ const SignUp = () => {
       name: '',
     },
     validationSchema: signUpSchema,
-    onSubmit: values => {
-      dispatch(RegisterUser(values));
+    onSubmit: async (values) => {
+      const result = await dispatch(RegisterUser(values));
+      if (result) {
+        navigate('/login');
+      }
     },
   });
   return (

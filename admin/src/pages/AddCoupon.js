@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -29,13 +29,14 @@ const AddCoupon = () => {
   const location = useLocation();
   const getCouponId = location.pathname.split("/")[3];
   const couponState = useSelector(state => state?.coupon?.coupon)
-  useEffect(()=>{
-      if(getCouponId !== undefined){
-        dispatch(GetCoupon(getCouponId))
-      }else{
-        dispatch(resetState())
-      }
-    },[getCouponId])
+  const [selectedOption, setSelectedOption] = useState('percent');
+  useEffect(() => {
+    if (getCouponId !== undefined) {
+      dispatch(GetCoupon(getCouponId))
+    } else {
+      dispatch(resetState())
+    }
+  }, [getCouponId])
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -52,7 +53,7 @@ const AddCoupon = () => {
     validationSchema: couponSchema,
     onSubmit: values => {
       if (getCouponId !== undefined) {
-        const data = { id:getCouponId, couponData: {...values, id: getCouponId}}
+        const data = { id: getCouponId, couponData: { ...values, id: getCouponId } }
         dispatch(UpdateCoupon(data))
         dispatch(resetState())
       } else {
@@ -65,9 +66,14 @@ const AddCoupon = () => {
 
     },
   });
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
+    formik.setFieldValue('discountPercent', '');
+    formik.setFieldValue('discountMoney', '');
+  };
   return (
     <div className='container'>
-      <h1 className='mb-4 fw-bold'>{getCouponId!==undefined?"Edit":"Add"} Coupon</h1>
+      <h1 className='mb-4 fw-bold'>{getCouponId !== undefined ? "Edit" : "Add"} Coupon</h1>
       <div className='mt-3 row border bg-white p-3 rounded-3 d-flex flex-row'>
         <form onSubmit={formik.handleSubmit}>
           <div className='row'>
@@ -105,48 +111,66 @@ const AddCoupon = () => {
             </div>
           </div>
           <div className='row'>
-            <div className='mb-3 col-4'>
-              <input
-                type="number"
-                name="discountPercent"
-                class="form-control"
-                placeholder="DiscountPercent"
-                value={formik.values.discountPercent}
-                onChange={formik.handleChange('discountPercent')}
-                onBlur={formik.handleBlur('discountPercent')}
-              />
-              <div className='error'>
-                {
-                  formik.touched.discountPercent && formik.errors.discountPercent
-                }
+            {selectedOption === 'percent' && (
+              <div className='col-8 d-flex'>
+                <div className='col-1'>
+                  <select className='form-control ' value={selectedOption} onChange={handleSelectChange}>
+                    <option value="percent">%</option>
+                    <option value="money">VND</option>
+                  </select>
+                </div>
+                <div className='col-11'>
+                  <input
+                    type="number"
+                    name="discountPercent"
+                    className="form-control"
+                    placeholder="DiscountPercent"
+                    value={formik.values.discountPercent}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+                <div className='error'>
+                  {formik.touched.discountPercent && formik.errors.discountPercent}
+                </div>
               </div>
-            </div>
-            <div className='mb-3 col-4'>
-              <input
-                type="number"
-                name="discountMoney"
-                class="form-control"
-                placeholder="DiscountMoney"
-                value={formik.values.discountMoney}
-                onChange={formik.handleChange('discountMoney')}
-                onBlur={formik.handleBlur('discountMoney')}
-              />
-              <div className='error'>
-                {
-                  formik.touched.discountMoney && formik.errors.discountMoney
-                }
+            )}
+            {selectedOption === 'money' && (
+              <div className='mb-3 col-8 d-flex'>
+                <div className='mb-3 col-1'>
+                  <select className='form-control ' value={selectedOption} onChange={handleSelectChange}>
+                    <option value="percent">%</option>
+                    <option value="money">VND</option>
+                  </select>
+                </div>
+                <div className='col-11'>
+                  <input
+                    type="number"
+                    name="discountMoney"
+                    className="form-control"
+                    placeholder="DiscountMoney"
+                    value={formik.values.discountMoney}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+                <div className='error'>
+                  {formik.touched.discountMoney && formik.errors.discountMoney}
+                </div>
               </div>
-            </div>
+            )}
             <div className='mb-3 col-4'>
-              <input
-                type="number"
-                name="requiredTotal"
-                class="form-control"
-                placeholder="RequiredTotal"
-                value={formik.values.requiredTotal}
-                onChange={formik.handleChange('requiredTotal')}
-                onBlur={formik.handleBlur('requiredTotal')}
-              />
+              <div>
+                <input
+                  type="number"
+                  name="requiredTotal"
+                  class="form-control"
+                  placeholder="RequiredTotal"
+                  value={formik.values.requiredTotal}
+                  onChange={formik.handleChange('requiredTotal')}
+                  onBlur={formik.handleBlur('requiredTotal')}
+                />
+              </div>
               <div className='error'>
                 {
                   formik.touched.requiredTotal && formik.errors.requiredTotal
