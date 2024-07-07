@@ -63,7 +63,7 @@ const PayPalButton = ({ invoice }) => {
           paymentMethod: "PAYPAL"
         }
         console.log("transaction ", transaction);
-        const newInvoice = { ...invoice, transaction, isPaid: true };
+        const newInvoice = { ...invoice, transaction,orderStatusId: 2, isPaid: true };
         console.log("new Invoice ", newInvoice);
         await dispatch(CreateInvoice(newInvoice))
         navigate('/payment-success')

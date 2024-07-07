@@ -256,15 +256,29 @@ const ProductDetail = ({ categoryId }) => {
         if (authState === null) {
             setShow(true);
         } else {
-            let currentQuantity = localStorage.getItem('cartQuantity');
-            if (currentQuantity === null) {
-                currentQuantity = 0;
-            } else {
-                currentQuantity = Number(currentQuantity);
+            let cart;
+            try {
+                cart = localStorage.getItem('cart');
+                if (cart === null) {
+                    cart = {};
+                } else {
+                    cart = JSON.parse(cart);
+                }
+            } catch (e) {
+                console.error('Error parsing cart from localStorage:', e);
+                cart = {};
             }
-            let newQuantity = currentQuantity + 1;
-            localStorage.setItem('cartQuantity', newQuantity);
-            console.log(`Cart quantity updated to ${newQuantity}`);
+            const productName = productDetailState?.product?.name;
+            if (productName) {
+                if (cart[productName]) {
+                    cart[productName] += 1;
+                } else {
+                    cart[productName] = 1;
+                }
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log(`Cart length: ${Object.keys(cart).length}`);
+            console.log(`Cart updated with product: ${productName}`);
             dispatch(AddCart({
                 userId: authState?.id,
                 productDetailId: productDetailState?.id,
@@ -288,7 +302,7 @@ const ProductDetail = ({ categoryId }) => {
     const renderSpecifications = (specifications) => {
         return (
             <ul className="technical-content rounded-3">
-                {specifications.map((spec, index) => (
+                {specifications?.map((spec, index) => (
                     <li
                         key={index}
                         className={`d-flex align-items-center justify-content-between p-2 ${index % 2 === 0 ? 'bg-light' : ''}`}
@@ -510,7 +524,7 @@ const ProductDetail = ({ categoryId }) => {
                                 <div className=' my-2 rounded-lg py-3 px-3'>
                                     <h2 className='text-danger'>Đánh giá sản phẩm</h2>
                                     <p>Điểm đánh giá: {(productState?.averageRating == 0) ? 5 : productState?.averageRating} <span className='text-warning fs-5'>&#9733;</span></p>
-                                    <div>                       
+                                    <div>
                                         <Form onSubmit={formik2.handleSubmit}>
                                             <Row className="flex flex-wrap">
                                                 <Col className="mb-3 ">

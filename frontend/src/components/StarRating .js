@@ -8,7 +8,7 @@ const StarRating = ({ value, onChange }) => {
 
     return (
         <div className="star-rating d-flex flex-row justify-content-center">
-            {[...Array(5)].map((star, index) => {
+            {[...Array(5)]?.map((star, index) => {
                 const ratingValue = index + 1;
 
                 return (

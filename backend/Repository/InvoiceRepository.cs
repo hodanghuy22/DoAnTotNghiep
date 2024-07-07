@@ -29,7 +29,7 @@ namespace backend.Repository
             {
                 return Result<Invoice>.Failure("Lỗi không tìm thấy hóa đơn!");
             }
-            if (invoice.OrderStatusId != 1)
+            if (invoice.OrderStatusId != 1 && invoice.OrderStatusId != 2)
             {
                 return Result<Invoice>.Failure("Hóa đơn không được phép hủy!");
             }

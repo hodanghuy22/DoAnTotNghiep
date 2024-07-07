@@ -41,17 +41,15 @@ const CartList = () => {
         setTotalPrice(total);
     }, [cartState]);
 
-    const deleteAProductCart = (e, quantity) => {
+    const deleteAProductCart = (e, name) => {
         dispatch(DeleteCart(e))
-        let currentQuantity = localStorage.getItem('cartQuantity');
-        if (currentQuantity === null) {
-            currentQuantity = 0;
-        } else {
-            currentQuantity = Number(currentQuantity);
+        let cart = localStorage.getItem('cart');
+        cart = cart ? JSON.parse(cart) : {};
+        if (cart[name]) {
+            delete cart[name];
         }
-        let newQuantity = currentQuantity - quantity;
-        localStorage.setItem('cartQuantity', newQuantity);
-        console.log(`Cart quantity updated to ${newQuantity}`);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log(`Product '${name}' deleted from cart.`);
         setTimeout(() => {
             dispatch(GetCart(authState?.id))
             window.location.reload(false);
@@ -67,14 +65,6 @@ const CartList = () => {
                 quantity: item.quantity - 1
             }
         )
-        let currentQuantity = localStorage.getItem('cartQuantity');
-        if (currentQuantity === null) {
-            currentQuantity = 0;
-        } else {
-            currentQuantity = Number(currentQuantity);
-        }
-        let newQuantity = currentQuantity - 1;
-        localStorage.setItem('cartQuantity', newQuantity);
         window.location.reload(false);
 
     }
@@ -87,14 +77,6 @@ const CartList = () => {
                 quantity: item.quantity + 1
             }
         )
-        let currentQuantity = localStorage.getItem('cartQuantity');
-        if (currentQuantity === null) {
-            currentQuantity = 0;
-        } else {
-            currentQuantity = Number(currentQuantity);
-        }
-        let newQuantity = currentQuantity + 1;
-        localStorage.setItem('cartQuantity', newQuantity);
         window.location.reload(false);
 
     }
@@ -188,7 +170,7 @@ const CartList = () => {
                                         <div className='d-flex text-end'>
                                             <i className='fs-3 cart-iconFa bg-transparent p-0 mx-3'>
                                                 <MdDeleteForever
-                                                    onClick={() => deleteAProductCart(item?.id, item?.quantity)}
+                                                    onClick={() => deleteAProductCart(item?.id,item?.productDetail?.product?.name)}
                                                 />
                                             </i>
                                         </div>

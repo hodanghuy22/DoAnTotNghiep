@@ -56,7 +56,6 @@ const PaymentProcess = () => {
   }, []);
   return (
     <>
-      <div>PaymentProcess</div>
       {/* Hiển thị Loading nếu đang tải dữ liệu */}
       {isLoading && <Loading />}
       {/* Nội dung chính của ứng dụng sau khi tải xong */}

@@ -82,7 +82,7 @@ const SearchResults = () => {
       </Row>
       <Row>
         {
-          sortedProducts.map((item, index) => (
+          sortedProducts?.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
               <Link to={`${getCategoryPath(item?.categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3 d-flex'>

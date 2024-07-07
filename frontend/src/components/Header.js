@@ -24,9 +24,20 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const [cartQuantity, setCartQuantity] = useState(0);
   const handleClose = () => setShow(false);
-  const quantity = localStorage.getItem('cartQuantity');
+  const quantity = localStorage.getItem('cart');
   useEffect(() => {
-    setCartQuantity(quantity)
+    const cart = localStorage.getItem('cart');
+    if (cart) {
+      try {
+        const parsedCart = JSON.parse(cart);
+        setCartQuantity(Object.keys(parsedCart).length);
+      } catch (e) {
+        console.error('Error parsing cart from localStorage:', e);
+        setCartQuantity(0); 
+      }
+    } else {
+      setCartQuantity(0);
+    }
   }, [quantity])
   const handleUserClick = () => {
     setShow(true);

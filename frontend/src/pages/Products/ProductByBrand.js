@@ -75,7 +75,7 @@ const ProductByBrand = () => {
       </Row>
       <Row>
         {
-          sortedProducts && sortedProducts.map((item, index) => (
+          sortedProducts && sortedProducts?.map((item, index) => (
             <Col xl={3} className='p-2 m-0 border-0' key={index}>
               <Link to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3 d-flex'>

@@ -71,7 +71,7 @@ const Agency = () => {
         </div>
         <div className='d-flex'>
           <div className='col-6'>
-            {buttons.map((button) => (
+            {buttons?.map((button) => (
               <div key={button.id}>
                 <div className={`d-flex mt-3 p-3 ${open.includes(button.id) ? 'activeToggle' : ''}`}>
                   <p className='col-11'>{button.label}</p>

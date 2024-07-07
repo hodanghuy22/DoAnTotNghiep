@@ -32,7 +32,7 @@ const InvoiceCard = ({ type, orderStatusId }) => {
         )
       }
       {
-        invoiceState && invoiceState.map((item, index) => {
+        invoiceState && invoiceState?.map((item, index) => {
           return (
             <div key={index} className='order-item p-3 shadow mb-2 bg-body rounded'>
               <div className='d-flex justify-content-between border-bottom'>

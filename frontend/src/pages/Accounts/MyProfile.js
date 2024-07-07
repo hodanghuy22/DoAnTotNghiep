@@ -17,7 +17,7 @@ const MyProfile = () => {
 
     const handleLogout = () => {
         dispatch(Logout());
-        localStorage.removeItem('cartQuantity')
+        localStorage.removeItem('cart');
         setTimeout(() => {
             navigate('/');
         }, 300)
