@@ -39,6 +39,9 @@ GO
 DELETE FROM Coupons;
 DBCC CHECKIDENT ('DoAnTotNghiep.dbo.Coupons', RESEED, 0);
 GO
+DELETE FROM Ratings;
+DBCC CHECKIDENT ('DoAnTotNghiep.dbo.Ratings', RESEED, 0);
+GO
 --COlor
 GO
 INSERT INTO Colors(ColorName,Status) VALUES(N'Bạc',1)
@@ -1169,10 +1172,10 @@ INSERT INTO WishLists VALUES('e6791f11-0ace-4a3d-b7d2-00127c35c084',60)
 --INVOICE
 Go
 INSERT INTO Invoices(UserId,ShippingInfo,IssueDate,DeliveryDate,TotalPrice,TotalPriceAfterDiscount,RecipientName,RecipientPhoneNumber,OrderStatusId)
-VALUES ('e6791f11-0ace-4a3d-b7d2-00127c35c084',N'53b tân nhơn phú A','2024/06/03','2024/06/05',93400000,93400000,N'Phạm Quảng Bình','0329155867',5)
+VALUES ('e5c63492-7f9c-4a28-9660-9eaae6058847',N'53b tân nhơn phú A','2024/06/03','2024/06/05',93400000,93400000,N'Phạm Quảng Bình','0329155867',5)
 
 INSERT INTO Invoices(UserId,ShippingInfo,IssueDate,DeliveryDate,TotalPrice,TotalPriceAfterDiscount,RecipientName,RecipientPhoneNumber,OrderStatusId)
-VALUES ('e6791f11-0ace-4a3d-b7d2-00127c35c084',N'53b tân nhơn phú A','2024/06/03','2024/06/05',30892000,30892000,N'Phạm Quảng Bình','0329155867',5)
+VALUES ('e5c63492-7f9c-4a28-9660-9eaae6058847',N'53b tân nhơn phú A','2024/06/03','2024/06/05',30892000,30892000,N'Phạm Quảng Bình','0329155867',5)
 
 INSERT INTO Invoices(UserId,ShippingInfo,IssueDate,DeliveryDate,TotalPrice,TotalPriceAfterDiscount,RecipientName,RecipientPhoneNumber,OrderStatusId)
 VALUES ('e6791f11-0ace-4a3d-b7d2-00127c35c084',N'53b tân nhơn phú A','2024/06/03','2024/06/05',30892000,30892000,N'Phạm Quảng Bình','0329155867',6)
@@ -1219,4 +1222,4 @@ INSERT INTO InvoiceDetails VALUES (3,194,1,400000)
 INSERT INTO InvoiceDetails VALUES (3,199,1,300000)
 INSERT INTO InvoiceDetails VALUES (3,200,1,150000)
 INSERT INTO InvoiceDetails VALUES (3,197,1,100000)
-GO
+

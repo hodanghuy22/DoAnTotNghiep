@@ -509,8 +509,8 @@ const ProductDetail = ({ categoryId }) => {
                             <Col>
                                 <div className=' my-2 rounded-lg py-3 px-3'>
                                     <h2 className='text-danger'>Đánh giá sản phẩm</h2>
-                                    <p>Điểm đánh giá: {productState?.averageRating} <span className='text-warning fs-5'>&#9733;</span></p>
-                                    <div>
+                                    <p>Điểm đánh giá: {(productState?.averageRating == 0) ? 5 : productState?.averageRating} <span className='text-warning fs-5'>&#9733;</span></p>
+                                    <div>                       
                                         <Form onSubmit={formik2.handleSubmit}>
                                             <Row className="flex flex-wrap">
                                                 <Col className="mb-3 ">
