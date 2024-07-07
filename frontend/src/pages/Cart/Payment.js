@@ -52,6 +52,7 @@ const Payment = () => {
                 console.error('Error fetching data:', error);
             }
         };
+        
         fetchData();
     }, [dispatch, authState?.id]);
     const formik = useFormik({
@@ -74,6 +75,21 @@ const Payment = () => {
         validationSchema: invoiceSchema,
         onSubmit: values => {
             dispatch(CreateInvoice(values))
+            if (authState && authState.id) {
+                const userId = authState.id;
+                let cart = localStorage.getItem('cart');
+                cart = cart ? JSON.parse(cart) : {};
+
+                if (cart[userId]) {
+                    delete cart[userId];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    console.log(`Cart cleared for user ${userId}.`);
+                } else {
+                    console.log(`No cart found for user ${userId}.`);
+                }
+            } else {
+                console.log('User not authenticated.');
+            }
             setTimeout(() => {
                 navigate('/trang-ca-nhan/order-list');
             }, 300)

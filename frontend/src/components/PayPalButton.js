@@ -3,10 +3,11 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import axios from 'axios';
 import { base_url } from '../utils/axiosConfig';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CreateInvoice } from '../features/invoices/invoiceSlice';
 
 const PayPalButton = ({ invoice }) => {
+  const authState = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const changeDateFormat = (date) => {
@@ -66,6 +67,22 @@ const PayPalButton = ({ invoice }) => {
         const newInvoice = { ...invoice, transaction,orderStatusId: 2, isPaid: true };
         console.log("new Invoice ", newInvoice);
         await dispatch(CreateInvoice(newInvoice))
+        
+        if (authState && authState.id) {
+          const userId = authState.id;
+          let cart = localStorage.getItem('cart');
+          cart = cart ? JSON.parse(cart) : {};
+  
+          if (cart[userId]) {
+              delete cart[userId];
+              localStorage.setItem('cart', JSON.stringify(cart));
+              console.log(`Cart cleared for user ${userId}.`);
+          } else {
+              console.log(`No cart found for user ${userId}.`);
+          }
+      } else {
+          console.log('User not authenticated.');
+      }
         navigate('/payment-success')
       }
     } catch (error) {

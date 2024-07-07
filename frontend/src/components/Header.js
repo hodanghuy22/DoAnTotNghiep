@@ -22,32 +22,35 @@ const Header = () => {
   const authState = useSelector((state) => state?.auth);
   const [searchQuery, setSearchQuery] = useState('');
   const [show, setShow] = useState(false);
-  const [cartQuantity, setCartQuantity] = useState(0);
   const handleClose = () => setShow(false);
-  const quantity = localStorage.getItem('cart');
+  const [cartQuantity, setCartQuantity] = useState(0);
   useEffect(() => {
+    const userId = authState?.user?.id;
     const cart = localStorage.getItem('cart');
     if (cart) {
       try {
         const parsedCart = JSON.parse(cart);
-        setCartQuantity(Object.keys(parsedCart).length);
+        const userCart = parsedCart[userId];
+        console.log(userCart);
+        if (userCart) {
+          const count = Object.keys(userCart).length;
+          setCartQuantity(count);
+        } else {
+          setCartQuantity(0);
+        }
       } catch (e) {
         console.error('Error parsing cart from localStorage:', e);
-        setCartQuantity(0); 
+        setCartQuantity(0);
       }
     } else {
       setCartQuantity(0);
     }
-  }, [quantity])
+  }, [authState]);
+
   const handleUserClick = () => {
     setShow(true);
   }
-  const handleLogout = () => {
-    dispatch(Logout());
-    setTimeout(() => {
-      navigate('/login');
-    }, 300)
-  };
+
   const [showModal, setShowModal] = useState(false);
 
   const handleSearchIconClick = () => {

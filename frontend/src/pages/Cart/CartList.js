@@ -41,15 +41,23 @@ const CartList = () => {
         setTotalPrice(total);
     }, [cartState]);
 
-    const deleteAProductCart = (e, name) => {
+    const deleteAProductCart = (e, productName) => {
         dispatch(DeleteCart(e))
-        let cart = localStorage.getItem('cart');
-        cart = cart ? JSON.parse(cart) : {};
-        if (cart[name]) {
-            delete cart[name];
+        if (authState && authState.id) {
+            const userId = authState.id;
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : {};
+
+            if (cart[userId] && cart[userId][productName]) {
+                delete cart[userId][productName];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                console.log(`Product '${productName}' deleted from cart for user ${userId}.`);
+            } else {
+                console.log(`Product '${productName}' not found in cart for user ${userId}.`);
+            }
+        } else {
+            console.log('User not authenticated.');
         }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(`Product '${name}' deleted from cart.`);
         setTimeout(() => {
             dispatch(GetCart(authState?.id))
             window.location.reload(false);
@@ -170,7 +178,7 @@ const CartList = () => {
                                         <div className='d-flex text-end'>
                                             <i className='fs-3 cart-iconFa bg-transparent p-0 mx-3'>
                                                 <MdDeleteForever
-                                                    onClick={() => deleteAProductCart(item?.id,item?.productDetail?.product?.name)}
+                                                    onClick={() => deleteAProductCart(item?.id, item?.productDetail?.product?.name)}
                                                 />
                                             </i>
                                         </div>

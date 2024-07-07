@@ -253,39 +253,46 @@ const ProductDetail = ({ categoryId }) => {
         }
     }, 1000)
     const addCart = () => {
-        if (authState === null) {
-            setShow(true);
-        } else {
-            let cart;
-            try {
-                cart = localStorage.getItem('cart');
-                if (cart === null) {
-                    cart = {};
-                } else {
-                    cart = JSON.parse(cart);
-                }
-            } catch (e) {
-                console.error('Error parsing cart from localStorage:', e);
+        let cart;
+        try {
+            cart = localStorage.getItem('cart');
+            if (cart === null) {
                 cart = {};
+            } else {
+                cart = JSON.parse(cart);
             }
-            const productName = productDetailState?.product?.name;
-            if (productName) {
-                if (cart[productName]) {
-                    cart[productName] += 1;
-                } else {
-                    cart[productName] = 1;
-                }
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            console.log(`Cart length: ${Object.keys(cart).length}`);
-            console.log(`Cart updated with product: ${productName}`);
-            dispatch(AddCart({
-                userId: authState?.id,
-                productDetailId: productDetailState?.id,
-                quantity: 1
-            }));
-            window.location.reload(false);
+        } catch (e) {
+            console.error('Error parsing cart from localStorage:', e);
+            cart = {};
         }
+
+        const productName = productDetailState?.product?.name;
+        const userId = authState.id; // Lấy userId từ authState
+
+        if (productName) {
+            if (cart[userId]) {
+                if (cart[userId][productName]) {
+                    cart[userId][productName] += 1;
+                } else {
+                    cart[userId][productName] = 1;
+                }
+            } else {
+                cart[userId] = {
+                    [productName]: 1
+                };
+            }
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log(`Cart length: ${Object.keys(cart).length}`);
+        console.log(`Cart updated with product: ${productName}`);
+        dispatch(AddCart({
+            userId: authState?.id,
+            productDetailId: productDetailState?.id,
+            quantity: 1
+        }));
+        window.location.reload(false);
+
     }
 
     // THêm yêu thích
