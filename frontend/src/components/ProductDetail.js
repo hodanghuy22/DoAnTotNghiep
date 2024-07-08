@@ -23,6 +23,7 @@ import { CreateComment } from '../features/comment/commentSlice';
 import { CreateRating } from '../features/rating/ratingSlice';
 import { BsFillSendFill } from 'react-icons/bs';
 import StarRating from './StarRating ';
+import { addCartLocalStorage } from '../utils/axiosConfig';
 
 const commentSchema = yup.object({
     content: yup.string().required("Chưa nhập nội dung!"),
@@ -253,45 +254,16 @@ const ProductDetail = ({ categoryId }) => {
         }
     }, 1000)
     const addCart = () => {
-        let cart;
-        try {
-            cart = localStorage.getItem('cart');
-            if (cart === null) {
-                cart = {};
-            } else {
-                cart = JSON.parse(cart);
-            }
-        } catch (e) {
-            console.error('Error parsing cart from localStorage:', e);
-            cart = {};
-        }
-
         const productName = productDetailState?.product?.name;
         const userId = authState.id; // Lấy userId từ authState
 
-        if (productName) {
-            if (cart[userId]) {
-                if (cart[userId][productName]) {
-                    cart[userId][productName] += 1;
-                } else {
-                    cart[userId][productName] = 1;
-                }
-            } else {
-                cart[userId] = {
-                    [productName]: 1
-                };
-            }
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(`Cart length: ${Object.keys(cart).length}`);
-        console.log(`Cart updated with product: ${productName}`);
+        addCartLocalStorage(userId, productName)
         dispatch(AddCart({
             userId: authState?.id,
             productDetailId: productDetailState?.id,
             quantity: 1
         }));
-        window.location.reload(false);
+        //window.location.reload(false);
 
     }
 

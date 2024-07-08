@@ -25,6 +25,7 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [cartQuantity, setCartQuantity] = useState(0);
+  
   const userId = authState?.user?.id;
   useEffect(() => {
     setCartQuantity(getQuantityCart(userId));

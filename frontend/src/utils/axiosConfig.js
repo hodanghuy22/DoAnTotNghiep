@@ -33,3 +33,33 @@ export const getQuantityCart = (userId) => {
   }
   return 0;
 };
+
+export const addCartLocalStorage = (userId, productName) => {
+  let cart;
+  try {
+    cart = localStorage.getItem('cart');
+    if (cart === null) {
+      cart = {};
+    } else {
+      cart = JSON.parse(cart);
+    }
+  } catch (e) {
+    console.error('Error parsing cart from localStorage:', e);
+    cart = {};
+  }
+  if (productName) {
+    if (cart[userId]) {
+      if (cart[userId][productName]) {
+        cart[userId][productName] += 1;
+      } else {
+        cart[userId][productName] = 1;
+      }
+    } else {
+      cart[userId] = {
+        [productName]: 1
+      };
+    }
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+};

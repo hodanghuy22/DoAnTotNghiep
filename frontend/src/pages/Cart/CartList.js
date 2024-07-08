@@ -60,7 +60,7 @@ const CartList = () => {
         }
         setTimeout(() => {
             dispatch(GetCart(authState?.id))
-            window.location.reload(false);
+            //window.location.reload(false);
 
         }, 300)
     }
@@ -150,7 +150,7 @@ const CartList = () => {
                     </div>
                 )
             }
-            <Container className='p-5 w-75 border'>
+            <Container className='p-5 w-75 border mt-3'>
                 <Helmet>
                     <title>Giỏ hàng | HUBI</title>
                 </Helmet>
