@@ -73,7 +73,7 @@ const CartList = () => {
                 quantity: item.quantity - 1
             }
         )
-        window.location.reload(false);
+        //window.location.reload(false);
 
     }
     const handleIncrease = (item) => {
@@ -85,7 +85,7 @@ const CartList = () => {
                 quantity: item.quantity + 1
             }
         )
-        window.location.reload(false);
+        //window.location.reload(false);
 
     }
 
@@ -94,6 +94,19 @@ const CartList = () => {
             console.log(productUpdateDetails);
             if (productUpdateDetails?.quantity === 0) {
                 dispatch(DeleteCart(productUpdateDetails?.id))
+                if (authState && authState.id) {
+                    const userId = authState.id;
+                    let cart = localStorage.getItem('cart');
+                    cart = cart ? JSON.parse(cart) : {};
+    
+                    if (cart[userId]) {
+                        delete cart[userId];
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        console.log(`Cart cleared for user ${userId}.`);
+                    } else {
+                        console.log(`No cart found for user ${userId}.`);
+                    }
+                }
             }
             else {
                 dispatch(UpdateCart(

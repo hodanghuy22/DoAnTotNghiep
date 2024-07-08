@@ -60,7 +60,7 @@ namespace backend.Controllers
         [Route("SearchAProductByName/{name}")]
         public async Task<IActionResult> SearchAProductByName(string name)
         {
-            var products = await _uow.ProductRepository.SearchProductByName(name);
+            var products = await _uow.ProductRepository.SearchAProductByName(name);
             return Ok(products);
         }
         [HttpGet]

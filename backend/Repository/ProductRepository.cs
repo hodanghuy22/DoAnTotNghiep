@@ -141,7 +141,7 @@ namespace backend.Repository
                    .Include(p => p.Category)
                    .Include(p => p.ProductDetails)
                    .Include(p => p.Images)
-                   .Where(p => p.Name.ToLower() == name.ToLower())
+                   .Where(p => p.Name.ToLower() == name.ToLower().Trim())
                    .ToListAsync();
         }
 

@@ -16,3 +16,20 @@ export const getConfig = () => {
     },
   };
 };
+
+export const getQuantityCart = (userId) => {
+  var cart = localStorage.getItem('cart');
+  if (cart) {
+    try {
+      const parsedCart = JSON.parse(cart);
+      const userCart = parsedCart[userId];
+      if (userCart) {
+        const count = Object.keys(userCart).length;
+        return count;
+      }
+    } catch (error) {
+      console.error("Error parsing cart:", error);
+    }
+  }
+  return 0;
+};

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Logout } from '../features/auths/authSlice';
 import Notification from './Notification';
 import { GetCart } from '../features/cart/cartSlice';
+import { getQuantityCart } from '../utils/axiosConfig';
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -24,28 +25,10 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [cartQuantity, setCartQuantity] = useState(0);
+  const userId = authState?.user?.id;
   useEffect(() => {
-    const userId = authState?.user?.id;
-    const cart = localStorage.getItem('cart');
-    if (cart) {
-      try {
-        const parsedCart = JSON.parse(cart);
-        const userCart = parsedCart[userId];
-        console.log(userCart);
-        if (userCart) {
-          const count = Object.keys(userCart).length;
-          setCartQuantity(count);
-        } else {
-          setCartQuantity(0);
-        }
-      } catch (e) {
-        console.error('Error parsing cart from localStorage:', e);
-        setCartQuantity(0);
-      }
-    } else {
-      setCartQuantity(0);
-    }
-  }, [authState]);
+    setCartQuantity(getQuantityCart(userId));
+  }, [authState, getQuantityCart(userId)]);
 
   const handleUserClick = () => {
     setShow(true);

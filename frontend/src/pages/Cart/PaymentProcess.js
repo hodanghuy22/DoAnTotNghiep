@@ -19,7 +19,7 @@ const PaymentProcess = () => {
 
     return `${year}-${month}-${day}`;
   };
-  useEffect(() => {
+  useEffect(async () => {
     setLoading(true);
     const urlParams = new URLSearchParams(window.location.search);
     const data = {
