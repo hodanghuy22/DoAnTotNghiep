@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { GetProductByBrand } from '../../features/products/productSlice';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 import { Helmet } from 'react-helmet';
+import NotFound from '../NotFound';
 
 const ProductByBrand = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
   const productState = useSelector((state) => state?.product?.productByBrand);
   const firstProduct = productState?.[0] ?? 'No product available';
   const { brandId } = useParams();
   const [isLoading, setLoading] = useState(true);
+  const [isNotFound, setIsNotFound] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
         await dispatch(GetProductByBrand(brandId)).then(response => {
           if (Array.isArray(response.payload) && response.payload.length === 0) {
-            navigate('/404');
+            setIsNotFound(true);
           }
         });
         setLoading(false);
@@ -36,6 +38,9 @@ const ProductByBrand = () => {
       return <Loading />;
     }
   }, 1000)
+  if (isNotFound) {
+    return <NotFound />;
+}
   const sortedProducts = Array.isArray(productState) ? [...productState] : [];
   if (sortType === 'lowToHigh') {
     sortedProducts.sort((a, b) => a.price - b.price);
@@ -80,7 +85,7 @@ const ProductByBrand = () => {
               <Link to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3 d-flex'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                         <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                                         <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>

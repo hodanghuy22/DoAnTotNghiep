@@ -9,6 +9,7 @@ import FormatData from '../utils/FormatData';
 import { GetBrandByCategory } from '../features/brands/brandSlice';
 import '../assets/css/global.css';
 import { Helmet } from 'react-helmet';
+import NotFound from '../pages/NotFound';
 
 const ProductBrandList = ({ categoryId }) => {
   const dispatch = useDispatch();
@@ -17,9 +18,10 @@ const ProductBrandList = ({ categoryId }) => {
   const brandState = useSelector(state => state?.brand?.BrandByCategory);
   const firstProduct = productState?.[0] ?? 'No product available';
   const [selectedIndex, setSelectedIndex] = useState(null);
-
-  const { brandId } = useParams();
+  const [isNotFound, setIsNotFound] = useState(false);
   const [isLoading, setLoading] = useState(true);
+  const [sortType, setSortType] = useState('default');
+  const { brandId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -29,7 +31,7 @@ const ProductBrandList = ({ categoryId }) => {
           brandId: brandId
         })).then(response => {
           if (Array.isArray(response.payload) && response.payload.length === 0) {
-            navigate('/404');
+            setIsNotFound(true);
           }
         });
         await dispatch(GetBrandByCategory(categoryId));
@@ -40,7 +42,11 @@ const ProductBrandList = ({ categoryId }) => {
     };
     fetchData();
   }, [dispatch, categoryId, brandId]);
-  const [sortType, setSortType] = useState('default');
+  
+  if (isNotFound) {
+    return <NotFound />;
+  }
+
   setTimeout(() => {
     if (isLoading) {
       return <Loading />;
@@ -127,7 +133,7 @@ const ProductBrandList = ({ categoryId }) => {
               <Link to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3 d-flex'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                         <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                  <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>

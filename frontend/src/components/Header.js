@@ -12,9 +12,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../assets/css/global.css';
 import '../assets/css/header.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { Logout } from '../features/auths/authSlice';
 import Notification from './Notification';
-import { GetCart } from '../features/cart/cartSlice';
 import { getQuantityCart } from '../utils/axiosConfig';
 const Header = () => {
   const dispatch = useDispatch();

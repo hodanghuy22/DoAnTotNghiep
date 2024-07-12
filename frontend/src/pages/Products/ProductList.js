@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { GetProductsActiveByCategory } from '../../features/products/productSlice';
 import FormatData from '../../utils/FormatData';
 import Loading from '../../utils/Loading';
 import { GetBrandByCategory } from '../../features/brands/brandSlice';
 import './../../assets/css/global.css'
 import { Helmet } from 'react-helmet';
+import NotFound from '../NotFound';
 
 const ProductList = ({ categoryId }) => {
     const dispatch = useDispatch();
-  const navigate = useNavigate()
     const [isLoading, setLoading] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [isNotFound, setIsNotFound] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
                 await dispatch(GetProductsActiveByCategory(categoryId)).then(response => {
                     if (Array.isArray(response.payload) && response.payload.length === 0) {
-                      navigate('/404');
+                        setIsNotFound(true);
                     }
-                  });
+                });
                 await dispatch(GetBrandByCategory(categoryId));
 
                 setLoading(false);
@@ -43,7 +45,9 @@ const ProductList = ({ categoryId }) => {
             return <Loading />;
         }
     }, 1000)
-
+    if (isNotFound) {
+        return <NotFound />;
+    }
     const handleClick = (index) => {
         console.log(index)
         setSelectedIndex(index)
@@ -76,11 +80,11 @@ const ProductList = ({ categoryId }) => {
 
     return (
         <div>
-             {firstProduct && (
-        <Helmet>
-          <title>{`${firstProduct.categoryTitle} | HUBI`}</title>
-        </Helmet>
-      )}
+            {firstProduct && (
+                <Helmet>
+                    <title>{`${firstProduct.categoryTitle} | HUBI`}</title>
+                </Helmet>
+            )}
             <Container className='mb-5'>
                 <Row className='mt-3'>
                     <nav aria-label="breadcrumb">
@@ -128,7 +132,7 @@ const ProductList = ({ categoryId }) => {
                                 <Link to={`${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                                     <div className='phone-container p-3 d-flex'>
                                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                                               <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                                        <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                                     </div>
                                     <div className='phone-info p-3 border border-top-0'>
                                         <p className='fs-5 phone-name'>{item?.name}</p>

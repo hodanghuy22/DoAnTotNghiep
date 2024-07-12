@@ -24,6 +24,7 @@ import { CreateRating } from '../features/rating/ratingSlice';
 import { BsFillSendFill } from 'react-icons/bs';
 import StarRating from './StarRating ';
 import { addCartLocalStorage } from '../utils/axiosConfig';
+import NotFound from '../pages/NotFound';
 
 const commentSchema = yup.object({
     content: yup.string().required("Chưa nhập nội dung!"),
@@ -53,8 +54,8 @@ const ProductDetail = ({ categoryId }) => {
     const [replytVisiable, setReplytVisiable] = useState(false);
     const [replyCommentId, setReplyCommentId] = useState(null);
     const [show, setShow] = useState(false);
+    const [isNotFound, setIsNotFound] = useState(false);
     const handleClose = () => setShow(false);
-    const navigate = useNavigate()
     const location = useLocation();
     const formik = useFormik({
         initialValues: {
@@ -126,21 +127,21 @@ const ProductDetail = ({ categoryId }) => {
                 await dispatch(GetSearchAProduct({
                     searchQuery: FormatData.replaceHyphensWithSpaces(ProductNameUrl)
                 })).then(response => {
-                    if (Array.isArray(response.payload) && response.payload.length > 1 || response.payload.length == 0) {
-                        navigate(`${location.pathname}/404`);
+                    if (Array.isArray(response.payload) && (response.payload.length > 1 || response.payload.length === 0)) {
+                        setIsNotFound(true);
+                    } else {
+                        setproductId(response.payload[0]?.id);
+                        setIsNotFound(false);
                     }
-                    else {
-                        setproductId(response.payload[0]?.id)
-                    }
-                    console.log(response.payload);
                 });
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setIsNotFound(true);
             } finally {
                 setLoading(false);
             }
         };
-        fetchData();
+        fetchData(); 
     }, [dispatch, ProductNameUrl]);
 
     useEffect(() => {
@@ -232,7 +233,9 @@ const ProductDetail = ({ categoryId }) => {
             setActiveButtonColor(colors[0].id);
         }
     }, [dispatch, productState, capacities, colors]);
-
+    if (isNotFound) {
+        return <NotFound />;
+    }
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
             ...prevState,
@@ -255,15 +258,17 @@ const ProductDetail = ({ categoryId }) => {
     }, 1000)
     const addCart = () => {
         const productName = productDetailState?.product?.name;
-        const userId = authState.id; // Lấy userId từ authState
-
-        addCartLocalStorage(userId, productName)
-        dispatch(AddCart({
-            userId: authState?.id,
-            productDetailId: productDetailState?.id,
-            quantity: 1
-        }));
-        //window.location.reload(false);
+        const userId = authState?.id; 
+        if(userId != null){
+            addCartLocalStorage(userId, productName)
+            dispatch(AddCart({
+                userId: authState?.id,
+                productDetailId: productDetailState?.id,
+                quantity: 1
+            }));
+        }else{
+            setShow(true)
+        }
 
     }
 
@@ -476,7 +481,7 @@ const ProductDetail = ({ categoryId }) => {
                     <p className='fs-3'>Sản phẩm tương tự</p>
                 </Col>
                 {
-                    productPopular && productPopular?.filter(item => item.name !== productState.name).slice(0, 4).map((item, index) => {
+                    productPopular && productPopular?.filter(item => item?.name !== productState?.name).slice(0, 4).map((item, index) => {
                         return (
                             <Col className='col-3' key={index}>
                                 <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
