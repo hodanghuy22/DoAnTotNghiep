@@ -128,6 +128,7 @@ const Statistics = () => {
       brand: item.brandTitle,
       category: item.categoryTitle,
     }));
+    console.log("Data product: ", data);
     setData1(data);
   }, [productsBestSellerState])
 
@@ -140,6 +141,7 @@ const Statistics = () => {
       phone: item.phone,
       total: item.total,
     }));
+    console.log("Data user: ", data);
     setData2(data);
   }, [topUserState])
 
@@ -159,7 +161,7 @@ const Statistics = () => {
         startDate: values.startDate||firstDayOfMonth,
         endDate: values.endDate||lastDayOfMonth,
       }))
-      dispatch(GetProductsBestSeller({
+      dispatch(GetTopUser({
         top: values.top||5,
         startDate: values.startDate||firstDayOfMonth,
         endDate: values.endDate||lastDayOfMonth,

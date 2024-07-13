@@ -16,13 +16,14 @@ import { Helmet } from 'react-helmet';
 const WishLists = () => {
   const dispatch = useDispatch();
   const wishlistState = useSelector(state => state?.wishlist?.wishlist);
+  const userState = useSelector(state => state?.auth?.user);
   const [isLoading, setLoading] = useState(false);
   const [reverseWishList, setreverseWishList] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        await dispatch(GetWishList());
+        await dispatch(GetWishList(userState?.id));
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);

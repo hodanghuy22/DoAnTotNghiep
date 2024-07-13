@@ -41,7 +41,10 @@ const Dashboard = () => {
     dispatch(GetRevenueOfYear({
       year: currentYear
     }));
-    dispatch(CountUser());
+    dispatch(CountUser({
+      month: currentMonth,
+      year: currentYear
+    }));
   }, []);
 
   const countInvoicesByMonth = useSelector(state => state?.invoice?.countInvoicesByMonth);

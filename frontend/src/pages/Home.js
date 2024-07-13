@@ -118,13 +118,26 @@ const Home = () => {
           </Col>
         </Row>
         <Row>
-          {
-            couponState && couponState?.map((item, index) => {
-              return (
-                <p key={index} className='p-5 fs-2 text-center ' style={{ backgroundColor: '#FAFFAF', color: '#96C9F4' }}>{item?.title}</p>
-              )
-            })
-          }
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={20}
+            freeMode={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[FreeMode, Pagination]}
+            className="mySwiper pb-5"
+          >
+            {
+              couponState && couponState?.map((item, index) => {
+                return (
+                  <SwiperSlide key={index}>
+                    <p key={index} className='p-5 fs-2 text-center ' style={{ backgroundColor: '#FAFFAF', color: '#96C9F4' }}>{item?.title}</p>
+                  </SwiperSlide>
+                )
+              })
+            }
+          </Swiper>
         </Row>
         {phonePopular &&
           <Row>

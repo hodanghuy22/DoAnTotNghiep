@@ -47,11 +47,11 @@ namespace backend.Controllers
             return await _uow.UserRepositoty.GetAllUser();
         }
         [HttpGet]
-        [Route("CountUser")]
+        [Route("CountUser/{month}/{year}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CountUser()
+        public async Task<IActionResult> CountUser(int month, int year)
         {
-            var count = await _uow.UserRepositoty.CountUser();
+            var count = await _uow.UserRepositoty.CountUser(month, year);
             return Ok(count);
         }
         [HttpPost]

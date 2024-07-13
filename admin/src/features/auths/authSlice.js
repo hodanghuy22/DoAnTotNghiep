@@ -33,9 +33,9 @@ export const GetAllUsers = createAsyncThunk("auth/getAllUsers", async(thunkAPI) 
     }
 });
 
-export const CountUser = createAsyncThunk("auth/countUser", async(thunkAPI) =>{
+export const CountUser = createAsyncThunk("auth/countUser", async(data, thunkAPI) =>{
     try{
-        return await authService.countUser();
+        return await authService.countUser(data);
     }catch(err){
         return thunkAPI.rejectWithValue(err);
     }

@@ -71,17 +71,20 @@ namespace backend.Repository
             });
         }
 
-        public async Task<int> CountUser()
+        public async Task<int> CountUser(int month, int year)
         {
             var count = 0;
             var users = await _context.Users.ToListAsync();
             foreach(var item in users)
             {
-                var roles = await _userManager.GetRolesAsync(item);
-
-                if (roles != null && roles.Any(r => r == "User"))
+                if(item.CreateAt.Month == month && item.CreateAt.Year == year)
                 {
-                    count++;
+                    var roles = await _userManager.GetRolesAsync(item);
+
+                    if (roles != null && roles.Any(r => r == "User"))
+                    {
+                        count++;
+                    }
                 }
             }
             return count;
@@ -158,7 +161,7 @@ namespace backend.Repository
                  Name = g.Key.Name,
                  Email = g.Key.Email,
                  Phone = g.Key.Phone,
-                 Total = (int)g.Sum(x => x.Total)
+                 Total = g.Sum(x => x.Total)
              })
              .OrderByDescending(p => p.Total)
              .Take(fillterModel.Top)

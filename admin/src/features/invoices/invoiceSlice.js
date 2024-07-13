@@ -34,7 +34,7 @@ export const CountInvoicesByMonth = createAsyncThunk('invoices-count', async (da
   }
 })
 
-export const CountCancelInvoicesByMonth = createAsyncThunk('invoices-count-cancle', async (data, thunkAPI) => {
+export const CountCancelInvoicesByMonth = createAsyncThunk('invoices-count-cancel', async (data, thunkAPI) => {
   try {
     return await invoiceService.countCancelInvoicesByMonth(data);
   } catch (err) {

@@ -32,8 +32,8 @@ const getAllUsers = async()=>{
     }
 }
 
-const countUser = async()=>{
-    const response = await axios.get(`${base_url}Users/CountUser`, getConfig());
+const countUser = async(data)=>{
+    const response = await axios.get(`${base_url}Users/CountUser/${data.month}/${data.year}`, getConfig());
     if(response.data){
         return response.data;
     }

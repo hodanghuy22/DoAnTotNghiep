@@ -74,7 +74,7 @@ const InvoiceList = () => {
       id: invoiceState[i].id,
       user: invoiceState[i].user?.name,
       issueDate: changeDateFormat(invoiceState[i].issueDate),
-      deliveryDate: changeDateFormat(invoiceState[i].deliveryDate),
+      deliveryDate: invoiceState[i].deliveryDate ? changeDateFormat(invoiceState[i].deliveryDate) : '',
       totalPrice: FormatData.formatNumber(invoiceState[i].totalPrice),
       totalPriceAfterDiscount: FormatData.formatNumber(invoiceState[i].totalPriceAfterDiscount),
       coupon: invoiceState[i].coupon?.title,

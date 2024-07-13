@@ -42,6 +42,17 @@ namespace backend.Repository
                 var product = await _context.Products.FindAsync(productDetails.ProductId);
                 product.SoldQuantity -= item.Quantity;
             }
+            var notification = new Notification()
+            {
+                Title = "Đơn hàng đã được hủy thành công!",
+                Message = $"Đơn hàng #{invoice.Id} đã được tạo. \n" +
+                    $"Tổng tiền: {invoice.TotalPriceAfterDiscount}",
+                IsAdminAccess = true,
+                CreatedAt = DateTime.Now,
+                UserId = invoice.UserId,
+                InvoiceId = invoice.Id,
+            };
+            await _context.Notifications.AddAsync(notification);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
