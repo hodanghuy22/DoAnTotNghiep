@@ -3,7 +3,7 @@ import { Button, Container, Row, Modal, Col } from 'react-bootstrap'
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import { useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { GetProduct, GetSearchProduct, GetSearchProductByNameAndCategory } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
 import { Helmet } from 'react-helmet';
@@ -17,7 +17,6 @@ const Compare = ({ categoryId }) => {
     const [ProductSearch, setProductSearch] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const location = useLocation();
-    const navigate = useNavigate();
     const currentUrl = location.pathname;
     let { phones } = useParams();
     useEffect(() => {
@@ -88,7 +87,7 @@ const Compare = ({ categoryId }) => {
                 window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product1?.name)}-vs-${FormatData.removeVietnameseTones(Product3?.name)}`;
             }
         } else if (e === 3) {
-            window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product1?.name)}-vs-${FormatData.removeVietnameseTones(Product3?.name)}`;
+            window.location.href = `/so-sanh/${FormatData.removeVietnameseTones(Product1?.category?.title)}/${FormatData.removeVietnameseTones(Product1?.name)}-vs-${FormatData.removeVietnameseTones(Product2?.name)}`;
         }
     }
     //Hiên thị modal danh sách sp

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
@@ -13,7 +13,7 @@ import { CiHeart } from 'react-icons/ci';
 import { FcLike } from 'react-icons/fc';
 import Loading from '../utils/Loading';
 import { GetCapacitiesByProductId } from '../features/capacitites/capacitySlice';
-import { GetProduct, GetProductByBrandCategory, GetProductForUser, GetProductPopularByCategogy, GetSearchAProduct, GetSearchProduct } from '../features/products/productSlice';
+import { GetProduct, GetProductByBrandCategory, GetProductForUser, GetSearchAProduct } from '../features/products/productSlice';
 import { GetColorByProductId } from '../features/colors/colorSlice';
 import { AddCart } from '../features/cart/cartSlice';
 import { CreateWishList } from '../features/wishlists/wishlistSlice';
@@ -25,12 +25,13 @@ import { BsFillSendFill } from 'react-icons/bs';
 import StarRating from './StarRating ';
 import { addCartLocalStorage } from '../utils/axiosConfig';
 import NotFound from '../pages/NotFound';
-
+// Thiết lập cảnh báo bình luận
 const commentSchema = yup.object({
     content: yup.string().required("Chưa nhập nội dung!"),
     hinhPublicId: yup.string(),
     fileHinh: yup.string(),
 });
+// Thiết lập cảnh báo đánh giá
 const ratingSchema = yup.object({
     review: yup.string().required("Chưa nhập nội dung!"),
     star: yup.number().required("Chưa đánh giá sản phẩm!").min(1).max(5),
@@ -38,7 +39,7 @@ const ratingSchema = yup.object({
 
 const ProductDetail = ({ categoryId }) => {
     const dispatch = useDispatch();
-    const productState = useSelector(state => state?.product?.Aproduct);
+    const product = useSelector(state => state?.product?.Aproduct);
     const productDetailState = useSelector(state => state?.product?.ProductDetail);
     const productPopular = useSelector(state => state?.product?.productByBrandCategory);
     const { ProductNameUrl } = useParams();
@@ -48,8 +49,7 @@ const ProductDetail = ({ categoryId }) => {
     const colors = useSelector(state => state?.color?.colors);
     const [activeButtonCapacity, setActiveButtonCapacity] = useState(null);
     const [activeButtonColor, setActiveButtonColor] = useState(null);
-    const sortedComments = productState?.comments?.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
-    const product = productState;
+    const sortedComments = product?.comments?.slice().sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
     const [isLoading, setLoading] = useState(true);
     const [replytVisiable, setReplytVisiable] = useState(false);
     const [replyCommentId, setReplyCommentId] = useState(null);
@@ -62,7 +62,7 @@ const ProductDetail = ({ categoryId }) => {
             content: '',
             date: FormatData.formatDateVN(),
             userId: authState?.id || "",
-            productId: productState?.id || "",
+            productId: product?.id || "",
             commentId: "",
         },
         validationSchema: commentSchema,
@@ -82,7 +82,7 @@ const ProductDetail = ({ categoryId }) => {
     const formik2 = useFormik({
         initialValues: {
             userId: authState?.id || "",
-            productId: productState?.id || "",
+            productId: product?.id || "",
             review: '',
             star: '',
             date: FormatData.formatDateVN(),
@@ -100,7 +100,7 @@ const ProductDetail = ({ categoryId }) => {
         initialValues: {
             content: '',
             userId: authState?.id || "",
-            productId: productState?.id || "",
+            productId: product?.id || "",
             commentId: "",
             date: FormatData.formatDateVN(),
         },
@@ -120,6 +120,7 @@ const ProductDetail = ({ categoryId }) => {
 
         },
     });
+    //  Dùng tên sản phẩm từ url để tìm kiếm nếu tìm thấy thì gán id sản phẩm tìm thấy nếu không tìm thấy thì hiển thị page Not Found
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -141,16 +142,16 @@ const ProductDetail = ({ categoryId }) => {
                 setLoading(false);
             }
         };
-        fetchData(); 
+        fetchData();
     }, [dispatch, ProductNameUrl]);
-
+    // Từ id sản phẩm từ tìm kiếm, lấy thông tin sản phẩm theo id: Thông tin sản phẩm, danh sách màu, danh sách bộ nhớ
     useEffect(() => {
         if (productId) { // Chỉ chạy nếu productId đã được thiết lập
             const fetchData = async () => {
                 setLoading(true);
                 try {
-                    await dispatch(GetCapacitiesByProductId(productId));
                     await dispatch(GetProduct(productId));
+                    await dispatch(GetCapacitiesByProductId(productId));
                     await dispatch(GetColorByProductId(productId));
                 } catch (error) {
                     console.error('Error fetching data:', error);
@@ -162,64 +163,15 @@ const ProductDetail = ({ categoryId }) => {
         }
     }, [dispatch, productId]);
 
-
+    // Khởi tạo UseState chi tiết sản phẩm
     const [AProduct, setAProduct] = useState({
-        productId: productState?.id,
+        productId: product?.id,
         colorId: colors[0]?.id,
         capacityId: (capacities.length !== 0) ? (capacities[0]?.id) : (0)
     });
-    // Cập nhật AProduct khi productState thay đổi
+    // Set thông tin chi tiết sản phẩm để Get sản phẩm từ API
     useEffect(() => {
-        setAProduct({
-            productId: productState?.id,
-            colorId: colors?.id,
-            capacityId: (capacities.length !== 0) ? (productDetailState?.capacityId) : (0)
-        });
-        formik.setFieldValue("productId", productState?.id);
-        formik2.setFieldValue("productId", productState?.id);
-        formik3.setFieldValue("productId", productState?.id);
-    }, [productState]);
-
-    // Khởi tạo sản phẩm ban đầu
-
-    // Lấy sản phẩm mới sau khi chọn màu và rom
-    useEffect(() => {
-        const fetchData = async () => {
-            if (AProduct.productId && AProduct.colorId && AProduct.capacityId) {
-                setLoading(true);
-                try {
-                    await dispatch(GetProductForUser(AProduct));
-                    await dispatch(GetProductByBrandCategory({
-                        categoryId: productState?.categoryId,
-                        brandId: productState?.brandId
-                    }));
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                } finally {
-                    setLoading(false);
-                }
-            }
-            if (AProduct.productId && AProduct.colorId && capacities.length === 0) {
-                setLoading(true);
-                try {
-                    await dispatch(GetProductForUser(AProduct));
-                    await dispatch(GetProductByBrandCategory({
-                        categoryId: productState?.categoryId,
-                        brandId: productState?.brandId
-                    }));
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                } finally {
-                    setLoading(false);
-
-                }
-            }
-        };
-        fetchData();
-    }, [dispatch, AProduct, capacities.length]);
-
-    useEffect(() => {
-        if (productState?.productDetails && productState.productDetails.length > 0) {
+        if (product?.productDetails && product.productDetails.length > 0) {
             setAProduct(prevState => ({
                 ...prevState,
                 colorId: colors[0]?.id,
@@ -232,10 +184,60 @@ const ProductDetail = ({ categoryId }) => {
         if (colors && colors.length > 0) {
             setActiveButtonColor(colors[0].id);
         }
-    }, [dispatch, productState, capacities, colors]);
+    }, [dispatch, product, capacities, colors]);
+    // Sau khi sản phẩm (product) thay đổi thay đổi url và tìm sản phẩm mới thì set lại sản phẩm
+    useEffect(() => {
+        setAProduct({
+            productId: product?.id,
+            colorId: colors?.id,
+            capacityId: (capacities?.length !== 0) ? (productDetailState?.capacityId) : (0)
+        });
+        formik.setFieldValue("productId", product?.id);
+        formik2.setFieldValue("productId", product?.id);
+        formik3.setFieldValue("productId", product?.id);
+    }, [product]);
+    // Lấy thông tin chi tiết sản phẩm mới
+    useEffect(() => {
+        const fetchData = async () => {
+            // Lấy thông tin điện thoại
+            if (AProduct.productId && AProduct.colorId && AProduct.capacityId) {
+                setLoading(true);
+                try {
+                    await dispatch(GetProductForUser(AProduct));
+                    await dispatch(GetProductByBrandCategory({
+                        categoryId: product?.categoryId,
+                        brandId: product?.brandId
+                    }));
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+            // Lấy thông tin phụ kiện khác
+            if (AProduct.productId && AProduct.colorId && capacities.length === 0) {
+                setLoading(true);
+                try {
+                    await dispatch(GetProductForUser(AProduct));
+                    await dispatch(GetProductByBrandCategory({
+                        categoryId: product?.categoryId,
+                        brandId: product?.brandId
+                    }));
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                } finally {
+                    setLoading(false);
+
+                }
+            }
+        };
+        fetchData();
+    }, [dispatch, AProduct, capacities.length]);
+    // Kiểm trả isNotFound nếu true thì hiển thị giao diện NotFound
     if (isNotFound) {
         return <NotFound />;
     }
+    // Xử lý sự kiện thay đổi màu
     const handleColorSelection = (colorId) => {
         setAProduct(prevState => ({
             ...prevState,
@@ -243,7 +245,7 @@ const ProductDetail = ({ categoryId }) => {
         }));
         setActiveButtonColor(colorId);
     };
-
+    // Xử lý sự kiện thay đổi bộ nhớ
     const handleCapacitySelection = (capacityId) => {
         setAProduct(prevState => ({
             ...prevState,
@@ -251,38 +253,39 @@ const ProductDetail = ({ categoryId }) => {
         }));
         setActiveButtonCapacity(capacityId);
     };
+    // Nếu sau 1 giây mà tất cả dũ liệu chưa load xong thì hiển thị hành động loading
     setTimeout(() => {
         if (isLoading) {
             return <Loading />;
         }
     }, 1000)
+    // Xử lý thêm sản phẩm vào giỏ hàng
     const addCart = () => {
         const productName = productDetailState?.product?.name;
-        const userId = authState?.id; 
-        if(userId != null){
+        const userId = authState?.id;
+        if (userId != null) {
             addCartLocalStorage(userId, productName)
             dispatch(AddCart({
                 userId: authState?.id,
                 productDetailId: productDetailState?.id,
                 quantity: 1
             }));
-        }else{
+        } else {
             setShow(true)
         }
 
     }
-
-    // THêm yêu thích
+    // Xử lý thêm sản phẩm vào danh sách yêu thích
     const AddWishList = () => {
         if (authState === null) {
             setShow(true);
         }
         dispatch(CreateWishList({
             userId: authState?.id,
-            productId: productState?.id,
+            productId: product?.id,
         }))
     }
-    // Load bản thông tin kỹ thuật
+    // Hàm load thông tin kỹ thuật sản phẩm
     const renderSpecifications = (specifications) => {
         return (
             <ul className="technical-content rounded-3">
@@ -298,6 +301,7 @@ const ProductDetail = ({ categoryId }) => {
             </ul>
         );
     };
+    // Tạo bảng thông tin kỹ  thuật theo loại sản phẩm
     let specifications = [];
     switch (categoryId) {
         case 1:
@@ -355,11 +359,13 @@ const ProductDetail = ({ categoryId }) => {
         default:
             return null;
     }
+    // Xử lý sự kiện Trả lời bình luận
     const handleReplyClick = (commentId) => {
         setReplytVisiable(true);
         setReplyCommentId(commentId);
         formik3.setFieldValue("commentId", commentId)
     };
+    // Hàm lấy tên đường dẫn theo loại sản phẩm Format Url
     const getCategoryPath = (categoryId) => {
         switch (categoryId) {
             case 1:
@@ -387,7 +393,7 @@ const ProductDetail = ({ categoryId }) => {
             </Row>
             <Row>
                 <Col className='d-flex flex-row'>
-                    <h3>{product?.category?.title} {product?.name} {product?.rom}</h3>
+                    <h3>{product?.category?.title} {product?.name} {productDetailState?.capacity?.totalCapacity}</h3>
                     <h5 className='mt-2 mx-2'>Đã bán: {product?.soldQuantity}</h5>
                     <h5 className='mt-2 mx-2'>SL kho: {productDetailState?.quantity}</h5>
                     <Link to={`/so-sanh${getCategoryPath(product?.categoryId)}/${FormatData.removeVietnameseTones(product?.name)}`} className='ml-3 text-decoration-none ' >
@@ -465,7 +471,7 @@ const ProductDetail = ({ categoryId }) => {
                     </Row>
                     <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productDetailState?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
                     <div>
-                        {productState?.desc}
+                        {product?.desc}
                     </div>
                     <div className="d-flex justify-content-start">
                         <div className='p-2'>
@@ -477,12 +483,12 @@ const ProductDetail = ({ categoryId }) => {
             </Row>
             {/* Sản phẩm tương tự */}
             <Row className='mt-5 mb-5'>
-                <Col className='col-12 text-center'>
-                    <p className='fs-3'>Sản phẩm tương tự</p>
-                </Col>
-                {
-                    productPopular && productPopular?.filter(item => item?.name !== productState?.name).slice(0, 4).map((item, index) => {
-                        return (
+                {productPopular && productPopular.filter(item => item?.name !== product?.name).length > 0 && (
+                    <>
+                        <Col className='col-12 text-center'>
+                            <p className='fs-3'>Sản phẩm tương tự</p>
+                        </Col>
+                        {productPopular.filter(item => item?.name !== product?.name).slice(0, 4).map((item, index) => (
                             <Col className='col-3' key={index}>
                                 <Link to={`${getCategoryPath(categoryId)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                                     <div className='phone-container p-3'>
@@ -495,9 +501,10 @@ const ProductDetail = ({ categoryId }) => {
                                     </div>
                                 </Link>
                             </Col>
-                        )
-                    })
-                }
+                        ))}
+                    </>
+                )}
+
             </Row>
             <Row>
                 <Col className='col-7'>
@@ -507,7 +514,7 @@ const ProductDetail = ({ categoryId }) => {
                             <Col>
                                 <div className=' my-2 rounded-lg py-3 px-3'>
                                     <h2 className='text-danger'>Đánh giá sản phẩm</h2>
-                                    <p>Điểm đánh giá: {(productState?.averageRating == 0) ? 5 : productState?.averageRating} <span className='text-warning fs-5'>&#9733;</span></p>
+                                    <p>Điểm đánh giá: {(product?.averageRating === 0) ? 5 : product?.averageRating} <span className='text-warning fs-5'>&#9733;</span></p>
                                     <div>
                                         <Form onSubmit={formik2.handleSubmit}>
                                             <Row className="flex flex-wrap">
@@ -552,7 +559,7 @@ const ProductDetail = ({ categoryId }) => {
                                     </div>
                                 </div>
                                 {
-                                    productState && productState?.ratings?.map((item, index) => {
+                                    product && product?.ratings?.map((item, index) => {
                                         return (
                                             <div key={index} className='mt-4'>
                                                 <div className='d-flex  '>

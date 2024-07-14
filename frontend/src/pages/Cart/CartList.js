@@ -60,8 +60,6 @@ const CartList = () => {
         }
         setTimeout(() => {
             dispatch(GetCart(authState?.id))
-            //window.location.reload(false);
-
         }, 300)
     }
     const handleDecrease = (item) => {
@@ -73,8 +71,6 @@ const CartList = () => {
                 quantity: item.quantity - 1
             }
         )
-        //window.location.reload(false);
-
     }
     const handleIncrease = (item) => {
         setProductUpdateDetails(
@@ -85,8 +81,6 @@ const CartList = () => {
                 quantity: item.quantity + 1
             }
         )
-        //window.location.reload(false);
-
     }
 
     useEffect(() => {
@@ -94,7 +88,7 @@ const CartList = () => {
             console.log(productUpdateDetails);
             if (productUpdateDetails?.quantity === 0) {
                 dispatch(DeleteCart(productUpdateDetails?.id))
-                if (authState && authState.id) {
+                if (authState.id && authState.id) {
                     const userId = authState.id;
                     let cart = localStorage.getItem('cart');
                     cart = cart ? JSON.parse(cart) : {};
@@ -138,7 +132,6 @@ const CartList = () => {
                 return `/`;
         }
     };
-
     return (
         <>
             {
@@ -176,7 +169,6 @@ const CartList = () => {
                                         <div className='d-flex text-end'>
                                             <div className='d-flex'>
                                                 <i className="cart-iconFa"
-                                                    // dispatch(UpdateCart({ id: productUpdateDetails?.id, userId: productUpdateDetails?.userId, productId: productUpdateDetails?.productId, quantity: productUpdateDetails?.quantity }))
                                                     onClick={(e) => handleDecrease(item)}
                                                 ><FaMinus />
                                                 </i>
@@ -201,7 +193,6 @@ const CartList = () => {
                         })
                     }
                 </Row>
-
                 {
                     cartState.length > 0 && (
                         <Row className='d-flex flex-row justify-content-around'>
@@ -215,8 +206,6 @@ const CartList = () => {
                         </Row>
                     )
                 }
-
-
                 {/* Hiển thị Loading nếu đang tải dữ liệu */}
                 {isLoading && <Loading />}
                 {/* Nội dung chính của ứng dụng sau khi tải xong */}

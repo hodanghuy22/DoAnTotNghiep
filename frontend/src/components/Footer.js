@@ -42,8 +42,8 @@ const Footer = () => {
           <h5>Thông tin cửa hàng</h5>
           <div className='d-flex flex-column'>
             <p>Bạn cần trợ giúp ?
-              <br /><BsPhone className='fs-4' /><a href="tel:0329155867">   0329155867 </a></p>
-            <p>Địa Chỉ: CĐ TH21WEBC</p>
+              <br /><BsPhone className='fs-4' /><a href="tel:0329155867">   0329xxxxxx </a></p>
+            <p>Địa Chỉ: 65 Đ. Huỳnh Thúc Kháng, Bến Nghé, Quận 1, Hồ Chí Minh</p>
             <p>Email:0306211331@caothang.edu.vn</p>
           </div>
         </Col>

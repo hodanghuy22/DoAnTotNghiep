@@ -70,7 +70,7 @@ const ProductHot = () => {
               <Link to={`/${FormatData.removeVietnameseTones(item?.categoryTitle)}/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                 <div className='phone-container p-3 d-flex'>
                   <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                         <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                  <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                 </div>
                 <div className='phone-info p-3 border border-top-0'>
                   <p className='fs-5 phone-name'>{item?.name}</p>

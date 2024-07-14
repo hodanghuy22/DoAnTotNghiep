@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { BsStar } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,22 +20,19 @@ const Home = () => {
   const slideshowState = useSelector(state => state?.slideshow?.slideshow);
   const couponState = useSelector((state) => state?.coupon?.coupon);
   const [isLoading, setLoading] = useState(true);
-
+  // Tạo danh sách các sản phẩm bán chạy theo loại
   const categoryIdToVariableMap = {
     1: "phonePopular",
     2: "PDUPopular",
     3: "headphonePopular",
     4: "headphoneTWPopular"
   };
-
+  // Hàm lấy danh sách sản phẩm bán chạy và lưu vào categoryIdToVariableMap
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Fetch slideshow data
-      //await dispatch(resetState());
       await dispatch(GetSlidehow());
       await dispatch(GetCoupon())
-      // Fetch product data for different categories
       await Promise.all(
         Object.keys(categoryIdToVariableMap).map(async id => {
           const response = await dispatch(
@@ -77,7 +73,6 @@ const Home = () => {
       console.error('Error fetching data:', error);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, [dispatch]);
@@ -165,7 +160,7 @@ const Home = () => {
                     <Link to={`/dien-thoai/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                        <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                        <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
@@ -205,7 +200,7 @@ const Home = () => {
                     <Link to={`/tai-nghe-khong-day/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                               <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                        <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
@@ -246,7 +241,7 @@ const Home = () => {
                     <Link to={`/tai-nghe-co-day/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                               <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                        <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>
@@ -287,7 +282,7 @@ const Home = () => {
                     <Link to={`/sac-du-phong/${FormatData.removeVietnameseTones(item?.name)}`} className='card text-decoration-none phone-item'>
                       <div className='phone-container p-3 d-flex'>
                         <img className='phone-image' src={item?.imageUrl} alt='chuột' width={'250px'} height={'250px'} />
-                                               <p className='rounded-circle border-dark'>{(item?.averageRating == 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
+                        <p className='rounded-circle border-dark'>{(item?.averageRating === 0) ? 5 : item?.averageRating}<span className='text-warning fs-5 mx-1'>&#9733;</span></p>
                       </div>
                       <div className='phone-info p-3 border border-top-0'>
                         <p className='fs-5 phone-name'>{item?.name}</p>

@@ -21,6 +21,7 @@ const Mainlayout = () => {
       <header>
         <Header />
       </header>
+      {/* Sau khi chuyển trang thì tự động trở về đầu trang */}
       <ScrollToTop />
       <main>
         <Outlet />
@@ -39,6 +40,7 @@ const Mainlayout = () => {
       <footer>
         <Footer />
       </footer>
+      {/* Chiều dài trang trên 200px sẽ hiển thị nút Back To Top */}
       <BtnScrollToTop />
     </div>
   );
