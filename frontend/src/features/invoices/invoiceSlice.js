@@ -124,6 +124,7 @@ export const invoiceSlice = createSlice({
           toast.error(action.payload.message);
         } else {
           state.invoice = action.payload.data
+          toast.success("Hủy hóa đơn thành công!");
         }
       }).addCase(CancelInvoice.rejected, (state, action) => {
         state.isLoading = false;

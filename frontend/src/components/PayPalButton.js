@@ -64,25 +64,25 @@ const PayPalButton = ({ invoice }) => {
           paymentMethod: "PAYPAL"
         }
         console.log("transaction ", transaction);
-        const newInvoice = { ...invoice, transaction,orderStatusId: 2, isPaid: true };
+        const newInvoice = { ...invoice, transaction, orderStatusId: 2, isPaid: true };
         console.log("new Invoice ", newInvoice);
         await dispatch(CreateInvoice(newInvoice))
-        
+
         if (authState && authState.id) {
           const userId = authState.id;
           let cart = localStorage.getItem('cart');
           cart = cart ? JSON.parse(cart) : {};
-  
+
           if (cart[userId]) {
-              delete cart[userId];
-              localStorage.setItem('cart', JSON.stringify(cart));
-              console.log(`Cart cleared for user ${userId}.`);
+            delete cart[userId];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log(`Cart cleared for user ${userId}.`);
           } else {
-              console.log(`No cart found for user ${userId}.`);
+            console.log(`No cart found for user ${userId}.`);
           }
-      } else {
+        } else {
           console.log('User not authenticated.');
-      }
+        }
         navigate('/payment-success')
       }
     } catch (error) {

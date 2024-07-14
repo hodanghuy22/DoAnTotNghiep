@@ -3,8 +3,10 @@ import axios from 'axios'
 import { base_url, getConfig } from '../../utils/axiosConfig'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../utils/Loading'
+import { useSelector } from 'react-redux'
 
 const PaymentProcess = () => {
+  const authState = useSelector((state) => state?.auth?.user);
   const navigate = useNavigate()
   const [isLoading, setLoading] = useState(true);
 
@@ -41,7 +43,22 @@ const PaymentProcess = () => {
         console.log(rs);
 
         if (rs?.isSuccess === true) {
-          localStorage.removeItem('cartQuantity');
+          //localStorage.removeItem('cartQuantity');
+          if (authState && authState.id) {
+            const userId = authState.id;
+            let cart = localStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : {};
+  
+            if (cart[userId]) {
+              delete cart[userId];
+              localStorage.setItem('cart', JSON.stringify(cart));
+              console.log(`Cart cleared for user ${userId}.`);
+            } else {
+              console.log(`No cart found for user ${userId}.`);
+            }
+          } else {
+            console.log('User not authenticated.');
+          }
           navigate(`/trang-ca-nhan/order-list/detail/${rs?.data.id}?status=Thành Công`)
         } else {
           navigate('/payment-fail')

@@ -163,6 +163,16 @@ namespace backend.Repository
                               $"Tồng tiền: {invoice.TotalPriceAfterDiscount} \n" +
                               $"Ngày đặt hàng: {invoice.IssueDate}\n";
                 await _telegramService.SendMessage(mess);
+                if (invoice.IsPaid)
+                {
+                    string mess2 = "🆘 CÓ HÓA ĐƠN VỪA THANH TOÁN! \n" +
+                              $"Mã hóa đơn: #{invoice.Id} \n" +
+                              "Tình trạng: Đã thanh toán \n" +
+                              $"Khách hàng: {invoice.User.Name ?? invoice.User.Email}\n" +
+                              $"Tồng tiền: {invoice.TotalPriceAfterDiscount} \n" +
+                              $"Ngày đặt hàng: {invoice.IssueDate}\n";
+                    await _telegramService.SendMessage(mess2);
+                }
                 return Result<Invoice>.Success(invoice);
             }
             return Result<Invoice>.Failure("Lỗi không tạo được hóa đơn!");
