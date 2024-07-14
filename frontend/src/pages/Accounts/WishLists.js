@@ -30,7 +30,7 @@ const WishLists = () => {
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch,userState?.id]);
 
   setTimeout(() => {
     if (isLoading) {
