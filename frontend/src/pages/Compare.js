@@ -4,7 +4,7 @@ import { FaPlus, FaSearch } from "react-icons/fa";
 import { TiDelete } from "react-icons/ti";
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom'
-import { GetProduct, GetSearchProduct, GetSearchProductByNameAndCategory } from '../features/products/productSlice';
+import { GetProduct, GetSearchAProduct, GetSearchProductByNameAndCategory } from '../features/products/productSlice';
 import FormatData from '../utils/FormatData';
 import { Helmet } from 'react-helmet';
 
@@ -39,7 +39,7 @@ const Compare = ({ categoryId }) => {
         }
 
         if (ProductName1) {
-            dispatch(GetSearchProduct({
+            dispatch(GetSearchAProduct({
                 searchQuery: FormatData.replaceHyphensWithSpaces(ProductName1)
             })).then(response => {
                 setProduct1(response.payload[0]);
@@ -49,7 +49,7 @@ const Compare = ({ categoryId }) => {
         }
 
         if (ProductName2) {
-            dispatch(GetSearchProduct({
+            dispatch(GetSearchAProduct({
                 searchQuery: FormatData.replaceHyphensWithSpaces(ProductName2)
             })).then(response => {
                 setProduct2(response.payload[0]);
@@ -58,7 +58,7 @@ const Compare = ({ categoryId }) => {
             });
         }
         if (ProductName3) {
-            dispatch(GetSearchProduct({
+            dispatch(GetSearchAProduct({
                 searchQuery: FormatData.replaceHyphensWithSpaces(ProductName3)
             })).then(response => {
                 setProduct3(response.payload[0]);

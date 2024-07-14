@@ -2,7 +2,7 @@ import axios from 'axios'
 import { base_url, getConfig } from "../../utils/axiosConfig";
 
 const getWishlist = async (userId) => {
-    const response = await axios.get(`${base_url}Wishlists/userId`, getConfig())
+    const response = await axios.get(`${base_url}Wishlists/${userId}`, getConfig())
     if (response.data) {
         return response.data;
     }
