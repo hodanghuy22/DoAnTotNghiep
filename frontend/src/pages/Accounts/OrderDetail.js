@@ -64,7 +64,7 @@ const OrderDetail = () => {
                     </div>
                 </div>
                 <div className='col-5 shadow mb-2 bg-body rounded p-3'  >
-                    <p>Hình thức: <strong>{invoiceState?.isPaid ? "Thanh toán online" : "Thanh toán khi nhận hàng"}</strong></p>
+                    <p>Hình thức: <strong>{invoiceState?.isPaid ? "Thanh toán online" : "Thanh toán khi nhận hàng"}</strong><strong>{invoiceState?.transaction ? " - " + invoiceState?.transaction.paymentMethod : ""}</strong></p>
                     <p>Tổng tiền: <strong className='amount' >{FormatData.formatNumber(invoiceState?.totalPriceAfterDiscount)}</strong></p>
                     <p>Chiết khấu: <strong className='amount'>{FormatData.formatNumber(invoiceState?.totalPriceAfterDiscount - invoiceState?.totalPrice)}</strong></p>
                 </div>

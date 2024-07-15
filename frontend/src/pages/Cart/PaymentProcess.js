@@ -21,7 +21,7 @@ const PaymentProcess = () => {
 
     return `${year}-${month}-${day}`;
   };
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
     const urlParams = new URLSearchParams(window.location.search);
     const data = {
@@ -59,8 +59,11 @@ const PaymentProcess = () => {
           } else {
             console.log('User not authenticated.');
           }
+          setLoading(false);
           navigate(`/trang-ca-nhan/order-list/detail/${rs?.data.id}?status=Thành Công`)
+          //navigate('/payment-success')
         } else {
+          setLoading(false);
           navigate('/payment-fail')
         }
       } catch (error) {
@@ -69,7 +72,6 @@ const PaymentProcess = () => {
     }
 
     makeApiCall();
-    setLoading(false);
   }, []);
   return (
     <>
