@@ -401,6 +401,14 @@ namespace backend.Repository
                 });
             }
 
+            if (pt.OrderStatusId == 6)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    mess = "This invoice has been canceled!"
+                });
+            }
+
             var status = await _context.OrderStatuses.FindAsync(orderStatusId);
 
             if (status == null || status.Status == false)
@@ -447,8 +455,8 @@ namespace backend.Repository
                 var body = new EmailModel
                 {
                     To = pt.User.Email,
-                    Subject = "Hủy Đơn hàng thành công!",
-                    Body = $"Đơn hàng đã được hủy thành công!. Trân trọng!\n" +
+                    Subject = $"Hóa đơn #{id} đã được {orderStatus.Title}!",
+                    Body = $"Trạng thái hóa đơn #{id} đã được cập nhật thành {orderStatus.Title}\n" +
                             $"<p>Mã hóa đơn: {pt.Id}</p> \n" +
                             $"<p>Tồng tiền: {pt.TotalPriceAfterDiscount}</p> \n" +
                             $"<p>Ngày đặt hàng: {pt.IssueDate}</p> \n",

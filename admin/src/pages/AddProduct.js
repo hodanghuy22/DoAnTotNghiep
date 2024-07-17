@@ -63,8 +63,6 @@ const AddProduct = () => {
   useEffect(() => {
     if (getProductId !== undefined) {
       dispatch(GetProduct(getProductId))
-    } else {
-      dispatch(resetState())
     }
     setLoading(false);
   }, [getProductId])
@@ -136,14 +134,11 @@ const AddProduct = () => {
       if (getProductId !== undefined) {
         const data = { id: getProductId, data: { ...values, id: getProductId } }
         dispatch(UpdateProduct(data))
-        dispatch(resetState())
       } else {
         console.log(values);
         dispatch(CreateProduct(values));
         formik.resetForm();
-        setTimeout(() => {
-          dispatch(resetState())
-        }, 300)
+    
       }
     }
   });

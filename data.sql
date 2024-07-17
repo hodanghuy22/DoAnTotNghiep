@@ -86,7 +86,9 @@ INSERT INTO Capacities(TotalCapacity,Status) VALUES (N'256 GB',1)
 INSERT INTO Capacities(TotalCapacity,Status) VALUES (N'512 GB',1)
 Go
 INSERT INTO Coupons(Title,Code,DiscountPercent,DiscountMoney,RequiredTotal,StartDate,EndDate,Quantity,Status)
-VALUES(N'Mã khuyến mã KM100 giảm giá ngay 100k cho đơn hàng trên 1 triệu','KM100',2,100000,1000000,'2024/1/6','2024/7/31',100,1)
+VALUES(N'Mã khuyến mã KM100 giảm giá ngay 100k cho đơn hàng trên 1 triệu','KM100','',100000,1000000,'2024/1/6','2024/7/31',100,1)
+INSERT INTO Coupons(Title,Code,DiscountPercent,DiscountMoney,RequiredTotal,StartDate,EndDate,Quantity,Status)
+VALUES(N'Mã khuyến mã KM20 giảm giá ngay 100k cho đơn hàng trên 1 triệu','KM20',20,'',1000000,'2024/1/6','2024/7/31',100,1)
 Go
 --PRODUCTS PHONE
 INSERT INTO Products(Name,[Desc],RAM,ROM,Battery,OS,ChargingTime,Chip,ChargingEfficiency,FrontCamera,RearCamera,Screen,Size,Weight,ThumnailId,ThumnailUrl,CategoryId,BrandId,Status) VALUES('realme 10', N'Điện thoại tầm trung với màn hình AMOLED cong và vi xử lý mạnh mẽ', '6GB', '256GB', '5000mAh', 'Android 13', N'28 phút', 'MediaTek Helio G99', '33W', '16MP', '50MP + 8MP + 2MP', 'Super AMOLED', '6.4', '178g', 'bbbt3matxraa9yk5vpgr', 'https://res.cloudinary.com/dht1ypbn2/image/upload/v1718116862/bbbt3matxraa9yk5vpgr.webp', '1','6','1')

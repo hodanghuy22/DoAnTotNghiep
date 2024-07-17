@@ -11,11 +11,11 @@ const columns = [
   {
     title: <h5 className='fw-bold'>Id</h5>,
     dataIndex: 'id',
+    sorter: (a, b) => a.id - b.id,
   },
   {
     title: <h5 className='fw-bold'>Color Name</h5>,
     dataIndex: 'colorName',
-    sorter: (a, b) => a.colorName.length - b.colorName.length,
   },
   {
     title: <h5 className='fw-bold'>Status</h5>,

@@ -105,7 +105,7 @@ const Dashboard = () => {
             }}
           />}
           title={"Doanh thu"}
-          value={FormatData.formatNumber(revenueByMonth)} />
+          value={FormatData.formatNumber(revenueByMonth)??0} />
         <DasboardCard
           icon={<RiMoneyDollarCircleLine
             style={{
@@ -117,7 +117,7 @@ const Dashboard = () => {
             }}
           />}
           title={"Doanh thu sau chiết khấu"}
-          value={FormatData.formatNumber(revenueAfterDiscountByMonth)} />
+          value={FormatData.formatNumber(revenueAfterDiscountByMonth)??0} />
       </div>
       <div className='mt-5 container-fuild'>
         <h3 className='mb-3'>Doanh số theo tháng trong năm {currentYear}</h3>

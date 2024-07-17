@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Table } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Input, Space, Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import CustomModal from '../components/CustomModal';
 import { AiFillDelete } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
 import { GetCapacities, UpdateStatusCapacity, resetState } from '../features/capacitites/capacitySlice';
+import { SearchOutlined } from '@ant-design/icons';
 
-const columns = [
-  {
-    title: <h5 className='fw-bold'>Id</h5>,
-    dataIndex: 'id',
-  },
-  {
-    title: <h5 className='fw-bold'>Total Capacity</h5>,
-    dataIndex: 'totalCapacity',
-    sorter: (a, b) => a.totalCapacity - b.totalCapacity,
-  },
-  {
-    title: <h5 className='fw-bold'>Status</h5>,
-    dataIndex: 'status',
-  },
-  {
-    title: <h5 className='fw-bold'>Action</h5>,
-    dataIndex: 'action',
-  },
-];
+
 
 const CapacityList = () => {
   const [open, setOpen] = useState(false);
@@ -63,6 +46,119 @@ const CapacityList = () => {
       dispatch(GetCapacities())
     }, 300)
   }
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const searchInput = useRef(null);
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText('');
+  };
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: 'block',
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? '#1677ff' : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownOpenChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) => text,
+  });
+  const columns = [
+    {
+      title: <h5 className='fw-bold'>Id</h5>,
+      dataIndex: 'id',
+      sorter: (a, b) => a.id - b.id,
+    },
+    {
+      title: <h5 className='fw-bold'>Total Capacity</h5>,
+      dataIndex: 'totalCapacity',
+      ...getColumnSearchProps('totalCapacity'),
+    },
+    {
+      title: <h5 className='fw-bold'>Status</h5>,
+      dataIndex: 'status',
+    },
+    {
+      title: <h5 className='fw-bold'>Action</h5>,
+      dataIndex: 'action',
+    },
+  ];
   return (
 
     <div>

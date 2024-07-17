@@ -82,6 +82,7 @@ const InvoiceList = () => {
         <select defaultValue={invoiceState[i]?.orderStatusId}
           onChange={(e) => updateStatus(invoiceState[i]?.id, e.target.value)}
           name="" className={`form-control form-select fw-bold ${invoiceState[i]?.orderStatusId !== 6 ? 'text-success' : 'text-danger'}`}
+          disabled={invoiceState[i]?.orderStatusId === 6}
         >
           {
             orderStatusState && orderStatusState?.map((i,j) => {

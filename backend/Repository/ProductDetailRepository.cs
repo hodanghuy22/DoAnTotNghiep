@@ -134,6 +134,7 @@ namespace backend.Repository
 
         public async Task<IActionResult> UpdateProductDetail(int id, ProductDetail productDetail, string userId)
         {
+            var sua = "";
             if (id != productDetail.Id)
             {
                 return new BadRequestObjectResult(new
@@ -159,6 +160,22 @@ namespace backend.Repository
                         mess = "Not Found!"
                     });
                 }
+                if(pt.CapacityId != productDetail.CapacityId)
+                {
+                    sua += ", capacity";
+                }
+                if (pt.ColorId != productDetail.ColorId)
+                {
+                    sua += ", color";
+                }
+                if (pt.CostPrice != productDetail.CostPrice)
+                {
+                    sua += ", cost price";
+                }
+                if (pt.RetailPrice != productDetail.RetailPrice)
+                {
+                    sua += ", retail price";
+                }
                 _context.Entry(pt).CurrentValues.SetValues(productDetail);
                 await _context.SaveChangesAsync();
             }
@@ -169,7 +186,7 @@ namespace backend.Repository
             LogModel logModel = new LogModel()
             {
                 UserId = userId,
-                Action = "Sửa ProductDetail",
+                Action = "Sửa ProductDetail " + sua,
                 Date = DateTime.Now,
                 Object = "ProductDetail",
                 ObjectId = productDetail.Id.ToString() ?? "",
