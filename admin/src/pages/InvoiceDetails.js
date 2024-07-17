@@ -57,7 +57,7 @@ const InvoiceDetails = () => {
       key: i,
       id: invoiceState?.invoiceDetails[i]?.id,
       product: invoiceState?.invoiceDetails[i]?.productDetail?.product?.name,
-      details: invoiceState?.invoiceDetails[i]?.productDetail?.capacity?.totalCapacity + " " + invoiceState?.invoiceDetails[i]?.productDetail?.color?.colorName,
+      details: invoiceState?.invoiceDetails[i]?.productDetail?.capacity?.totalCapacity ?? "" + " " + invoiceState?.invoiceDetails[i]?.productDetail?.color?.colorName,
       quantity: invoiceState?.invoiceDetails[i].quantity,
       price: invoiceState?.invoiceDetails[i].price,
     });

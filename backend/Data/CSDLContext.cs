@@ -28,5 +28,13 @@ namespace backend.Data
         public DbSet<LogModel> LogModels { get; set; } = default!;
         public DbSet<Notification> Notifications { get; set; } = default!;
         public DbSet<Transaction> Transactions { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<InvoiceDetail>()
+                .HasKey(id => new { id.InvoiceId, id.ProductDetailId });
+        }
     }
 }
