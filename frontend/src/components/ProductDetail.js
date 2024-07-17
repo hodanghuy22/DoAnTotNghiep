@@ -77,6 +77,7 @@ const ProductDetail = ({ categoryId }) => {
                     dispatch(GetProduct(productId));
                 }, 300);
             }
+            formik.resetForm();
         },
     });
     const formik2 = useFormik({
@@ -91,6 +92,7 @@ const ProductDetail = ({ categoryId }) => {
         onSubmit: values => {
             console.log(values);
             dispatch(CreateRating(values));
+            formik2.resetForm();
             setTimeout(() => {
                 dispatch(GetProduct(productId));
             }, 300);
@@ -117,7 +119,7 @@ const ProductDetail = ({ categoryId }) => {
                     dispatch(GetProduct(productId));
                 }, 300);
             }
-
+            formik3.resetForm();
         },
     });
     //  Dùng tên sản phẩm từ url để tìm kiếm nếu tìm thấy thì gán id sản phẩm tìm thấy nếu không tìm thấy thì hiển thị page Not Found
@@ -469,7 +471,7 @@ const ProductDetail = ({ categoryId }) => {
                             }
                         </Col>
                     </Row>
-                    <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productDetailState?.retailPrice)}</span> <span className='text-dark fs-6'>(+Đã bao gồm 15% VAT)</span></p>
+                    <p className='text-danger fw-bold fs-5 '> <span className='amount'> {FormatData.formatNumber(productDetailState?.retailPrice)}</span></p>
                     <div>
                         {product?.desc}
                     </div>

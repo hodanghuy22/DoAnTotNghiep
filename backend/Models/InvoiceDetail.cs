@@ -4,7 +4,7 @@ namespace backend.Models
 {
     public class InvoiceDetail
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public int InvoiceId { get; set; }
         [JsonIgnore]
         public Invoice Invoice { get; set; }
